@@ -27,3 +27,11 @@ sbt
 [~]run  # run the app, use ~ for automatic updates and recompilation
 [~]test  # execute tests  
 ```
+
+### Create executable app
+This will package everything in a fat jar, using [sbt-assembly](https://github.com/sbt/sbt-assembly)
+
+```shell
+sbt
+assembly
+```
