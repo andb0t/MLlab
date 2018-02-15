@@ -29,7 +29,7 @@ sbt
 ```
 
 ### Create executable app
-This will package everything in a fat jar, using [sbt-assembly](https://github.com/sbt/sbt-assembly)
+This will package everything in a fat jar, using [sbt-assembly](https://github.com/sbt/sbt-assembly).
 
 ```shell
 sbt
