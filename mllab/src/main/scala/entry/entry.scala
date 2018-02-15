@@ -7,5 +7,6 @@ object Mllab {
       reader.loadFile()
       val content = reader.content.getData()
       println("This is some of the content: " + content(0)(1) )
+      val analyzer = new Analyzer(content)
   }
 }
