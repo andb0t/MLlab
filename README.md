@@ -35,3 +35,7 @@ This will package everything in a fat jar, using [sbt-assembly](https://github.c
 sbt
 assembly
 ```
+
+## Some remarks about scala
+* [Style guide](https://docs.scala-lang.org/style/overview.html)
+* [Quick syntax lookup](https://www.tutorialspoint.com/scala/index.htm)
