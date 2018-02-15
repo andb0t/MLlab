@@ -1,10 +1,11 @@
 package mllab
 
-object mllab {
+object Mllab {
   def main(args: Array[String]): Unit = {
       println("This is my entry point for MLlab!")
       val reader = new Reader("not_a_real_file.txt")
       reader.loadFile()
-      println("This is some of the content: " + reader.content(0)(1) )
+      val content = reader.content.getData()
+      println("This is some of the content: " + content(0)(1) )
   }
 }
