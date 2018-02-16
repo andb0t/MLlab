@@ -14,9 +14,9 @@ random.seed(1337)
 for command in args.command:
 
     if command == 'train':
-        nInstances = 100
+        nInstances = 1000
     elif command == 'test':
-        nInstances = 10
+        nInstances = 100
     else:
         nInstances = 1000
 
