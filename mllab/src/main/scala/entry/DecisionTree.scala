@@ -1,6 +1,7 @@
 package mllab
 
 import scala.collection.mutable.ListBuffer
+import scala.util.control.Breaks._
 
 
 class DecisionTreeClassifier(depth: Int = 3) {
@@ -16,23 +17,11 @@ class DecisionTreeClassifier(depth: Int = 3) {
   }
 
   def predict(X: List[List[Float]]): List[Int] = {
-
-    // var result = new ListBuffer[Int]()
-    //
-    // for (decision <- decisionSequence) {
-    //   var (index, threshold, right) = decision
-    //   println("Current decision: index " + index +
-    //     " threshold " + threshold +
-    //     " signal right? " + right)
-    //
-    //   for (x <- X) {
-    //
-    //   }
-    //
-    // }
-
-    val result = for (x <- X) yield Math.random.round
-    result.toList.map(_.toInt)
+    var result = new ListBuffer[Int]()
+    for (x <- X) {
+      result += decisionTree.classify(x)
+    }
+    result.toList
   }
 }
 
@@ -40,7 +29,7 @@ class DecisionNode(){
   var nodeIndex: Int = -1
   var featureIndex: Int = -1
   var threshold: Double = 0
-  var signalRight: Boolean = true
+  var greater: Boolean = true
   var filled: Boolean = false
   var right: Int = -1
   var left: Int = -1
@@ -54,7 +43,7 @@ class DecisionTree(depth: Int){
     tree += new DecisionNode()
   }
 
-  def addNode(nodeIndex: Int, featureIndex: Int, threshold: Double, signalRight: Boolean): Unit = {
+  def addNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean): Unit = {
     if (nodeIndex > tree.length - 1) {
       println("Warning: tree not deep enough! (" + nodeIndex + " > " + (tree.length - 1) + ") Ignore node.")
       return
@@ -63,18 +52,22 @@ class DecisionTree(depth: Int){
     tree(nodeIndex).nodeIndex = nodeIndex
     tree(nodeIndex).featureIndex = featureIndex
     tree(nodeIndex).threshold = threshold
-    tree(nodeIndex).signalRight = signalRight
+    tree(nodeIndex).greater = greater
     tree(nodeIndex).filled = true
     tree(nodeIndex).right = if ((nodeIndex + 1) * 2 < tree.length) (nodeIndex + 1) * 2 else -1
     tree(nodeIndex).left = if ((nodeIndex + 1) * 2 - 1 < tree.length) (nodeIndex + 1) * 2 - 1 else -1
     tree(nodeIndex).parent = if (nodeIndex == 0) -1 else (nodeIndex - 1) / 2
-
   }
 
   def isComplete(): Boolean = {
     var complete = true
-    for (node <- tree) {
-      if (!node.filled) complete = false
+    breakable{
+      for (node <- tree) {
+        if (!node.filled) {
+          complete = false
+          break
+        }
+      }
     }
     complete
   }
@@ -87,6 +80,43 @@ class DecisionTree(depth: Int){
           ", parent " + node.parent +" left child " + node.left + " right child " + node.right)
     }
     println("------------------------------")
+  }
+
+  def classify(instance: List[Float]): Int = {
+    assert (isComplete)
+    var label = 0
+    var currentNodeIndex = 0
+    breakable {
+      while (true) {
+        val greater = tree(currentNodeIndex).greater
+        val featureIndex = tree(currentNodeIndex).featureIndex
+        val threshold = tree(currentNodeIndex).threshold
+        val left = tree(currentNodeIndex).left
+        val right = tree(currentNodeIndex).right
+        if (greater) {
+          if (instance(featureIndex) > threshold) {
+            label = 1
+            currentNodeIndex = right
+          }
+          else{
+            label = 0
+            currentNodeIndex = left
+          }
+        }
+        else{
+          if (instance(featureIndex) < threshold) {
+            label = 1
+            currentNodeIndex = left
+          }
+          else{
+            label = 0
+            currentNodeIndex = right
+          }
+        }
+        if (currentNodeIndex == -1) break
+      }
+    }
+    return label
   }
 
 }
