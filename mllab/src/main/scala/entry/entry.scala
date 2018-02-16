@@ -26,7 +26,8 @@ object Mllab {
       for (i <- 0 until Math.min(y_pred.length, 10)) {
         println("Prediction " + i + ": " + y_pred(i) + " true value " + y_test(i))
       }
-      println("Precision: " + Evaluation.calculate_precision(y_pred, y_test))
-      println("Recall: " + Evaluation.calculate_recall(y_pred, y_test))
+      println("Precision: " + Evaluation.precision(y_pred, y_test))
+      println("Recall: " + Evaluation.recall(y_pred, y_test))
+      println("f1: " + Evaluation.f1(y_pred, y_test))
   }
 }
