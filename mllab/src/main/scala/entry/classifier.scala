@@ -14,7 +14,7 @@ class Classifier(strat: String, verbose: Int = 1) {
         println("Instance " + i + ": " + X(i) + " has label " + y(i))
       }
     }
-    if (strat == "Mean") {
+    if (strat == "Random") {
       if (verbose > 0) {
         println("No training necessary")
       }
@@ -22,10 +22,10 @@ class Classifier(strat: String, verbose: Int = 1) {
   }
 
   def predict(X: List[List[Float]]): List[Int] = {
-    if (strat == "Mean") {
+    if (strat == "Random") {
       for (instance <- X){
-        val prediction: Float = instance.reduce(_ + _) / instance.length
-        result += prediction.toInt
+        val prediction = 1
+        result += prediction
         if (verbose > 1) {
           println("Result is " + prediction)
         }

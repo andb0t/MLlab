@@ -9,7 +9,7 @@ object Mllab {
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
-      val clf = new Classifier("Mean", verbose=1)
+      val clf = new Classifier("Random", verbose=1)
       clf.train(X_train, y_train)
       // println("Check prediction on training set")
       // clf.predict(X_train)
@@ -25,5 +25,7 @@ object Mllab {
       for (i <- 0 until y_pred.length) {
         println("Prediction " + y_pred(i) + " true value " + y_test(i))
       }
+      println("Precision: " + Evaluation.calculate_precision(y_pred, y_test))
+      println("Recall: " + Evaluation.calculate_recall(y_pred, y_test))
   }
 }
