@@ -14,15 +14,15 @@ class Classifier(strat: String, verbose: Int = 1) {
         println("Instance " + i + ": " + X(i) + " has label " + y(i))
       }
     }
-    if (strat == "Random") {
+    if (strat == "random") {
       if (verbose > 0) println("No training necessary")
     }
   }
 
   def predict(X: List[List[Float]]): List[Int] = {
-    if (strat == "Random") {
+    if (strat == "random") {
       for (instance <- X){
-        val prediction = 1
+        val prediction = if (Math.random < 0.5) 0 else 1
         result += prediction
         if (verbose > 1) println("Result is " + prediction)
       }
