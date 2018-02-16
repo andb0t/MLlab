@@ -15,6 +15,9 @@ object Evaluation{
       }
     }
     // println("precision found " + truePositives + " TP and " + falsePositives + " FP" )
+    if (truePositives + falsePositives == 0) {
+      return Float.MaxValue
+    }
     return 1.0 * truePositives / (truePositives + falsePositives)
   }
 
@@ -31,6 +34,9 @@ object Evaluation{
       }
     }
     // println("recall found " + truePositives + " TP and " + falseNegatives + " FN" )
+    if (truePositives + falseNegatives == 0) {
+      return Float.MaxValue
+    }
     return 1.0 * truePositives / (truePositives + falseNegatives)
   }
 }
