@@ -1,17 +1,22 @@
 package mllab
 
-class Reader(var filePath: String) {
+import scala.io.Source
 
-  val content = new Data()
+class Reader(var fileName: String) {
+
+  val data = new Data()
+  val sep: String = " "
 
   println("Instantiating a reader!")
 
   def loadFile(): Unit = {
-    println("Load the file " + filePath)
-    for( i <- 0 to 3){
-      // fill with dummy values for now
-      var contentList = List[Float](i + 0, i + 1)
-      content.addInstance(contentList)
+    println("Load the file " + fileName)
+
+    for (line <- Source.fromFile(fileName).getLines().drop(1).toVector){
+      val values = line.split(sep).map(_.trim).map(_.toFloat)
+      implicit def arrayToList[A](values: Array[Float]) = values.toList
+      data.addInstance(values)
+
     }
   }
 }
