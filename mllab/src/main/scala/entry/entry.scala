@@ -10,7 +10,8 @@ object Mllab {
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
       // val clf = new RandomClassifier()
-      val clf = new kNNClassifier(k=5)
+      // val clf = new kNNClassifier(k=5)
+      val clf = new DecisionTreeClassifier()
       clf.train(X_train, y_train)
       // println("Check prediction on training set")
       // clf.predict(X_train)
@@ -24,7 +25,7 @@ object Mllab {
       assert (y_pred.length == y_test.length)
       println("Predicted values:")
       for (i <- 0 until Math.min(y_pred.length, 10)) {
-        println("Prediction " + i + ": " + y_pred(i) + " true value " + y_test(i))
+        println("Test instance " + i + ": prediction " + y_pred(i) + " true value " + y_test(i))
       }
       Evaluation.matrix(y_pred, y_test)
       println("Precision: " + Evaluation.precision(y_pred, y_test))
