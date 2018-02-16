@@ -46,4 +46,30 @@ object Evaluation{
     }
     recall
   }
+
+  def matrix(y_pred: List[Int], y_true: List[Int], verbose: Boolean=true): Unit = {
+    assert (y_pred.length == y_true.length)
+    var truePositives: Int = 0
+    var falsePositives: Int = 0
+    var trueNegatives: Int = 0
+    var falseNegatives: Int = 0
+    for (i <- 0 until y_pred.length) {
+      if (y_true(i) == 1 && y_pred(i) == 1){
+        truePositives += 1
+      }
+      if (y_true(i) == 0 && y_pred(i) == 1){
+        falsePositives += 1
+      }
+      if (y_true(i) == 0 && y_pred(i) == 0){
+        trueNegatives += 1
+      }
+      if (y_true(i) == 1 && y_pred(i) == 0){
+        falseNegatives += 1
+      }
+    }
+    println("  P    N")
+    println("T " + truePositives + " " + trueNegatives)
+    println("F " + falsePositives + " " + falseNegatives)
+  }
+
 }
