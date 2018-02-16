@@ -29,7 +29,7 @@ for command in args.command:
         for i in range(nInstances):
             label = random.randint(0, 1)
             x = -random.random() if label is 0 else random.random()
-            y = random.random()
+            y = 2 * random.random() - 1
             x = round(x, 2)
             y = round(y, 2)
             print('{} {} {} {}'.format(i, x, y, label), file=myfile)
