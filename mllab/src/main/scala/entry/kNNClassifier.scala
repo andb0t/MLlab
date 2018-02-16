@@ -16,7 +16,7 @@ class kNNClassifier(k: Int = 3) {
   }
 
   def predict(X: List[List[Float]]): List[Int] = {
-    var result = new ListBuffer[Float]()
+    var result = new ListBuffer[Int]()
     for (instance <- X){
       var min_distance: Double = Double.MaxValue
       var min_distances = new ListBuffer[Double]()
@@ -65,6 +65,6 @@ class kNNClassifier(k: Int = 3) {
       val prediction = get_prediction()
       result += prediction
     }
-    result.toList.map(_.toInt)
+    result.toList
   }
 }
