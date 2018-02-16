@@ -14,7 +14,7 @@ object Evaluation{
         falsePositives += 1
       }
     }
-    // println("precision found " + truePositives + " TP and " + falsePositives + " FP" )
+    println("Precision calculation: " + truePositives + " TP and " + falsePositives + " FP" )
     if (truePositives + falsePositives == 0) {
       return Float.MaxValue
     }
@@ -33,7 +33,7 @@ object Evaluation{
         falseNegatives += 1
       }
     }
-    // println("recall found " + truePositives + " TP and " + falseNegatives + " FN" )
+    println("Recall calculation: " + truePositives + " TP and " + falseNegatives + " FN" )
     if (truePositives + falseNegatives == 0) {
       return Float.MaxValue
     }
