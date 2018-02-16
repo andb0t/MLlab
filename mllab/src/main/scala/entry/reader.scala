@@ -3,9 +3,9 @@ package mllab
 import scala.io.Source
 
 
-class Reader(var fileName: String, var label: Int) {
+class Reader(var fileName: String, var label: Int, var index: Int = -1) {
 
-  val data = new Data()
+  val data = new Data(index)
   val sep: String = " "
 
   println("Instantiating a reader!")

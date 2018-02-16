@@ -5,7 +5,7 @@ object Mllab {
   def main(args: Array[String]): Unit = {
       println("Executing MLlab!")
 
-      val trainReader = new Reader("src/test/resources/train.csv", label=3)
+      val trainReader = new Reader("src/test/resources/train.csv", label=3, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
@@ -14,7 +14,7 @@ object Mllab {
       // println("Check prediction on training set")
       // clf.predict(X_train)
 
-      val testReader = new Reader("src/test/resources/test.csv", label=3)
+      val testReader = new Reader("src/test/resources/test.csv", label=3, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY()
