@@ -12,7 +12,7 @@ class DecisionTreeClassifier(depth: Int = 3) {
     assert (X.length == y.length)
     decisionTree.addNode(0, 0, 0, true)
     decisionTree.addNode(1, 1, 0, true)
-    decisionTree.addNode(2, 1, 0, true)
+    decisionTree.addNode(2, 1, 0, false)
     decisionTree.print()
   }
 
@@ -39,7 +39,8 @@ class DecisionNode(){
 class DecisionTree(depth: Int){
 
   var tree = new ListBuffer[DecisionNode]()
-  for (i <- 0 until Math.pow(2, depth).toInt - 1){
+  var nodes: Int = Math.pow(2, depth).toInt - 1
+  for (i <- 0 until nodes){
     tree += new DecisionNode()
   }
 
@@ -74,10 +75,12 @@ class DecisionTree(depth: Int){
 
   def print(): Unit = {
     println("------- Decision Tree -------")
-    println("Tree complete? " + isComplete())
+    println("Tree complete? " + isComplete() + " with " + nodes + " nodes")
     for (node <- tree) {
-      println("Node " + node.nodeIndex + ", decides on " + node.featureIndex +
-          ", parent " + node.parent +" left child " + node.left + " right child " + node.right)
+      println("Node " + node.nodeIndex +
+        ", decides on " + node.featureIndex +
+        " signal " + (if (node.greater) "> " else "< ") + node.threshold +
+        ", parent " + node.parent +" left child " + node.left + " right child " + node.right)
     }
     println("------------------------------")
   }
