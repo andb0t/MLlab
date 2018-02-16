@@ -15,9 +15,7 @@ class Classifier(strat: String, verbose: Int = 1) {
       }
     }
     if (strat == "Random") {
-      if (verbose > 0) {
-        println("No training necessary")
-      }
+      if (verbose > 0) println("No training necessary")
     }
   }
 
@@ -26,9 +24,7 @@ class Classifier(strat: String, verbose: Int = 1) {
       for (instance <- X){
         val prediction = 1
         result += prediction
-        if (verbose > 1) {
-          println("Result is " + prediction)
-        }
+        if (verbose > 1) println("Result is " + prediction)
       }
     }
     result.toList.map(_.toInt)
