@@ -3,17 +3,21 @@ package mllab
 import scala.collection.mutable.ListBuffer
 
 
-class Classifier(strat: String) {
+class Classifier(strat: String, verbose: Int = 1) {
 
   var result = new ListBuffer[Float]()
 
   def train(X: List[List[Float]], y: List[Int]): Unit = {
     assert (X.length == y.length)
-    for (i <- 0 until y.length){
-      println("Instance " + X(i) + " has label " + y(i))
+    if (verbose > 1) {
+      for (i <- 0 until y.length){
+        println("Instance " + i + ": " + X(i) + " has label " + y(i))
+      }
     }
     if (strat == "Mean") {
-      println("No training necessary")
+      if (verbose > 0) {
+        println("No training necessary")
+      }
     }
   }
 
@@ -21,8 +25,10 @@ class Classifier(strat: String) {
     if (strat == "Mean") {
       for (instance <- X){
         val prediction: Float = instance.reduce(_ + _) / instance.length
-        println("Result is " + prediction)
         result += prediction.toInt
+        if (verbose > 1) {
+          println("Result is " + prediction)
+        }
       }
     }
     result.toList.map(_.toInt)
