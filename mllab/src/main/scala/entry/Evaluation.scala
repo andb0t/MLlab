@@ -3,11 +3,11 @@ package mllab
 object Evaluation{
 
   def f1(y_pred: List[Int], y_true: List[Int]): Double = {
-    val f1: Double = Math.sqrt(precision(y_pred, y_true, false) * recall(y_pred, y_true, false))
+    val f1: Double = Math.sqrt(precision(y_pred, y_true) * recall(y_pred, y_true))
     f1
   }
 
-  def precision(y_pred: List[Int], y_true: List[Int], verbose: Boolean=true): Double = {
+  def precision(y_pred: List[Int], y_true: List[Int]): Double = {
     assert (y_pred.length == y_true.length)
     var truePositives: Int = 0
     var falsePositives: Int = 0
@@ -19,7 +19,7 @@ object Evaluation{
         falsePositives += 1
       }
     }
-    if (verbose) println("Precision calculation: " + truePositives + " TP and " + falsePositives + " FP" )
+    // println("Precision calculation: " + truePositives + " TP and " + falsePositives + " FP" )
     var precision: Double = Double.MaxValue
     if (truePositives + falsePositives != 0) {
       precision = 1.0 * truePositives / (truePositives + falsePositives)
@@ -27,7 +27,7 @@ object Evaluation{
     precision
   }
 
-  def recall(y_pred: List[Int], y_true: List[Int], verbose: Boolean=true): Double = {
+  def recall(y_pred: List[Int], y_true: List[Int]): Double = {
     assert (y_pred.length == y_true.length)
     var truePositives: Int = 0
     var falseNegatives: Int = 0
@@ -39,7 +39,7 @@ object Evaluation{
         falseNegatives += 1
       }
     }
-    if (verbose) println("Recall calculation: " + truePositives + " TP and " + falseNegatives + " FN" )
+    // println("Recall calculation: " + truePositives + " TP and " + falseNegatives + " FN" )
     var recall: Double = Double.MaxValue
     if (truePositives + falseNegatives != 0) {
       recall = 1.0 * truePositives / (truePositives + falseNegatives)
@@ -47,7 +47,7 @@ object Evaluation{
     recall
   }
 
-  def matrix(y_pred: List[Int], y_true: List[Int], verbose: Boolean=true): Unit = {
+  def matrix(y_pred: List[Int], y_true: List[Int]): Unit = {
     assert (y_pred.length == y_true.length)
     var truePositives: Int = 0
     var falsePositives: Int = 0

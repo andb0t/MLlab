@@ -10,8 +10,8 @@ object Mllab {
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
       // val clf = new RandomClassifier()
-      // val clf = new kNNClassifier(k=5)
-      val clf = new DecisionTreeClassifier(depth=3)
+      // val clf = new kNNClassifier(k=3)
+      val clf = new DecisionTreeClassifier(depth=2)
       clf.train(X_train, y_train)
       // println("Check prediction on training set")
       // clf.predict(X_train)
@@ -29,8 +29,8 @@ object Mllab {
       // }
 
       Evaluation.matrix(y_pred, y_test)
-      println("Precision: " + Evaluation.precision(y_pred, y_test))
-      println("Recall: " + Evaluation.recall(y_pred, y_test))
-      println("f1: " + Evaluation.f1(y_pred, y_test))
+      println("Precision: %.2f".format(Evaluation.precision(y_pred, y_test)))
+      println("Recall: %.2f".format(Evaluation.recall(y_pred, y_test)))
+      println("f1: %.2f".format(Evaluation.f1(y_pred, y_test)))
   }
 }
