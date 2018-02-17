@@ -4,7 +4,7 @@ import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
 
-class DecisionTreeClassifier(depth: Int = 3, strategy: String="maxcorrect") {
+class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
 
   var decisionTree = new DecisionTree(depth)
 
@@ -12,19 +12,32 @@ class DecisionTreeClassifier(depth: Int = 3, strategy: String="maxcorrect") {
     assert (X.length == y.length)
 
     val nFeatures: Int = X(0).length
-    val nSteps = 10
+    val nSteps = 11
 
     def getPurity(xThisFeature: List[Float], yThisNode: List[Int], threshold: Double): (Double, Boolean) = {
-      var gtIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
-      var ltIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 <= threshold).map(tup => tup._2)
-      var TP = gtIdx.filter(_ == 1).length
-      var FP = gtIdx.filter(_ == 0).length
-      var TN = ltIdx.filter(_ == 0).length
-      var FN = ltIdx.filter(_ == 1).length
-      val greater = (TP > FN)
+      val rightIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
+      val leftIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 <= threshold).map(tup => tup._2)
+      val rightSig: Int = rightIdx.filter(_ == 1).length
+      val rightBkg: Int = rightIdx.filter(_ == 0).length
+      val leftBkg: Int = leftIdx.filter(_ == 0).length
+      val leftSig: Int = leftIdx.filter(_ == 1).length
+      val m: Int = xThisFeature.length
+      val greater: Boolean = (rightSig > leftSig)
       var purity: Double = Double.MinValue
-      if (strategy == "maxcorrect"){
-        purity = 1.0 * (TP + TN) / xThisFeature.length
+      if (purityMeasure == "maxcorrect"){
+        purity = 1.0 * (rightSig + leftBkg) / m
+      }
+      else if (purityMeasure == "gini"){
+        // CART cost function
+        val mLeft: Int = leftIdx.length
+        val mRight: Int = rightIdx.length
+        var cost: Double = Double.MaxValue
+        if (mLeft * mRight != 0) {
+          val GLeft: Double = 1.0 - Math.pow(1.0 * leftSig/mLeft, 2) - Math.pow(1.0 * leftBkg/mLeft, 2)
+          val GRight: Double = 1.0 - Math.pow(1.0 * rightSig/mRight, 2) - Math.pow(1.0 * rightBkg/mRight, 2)
+          cost = GLeft * mLeft / m + GRight * mRight / m
+        }
+        purity = -cost
       }
       // println("threshold " + threshold + " purity " + purity)
       return Tuple2(purity, greater)
@@ -91,9 +104,9 @@ class DecisionTree(depth: Int){
     }
     println("Improving purity of node " + nodeIndex +
       " with feature " + featureIndex +
-      (if (greater) " > " else " < ") + threshold +
-      ": " + tree(nodeIndex).purity +
-      " -> " + purity)
+      (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
+      ": " + "%.3e".format(tree(nodeIndex).purity) +
+      " -> " + "%.3e".format(purity))
     addNode(nodeIndex, featureIndex, threshold, greater, purity)
   }
 
@@ -130,8 +143,9 @@ class DecisionTree(depth: Int){
     for (node <- tree) {
       println("Node " + node.nodeIndex +
         ", decides on feature " + node.featureIndex +
-        (if (node.greater) "> " else "< ") + node.threshold +
+        (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
         ", parent " + node.parent +
+        ", purity %.3e".format(node.purity) +
         " left child " + node.left + " right child " + node.right)
     }
     println("------------------------------")
