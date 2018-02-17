@@ -1,4 +1,6 @@
 import argparse
+import functools
+import math
 import os
 import random
 
@@ -8,6 +10,8 @@ parser.add_argument('command', nargs='*', choices=['train', 'test'])
 args = parser.parse_args()
 
 TARGET_DIR = os.path.dirname(__file__)
+
+sign = functools.partial(math.copysign, 1)
 
 random.seed(1337)
 
@@ -36,7 +40,7 @@ for command in args.command:
                 y = 2 * random.random() - 1
             elif strategy == 'quarters':
                 x = 2 * random.random() - 1
-                # y = (-1 if label == 0 else 1) * random.random()
+                y = (1 if label == 1 else -1) * sign(x) * random.random()
             x = round(x, 2)
             y = round(y, 2)
             print('{} {} {} {}'.format(i, x, y, label), file=myfile)
