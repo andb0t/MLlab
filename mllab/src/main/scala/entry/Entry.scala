@@ -3,8 +3,9 @@ package mllab
 
 object Mllab {
   def main(args: Array[String]): Unit = {
-      println("Executing MLlab!")
+      println("Execute MLlab!")
 
+      println{"Train the model"}
       val trainReader = new Reader("src/test/resources/train.csv", label=3, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
@@ -16,6 +17,7 @@ object Mllab {
       // println("Check prediction on training set")
       // clf.predict(X_train)
 
+      println{"Apply to test set"}
       val testReader = new Reader("src/test/resources/test.csv", label=3, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
@@ -28,9 +30,13 @@ object Mllab {
       //   println("Test instance " + i + ": prediction " + y_pred(i) + " true value " + y_test(i))
       // }
 
+      println("Evaulate of the model")
       Evaluation.matrix(y_pred, y_test)
       println("Precision: %.2f".format(Evaluation.precision(y_pred, y_test)))
       println("Recall: %.2f".format(Evaluation.recall(y_pred, y_test)))
       println("f1: %.2f".format(Evaluation.f1(y_pred, y_test)))
+
+      println("Visualize the data")
+      trainReader.plot()
   }
 }
