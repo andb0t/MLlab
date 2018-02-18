@@ -11,11 +11,11 @@ lazy val root = (project in file(".")).
     )),
     name := "mllab",
     libraryDependencies += scalaTest % Test,
-     libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion,
-     libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion,
-     libraryDependencies += "org.vegas-viz" %% "vegas" % "0.3.9",
-     libraryDependencies += "org.vegas-viz" %% "vegas-spark" % "0.3.9",
+     // libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion,
+     // libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion,
+     // libraryDependencies += "org.vegas-viz" %% "vegas" % "0.3.9",
+     // libraryDependencies += "org.vegas-viz" %% "vegas-spark" % "0.3.9",
 
-    resolvers += "apache-snapshots" at "http://repository.apache.org/snapshots/",
-    resolvers += "Mavmav" at "http://mvnrepository.com/artifact/",
+    // resolvers += "apache-snapshots" at "http://repository.apache.org/snapshots/",
+    // resolvers += "Mavmav" at "http://mvnrepository.com/artifact/",
   )

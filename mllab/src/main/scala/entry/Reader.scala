@@ -1,10 +1,6 @@
 package mllab
 
 import scala.io.Source
-// import vegas._
-// import org.apache.spark.SparkContext
-// import org.apache.spark.SparkContext._
-// import org.apache.spark.SparkConf
 
 
 class Reader(var fileName: String, var label: Int, var index: Int = -1) {
@@ -34,6 +30,5 @@ class Reader(var fileName: String, var label: Int, var index: Int = -1) {
 
   def plot(figName: String="data.png"): Unit = {
     println("Plot the dataset to " + figName)
-
   }
 }
