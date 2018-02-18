@@ -20,7 +20,7 @@ for command in args.command:
     if command == 'train':
         nInstances = 1000
     elif command == 'test':
-        nInstances = 100
+        nInstances = 1000
     else:
         nInstances = 1000
 
@@ -34,13 +34,19 @@ for command in args.command:
             label = random.randint(0, 1)
             x = 0
             y = 0
-            strategy = 'quarters'
+            strategy = 'diagonal'
             if strategy == 'halfs':
                 x = -random.random() if label is 0 else random.random()
                 y = 2 * random.random() - 1
             elif strategy == 'quarters':
                 x = 2 * random.random() - 1
                 y = (1 if label == 1 else -1) * sign(x) * random.random()
+            elif strategy == 'diagonal':
+                x = 2 * random.random() - 1
+                if label == 1:
+                    y = x + random.random() * (1 - x)
+                else:
+                    y = random.random() * (1 + x) - 1
             x = round(x, 2)
             y = round(y, 2)
             print('{} {} {} {}'.format(i, x, y, label), file=myfile)
