@@ -42,3 +42,7 @@ Some useful links:
 * [Style guide](https://docs.scala-lang.org/style/overview.html)
 * [Quick syntax lookup](https://www.tutorialspoint.com/scala/index.htm)
 * [Cheatsheet](https://docs.scala-lang.org/cheatsheets/)
+
+## Some remarks about spark
+* [Spark API](https://spark.apache.org/docs/2.2.0/api/scala/index.html)
+* [Spark examples](https://github.com/apache/spark/tree/master/examples/src/main/scala/org/apache/spark/examples)
