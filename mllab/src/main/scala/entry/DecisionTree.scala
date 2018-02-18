@@ -11,9 +11,6 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
   def train(X: List[List[Float]], y: List[Int]): Unit = {
     assert (X.length == y.length)
 
-    val nFeatures: Int = X(0).length
-    val nSteps = 11
-
     def getPurity(xThisFeature: List[Float], yThisNode: List[Int], threshold: Double): (Double, Boolean) = {
       val rightIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
       val leftIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 <= threshold).map(tup => tup._2)
@@ -44,19 +41,41 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
     }
 
     def setOptimalCut(nodeIndex: Int): Unit = {
+
+      val nSteps = 10
+      val nZooms = 3
+
+      val nFeatures: Int = X(0).length
       var (xThisNode, yThisNode) = decisionTree.atNode(nodeIndex, X, y)
       for (iFeature <- 0 until nFeatures){
         var xThisFeature = xThisNode.map(_.apply(iFeature))
         // println(x.take(10))
         // println(y.take(10))
 
-        var max = xThisFeature.max
-        var min  = xThisFeature.min
+        var max: Double = xThisFeature.max
+        var min: Double = xThisFeature.min
+        max = max + 0.01 * (max - min)
+        min = min - 0.01 * (max - min)
         var stepSize = (max - min) / (nSteps - 1)
-        for (i <- 0 until nSteps) {
-          val currThresh: Double = min + i * stepSize
-          var (currPurity, currGreater) = getPurity(xThisFeature, yThisNode, currThresh)
-          decisionTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, currPurity)
+        var purestStep: Double = 0
+        var maxPurity: Double = Double.MinValue
+
+
+        for (i <- 0 until nZooms) {
+          for (i <- 0 until nSteps) {
+            val currThresh: Double = min + i * stepSize
+            var (currPurity, currGreater) = getPurity(xThisFeature, yThisNode, currThresh)
+            decisionTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, currPurity)
+            if (maxPurity < currPurity) {
+              maxPurity = currPurity
+              purestStep = currThresh
+            }
+          }
+          max = purestStep + stepSize
+          min = purestStep - stepSize
+          stepSize = (max - min) / (nSteps - 1)
+          purestStep = 0
+          maxPurity = Double.MinValue
         }
       }
     }
