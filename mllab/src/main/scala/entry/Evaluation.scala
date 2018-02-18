@@ -20,7 +20,7 @@ object Evaluation{
       }
     }
     // println("Precision calculation: " + truePositives + " TP and " + falsePositives + " FP" )
-    var precision: Double = Double.MaxValue
+    var precision: Double = Double.NaN
     if (truePositives + falsePositives != 0) {
       precision = 1.0 * truePositives / (truePositives + falsePositives)
     }
