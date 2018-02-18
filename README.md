@@ -3,6 +3,17 @@
 ## Introduction
 This is a work-in-progress basic machine learning library.
 
+## Implemented algorithms
+
+### Classification
+* random
+* k-nearest neigbours
+* decision tree
+* linear support vector machine
+
+### Regression
+Still to do!
+
 ## Installation
 
 ### Set up sbt
