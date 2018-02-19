@@ -3,6 +3,7 @@ package entry
 import org.scalatest._
 
 import mllab.Evaluation
+import mllab.Maths
 
 
 class MllabSuite extends FunSuite {
@@ -10,15 +11,23 @@ class MllabSuite extends FunSuite {
     assert (1 === 1)
   }
 
-  test("precision test"){
+  test("precision"){
     assert (Evaluation.precision(List(1, 1), List(1, 0)) === 0.5)
   }
 
-  test("recall test"){
+  test("recall"){
     assert (Evaluation.recall(List(1, 0), List(1, 1)) === 0.5)
   }
 
-  test("f1 test"){
+  test("f1"){
     assert (Evaluation.precision(List(1, 1), List(1, 0)) === 0.5)
+  }
+
+  test("dot product"){
+    assert (Maths.dot(List(1, 2, -1), List(0, -1, -1)) === -1)
+  }
+
+  test("absolute value"){
+    assert (Maths.abs(List(1, 2, -1)) === Math.sqrt(6))
   }
 }
