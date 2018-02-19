@@ -1,9 +1,6 @@
-package entry
+package mllab
 
 import org.scalatest._
-
-import mllab.Evaluation
-import mllab.Maths
 
 
 class MllabSuite extends FunSuite {
