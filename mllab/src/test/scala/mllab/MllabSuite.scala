@@ -4,9 +4,6 @@ import org.scalatest._
 
 
 class MllabSuite extends FunSuite {
-  test("one equals one"){
-    assert (1 === 1)
-  }
 
   test("precision"){
     assert (Evaluation.precision(List(1, 1), List(1, 0)) === 0.5)
@@ -27,4 +24,5 @@ class MllabSuite extends FunSuite {
   test("absolute value"){
     assert (Maths.abs(List(1, 2, -1)) === Math.sqrt(6))
   }
+
 }
