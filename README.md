@@ -31,8 +31,11 @@ sudo apt-get install sbt
 ```shell
 cd mllab
 sbt
-[~]run  # run the app, use ~ for automatic updates and recompilation
-[~]test  # execute tests  
+[~]run  # compile and run the app, use ~ for automatic updates and recompilation
+test  # compile and execute tests  
+compile  # only compile the app
+console  # start scala console for this project
+styleCheck  # execute the style checker
 ```
 
 ### Create executable app
@@ -41,6 +44,14 @@ This will package everything in a fat jar, using [sbt-assembly](https://github.c
 ```shell
 sbt
 assembly
+```
+
+### Style check
+This will check the code style, using [scalastyle](http://www.scalastyle.org/sbt.html).
+
+```shell
+sbt
+scalastyle
 ```
 
 ## Some remarks about scala
