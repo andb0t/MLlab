@@ -9,22 +9,9 @@ class SVMClassifier(alpha: Double = 1) {
   var weight = new ListBuffer[Double]()
   var bias: Double = 0
 
-  def dot(a: List[Double], b: List[Double]): Double = {
-    assert (a.length == b.length)
-    var prod: Double = 0
-    for (i <- 0 until a.length) {
-      prod += a(i) * b(i)
-    }
-    return prod
-  }
-
-  def abs(a: List[Double]): Double = {
-    Math.sqrt(dot(a, a))
-  }
-
   def getDistance(instance: List[Float]): Double = {
-    var side: Double = bias + dot(weight.toList, instance.map(_.toDouble))
-    side = side / abs(weight.toList)
+    var side: Double = bias + Maths.dot(weight.toList, instance.map(_.toDouble))
+    side = side / Maths.abs(weight.toList)
     return side
   }
 
