@@ -10,7 +10,7 @@ class SVMClassifier(alpha: Double = 1) {
   var bias: Double = 0
 
   def getDistance(instance: List[Float]): Double = {
-    var side: Double = bias + Maths.dot(weight.toList, instance.map(_.toDouble))
+    val side: Double = bias + Maths.dot(weight.toList, instance.map(_.toDouble))
     side / Maths.abs(weight.toList)
   }
 

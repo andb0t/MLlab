@@ -26,7 +26,7 @@ class kNNClassifier(k: Int = 3) {
         min_indices += -1
       }
 
-      def queue_new_minimum(index: Int, distance: Double): Unit = {
+      def queueNewMinimum(index: Int, distance: Double): Unit = {
         min_distance = distance
         // replace entry with highest distance with new nearest
         val max = min_distances.max
@@ -35,7 +35,7 @@ class kNNClassifier(k: Int = 3) {
         min_indices(max_index) = index
       }
 
-      def get_prediction(): Int = {
+      def getPrediction(): Int = {
 
         assert (!min_indices.contains(-1))
 
@@ -59,10 +59,10 @@ class kNNClassifier(k: Int = 3) {
         var squares = for ((x, y) <- X_NN(i) zip instance) yield Math.pow(x - y, 2)
         val distance = squares.sum
         if (distance < min_distance || min_indices.contains(-1)) {
-          queue_new_minimum(i, distance)
+          queueNewMinimum(i, distance)
         }
       }
-      val prediction = get_prediction()
+      val prediction = getPrediction()
       result += prediction
     }
     result.toList

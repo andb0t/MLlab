@@ -46,7 +46,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
       val nZooms = 3
 
       val nFeatures: Int = X.head.length
-      var (xThisNode, yThisNode) = decisionTree.atNode(nodeIndex, X, y)
+      val (xThisNode, yThisNode) = decisionTree.atNode(nodeIndex, X, y)
       for (iFeature <- 0 until nFeatures){
         var xThisFeature = xThisNode.map(_.apply(iFeature))
         // println(x.take(10))
@@ -64,7 +64,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
         for (i <- 0 until nZooms) {
           for (i <- 0 until nSteps) {
             val currThresh: Double = min + i * stepSize
-            var (currPurity, currGreater) = getPurity(xThisFeature, yThisNode, currThresh)
+            val (currPurity, currGreater) = getPurity(xThisFeature, yThisNode, currThresh)
             decisionTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, currPurity)
             if (maxPurity < currPurity) {
               maxPurity = currPurity
@@ -112,7 +112,7 @@ class DecisionNode(nIndex: Int){
 class DecisionTree(depth: Int){
 
   var tree = new ListBuffer[DecisionNode]()
-  var nodes: Int = Math.pow(2, depth).toInt - 1
+  val nodes: Int = Math.pow(2, depth).toInt - 1
   for (i <- 0 until nodes){
     tree += new DecisionNode(i)
   }
