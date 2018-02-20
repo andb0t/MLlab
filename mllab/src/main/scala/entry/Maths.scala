@@ -9,7 +9,7 @@ object Maths{
     for (i <- 0 until a.length) {
       prod += a(i) * b(i)
     }
-    return prod
+    prod
   }
 
   def abs(a: List[Double]): Double = {

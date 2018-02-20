@@ -11,20 +11,19 @@ class SVMClassifier(alpha: Double = 1) {
 
   def getDistance(instance: List[Float]): Double = {
     var side: Double = bias + Maths.dot(weight.toList, instance.map(_.toDouble))
-    side = side / Maths.abs(weight.toList)
-    return side
+    side / Maths.abs(weight.toList)
   }
 
   def getPrediction(instance: List[Float]): Int = {
-    val prediction = if (getDistance(instance) > 0) 1 else 0
-    return prediction
+    if (getDistance(instance) > 0) 1 else 0
   }
 
   def isCorrect(instance: List[Float], label: Int): Boolean = {
     if (getPrediction(instance) == label){
-      return true
+      true
+    }else{
+      false
     }
-    return false
   }
 
   def train(X: List[List[Float]], y: List[Int]): Unit = {

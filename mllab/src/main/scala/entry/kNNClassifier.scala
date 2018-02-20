@@ -52,7 +52,7 @@ class kNNClassifier(k: Int = 3) {
           var nearest_labels = for (i <- min_indices) yield y_NN(i)
           prediction = (nearest_labels.sum / k).round
         }
-        return prediction
+        prediction
       }
 
       for (i <- 0 until X_NN.length) {

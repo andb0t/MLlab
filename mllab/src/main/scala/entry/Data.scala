@@ -20,18 +20,20 @@ class Data(index: Int = -1) {
   def getData(not: Int = -1, only: Int = -1): List[List[Float]] = {
     var dataList = data.toList
     if (only != -1) {
-      return List(dataList.map(_.apply(only)))
-    }
-    if (not != -1) {
+      List(dataList.map(_.apply(only)))
+
+    }else if (not != -1) {
       dataList = dataList.map(x => x.take(not)++:x.takeRight(x.length - not - 1))
       if (index != -1) {
         val newIndex = if (index < not) index else index - 1
-        return dataList.map(x => x.take(newIndex)++:x.takeRight(x.length - newIndex - 1))
+        dataList.map(x => x.take(newIndex)++:x.takeRight(x.length - newIndex - 1))
       }
       else {
-        return dataList
+        dataList
       }
+
+    }else{
+      dataList
     }
-    return dataList
   }
 }

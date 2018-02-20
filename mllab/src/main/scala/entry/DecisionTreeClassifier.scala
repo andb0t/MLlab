@@ -37,7 +37,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
         purity = -cost
       }
       // println("threshold " + threshold + " purity " + purity)
-      return Tuple2(purity, greater)
+      Tuple2(purity, greater)
     }
 
     def setOptimalCut(nodeIndex: Int): Unit = {
@@ -119,28 +119,28 @@ class DecisionTree(depth: Int){
 
   def updateNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, purity: Double): Unit = {
     if (tree(nodeIndex).purity >= purity){
-      return
+    }else{
+      println("Improving purity of node " + nodeIndex +
+        " with feature " + featureIndex +
+        (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
+        ": " + "%.3e".format(tree(nodeIndex).purity) +
+        " -> " + "%.3e".format(purity))
+        addNode(nodeIndex, featureIndex, threshold, greater, purity)
     }
-    println("Improving purity of node " + nodeIndex +
-      " with feature " + featureIndex +
-      (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
-      ": " + "%.3e".format(tree(nodeIndex).purity) +
-      " -> " + "%.3e".format(purity))
-    addNode(nodeIndex, featureIndex, threshold, greater, purity)
   }
 
   def addNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, purity: Double=Double.MinValue): Unit = {
     if (nodeIndex > tree.length - 1) {
       println("Warning: tree not deep enough! (" + nodeIndex + " > " + (tree.length - 1) + ") Ignore node.")
-      return
+    }else{
+      tree(nodeIndex).featureIndex = featureIndex
+      tree(nodeIndex).threshold = threshold
+      tree(nodeIndex).greater = greater
+      tree(nodeIndex).filled = true
+      if (tree(nodeIndex).right >= nodes) tree(nodeIndex).right = -1
+      if (tree(nodeIndex).left >= nodes) tree(nodeIndex).left = -1
+      tree(nodeIndex).purity = purity
     }
-    tree(nodeIndex).featureIndex = featureIndex
-    tree(nodeIndex).threshold = threshold
-    tree(nodeIndex).greater = greater
-    tree(nodeIndex).filled = true
-    if (tree(nodeIndex).right >= nodes) tree(nodeIndex).right = -1
-    if (tree(nodeIndex).left >= nodes) tree(nodeIndex).left = -1
-    tree(nodeIndex).purity = purity
   }
 
   def isComplete(): Boolean = {
@@ -204,7 +204,7 @@ class DecisionTree(depth: Int){
         if (currentNodeIndex == -1) break
       }
     }
-    return label
+    label
   }
 
   def atNode(nodeIndex: Int, X: List[List[Float]], y: List[Int]): (List[List[Float]], List[Int]) = {
@@ -259,7 +259,7 @@ class DecisionTree(depth: Int){
     }
     println("Final length X " + newX.length + " y " + newy.length)
 
-    return Tuple2(newX.toList, newy.toList)
+    Tuple2(newX.toList, newy.toList)
   }
 
 
