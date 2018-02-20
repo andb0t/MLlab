@@ -47,6 +47,10 @@ for command in args.command:
                     y = x + random.random() * (1 - x)
                 else:
                     y = random.random() * (1 + x) - 1
+            elif strategy == 'circle':
+                x = 2 * random.random() - 1
+                y = 2 * random.random() - 1
+                label = 1 if math.sqrt(x**2 + y**2) < 0.5 else 0
             x = round(x, 2)
             y = round(y, 2)
             print('{} {} {} {}'.format(i, x, y, label), file=myfile)
