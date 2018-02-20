@@ -47,7 +47,7 @@ assembly
 ```
 
 ### Style check
-This will check the code style, using [scalastyle](http://www.scalastyle.org/sbt.html).
+This will check the code style, using [scalastyle](http://www.scalastyle.org/).
 
 ```shell
 sbt
