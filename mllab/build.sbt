@@ -19,3 +19,6 @@ libraryDependencies += scalaTest % Test
 // libraryDependencies += "org.vegas-viz" %% "vegas" % "0.3.9"
 // libraryDependencies += "org.vegas-viz" %% "vegas-spark" % "0.3.9"
 // resolvers += "Mavmav" at "http://mvnrepository.com/artifact/"
+
+// linter
+addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1.17")
