@@ -46,7 +46,7 @@ class kNNClassifier(k: Int = 3) {
           val min = min_distances.min
           val min_index = min_distances.indexOf(min)
           val min_global_index = min_indices(min_index)
-          val prediction = y_NN(min_global_index)
+          prediction = y_NN(min_global_index)
         }
         else if (strat == "majority"){
           var nearest_labels = for (i <- min_indices) yield y_NN(i)
