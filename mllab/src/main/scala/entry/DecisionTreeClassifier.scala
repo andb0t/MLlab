@@ -14,10 +14,10 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
     def getPurity(xThisFeature: List[Float], yThisNode: List[Int], threshold: Double): (Double, Boolean) = {
       val rightIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
       val leftIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 <= threshold).map(tup => tup._2)
-      val rightSig: Int = rightIdx.filter(_ == 1).length
-      val rightBkg: Int = rightIdx.filter(_ == 0).length
-      val leftBkg: Int = leftIdx.filter(_ == 0).length
-      val leftSig: Int = leftIdx.filter(_ == 1).length
+      val rightSig: Int = rightIdx.count(_ == 1)
+      val rightBkg: Int = rightIdx.count(_ == 0)
+      val leftBkg: Int = leftIdx.count(_ == 0)
+      val leftSig: Int = leftIdx.count(_ == 1)
       val m: Int = xThisFeature.length
       val greater: Boolean = (rightSig > leftSig)
       var purity: Double = Double.MinValue
@@ -45,7 +45,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
       val nSteps = 10
       val nZooms = 3
 
-      val nFeatures: Int = X(0).length
+      val nFeatures: Int = X.head.length
       var (xThisNode, yThisNode) = decisionTree.atNode(nodeIndex, X, y)
       for (iFeature <- 0 until nFeatures){
         var xThisFeature = xThisNode.map(_.apply(iFeature))
@@ -244,10 +244,8 @@ class DecisionTree(depth: Int){
       var tmpy = new ListBuffer[Int]()
       for (i <- 0 until newX.length){
         val feature = newX(i).apply(iFeature)
-        if (takeRightArm && feature > threshold){
-          tmpX += newX(i)
-          tmpy += newy(i)
-        }else if (!takeRightArm && feature <= threshold){
+        if ((takeRightArm && feature > threshold) ||
+            (!takeRightArm && feature <= threshold)) {
           tmpX += newX(i)
           tmpy += newy(i)
         }

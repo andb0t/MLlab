@@ -19,18 +19,14 @@ class SVMClassifier(alpha: Double = 1) {
   }
 
   def isCorrect(instance: List[Float], label: Int): Boolean = {
-    if (getPrediction(instance) == label){
-      true
-    }else{
-      false
-    }
+    getPrediction(instance) == label
   }
 
   def train(X: List[List[Float]], y: List[Int]): Unit = {
     assert (X.length == y.length)
     // initialize parameters
     bias  = 0
-    for (i <- 0 until X(0).length) {
+    for (i <- 0 until X.head.length) {
       weight += 0  // TODO: replace by Math.random
     }
 
@@ -45,7 +41,7 @@ class SVMClassifier(alpha: Double = 1) {
           break
         }
         println(epoch + ". new training loop with weights " + weight + " and bias " + bias)
-        assert (weight.length == X(0).length)
+        assert (weight.length == X.head.length)
         epoch += 1
         needMoreTraining = false
         breakable{
