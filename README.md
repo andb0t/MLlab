@@ -35,7 +35,6 @@ sbt
 test  # compile and execute tests  
 compile  # only compile the app
 console  # start scala console for this project
-styleCheck  # execute the style checker
 ```
 
 ### Create executable app
@@ -46,12 +45,13 @@ sbt
 assembly
 ```
 
-### Style check
-This will check the code style, using [scalastyle](http://www.scalastyle.org/).
+### Style check and linter
+This will check the code style, using [scalastyle](http://www.scalastyle.org/) and [Linter Compiler Plugin](https://github.com/HairyFotr/linter).
 
 ```shell
 sbt
-scalastyle
+scalastyle  # style check
+[compile, run]  # linter runs as compilation hook
 ```
 
 ## Some remarks about scala
