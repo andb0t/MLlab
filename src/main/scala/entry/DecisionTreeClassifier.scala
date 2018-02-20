@@ -28,12 +28,15 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
         // CART cost function
         val mLeft: Int = leftIdx.length
         val mRight: Int = rightIdx.length
-        var cost: Double = Double.MaxValue
-        if (mLeft * mRight != 0) {
-          val GLeft: Double = 1.0 - Math.pow(1.0 * leftSig/mLeft, 2) - Math.pow(1.0 * leftBkg/mLeft, 2)
-          val GRight: Double = 1.0 - Math.pow(1.0 * rightSig/mRight, 2) - Math.pow(1.0 * rightBkg/mRight, 2)
-          cost = GLeft * mLeft / m + GRight * mRight / m
+        var GLeft: Double = 0
+        var GRight: Double = 0
+        if (mLeft != 0) {
+          GLeft = 1.0 - Math.pow(1.0 * leftSig/mLeft, 2) - Math.pow(1.0 * leftBkg/mLeft, 2)
         }
+        if (mRight != 0) {
+          GRight = 1.0 - Math.pow(1.0 * rightSig/mRight, 2) - Math.pow(1.0 * rightBkg/mRight, 2)
+        }
+        val cost = GLeft * mLeft / m + GRight * mRight / m
         purity = -cost
       }
       // println("threshold " + threshold + " purity " + purity)
@@ -42,40 +45,44 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
 
     def setOptimalCut(nodeIndex: Int): Unit = {
 
+      println("Tuning node " + nodeIndex)
+
       val nSteps = 10
       val nZooms = 3
 
       val nFeatures: Int = X.head.length
       val (xThisNode, yThisNode) = decisionTree.atNode(nodeIndex, X, y)
-      for (iFeature <- 0 until nFeatures){
-        var xThisFeature = xThisNode.map(_.apply(iFeature))
-        // println(x.take(10))
-        // println(y.take(10))
+      if (!xThisNode.isEmpty) {
+        for (iFeature <- 0 until nFeatures){
+          var xThisFeature = xThisNode.map(_.apply(iFeature))
+          // println(x.take(10))
+          // println(y.take(10))
 
-        var max: Double = xThisFeature.max
-        var min: Double = xThisFeature.min
-        max = max + 0.01 * (max - min)
-        min = min - 0.01 * (max - min)
-        var stepSize = (max - min) / (nSteps - 1)
-        var purestStep: Double = 0
-        var maxPurity: Double = Double.MinValue
+          var max: Double = xThisFeature.max
+          var min: Double = xThisFeature.min
+          max = max + 0.01 * (max - min)
+          min = min - 0.01 * (max - min)
+          var stepSize = (max - min) / (nSteps - 1)
+          var purestStep: Double = 0
+          var maxPurity: Double = Double.MinValue
 
 
-        for (i <- 0 until nZooms) {
-          for (i <- 0 until nSteps) {
-            val currThresh: Double = min + i * stepSize
-            val (currPurity, currGreater) = getPurity(xThisFeature, yThisNode, currThresh)
-            decisionTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, currPurity)
-            if (maxPurity < currPurity) {
-              maxPurity = currPurity
-              purestStep = currThresh
+          for (i <- 0 until nZooms) {
+            for (i <- 0 until nSteps) {
+              val currThresh: Double = min + i * stepSize
+              val (currPurity, currGreater) = getPurity(xThisFeature, yThisNode, currThresh)
+              decisionTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, currPurity)
+              if (maxPurity < currPurity) {
+                maxPurity = currPurity
+                purestStep = currThresh
+              }
             }
+            max = purestStep + stepSize
+            min = purestStep - stepSize
+            stepSize = (max - min) / (nSteps - 1)
+            purestStep = 0
+            maxPurity = Double.MinValue
           }
-          max = purestStep + stepSize
-          min = purestStep - stepSize
-          stepSize = (max - min) / (nSteps - 1)
-          purestStep = 0
-          maxPurity = Double.MinValue
         }
       }
     }
@@ -118,13 +125,12 @@ class DecisionTree(depth: Int){
   }
 
   def updateNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, purity: Double): Unit = {
-    if (tree(nodeIndex).purity >= purity){
-    }else{
-      println("Improving purity of node " + nodeIndex +
-        " with feature " + featureIndex +
-        (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
-        ": " + "%.3e".format(tree(nodeIndex).purity) +
-        " -> " + "%.3e".format(purity))
+    if (tree(nodeIndex).purity < purity){
+      // println("Improving purity of node " + nodeIndex +
+      //   " with feature " + featureIndex +
+      //   (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
+      //   ": " + "%.3e".format(tree(nodeIndex).purity) +
+      //   " -> " + "%.3e".format(purity))
         addNode(nodeIndex, featureIndex, threshold, greater, purity)
     }
   }
@@ -143,35 +149,33 @@ class DecisionTree(depth: Int){
     }
   }
 
-  def isComplete(): Boolean = {
-    var complete = true
-    breakable{
-      for (node <- tree) {
-        if (!node.filled) {
-          complete = false
-          break
-        }
+  def filledNodes(): Int = {
+    var nFilled: Int = 0
+    for (node <- tree) {
+      if (node.filled) {
+        nFilled += 1
       }
     }
-    complete
+    nFilled
   }
 
   def print(): Unit = {
     println("------- Decision Tree -------")
-    println("Tree complete? " + isComplete() + " with " + nodes + " nodes")
+    println("Tree complete with " + filledNodes() + " / " + nodes + " filled nodes")
     for (node <- tree) {
-      println("Node " + node.nodeIndex +
-        ", decides on feature " + node.featureIndex +
-        (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
-        ", parent " + node.parent +
-        ", purity %.3e".format(node.purity) +
-        " left child " + node.left + " right child " + node.right)
+      if (node.filled){
+        println("Node " + node.nodeIndex +
+          ", decides on feature " + node.featureIndex +
+          (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
+          ", parent " + node.parent +
+          ", purity %.3e".format(node.purity) +
+          " left child " + node.left + " right child " + node.right)
+      }
     }
     println("------------------------------")
   }
 
   def classify(instance: List[Float]): Int = {
-    assert (isComplete)
     var label = 0
     var currentNodeIndex = 0
     breakable {
@@ -181,6 +185,9 @@ class DecisionTree(depth: Int){
         val threshold = tree(currentNodeIndex).threshold
         val left = tree(currentNodeIndex).left
         val right = tree(currentNodeIndex).right
+
+        if (!tree(currentNodeIndex).filled) break
+
         if (greater) {
           if (instance(featureIndex) > threshold) {
             label = 1
@@ -224,7 +231,7 @@ class DecisionTree(depth: Int){
       }
     }
     ancestors = ancestors.reverse
-    println("node " + nodeIndex + " has ancestors " + ancestors)
+    // println("node " + nodeIndex + " has ancestors " + ancestors)
 
     // apply the corresponding cuts successively
     var newX = new ListBuffer[List[Float]]()
@@ -232,13 +239,13 @@ class DecisionTree(depth: Int){
     X.copyToBuffer(newX)
     y.copyToBuffer(newy)
     for (ancestor <- ancestors) {
-      println("temporary length X " + newX.length + " y " + newy.length)
+      // println("temporary length X " + newX.length + " y " + newy.length)
       val takeRightArm = ancestor._2
       val iFeature = tree(ancestor._1).featureIndex
       val threshold = tree(ancestor._1).threshold
-      println("ancestor " + ancestor._1 +
-        " goes " + (if (takeRightArm) "right" else "left") +
-        " with feature " + iFeature)
+      // println("ancestor " + ancestor._1 +
+      //   " goes " + (if (takeRightArm) "right" else "left") +
+      //   " with feature " + iFeature)
       assert (newX.length == newy.length)
       var tmpX = new ListBuffer[List[Float]]()
       var tmpy = new ListBuffer[Int]()
@@ -255,7 +262,8 @@ class DecisionTree(depth: Int){
       tmpX.copyToBuffer(newX)
       tmpy.copyToBuffer(newy)
     }
-    println("Final length X " + newX.length + " y " + newy.length)
+
+    // println("Node " + nodeIndex + " has " + newX.length + " entries")
 
     Tuple2(newX.toList, newy.toList)
   }

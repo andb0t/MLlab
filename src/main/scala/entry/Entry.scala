@@ -12,7 +12,7 @@ object Mllab {
       val y_train = trainReader.getY()
       // val clf = new RandomClassifier()
       // val clf = new kNNClassifier(k=3)
-      // val clf = new DecisionTreeClassifier(depth=2)
+      // val clf = new DecisionTreeClassifier(depth=3)
       val clf = new SVMClassifier(alpha=1)
       clf.train(X_train, y_train)
       // println("Check prediction on training set")
