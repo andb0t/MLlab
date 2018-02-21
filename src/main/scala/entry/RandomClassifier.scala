@@ -3,7 +3,7 @@ package mllab
 import scala.collection.mutable.ListBuffer
 
 
-class RandomClassifier() {
+class RandomClassifier() extends Classifier {
 
   def train(X: List[List[Float]], y: List[Int]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")

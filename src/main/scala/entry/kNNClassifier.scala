@@ -3,7 +3,7 @@ package mllab
 import scala.collection.mutable.ListBuffer
 
 
-class kNNClassifier(k: Int = 3) {
+class kNNClassifier(k: Int = 3) extends Classifier {
 
   var X_NN = new ListBuffer[List[Float]]()
   var y_NN = new ListBuffer[Int]()

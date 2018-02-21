@@ -4,7 +4,7 @@ import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
 
-class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
+class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") extends Classifier {
 
   var decisionTree = new DecisionTree(depth)
 
