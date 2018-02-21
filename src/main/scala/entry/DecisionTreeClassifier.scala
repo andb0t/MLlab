@@ -9,7 +9,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
   var decisionTree = new DecisionTree(depth)
 
   def train(X: List[List[Float]], y: List[Int]): Unit = {
-    assert (X.length == y.length)
+    require(X.length == y.length, "both arguments must have the same length")
 
     def getPurity(xThisFeature: List[Float], yThisNode: List[Int], threshold: Double): (Double, Boolean) = {
       val rightIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
@@ -224,7 +224,7 @@ class DecisionTree(depth: Int){
 
   def atNode(nodeIndex: Int, X: List[List[Float]], y: List[Int]): (List[List[Float]], List[Int]) = {
 
-    assert (X.length == y.length)
+    require(X.length == y.length, "both arguments must have the same length")
 
     // determine ancestors of this node
     var ancestors = new ListBuffer[(Int, Boolean)]()

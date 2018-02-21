@@ -9,8 +9,8 @@ class kNNClassifier(k: Int = 3) {
   var y_NN = new ListBuffer[Int]()
 
   def train(X: List[List[Float]], y: List[Int]): Unit = {
-    assert (X.length == y.length)
-    assert (X.length >= k)
+    require(X.length == y.length, "both arguments must have the same length")
+    require(X.length >= k, "need more instances than k hyperparameter")
     X.copyToBuffer(X_NN)
     y.copyToBuffer(y_NN)
   }

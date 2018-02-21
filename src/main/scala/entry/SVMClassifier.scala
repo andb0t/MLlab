@@ -23,7 +23,8 @@ class SVMClassifier(alpha: Double = 1) {
   }
 
   def train(X: List[List[Float]], y: List[Int]): Unit = {
-    assert (X.length == y.length)
+    require(X.length == y.length, "both arguments must have the same length")
+
     // initialize parameters
     bias  = 0
     for (i <- 0 until X.head.length) {

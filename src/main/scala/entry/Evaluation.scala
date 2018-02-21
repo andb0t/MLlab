@@ -8,7 +8,7 @@ object Evaluation{
   }
 
   def precision(y_pred: List[Int], y_true: List[Int]): Double = {
-    assert (y_pred.length == y_true.length)
+    require(y_pred.length == y_true.length, "both arguments must have the same length")
     var truePositives: Int = 0
     var falsePositives: Int = 0
     for (i <- 0 until y_pred.length) {
@@ -28,7 +28,7 @@ object Evaluation{
   }
 
   def recall(y_pred: List[Int], y_true: List[Int]): Double = {
-    assert (y_pred.length == y_true.length)
+    require(y_pred.length == y_true.length, "both arguments must have the same length")
     var truePositives: Int = 0
     var falseNegatives: Int = 0
     for (i <- 0 until y_pred.length) {
@@ -48,7 +48,7 @@ object Evaluation{
   }
 
   def matrix(y_pred: List[Int], y_true: List[Int]): Unit = {
-    assert (y_pred.length == y_true.length)
+    require(y_pred.length == y_true.length, "both arguments must have the same length")
     var truePositives: Int = 0
     var falsePositives: Int = 0
     var trueNegatives: Int = 0
