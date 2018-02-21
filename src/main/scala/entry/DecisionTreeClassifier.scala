@@ -90,7 +90,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") {
     for (nodeIndex <- 0 until decisionTree.nodes){
       setOptimalCut(nodeIndex)
     }
-    decisionTree.print()
+    println(decisionTree)
   }
 
   def predict(X: List[List[Float]]): List[Int] = {
@@ -159,20 +159,28 @@ class DecisionTree(depth: Int){
     nFilled
   }
 
-  def print(): Unit = {
-    println("------- Decision Tree -------")
-    println("Tree complete with " + filledNodes() + " / " + nodes + " filled nodes")
-    for (node <- tree) {
-      if (node.filled){
-        println("Node " + node.nodeIndex +
-          ", decides on feature " + node.featureIndex +
-          (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
-          ", parent " + node.parent +
-          ", purity %.3e".format(node.purity) +
-          " left child " + node.left + " right child " + node.right)
+  override def toString(): String = {
+
+    def printNodes(): String = {
+      var output: String = ""
+      for (node <- tree) {
+        if (node.filled){
+          output += "Node " + node.nodeIndex +
+            ", decides on feature " + node.featureIndex +
+            (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
+            ", parent " + node.parent +
+            ", purity %.3e".format(node.purity) +
+            " left child " + node.left + " right child " + node.right +
+            "\n"
+        }
       }
+      output
     }
-    println("------------------------------")
+
+    "------- Decision Tree -------\n" +
+    "Tree complete with " + filledNodes() + " / " + nodes + " filled nodes\n" +
+    printNodes +
+    "------------------------------"
   }
 
   def classify(instance: List[Float]): Int = {
