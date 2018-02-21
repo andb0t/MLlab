@@ -4,7 +4,7 @@ import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
 
-class SVMClassifier(alpha: Double = 1) {
+class PerceptronClassifier(alpha: Double = 1) {
 
   var weight = new ListBuffer[Double]()
   var bias: Double = 0

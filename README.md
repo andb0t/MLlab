@@ -9,10 +9,11 @@ This is a work-in-progress basic machine learning library.
 * random
 * k-nearest neigbours
 * decision tree
-* linear support vector machine
+* perceptron
 
-### Regression
-Still to do!
+### Todo
+* regression
+* linear support vector machine
 
 ## Installation
 
