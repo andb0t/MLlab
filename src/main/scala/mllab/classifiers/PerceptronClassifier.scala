@@ -1,7 +1,9 @@
-package mllab
+package classifiers
 
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
+
+import utils._
 
 
 class PerceptronClassifier(alpha: Double = 1) extends Classifier {

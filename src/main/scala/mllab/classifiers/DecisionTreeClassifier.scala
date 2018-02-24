@@ -1,4 +1,4 @@
-package mllab
+package classifiers
 
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._

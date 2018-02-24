@@ -2,6 +2,9 @@ package mllab
 
 import org.scalatest._
 
+import utils._
+import classifiers._
+
 
 class MllabSuite extends FunSuite {
 

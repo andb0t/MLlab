@@ -1,4 +1,4 @@
-package mllab
+package utils
 
 
 object Maths{

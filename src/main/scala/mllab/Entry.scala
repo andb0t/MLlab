@@ -1,5 +1,7 @@
 package mllab
 
+import classifiers._
+
 
 object Mllab {
   def main(args: Array[String]): Unit = {
