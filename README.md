@@ -58,10 +58,12 @@ scalastyle  # style check
 ## Some remarks about scala
 Some useful links:
 * [Scala API](https://www.scala-lang.org/api/current/)
+* [Java API](https://docs.oracle.com/javase/8/docs/api/)
 * [Style guide](https://docs.scala-lang.org/style/overview.html)
 * [Quick syntax lookup](https://www.tutorialspoint.com/scala/index.htm)
 * [Cheatsheet](https://docs.scala-lang.org/cheatsheets/)
 * [Extensive cheatsheet](https://github.com/lampepfl/progfun-wiki/blob/gh-pages/CheatSheet.md)
+* [Exercises](https://www.scala-exercises.org/)
 
 ## Some remarks about spark
 * [Spark API](https://spark.apache.org/docs/2.2.0/api/scala/index.html)
