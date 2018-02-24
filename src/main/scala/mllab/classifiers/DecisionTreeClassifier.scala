@@ -149,7 +149,7 @@ class DecisionTree(depth: Int){
     }
   }
 
-  def filledNodes(): Int = {
+  def nFilledNodes(): Int = {
     var nFilled: Int = 0
     for (node <- tree) {
       if (node.filled) {
@@ -178,7 +178,7 @@ class DecisionTree(depth: Int){
     }
 
     "------- Decision Tree -------\n" +
-    "Tree complete with " + filledNodes() + " / " + nodes + " filled nodes\n" +
+    "Tree complete with " + nFilledNodes() + " / " + nodes + " filled nodes\n" +
     printNodes +
     "------------------------------"
   }
