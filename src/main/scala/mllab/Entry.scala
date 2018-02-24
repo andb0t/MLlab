@@ -1,6 +1,7 @@
 package mllab
 
 import classifiers._
+import regressors._
 
 
 object Mllab {
@@ -12,6 +13,7 @@ object Mllab {
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
+
       // val clf = new RandomClassifier()
       // val clf = new kNNClassifier(k=3)
       // val clf = new DecisionTreeClassifier(depth=3)
@@ -19,6 +21,7 @@ object Mllab {
       clf.train(X_train, y_train)
       // println("Check prediction on training set")
       // clf.predict(X_train)
+
 
       println{"Apply to test set"}
       val testReader = new Reader("src/test/resources/test.csv", label=3, index=0)
@@ -41,5 +44,13 @@ object Mllab {
 
       println("Visualize the data")
       trainReader.plot()
+
+      println("Try basic regressor functionality")
+      val reg = new RandomRegressor()
+      reg.train(X_train, y_train.map(_.toFloat))
+      val y_pred_reg: List[Float] = reg.predict(X_test)
+      for (i <- 0 until Math.min(y_pred_reg.length, 10)) {
+        println("Test instance " + i + ": prediction " + y_pred_reg(i) + " true value " + y_test(i))
+      }
   }
 }
