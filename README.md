@@ -1,7 +1,7 @@
 # MLlab
 
 ## Introduction
-This is a work-in-progress basic machine learning library.
+This is a basic machine learning library.
 
 ## Implemented algorithms
 
@@ -10,10 +10,12 @@ This is a work-in-progress basic machine learning library.
 * k-nearest neigbours
 * decision tree
 * perceptron
+* *Todo* linear support vector machine
+
+### Regression
+* random
 
 ### Todo
-* regression
-* linear support vector machine
 
 ## Installation
 
