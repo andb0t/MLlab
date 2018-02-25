@@ -161,21 +161,15 @@ class DecisionTree(depth: Int){
 
   override def toString(): String = {
 
-    def printNodes(): String = {
-      var output: String = ""
-      for (node <- tree) {
-        if (node.filled){
-          output += "Node " + node.nodeIndex +
-            ", decides on feature " + node.featureIndex +
-            (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
-            ", parent " + node.parent +
-            ", purity %.3e".format(node.purity) +
-            " left child " + node.left + " right child " + node.right +
-            "\n"
-        }
-      }
-      output
-    }
+    def printNodes(): String =
+      (for { node <- tree if (node.filled) } yield
+        "Node " + node.nodeIndex +
+        ", decides on feature " + node.featureIndex +
+        (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
+        ", parent " + node.parent +
+        ", purity %.3e".format(node.purity) +
+        " left child " + node.left + " right child " + node.right + "\n"
+      ).mkString
 
     "------- Decision Tree -------\n" +
     "Tree complete with " + nFilledNodes() + " / " + nodes + " filled nodes\n" +
