@@ -25,8 +25,8 @@ class Reader(var fileName: String, var label: Int, var index: Int = -1) {
     data.getData(not=label)
   }
 
-  def getY(): List[Int] = {
-    data.getData(only=label).head.map(_.toInt)
+  def getY(): List[Float] = {
+    data.getData(only=label).head
   }
 
   def plot(figName: String="data.png"): Unit = {

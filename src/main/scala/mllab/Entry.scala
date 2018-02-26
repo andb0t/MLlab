@@ -9,10 +9,10 @@ object Mllab {
       println("Execute MLlab!")
 
       println{"Train the model"}
-      val trainReader = new Reader("src/test/resources/train.csv", label=3, index=0)
+      val trainReader = new Reader("src/test/resources/train_clf.csv", label=3, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
-      val y_train = trainReader.getY()
+      val y_train = trainReader.getY().map(_.toInt)
 
       // val clf = new RandomClassifier()
       // val clf = new kNNClassifier(k=3)
@@ -24,10 +24,11 @@ object Mllab {
 
 
       println{"Apply to test set"}
-      val testReader = new Reader("src/test/resources/test.csv", label=3, index=0)
+      val testReader = new Reader("src/test/resources/test_clf.csv", label=3, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
-      val y_test = testReader.getY()
+      val y_test = testReader.getY().map(_.toInt)
+
       println("Now do prediction on test set")
       val y_pred = clf.predict(X_test)
       assert (y_pred.length == y_test.length)
@@ -45,12 +46,25 @@ object Mllab {
       println("Visualize the data")
       trainReader.plot()
 
-      println("Try basic regressor functionality")
-      val reg = new RandomRegressor()
-      reg.train(X_train, y_train.map(_.toFloat))
-      val y_pred_reg: List[Float] = reg.predict(X_test)
+
+      println("\n\nTry basic regressor functionality")
+
+      val trainReader_reg = new Reader("src/test/resources/train_reg.csv", label=2, index=0)
+      trainReader_reg.loadFile()
+      val X_train_reg = trainReader_reg.getX()
+      val y_train_reg = trainReader_reg.getY()
+
+      val testReader_reg = new Reader("src/test/resources/test_reg.csv", label=2, index=0)
+      testReader_reg.loadFile()
+      val X_test_reg = testReader_reg.getX()
+      val y_test_reg = testReader_reg.getY()
+
+      // val reg = new RandomRegressor()
+      val reg = new LinearRegressor()
+      reg.train(X_train_reg, y_train_reg)
+      val y_pred_reg: List[Float] = reg.predict(X_test_reg)
       for (i <- 0 until Math.min(y_pred_reg.length, 10)) {
-        println("Test instance " + i + ": prediction " + y_pred_reg(i) + " true value " + y_test(i))
+        println("Test instance " + i + ": prediction " + y_pred_reg(i) + " true value " + y_test_reg(i))
       }
   }
 }
