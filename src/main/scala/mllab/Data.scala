@@ -18,22 +18,18 @@ class Data(index: Int = -1) {
   }
 
   def getData(not: Int = -1, only: Int = -1): List[List[Float]] = {
-    var dataList = data.toList
-    if (only != -1) {
-      List(dataList.map(_.apply(only)))
-
-    }else if (not != -1) {
-      dataList = dataList.map(x => x.take(not)++:x.takeRight(x.length - not - 1))
-      if (index != -1) {
-        val newIndex = if (index < not) index else index - 1
-        dataList.map(x => x.take(newIndex)++:x.takeRight(x.length - newIndex - 1))
-      }
+    def removeCol(dataList: List[List[Float]], index: List[Int]): List[List[Float]] =
+      if (index.isEmpty) dataList
       else {
-        dataList
+        val thisIdx = index.head
+        val newIndices = index.tail.map(x => if (x < thisIdx) x else x - 1)
+        removeCol(dataList.map(x => x.take(thisIdx)++:x.takeRight(x.length - thisIdx - 1)), newIndices)
       }
 
-    }else{
-      dataList
-    }
+    if (only != -1) List(data.toList.map(_.apply(only)))
+    else if (not != -1 && index == -1) removeCol(data.toList, List(not))
+    else if (not != -1 && index != -1) removeCol(data.toList, List(not, index))
+    else data.toList
   }
+
 }
