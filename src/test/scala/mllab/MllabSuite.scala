@@ -26,7 +26,7 @@ class MllabSuite extends FunSuite {
 
   test("mean squared error"){
     assert (Evaluation.MSE(List(0, 0), List(1, 2)) === 5)
-    assert (Evaluation.MSE(List(0.1, 0.4), List(-0.2, 0.3)) === 0.1.toFloat)
+    assert (Evaluation.MSE(List(1, 4), List(-2, 3)) === 10)
   }
 
   test("dot product"){
