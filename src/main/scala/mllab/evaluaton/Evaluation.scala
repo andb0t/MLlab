@@ -1,4 +1,4 @@
-package classifiers
+package evaluation
 
 object Evaluation{
 
@@ -34,4 +34,6 @@ object Evaluation{
     println("F " + falsePositives + " " + falseNegatives)
   }
 
+  def MSE(y_pred: List[Double], y_true: List[Double]): Float =
+    (y_pred zip y_true).map{case (x, y) => Math.pow(x - y, 2)}.sum.toFloat
 }

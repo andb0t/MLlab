@@ -2,6 +2,7 @@ package mllab
 
 import classifiers._
 import regressors._
+import evaluation._
 
 
 object Mllab {
