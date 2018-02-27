@@ -36,4 +36,12 @@ object Evaluation{
 
   def MSE(y_pred: List[Float], y_true: List[Float]): Float =
     (y_pred zip y_true).map{case (x, y) => Math.pow(x - y, 2)}.sum.toFloat
+
+  /*
+  Mean squared error scaled
+  */
+  def MSES(y_pred: List[Float], y_true: List[Float]): Float = {
+    val MSEval = (y_pred zip y_true).map{case (x, y) => Math.pow(x - y, 2)}.sum
+    (MSEval / Math.abs(y_true.sum)).toFloat
+  }
 }

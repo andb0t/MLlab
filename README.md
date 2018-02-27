@@ -10,12 +10,13 @@ This is a basic machine learning library.
 * k-nearest neigbours
 * decision tree
 * perceptron
-* *Todo* linear support vector machine
 
 ### Regression
 * random
+* 1-dimensional linear regression
 
 ### Todo
+* support vector machine with linear and non-linear kernel
 
 ## Installation
 

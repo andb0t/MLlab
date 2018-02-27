@@ -70,12 +70,15 @@ for command in args.command:
                 print('Index X Y', file=myfile)
 
                 for i in range(nInstances):
-                    x = -1 + i * 2 / (nInstances - 1)
-                    y = 0
+
                     strategy = 'linear'
                     if strategy == 'linear':
-                        y = 2 * x + 1
+                        x = [2 * random.random() - 1]
+                        y = 2 * x[0] - 1
+                    if strategy == 'multidimlinear':
+                        x = [2 * random.random() - 1, 2 * random.random() - 1]
+                        y = 2 * x[0] + 1 * x[1] - 1
 
-                    x = round(x, 3)
+                    x = map(lambda xs: round(xs, 3), x)
                     y = round(y, 3)
-                    print('{} {} {}'.format(i, x, y), file=myfile)
+                    print('{} {} {}'.format(i, ' '.join(map(str, x)), y), file=myfile)
