@@ -50,12 +50,12 @@ object Mllab {
 
       println("\n\nTry basic regressor functionality")
 
-      val trainReader_reg = new Reader("src/test/resources/train_reg.csv", label=-1, index=0)
+      val trainReader_reg = new Reader("src/test/resources/train_reg.csv", label= -1, index=0)
       trainReader_reg.loadFile()
       val X_train_reg = trainReader_reg.getX()
       val y_train_reg = trainReader_reg.getY()
 
-      val testReader_reg = new Reader("src/test/resources/test_reg.csv", label=-1, index=0)
+      val testReader_reg = new Reader("src/test/resources/test_reg.csv", label= -1, index=0)
       testReader_reg.loadFile()
       val X_test_reg = testReader_reg.getX()
       val y_test_reg = testReader_reg.getY()
