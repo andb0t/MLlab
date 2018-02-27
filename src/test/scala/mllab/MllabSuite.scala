@@ -25,8 +25,8 @@ class MllabSuite extends FunSuite {
   }
 
   test("mean squared error"){
-    assert (Evaluation.MSE(List(0, 0), List(1, 2)) === 5)
-    assert (Evaluation.MSE(List(1, 4), List(-2, 3)) === 10)
+    assert (Evaluation.MSE(List(0, 0), List(1, 2)) === 2.5)
+    assert (Evaluation.MSE(List(1, 4), List(-2, 3)) === 5)
   }
 
   test("dot product"){

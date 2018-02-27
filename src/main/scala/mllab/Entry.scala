@@ -60,12 +60,14 @@ object Mllab {
       val X_test_reg = testReader_reg.getX()
       val y_test_reg = testReader_reg.getY()
 
+      println("Test feature vector: " + X_train_reg.head + " with label " + y_train_reg.head)
+
       // val reg = new RandomRegressor()
       val reg = new LinearRegressor()
       reg.train(X_train_reg, y_train_reg)
       val y_pred_reg: List[Double] = reg.predict(X_test_reg)
       for (i <- 0 until Math.min(y_pred_reg.length, 10)) {
-        println("Test instance " + i + ": prediction " + y_pred_reg(i) + " true value " + y_test_reg(i))
+        println("Test instance " + i + ": " + X_test_reg(i) + " prediction %.2f  true value %.2f".format(y_pred_reg(i), y_test_reg(i)))
       }
   }
 }
