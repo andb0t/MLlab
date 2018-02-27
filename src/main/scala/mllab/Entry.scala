@@ -63,7 +63,7 @@ object Mllab {
       // val reg = new RandomRegressor()
       val reg = new LinearRegressor()
       reg.train(X_train_reg, y_train_reg)
-      val y_pred_reg: List[Float] = reg.predict(X_test_reg)
+      val y_pred_reg: List[Double] = reg.predict(X_test_reg)
       for (i <- 0 until Math.min(y_pred_reg.length, 10)) {
         println("Test instance " + i + ": prediction " + y_pred_reg(i) + " true value " + y_test_reg(i))
       }

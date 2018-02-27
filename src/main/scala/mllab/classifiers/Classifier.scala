@@ -2,6 +2,6 @@ package classifiers
 
 
 abstract class Classifier() {
-  def train(X: List[List[Float]], y: List[Int]): Unit
-  def predict(X: List[List[Float]]): List[Int]
+  def train(X: List[List[Double]], y: List[Int]): Unit
+  def predict(X: List[List[Double]]): List[Int]
 }

@@ -10,15 +10,15 @@ class Data(index: Int = -1) {
 */
 
 
-  var data = new ListBuffer[List[Float]]()
+  var data = new ListBuffer[List[Double]]()
 
-  def addInstance(instance: List[Float]): Unit = {
+  def addInstance(instance: List[Double]): Unit = {
     // println("Adding to list " + instance)
     data += instance
   }
 
-  def getData(not: Int = -1, only: Int = -1): List[List[Float]] = {
-    def removeCol(dataList: List[List[Float]], index: List[Int]): List[List[Float]] =
+  def getData(not: Int = -1, only: Int = -1): List[List[Double]] = {
+    def removeCol(dataList: List[List[Double]], index: List[Int]): List[List[Double]] =
       if (index.isEmpty) dataList
       else {
         val thisIdx = index.head

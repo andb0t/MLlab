@@ -11,15 +11,15 @@ class LinearRegressor() extends Regressor {
   var weight = new ListBuffer[Double]()
   var bias: Double = 0
 
-  def lossGradient(X: List[List[Float]], y: List[Float]): List[Double] = {
+  def lossGradient(X: List[List[Double]], y: List[Double]): List[Double] = {
     // dLoss = d(MSE scaled) = Sum (const * linearDistanceScaled * instanceVector)
-    val linDist: List[Double] = for (xy <- X zip y) yield (Maths.dot(weight.toList, xy._1.map(_.toDouble)) + bias - xy._2) / Math.abs(y.sum)
+    val linDist: List[Double] = for (xy <- X zip y) yield (Maths.dot(weight.toList, xy._1) + bias - xy._2) / Math.abs(y.sum)
     val weightGradient: List[Double] = (X zip linDist).map{case (x, d) => x.map(_ * d)}.reduce(Maths.plus(_, _))
     val biasGradient: Double = linDist.sum
     biasGradient::weightGradient
   }
 
-  def train(X: List[List[Float]], y: List[Float]): Unit = {
+  def train(X: List[List[Double]], y: List[Double]): Unit = {
     val alpha: Double = 0.1
     require(X.length == y.length, "both arguments must have the same length")
     for (i <- 0 until X.head.length)
@@ -49,7 +49,7 @@ class LinearRegressor() extends Regressor {
     updateWeights(0)
   }
 
-  def predict(X: List[List[Float]]): List[Float] =
-    for (instance <- X) yield (Maths.dot(weight.toList, instance.map(_.toDouble)) + bias).toFloat
+  def predict(X: List[List[Double]]): List[Double] =
+    for (instance <- X) yield Maths.dot(weight.toList, instance) + bias
 
 }

@@ -14,18 +14,18 @@ class Reader(var fileName: String, var label: Int, var index: Int = -1) {
     println("Load the file " + fileName)
     val sourceStream = Source.fromFile(fileName)
     for (line <- sourceStream.getLines().drop(1).toVector){
-      val values = line.split(sep).map(_.trim).map(_.toFloat)
-      implicit def arrayToList[A](values: Array[Float]) = values.toList
+      val values = line.split(sep).map(_.trim).map(_.toDouble)
+      implicit def arrayToList[A](values: Array[Double]) = values.toList
       data.addInstance(values)
     }
     sourceStream.close
   }
 
-  def getX(): List[List[Float]] = {
+  def getX(): List[List[Double]] = {
     data.getData(not=label)
   }
 
-  def getY(): List[Float] = {
+  def getY(): List[Double] = {
     data.getData(only=label).head
   }
 

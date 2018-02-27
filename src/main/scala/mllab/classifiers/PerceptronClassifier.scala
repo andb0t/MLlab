@@ -11,18 +11,18 @@ class PerceptronClassifier(alpha: Double = 1) extends Classifier {
   var weight = new ListBuffer[Double]()
   var bias: Double = 0
 
-  def getDistance(instance: List[Float]): Double = {
-    val side: Double = bias + Maths.dot(weight.toList, instance.map(_.toDouble))
+  def getDistance(instance: List[Double]): Double = {
+    val side: Double = bias + Maths.dot(weight.toList, instance)
     side / Maths.abs(weight.toList)
   }
 
-  def getPrediction(instance: List[Float]): Int =
+  def getPrediction(instance: List[Double]): Int =
     if (getDistance(instance) > 0) 1 else 0
 
-  def isCorrect(instance: List[Float], label: Int): Boolean =
+  def isCorrect(instance: List[Double], label: Int): Boolean =
     getPrediction(instance) == label
 
-  def train(X: List[List[Float]], y: List[Int]): Unit = {
+  def train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
 
     // initialize parameters
@@ -68,7 +68,7 @@ class PerceptronClassifier(alpha: Double = 1) extends Classifier {
     println("Bias: " + bias)
   }
 
-  def predict(X: List[List[Float]]): List[Int] =
+  def predict(X: List[List[Double]]): List[Int] =
     for (instance <- X) yield getPrediction(instance)
 
 }

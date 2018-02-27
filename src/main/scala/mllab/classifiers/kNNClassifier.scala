@@ -5,17 +5,17 @@ import scala.collection.mutable.ListBuffer
 
 class kNNClassifier(k: Int = 3) extends Classifier {
 
-  var X_NN = new ListBuffer[List[Float]]()
+  var X_NN = new ListBuffer[List[Double]]()
   var y_NN = new ListBuffer[Int]()
 
-  def train(X: List[List[Float]], y: List[Int]): Unit = {
+  def train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
     require(X.length >= k, "need more instances than k hyperparameter")
     X.copyToBuffer(X_NN)
     y.copyToBuffer(y_NN)
   }
 
-  def predict(X: List[List[Float]]): List[Int] = {
+  def predict(X: List[List[Double]]): List[Int] = {
     var result = new ListBuffer[Int]()
     for (instance <- X){
       var min_distance: Double = Double.MaxValue

@@ -8,10 +8,10 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") exten
 
   var decisionTree = new DecisionTree(depth)
 
-  def train(X: List[List[Float]], y: List[Int]): Unit = {
+  def train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
 
-    def getPurity(xThisFeature: List[Float], yThisNode: List[Int], threshold: Double): (Double, Boolean) = {
+    def getPurity(xThisFeature: List[Double], yThisNode: List[Int], threshold: Double): (Double, Boolean) = {
       val rightIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
       val leftIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 <= threshold).map(tup => tup._2)
       val rightSig: Int = rightIdx.count(_ == 1)
@@ -93,7 +93,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") exten
     println(decisionTree)
   }
 
-  def predict(X: List[List[Float]]): List[Int] = {
+  def predict(X: List[List[Double]]): List[Int] = {
     var result = new ListBuffer[Int]()
     for (x <- X) {
       result += decisionTree.classify(x)
@@ -177,7 +177,7 @@ class DecisionTree(depth: Int){
     "------------------------------"
   }
 
-  def classify(instance: List[Float]): Int = {
+  def classify(instance: List[Double]): Int = {
     var label = 0
     var currentNodeIndex = 0
     breakable {
@@ -216,7 +216,7 @@ class DecisionTree(depth: Int){
     label
   }
 
-  def atNode(nodeIndex: Int, X: List[List[Float]], y: List[Int]): (List[List[Float]], List[Int]) = {
+  def atNode(nodeIndex: Int, X: List[List[Double]], y: List[Int]): (List[List[Double]], List[Int]) = {
 
     require(X.length == y.length, "both arguments must have the same length")
 
@@ -236,7 +236,7 @@ class DecisionTree(depth: Int){
     // println("node " + nodeIndex + " has ancestors " + ancestors)
 
     // apply the corresponding cuts successively
-    var newX = new ListBuffer[List[Float]]()
+    var newX = new ListBuffer[List[Double]]()
     var newy = new ListBuffer[Int]()
     X.copyToBuffer(newX)
     y.copyToBuffer(newy)
@@ -249,7 +249,7 @@ class DecisionTree(depth: Int){
       //   " goes " + (if (takeRightArm) "right" else "left") +
       //   " with feature " + iFeature)
       assert (newX.length == newy.length)
-      var tmpX = new ListBuffer[List[Float]]()
+      var tmpX = new ListBuffer[List[Double]]()
       var tmpy = new ListBuffer[Int]()
       for (i <- 0 until newX.length){
         val feature = newX(i).apply(iFeature)
