@@ -13,7 +13,7 @@ This is a basic machine learning library.
 
 ### Regression
 * random
-* 1-dimensional linear regression
+* linear regression
 
 ### Todo
 * support vector machine with linear and non-linear kernel
