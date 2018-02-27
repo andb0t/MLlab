@@ -75,6 +75,7 @@ Some useful links:
 * [Style guide](https://docs.scala-lang.org/style/overview.html)
 * [Quick syntax lookup](https://www.tutorialspoint.com/scala/index.htm)
 * [Cheatsheet](https://docs.scala-lang.org/cheatsheets/)
+* [Reactive cheatsheet](https://github.com/sjuvekar/reactive-programming-scala/blob/master/ReactiveCheatSheet.md)
 * [Extensive cheatsheet](https://github.com/lampepfl/progfun-wiki/blob/gh-pages/CheatSheet.md)
 * [Exercises](https://www.scala-exercises.org/)
 
