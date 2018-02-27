@@ -3,10 +3,11 @@ package mllab
 import scala.io.Source
 
 
-class Reader(var fileName: String, var label: Int, var index: Int = -1) {
+class Reader(val fileName: String, val label: Int = -1, val index: Int = -1) {
 
   val data = new Data(index)
   val sep: String = " "
+  var nColumns: Int = 0
 
   println("Instantiating a reader!")
 
@@ -17,17 +18,18 @@ class Reader(var fileName: String, var label: Int, var index: Int = -1) {
       val values = line.split(sep).map(_.trim).map(_.toDouble)
       implicit def arrayToList[A](values: Array[Double]) = values.toList
       data.addInstance(values)
+      nColumns = values.length
     }
     sourceStream.close
   }
 
-  def getX(): List[List[Double]] = {
-    data.getData(not=label)
-  }
+  def getX(): List[List[Double]] =
+    if (label != -1) data.getData(not=label)
+    else data.getData(not=nColumns -1)
 
-  def getY(): List[Double] = {
-    data.getData(only=label).head
-  }
+  def getY(): List[Double] =
+    if (label != -1) data.getData(only=label).head
+    else data.getData(only=nColumns -1).head
 
   def plot(figName: String="data.png"): Unit = {
     println("Plot the dataset to " + figName)
