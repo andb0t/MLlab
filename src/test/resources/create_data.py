@@ -71,13 +71,16 @@ for command in args.command:
 
                 for i in range(nInstances):
 
-                    strategy = 'linear'
+                    strategy = 'multidimlinear'
                     if strategy == 'linear':
                         x = [2 * random.random() - 1]
                         y = 2 * x[0] - 1
-                    if strategy == 'multidimlinear':
+                    elif strategy == 'twodimlinear':
                         x = [2 * random.random() - 1, 2 * random.random() - 1]
                         y = 2 * x[0] + 1 * x[1] - 1
+                    elif strategy == 'multidimlinear':
+                        x = [2 * random.random() - 1, 2 * random.random() - 1, 2 * random.random() - 1, 2 * random.random() - 1]
+                        y = 2 * x[0] + 1 * x[1] + 10 * x[2] - 5 * x[3] - 1
 
                     x = map(lambda xs: round(xs, 3), x)
                     y = round(y, 3)
