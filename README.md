@@ -41,6 +41,15 @@ compile  # only compile the app
 console  # start scala console for this project
 ```
 
+## Execution
+
+Create and alter test data with this script:
+```bash
+python3 src/test/resources/create_data.py train test --reg
+```
+
+## Development
+
 ### Create executable app
 This will package everything in a fat jar, using [sbt-assembly](https://github.com/sbt/sbt-assembly).
 

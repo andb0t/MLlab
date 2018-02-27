@@ -7,8 +7,8 @@ import random
 
 parser = argparse.ArgumentParser()
 parser.add_argument('command', nargs='*', choices=['train', 'test'])
-parser.add_argument("--clf", action="store_true", default=False, help='Only create classification data')
-parser.add_argument("--reg", action="store_true", default=False, help='Only create regression data')
+parser.add_argument("--clf", action="store_true", default=False, help='only create classification data')
+parser.add_argument("--reg", action="store_true", default=False, help='only create regression data')
 args = parser.parse_args()
 
 TARGET_DIR = os.path.dirname(__file__)
@@ -71,7 +71,7 @@ for command in args.command:
 
                 for i in range(nInstances):
 
-                    strategy = 'multidimlinear'
+                    strategy = 'linear'
                     if strategy == 'linear':
                         x = [2 * random.random() - 1]
                         y = 2 * x[0] - 1
@@ -84,6 +84,12 @@ for command in args.command:
                              2 * random.random() - 1,
                              2 * random.random() - 1]
                         y = 2 * x[0] + 1 * x[1] + 10 * x[2] - 5 * x[3] - 1
+                    elif strategy == 'quadratic':
+                        x = [2 * random.random() - 1]
+                        y = 2 * x[0]**2 + 1*x[0] - 1
+                    elif strategy == 'twodimquadratic':
+                        x = [2 * random.random() - 1, 2 * random.random() - 1]
+                        y = 2 * x[0]**2 - 3 * x[1]**2 + 4 * x[0] * x[1] + 1*x[0] - 2 * x[1] - 1
 
                     y *= 1 + 0.1 * (2 * random.random() - 1)  # 10% fluctuation
 
