@@ -28,12 +28,11 @@ class LinearRegressor() extends Regressor {
 
     def updateWeights(count: Int): Unit = {
       val scaleIndependentLoss = Evaluation.MSE(predict(X), y)
-      if (scaleIndependentLoss > 0.001) {
+      if (scaleIndependentLoss > 0.001 && count < 1000) {
         val weightUpdate = lossGradient(X, y).map(_ * alpha)
         // println(s"$count. Step with loss $scaleIndependentLoss:")
-        // println(" - current MSE: " + Evaluation.MSE(predict(X), y))
+        // println(" - current MSE: " + scaleIndependentLoss)
         // println(" - current weight " + weight + " bias " + bias)
-        // println(" - lossGradient " + lossGradient(X, y))
         // println(" - weightUpdate " + weightUpdate)
         bias = bias - weightUpdate.head
         for (i <- 0 until weight.length)

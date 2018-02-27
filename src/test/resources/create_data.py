@@ -79,8 +79,13 @@ for command in args.command:
                         x = [2 * random.random() - 1, 2 * random.random() - 1]
                         y = 2 * x[0] + 1 * x[1] - 1
                     elif strategy == 'multidimlinear':
-                        x = [2 * random.random() - 1, 2 * random.random() - 1, 2 * random.random() - 1, 2 * random.random() - 1]
+                        x = [2 * random.random() - 1,
+                             2 * random.random() - 1,
+                             2 * random.random() - 1,
+                             2 * random.random() - 1]
                         y = 2 * x[0] + 1 * x[1] + 10 * x[2] - 5 * x[3] - 1
+
+                    y *= 1 + 0.1 * (2 * random.random() - 1)  # 10% fluctuation
 
                     x = map(lambda xs: round(xs, 3), x)
                     y = round(y, 3)
