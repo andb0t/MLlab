@@ -17,6 +17,7 @@ This is a basic machine learning library.
 
 ### Todo
 * support vector machine with linear and non-linear kernel
+* neural network
 
 ## Installation
 
