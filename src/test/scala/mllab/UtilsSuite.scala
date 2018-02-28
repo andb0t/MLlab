@@ -49,6 +49,17 @@ class UtilsSuite extends FunSuite {
     assert (Maths.timesMM(m0, m1) === m2)
   }
 
+  test("hadamard product"){
+    assert (Maths.hadamard(List(1, 2, -1), List(0, -1, -1)) === List(0, -2, 1))
+  }
+
+  test("hadamard matrix product"){
+    val m0: List[List[Double]] = List(List(1, 2, 3), List(4, -5, 6))
+    val m1: List[List[Double]] = List(List(2, 1, 2), List(-1, 1, 0))
+    val m2: List[List[Double]] = List(List(2, 2, 6), List(-4, -5, 0))
+    assert (Maths.hadamardMM(m0, m1) === m2)
+  }
+
   test("absolute value"){
     assert (Maths.abs(List(1, 2, -1)) === Math.sqrt(6))
     assert (Maths.abs(List(0, 0)) === 0)

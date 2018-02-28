@@ -41,6 +41,18 @@ object Maths{
     timesMM(List(a), b).flatten
   }
 
+  def hadamard(a: List[Double], b: List[Double]): List[Double] = {
+    require(a.length == b.length, "both arguments must have the same length")
+    (a zip b).map{case (x, y) => x * y}
+  }
+
+  def hadamardMM(a: List[List[Double]], b: List[List[Double]]): List[List[Double]] = {
+    require(a.length == b.length && a.head.length == b.head.length,
+      "matrix(" + a.length + ", " + a.head.length +") and " +
+      "matrix(" + b.length + ", " + b.head.length + ") dimensions do not fit!")
+    (a zip b).map{case (x, y) => hadamard(x, y)}
+  }
+
   def abs(a: List[Double]): Double = {
     Math.sqrt(dot(a, a))
   }
