@@ -20,7 +20,8 @@ class NeuralNetworkClassifier() extends Classifier {
   def train(X: List[List[Double]], y: List[Int]): Unit =
     require(X.length == y.length, "both arguments must have the same length")
 
-    def initVal: Double = Math.random
+    val rnd = new scala.util.Random(1337)
+    def initVal: Double  = rnd.nextFloat
     // def initVal: Double = 1.0
 
     val inputW = List.fill(inputLayer)(List.fill(middleLayer)(initVal))
