@@ -23,7 +23,7 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
   def activate(Z: DenseMatrix[Double]): DenseMatrix[Double] =
     if (activation == "tanh") tanh(Z)
     else if (activation == "logistic") 1.0 / (exp(Z) + 1.0)
-    else if (activation == "identity") Z
+    else if (activation == "identity") 0.01 * Z  // TODO: fix it: NaN in training if not scaled down
     else throw new Exception("activation function not implented")
 
   def derivActivate(A: DenseMatrix[Double]): DenseMatrix[Double] =
