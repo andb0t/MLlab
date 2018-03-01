@@ -32,8 +32,7 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
     val inputZ = neuronTrafo(X, W(0), b(0))
     val inputZactive = activate(inputZ)
     val middleZ = neuronTrafo(inputZactive, W(1), b(1))
-    val probs = probabilities(middleZ)
-    probs
+    probabilities(middleZ)
   }
 
   def getLoss(X: DenseMatrix[Double], y: DenseVector[Int]): Double = {
@@ -41,13 +40,11 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
     val correctLogProbs: DenseVector[Double] = DenseVector.tabulate(y.size){i => -Math.log(probs(i, y(i)))}
     val dataLoss: Double = correctLogProbs.sum
     val dataLossReg: Double = dataLoss + regularization / 2 * W.map(w => pow(w, 2).sum).sum
-    val loss: Double = dataLossReg / X.rows
-    loss
+    dataLossReg / X.rows
   }
 
   def train(listX: List[List[Double]], listy: List[Int]): Unit = {
     require(listX.length == listy.length, "number of training instances and labels is not equal")
-
     val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
     val y: DenseVector[Int] = Trafo.toVectorInt(listy)
 
@@ -62,7 +59,6 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
 
         // forward propagation
         val activationLayer: DenseMatrix[Double] = activate(neuronTrafo(X, W(0), b(0)))  // (nInstances, 10)
-        // println("Instances: " + activationLayer.length + ",  new features: " + activationLayer.head.length)
         val probs: DenseMatrix[Double] = getProbabilities(X)  // (nInstances, 2)
         // backward propagation
         val outputDelta: DenseMatrix[Double] = DenseMatrix.tabulate(X.rows, inputLayer){
@@ -70,7 +66,6 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
         }
         val dW1: DenseMatrix[Double] = activationLayer.t * outputDelta  // (10, 2)
         val db1: DenseVector[Double] = sum(outputDelta.t(*, ::))  // (2)
-        // delta2 = outputDelta.dot(W(1).T) * (1 - np.power(activationLayer, 2))
         val partialDerivWeight: DenseMatrix[Double] = outputDelta * W(1).t  // (nInstances, 10)
         // val particalDerivActiv = activationLayer.map(al => al.map(ae => 1 - Math.pow(ae, 2)))  // (nInstances, 10)
         val particalDerivActiv: DenseMatrix[Double] = 1.0 - pow(activationLayer, 2)  // (nInstances, 10)
@@ -96,9 +91,7 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
 
 
   def predict(listX: List[List[Double]]): List[Int] = {
-
     val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
-
     val probs = getProbabilities(X)
     val prediction: DenseVector[Int] = argmax(probs(*, ::))
     (for (i <- 0 until prediction.size) yield prediction(i)).toList
