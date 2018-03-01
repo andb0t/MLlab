@@ -1,14 +1,14 @@
 package classifiers
 
-import scala.collection.mutable.ListBuffer
+import breeze.linalg._
 
 
-class RandomClassifier() extends Classifier {
+class RandomClassifier() extends ClassifierBreeze {
 
-  def train(X: List[List[Double]], y: List[Int]): Unit =
-    require(X.length == y.length, "number of training instances and labels is not equal")
+  def train(X: DenseMatrix[Double], y: DenseVector[Int]): Unit =
+    require(X.rows == y.size, "number of training instances and labels is not equal")
 
-  def predict(X: List[List[Double]]): List[Int] =
-    for (instance <- X) yield if (Math.random < 0.5) 0 else 1
+  def predict(X: DenseMatrix[Double]): DenseVector[Int] =
+    DenseVector.tabulate(X.rows){i => if (Math.random < 0.5) 0 else 1}
 
 }
