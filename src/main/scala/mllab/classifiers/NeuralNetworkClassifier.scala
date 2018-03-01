@@ -81,6 +81,8 @@ class NeuralNetworkClassifier() extends Classifier {
     val maxEpoch: Int = 1000
 
     def gradientDescent(count: Int): Unit = {
+      // a simple implementation: http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
+      // check http://neuralnetworksanddeeplearning.com/chap2.html
       if (count < maxEpoch) {
 
         if (count % 100 == 0) {
@@ -102,9 +104,9 @@ class NeuralNetworkClassifier() extends Classifier {
         val dW1: Matrix = Maths.timesMM(activationLayer.transpose, outputDelta)  // (10, 2)
         val db1: Vector = outputDelta.transpose.map(_.sum)  // (2)
         // delta2 = outputDelta.dot(W(1).T) * (1 - np.power(activationLayer, 2))
-        val leftM = Maths.timesMM(outputDelta, W(1).transpose)  // (nInstances, 10)
-        val rightM = activationLayer.map(x => x.map(y => 1 - Math.pow(y, 2)))  // (nInstances, 10)
-        val middleDelta: List[Vector] = Maths.hadamardMM(leftM, rightM)  // (nInstances, 10)
+        val partialDerivWeight = Maths.timesMM(outputDelta, W(1).transpose)  // (nInstances, 10)
+        val particalDerivActiv = activationLayer.map(al => al.map(ae => 1 - Math.pow(ae, 2)))  // (nInstances, 10)
+        val middleDelta: List[Vector] = Maths.hadamardMM(partialDerivWeight, particalDerivActiv)  // (nInstances, 10)
         val dW0: Matrix = Maths.timesMM(X.transpose, middleDelta)  // (2, 10)
         val db0: Vector = middleDelta.transpose.map(_.sum)  // (10)
         // regularization
