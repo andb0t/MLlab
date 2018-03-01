@@ -10,6 +10,7 @@ This is a basic machine learning library.
 * k-nearest neigbours
 * decision tree
 * perceptron
+* 3-layer neural network
 
 ### Regression
 * random
@@ -17,7 +18,6 @@ This is a basic machine learning library.
 
 ### Todo
 * support vector machine with linear and non-linear kernel
-* neural network
 
 ## Installation
 
