@@ -41,6 +41,9 @@ object Maths{
     timesMM(List(a), b).flatten
   }
 
+  def squareM(M: List[List[Double]]): List[List[Double]] =
+    for (v <- M) yield for (e <- v) yield Math.pow(e, 2)
+
   def hadamard(a: List[Double], b: List[Double]): List[Double] = {
     require(a.length == b.length, "both arguments must have the same length")
     (a zip b).map{case (x, y) => x * y}

@@ -46,12 +46,7 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
     val correctLogProbs: List[Vector] = (probs zip y).
       map{case (v, i) => for (vs <- v if (vs == v(i))) yield  - Math.log(vs)}
     val dataLoss = correctLogProbs.flatten.sum
-
-    def square(M: Matrix): Matrix =
-      for (v <- M) yield for (e <- v) yield Math.pow(e, 2)
-
-    val dataLossReg = dataLoss + regularization / 2 * W.map(w => square(w).flatten.sum).sum
-
+    val dataLossReg = dataLoss + regularization / 2 * W.map(w => Maths.squareM(w).flatten.sum).sum
     val loss: Double = dataLossReg / X.length
     loss
   }
