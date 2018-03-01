@@ -65,11 +65,9 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
         // println("Instances: " + activationLayer.length + ",  new features: " + activationLayer.head.length)
         val probs: DenseMatrix[Double] = getProbabilities(X)  // (nInstances, 2)
         // backward propagation
-        val outputDelta: DenseMatrix[Double] = probs *:* 1.0  // (nInstances, 2)
-
-        for (i <- 0 until y.size) outputDelta(i, y(i)) -= 1  // this is imperative programming :(
-        // DenseVector.tabulate(y.size){i => -Math.log(probs(i, y(i)))}  // maybe use construction like this here?
-
+        val outputDelta: DenseMatrix[Double] = DenseMatrix.tabulate(X.rows, inputLayer){
+          case (i, j) => if (j == y(i)) probs(i, j) - 1 else probs(i, j)
+        }
         val dW1: DenseMatrix[Double] = activationLayer.t * outputDelta  // (10, 2)
         val db1: DenseVector[Double] = sum(outputDelta.t(*, ::))  // (2)
         // delta2 = outputDelta.dot(W(1).T) * (1 - np.power(activationLayer, 2))
