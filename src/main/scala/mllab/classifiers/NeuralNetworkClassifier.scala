@@ -45,11 +45,11 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
     loss
   }
 
-  def train(Xraw: List[List[Double]], yraw: List[Int]): Unit = {
-    require(Xraw.length == yraw.length, "number of training instances and labels is not equal")
+  def train(listX: List[List[Double]], listy: List[Int]): Unit = {
+    require(listX.length == listy.length, "number of training instances and labels is not equal")
 
-    val X: DenseMatrix[Double] = DenseMatrix(Xraw.flatten).reshape(inputLayer, Xraw.length).t
-    val y: DenseVector[Int] = DenseVector(yraw.toArray)
+    val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
+    val y: DenseVector[Int] = Trafo.toVectorInt(listy)
 
     println("Apply backpropagation gradient descent")
     val maxEpoch: Int = 1000
@@ -95,9 +95,9 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
   }
 
 
-  def predict(Xraw: List[List[Double]]): List[Int] = {
+  def predict(listX: List[List[Double]]): List[Int] = {
 
-    val X: DenseMatrix[Double] = DenseMatrix(Xraw.flatten).reshape(inputLayer, Xraw.length).t
+    val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
 
     val probs = getProbabilities(X)
     val prediction: DenseVector[Int] = argmax(probs(*, ::))
