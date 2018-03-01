@@ -46,7 +46,7 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
   }
 
   def train(Xraw: List[List[Double]], yraw: List[Int]): Unit = {
-    require(Xraw.length == yraw.length, "both arguments must have the same length")
+    require(Xraw.length == yraw.length, "number of training instances and labels is not equal")
 
     val X: DenseMatrix[Double] = DenseMatrix(Xraw.flatten).reshape(inputLayer, Xraw.length).t
     val y: DenseVector[Int] = DenseVector(yraw.toArray)

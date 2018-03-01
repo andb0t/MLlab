@@ -23,7 +23,7 @@ class PerceptronClassifier(alpha: Double = 1) extends Classifier {
     getPrediction(instance) == label
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
-    require(X.length == y.length, "both arguments must have the same length")
+    require(X.length == y.length, "number of training instances and labels is not equal")
 
     // initialize parameters
     bias  = 0

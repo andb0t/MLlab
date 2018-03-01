@@ -9,7 +9,7 @@ class kNNClassifier(k: Int = 3) extends Classifier {
   var y_NN = new ListBuffer[Int]()
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
-    require(X.length == y.length, "both arguments must have the same length")
+    require(X.length == y.length, "number of training instances and labels is not equal")
     require(X.length >= k, "need more instances than k hyperparameter")
     X.copyToBuffer(X_NN)
     y.copyToBuffer(y_NN)

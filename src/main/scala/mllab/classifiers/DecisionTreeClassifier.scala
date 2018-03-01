@@ -9,7 +9,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") exten
   var decisionTree = new DecisionTree(depth)
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
-    require(X.length == y.length, "both arguments must have the same length")
+    require(X.length == y.length, "number of training instances and labels is not equal")
 
     def getPurity(xThisFeature: List[Double], yThisNode: List[Int], threshold: Double): (Double, Boolean) = {
       val rightIdx = xThisFeature.zip(yThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
