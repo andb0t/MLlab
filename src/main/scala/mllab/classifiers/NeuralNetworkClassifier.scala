@@ -5,7 +5,7 @@ import scala.collection.mutable.ListBuffer
 import utils._
 
 
-class NeuralNetworkClassifier() extends Classifier {
+class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.01) extends Classifier {
 
   type Matrix = List[List[Double]]
   type Vector = List[Double]
@@ -17,8 +17,7 @@ class NeuralNetworkClassifier() extends Classifier {
   val middleLayer: Int = 10
   val outputLayer: Int = 2  // == 2 required for this implementation of binary classification
 
-  val alpha = 0.01
-  val regularization = 0.01
+
 
   def neuronTrafo(X: List[List[Double]], W: Matrix, b: Vector): List[Vector] =
     for (x <- X) yield Maths.plus(Maths.timesVM(x, W), b)
