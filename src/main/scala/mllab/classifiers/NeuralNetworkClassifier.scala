@@ -6,7 +6,7 @@ import breeze.numerics._
 import utils._
 
 
-class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.01) extends Classifier {
+class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.01, activation: String = "tanh") extends Classifier {
 
   val inputLayer: Int = 2
   val middleLayer: Int = 4
@@ -20,7 +20,17 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
   def neuronTrafo(X: DenseMatrix[Double], W: DenseMatrix[Double], b: DenseVector[Double]): DenseMatrix[Double] =
     X * W + DenseVector.ones[Double](X.rows) * b.t
 
-  def activate(Z: DenseMatrix[Double]): DenseMatrix[Double] = tanh(Z)
+  def activate(Z: DenseMatrix[Double]): DenseMatrix[Double] =
+    if (activation == "tanh") tanh(Z)
+    else if (activation == "logistic") 1.0 / (exp(Z) + 1.0)
+    else if (activation == "identity") Z
+    else throw new Exception("activation function not implented")
+
+  def derivActivate(A: DenseMatrix[Double]): DenseMatrix[Double] =
+    if (activation == "tanh") 1.0 - pow(A, 2)
+    else if (activation == "logistic") A *:* (1.0 - A)
+    else if (activation == "identity") DenseMatrix.ones[Double](A.rows, A.cols)
+    else throw new Exception("activation function not implented")
 
   def probabilities(Z: DenseMatrix[Double]): DenseMatrix[Double] = {
     val expScores = exp(Z)
@@ -66,10 +76,9 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
         }
         val dW1: DenseMatrix[Double] = activationLayer.t * outputDelta  // (10, 2)
         val db1: DenseVector[Double] = sum(outputDelta.t(*, ::))  // (2)
-        val partialDerivWeight: DenseMatrix[Double] = outputDelta * W(1).t  // (nInstances, 10)
-        // val particalDerivActiv = activationLayer.map(al => al.map(ae => 1 - Math.pow(ae, 2)))  // (nInstances, 10)
-        val particalDerivActiv: DenseMatrix[Double] = 1.0 - pow(activationLayer, 2)  // (nInstances, 10)
-        val middleDelta: DenseMatrix[Double] = partialDerivWeight *:* particalDerivActiv  // (nInstances, 10)
+        val partDerivWeight: DenseMatrix[Double] = outputDelta * W(1).t  // (nInstances, 10)
+        val partDerivActiv: DenseMatrix[Double] = derivActivate(activationLayer)  // (nInstances, 10)
+        val middleDelta: DenseMatrix[Double] = partDerivWeight *:* partDerivActiv  // (nInstances, 10)
         val dW0: DenseMatrix[Double] = X.t * middleDelta  // (2, 10)
         val db0: DenseVector[Double] = sum(middleDelta.t(*, ::))  // (10)
         // // regularization
