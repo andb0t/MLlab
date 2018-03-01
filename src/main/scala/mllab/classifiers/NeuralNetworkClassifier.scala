@@ -9,7 +9,7 @@ import utils._
 class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.01) extends Classifier {
 
   val inputLayer: Int = 2
-  val middleLayer: Int = 10
+  val middleLayer: Int = 4
   val outputLayer: Int = 2  // == 2 required for this implementation of binary classification
   val layers: List[Int] = List(inputLayer, middleLayer, outputLayer)
 
@@ -17,46 +17,39 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
   val b = for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))
 
 
-  def neuronTrafo(X: List[DenseVector[Double]], W: DenseMatrix[Double], b: DenseVector[Double]): List[DenseVector[Double]] =
-    for (x <- X) yield W.t * x + b
+  def neuronTrafo(X: DenseMatrix[Double], W: DenseMatrix[Double], b: DenseVector[Double]): DenseMatrix[Double] =
+    X * W + DenseVector.ones[Double](X.rows) * b.t
 
-  def activate(Z: List[DenseVector[Double]]): List[DenseVector[Double]] =
-    Z.map(tanh(_))
+  def activate(Z: DenseMatrix[Double]): DenseMatrix[Double] = tanh(Z)
 
-  def probabilities(Z: List[DenseVector[Double]]): List[DenseVector[Double]] = {
-    val expScores = Z.map(z => exp(z))
-    expScores.map(s => s / sum(s))
+  def probabilities(Z: DenseMatrix[Double]): DenseMatrix[Double] = {
+    val expScores = exp(Z)
+    val expSums = sum(expScores(*, ::))
+    expScores(::, *) / expSums
   }
 
-  def getProbabilities(X: List[DenseVector[Double]]): List[DenseVector[Double]] = {
-
+  def getProbabilities(X: DenseMatrix[Double]): DenseMatrix[Double] = {
     val inputZ = neuronTrafo(X, W(0), b(0))
-    // // println(inputZ)
     val inputZactive = activate(inputZ)
-    // // println(inputZactive)
     val middleZ = neuronTrafo(inputZactive, W(1), b(1))
-    // // println(middleZ)
     val probs = probabilities(middleZ)
-    // // println(probs)
     probs
   }
 
-  def getLoss(X: List[DenseVector[Double]], y: List[Int]): Double = {
-    val probs = getProbabilities(X)
-    // val correctLogProbs: List[Vector] = (probs zip y).
-    //   map{case (v, i) => for (vs <- v if (vs == v(i))) yield  - Math.log(vs)}
-    // val dataLoss = correctLogProbs.flatten.sum
-    // val dataLossReg = dataLoss + regularization / 2 * W.map(w => Maths.squareM(w).flatten.sum).sum
-    // val loss: Double = dataLossReg / X.length
-    // loss
-
-    0
+  def getLoss(X: DenseMatrix[Double], y: DenseVector[Int]): Double = {
+    val probs: DenseMatrix[Double] = getProbabilities(X)
+    val correctLogProbs: DenseVector[Double] = DenseVector.tabulate(y.size){i => -Math.log(probs(i, y(i)))}
+    val dataLoss: Double = correctLogProbs.sum
+    val dataLossReg: Double = dataLoss + regularization / 2 * W.map(w => pow(w, 2).sum).sum
+    val loss: Double = dataLossReg / X.rows
+    loss
   }
 
-  def train(Xraw: List[List[Double]], y: List[Int]): Unit = {
-    require(Xraw.length == y.length, "both arguments must have the same length")
+  def train(Xraw: List[List[Double]], yraw: List[Int]): Unit = {
+    require(Xraw.length == yraw.length, "both arguments must have the same length")
 
-    val X: List[DenseVector[Double]] = for (x <- Xraw) yield DenseVector(x.toArray)
+    val X: DenseMatrix[Double] = DenseMatrix(Xraw.flatten).reshape(inputLayer, Xraw.length).t
+    val y: DenseVector[Int] = DenseVector(yraw.toArray)
 
     println("Apply backpropagation gradient descent")
     val maxEpoch: Int = 1000
@@ -65,37 +58,35 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
       // a simple implementation: http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
       // check http://neuralnetworksanddeeplearning.com/chap2.html
       if (count < maxEpoch) {
-
         if (count % 100 == 0) println(s"- epoch $count: loss " + getLoss(X, y))
 
         // forward propagation
-        val activationLayer = activate(neuronTrafo(X, W(0), b(0)))  // (nInstances, 10)
+        val activationLayer: DenseMatrix[Double] = activate(neuronTrafo(X, W(0), b(0)))  // (nInstances, 10)
         // println("Instances: " + activationLayer.length + ",  new features: " + activationLayer.head.length)
-        val probs = getProbabilities(X)
-        // // backward propagation
-        // val outputDelta: List[Vector] = (probs zip y).
-        //   map{case (v, i) => for (vs <- v) yield if (vs == v(i)) vs - 1 else vs}  // (nInstances, 2)
-        // val dW1: Matrix = Maths.timesMM(activationLayer.transpose, outputDelta)  // (10, 2)
-        // val db1: Vector = outputDelta.transpose.map(_.sum)  // (2)
-        // // delta2 = outputDelta.dot(W(1).T) * (1 - np.power(activationLayer, 2))
-        // val partialDerivWeight = Maths.timesMM(outputDelta, W(1).transpose)  // (nInstances, 10)
+        val probs: DenseMatrix[Double] = getProbabilities(X)  // (nInstances, 2)
+        // backward propagation
+        val outputDelta: DenseMatrix[Double] = probs *:* 1.0  // (nInstances, 2)
+
+        for (i <- 0 until y.size) outputDelta(i, y(i)) -= 1  // this is imperative programming :(
+        // DenseVector.tabulate(y.size){i => -Math.log(probs(i, y(i)))}  // maybe use construction like this here?
+
+        val dW1: DenseMatrix[Double] = activationLayer.t * outputDelta  // (10, 2)
+        val db1: DenseVector[Double] = sum(outputDelta.t(*, ::))  // (2)
+        // delta2 = outputDelta.dot(W(1).T) * (1 - np.power(activationLayer, 2))
+        val partialDerivWeight: DenseMatrix[Double] = outputDelta * W(1).t  // (nInstances, 10)
         // val particalDerivActiv = activationLayer.map(al => al.map(ae => 1 - Math.pow(ae, 2)))  // (nInstances, 10)
-        // val middleDelta: List[Vector] = Maths.hadamardMM(partialDerivWeight, particalDerivActiv)  // (nInstances, 10)
-        // val dW0: Matrix = Maths.timesMM(X.transpose, middleDelta)  // (2, 10)
-        // val db0: Vector = middleDelta.transpose.map(_.sum)  // (10)
+        val particalDerivActiv: DenseMatrix[Double] = 1.0 - pow(activationLayer, 2)  // (nInstances, 10)
+        val middleDelta: DenseMatrix[Double] = partialDerivWeight *:* particalDerivActiv  // (nInstances, 10)
+        val dW0: DenseMatrix[Double] = X.t * middleDelta  // (2, 10)
+        val db0: DenseVector[Double] = sum(middleDelta.t(*, ::))  // (10)
         // // regularization
-        // val dW1reg: Matrix = Maths.plusM(dW1, Maths.timesM(regularization, W(1)))
-        // val dW0reg: Matrix = Maths.plusM(dW0, Maths.timesM(regularization, W(0)))
+        val dW1reg: DenseMatrix[Double] = dW1 + regularization *:* W(1)
+        val dW0reg: DenseMatrix[Double] = dW0 + regularization *:* W(0)
         // // updates
-        // val newW1: Matrix = Maths.plusM(W(1), Maths.timesM(-alpha, dW1reg))
-        // val newW0: Matrix = Maths.plusM(W(0), Maths.timesM(-alpha, dW0reg))
-        // val newb1: Vector = Maths.plus(b(1), Maths.times(-alpha, db1))
-        // val newb0: Vector = Maths.plus(b(0), Maths.times(-alpha, db0))
-        // // updates weights
-        // W.clear()
-        // b.clear()
-        // List(newW0, newW1).copyToBuffer(W)
-        // List(newb0, newb1).copyToBuffer(b)
+        W(1) :+= -alpha *:* dW1reg
+        W(0) :+= -alpha *:* dW0reg
+        b(1) :+= -alpha *:* db1
+        b(0) :+= -alpha *:* db0
 
         gradientDescent(count + 1)
       }else println(s"Training finished after $count epochs with loss " + getLoss(X, y))
@@ -108,11 +99,11 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
 
   def predict(Xraw: List[List[Double]]): List[Int] = {
 
-    val X: List[DenseVector[Double]] = for (x <- Xraw) yield DenseVector(x.toArray)
+    val X: DenseMatrix[Double] = DenseMatrix(Xraw.flatten).reshape(inputLayer, Xraw.length).t
 
     val probs = getProbabilities(X)
-    val prediction = probs.map(argmax(_))
-    prediction
+    val prediction: DenseVector[Int] = argmax(probs(*, ::))
+    (for (i <- 0 until prediction.size) yield prediction(i)).toList
   }
 
 }
