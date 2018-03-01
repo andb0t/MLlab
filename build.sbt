@@ -20,5 +20,12 @@ libraryDependencies += scalaTest % Test
 // libraryDependencies += "org.vegas-viz" %% "vegas-spark" % "0.3.9"
 // resolvers += "Mavmav" at "http://mvnrepository.com/artifact/"
 
+// breeze
+libraryDependencies += "org.scalanlp" %% "breeze" % "0.13.2"
+libraryDependencies += "org.scalanlp" %% "breeze-natives" % "0.13.2"
+libraryDependencies += "org.scalanlp" %% "breeze-viz" % "0.13.2"
+
+resolvers += "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/"
+
 // linter
 addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1.17")
