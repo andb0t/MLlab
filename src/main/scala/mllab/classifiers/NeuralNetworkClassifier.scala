@@ -17,8 +17,6 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
   val middleLayer: Int = 10
   val outputLayer: Int = 2  // == 2 required for this implementation of binary classification
 
-
-
   def neuronTrafo(X: List[List[Double]], W: Matrix, b: Vector): List[Vector] =
     for (x <- X) yield Maths.plus(Maths.timesVM(x, W), b)
 
@@ -57,11 +55,9 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
     println("Initialize weigths and biases")
     val rnd = new scala.util.Random(1337)
     def initVal: Double  = rnd.nextFloat
-
     val inputW = List.fill(inputLayer)(List.fill(middleLayer)(initVal / Math.sqrt(inputLayer)))  // (2, 10)
     val middleW = List.fill(middleLayer)(List.fill(outputLayer)(initVal / Math.sqrt(middleLayer)))  // (10, 2)
     List(inputW, middleW).copyToBuffer(W)
-
     val inputb = List.fill(middleLayer)(0.0)  // (10)
     val middleb = List.fill(outputLayer)(0.0)  // (2)
     List(inputb, middleb).copyToBuffer(b)
@@ -79,14 +75,7 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
       // check http://neuralnetworksanddeeplearning.com/chap2.html
       if (count < maxEpoch) {
 
-        if (count % 100 == 0) {
-          val loss = getLoss(X, y)
-          println(s"- epoch $count: loss $loss")
-          // println("Weights:")
-          // println(W.mkString("\n"))
-          // println("Biases:")
-          // println(b.mkString("\n"))
-        }
+        if (count % 100 == 0) println(s"- epoch $count: loss " + getLoss(X, y))
 
         // forward propagation
         val activationLayer = activate(neuronTrafo(X, W(0), b(0)))  // (nInstances, 10)
@@ -118,7 +107,7 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
         List(newb0, newb1).copyToBuffer(b)
 
         gradientDescent(count + 1)
-      }else println(s"Training finished after $count epochs!")
+      }else println(s"Training finished after $count epochs with loss " + getLoss(X, y))
     }
 
     gradientDescent(0)
