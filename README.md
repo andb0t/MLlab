@@ -18,6 +18,9 @@ This is a basic machine learning library.
 
 ### Todo
 * support vector machine with linear and non-linear kernel
+* use linalg library [breeze](https://github.com/scalanlp/breeze)
+* NN: extend to any number of layers and neurons
+* NN: add different activation functions
 
 ## Installation
 
