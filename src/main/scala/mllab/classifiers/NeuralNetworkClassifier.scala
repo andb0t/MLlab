@@ -8,7 +8,7 @@ import utils._
 
 class NeuralNetworkClassifier(
   alpha: Double = 0.01,
-  alphaHalflife: Int = 20,
+  alphaHalflife: Int = 100,
   alphaDecay: String = "exp",
   regularization: Double = 0.01,
   activation: String = "tanh",
