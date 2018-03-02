@@ -10,7 +10,7 @@ This is a basic machine learning library.
 * k-nearest neigbours
 * decision tree
 * perceptron
-* 3-layer neural network
+* multilayer neural network
 
 ### Regression
 * random
