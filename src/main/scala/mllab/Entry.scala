@@ -1,8 +1,9 @@
 package mllab
 
 import classifiers._
-import regressors._
+import data._
 import evaluation._
+import regressors._
 
 
 object Mllab {
