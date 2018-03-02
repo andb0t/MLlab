@@ -13,6 +13,7 @@ class NeuralNetworkClassifier(
   regularization: Double = 0.01,
   activation: String = "tanh",
   batchSize: Int = -1
+  //loss: String = "cross-entropy / quadratic"
 ) extends Classifier {
 
   val inputLayer: Int = 2
@@ -45,13 +46,7 @@ class NeuralNetworkClassifier(
     else if (activation == "perceptron") DenseMatrix.zeros[Double](A.rows, A.cols)
     else throw new Exception("activation function not implented")
 
-  def probabilities(Z: DenseMatrix[Double]): DenseMatrix[Double] = {
-    val expScores = exp(Z)
-    val expSums = sum(expScores(*, ::))
-    expScores(::, *) / expSums
-  }
-
-  def getProbabilities(X: DenseMatrix[Double]): DenseMatrix[Double] = {
+  def feedForward(X: DenseMatrix[Double]): DenseMatrix[Double] = {
     def applyLayer(X: DenseMatrix[Double], count: Int): DenseMatrix[Double] =
       if (count < layers.length - 2) {
         val inputZ = neuronTrafo(X, W(count), b(count))
@@ -61,8 +56,14 @@ class NeuralNetworkClassifier(
       else {
         neuronTrafo(X, W(count), b(count))
       }
-    val middleZ = applyLayer(X, 0)
-    probabilities(middleZ)
+      applyLayer(X, 0)
+    }
+
+  def getProbabilities(X: DenseMatrix[Double]): DenseMatrix[Double] = {
+    val Z = feedForward(X)
+    val expScores = exp(Z)
+    val expSums = sum(expScores(*, ::))
+    expScores(::, *) / expSums
   }
 
   def getLoss(X: DenseMatrix[Double], y: DenseVector[Int]): Double = {
