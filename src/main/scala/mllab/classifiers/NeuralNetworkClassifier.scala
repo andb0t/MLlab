@@ -20,7 +20,6 @@ class NeuralNetworkClassifier(
   val W = for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))
   val b = for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))
 
-
   def neuronTrafo(X: DenseMatrix[Double], W: DenseMatrix[Double], b: DenseVector[Double]): DenseMatrix[Double] =
     X * W + DenseVector.ones[Double](X.rows) * b.t
 
@@ -111,10 +110,6 @@ class NeuralNetworkClassifier(
         }
         val A = propagateForward(thisX, 0, Nil).reverse
 
-        // println("A " + A.length)
-        // for (a <- A) println("A (" + a.rows + "," + a.cols + ")")
-        // println("A0 (" + A0.rows + "," + A0.cols + ")")
-
         // backward propagation
 
         // output layer
@@ -143,8 +138,6 @@ class NeuralNetworkClassifier(
           else upd
         }
         val dWdb = propagateBack(deltaOutput, layers.length - 3, Nil)
-        // println("dWdb " + dWdb.length)
-        // for (upd <- dWdb) println("dW (" + upd._1.rows + "," + upd._1.cols + ") db (" + upd._2.size + ")")
 
         def updateWeights(count: Int): Unit = {
           if (count < layers.length - 2) {
