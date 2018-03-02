@@ -11,7 +11,8 @@ class NeuralNetworkClassifier(
   alphaHalflife: Int = 20,
   alphaDecay: String = "exp",
   regularization: Double = 0.01,
-  activation: String = "tanh"
+  activation: String = "tanh",
+  batchSize: Int = -1
 ) extends Classifier {
 
   val inputLayer: Int = 2
@@ -82,19 +83,26 @@ class NeuralNetworkClassifier(
       if (count < maxEpoch) {
         if (count % 100 == 0) println(s"- epoch $count: loss " + getLoss(X, y))
 
+        val thisBatch: Seq[Int] =
+          if (batchSize != -1)  Seq.fill(batchSize)(scala.util.Random.nextInt(X.rows))
+          else 0 until X.rows
+
+        val thisX: DenseMatrix[Double] = X(thisBatch, ::).toDenseMatrix
+        val thisy: DenseVector[Int] = y(thisBatch).toDenseVector
+
         // forward propagation
-        val activationLayer: DenseMatrix[Double] = activate(neuronTrafo(X, W(0), b(0)))  // (nInstances, 10)
-        val probs: DenseMatrix[Double] = getProbabilities(X)  // (nInstances, 2)
+        val activationLayer: DenseMatrix[Double] = activate(neuronTrafo(thisX, W(0), b(0)))  // (nInstances, 10)
+        val probs: DenseMatrix[Double] = getProbabilities(thisX)  // (nInstances, 2)
         // backward propagation
-        val outputDelta: DenseMatrix[Double] = DenseMatrix.tabulate(X.rows, inputLayer){
-          case (i, j) => if (j == y(i)) probs(i, j) - 1 else probs(i, j)
+        val outputDelta: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, inputLayer){
+          case (i, j) => if (j == thisy(i)) probs(i, j) - 1 else probs(i, j)
         }
         val dW1: DenseMatrix[Double] = activationLayer.t * outputDelta  // (10, 2)
         val db1: DenseVector[Double] = sum(outputDelta.t(*, ::))  // (2)
         val partDerivWeight: DenseMatrix[Double] = outputDelta * W(1).t  // (nInstances, 10)
         val partDerivActiv: DenseMatrix[Double] = derivActivate(activationLayer)  // (nInstances, 10)
         val middleDelta: DenseMatrix[Double] = partDerivWeight *:* partDerivActiv  // (nInstances, 10)
-        val dW0: DenseMatrix[Double] = X.t * middleDelta  // (2, 10)
+        val dW0: DenseMatrix[Double] = thisX.t * middleDelta  // (2, 10)
         val db0: DenseVector[Double] = sum(middleDelta.t(*, ::))  // (10)
         // // regularization
         val dW1reg: DenseMatrix[Double] = dW1 + regularization *:* W(1)
