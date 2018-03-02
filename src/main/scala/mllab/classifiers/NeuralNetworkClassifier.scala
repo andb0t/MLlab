@@ -6,7 +6,13 @@ import breeze.numerics._
 import utils._
 
 
-class NeuralNetworkClassifier(alpha: Double = 0.01, alphaHalflife: Int = 20, regularization: Double = 0.01, activation: String = "logistic") extends Classifier {
+class NeuralNetworkClassifier(
+  alpha: Double = 0.01,
+  alphaHalflife: Int = 20,
+  alphaDecay: String = "exp",
+  regularization: Double = 0.01,
+  activation: String = "tanh"
+) extends Classifier {
 
   val inputLayer: Int = 2
   val middleLayer: Int = 4
@@ -64,8 +70,10 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, alphaHalflife: Int = 20, reg
     def gradientDescent(count: Int): Unit = {
       // a simple implementation: http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
       // check http://neuralnetworksanddeeplearning.com/chap2.html
-      val decayedAlpha = alpha / Math.pow(2, count / alphaHalflife)
-      println(count + " " + decayedAlpha)
+      val decayedAlpha: Double =
+        if (alphaDecay == "step") alpha / Math.pow(2, Math.floor(count.toFloat / alphaHalflife))
+        else if (alphaDecay == "exp") alpha * Math.exp(-1.0 * count / alphaHalflife)
+        else alpha
 
       if (count < maxEpoch) {
         if (count % 100 == 0) println(s"- epoch $count: loss " + getLoss(X, y))
