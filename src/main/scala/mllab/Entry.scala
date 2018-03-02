@@ -19,7 +19,7 @@ object Mllab {
       // val clf = new kNNClassifier(k=3)
       // val clf = new DecisionTreeClassifier(depth=3)
       // val clf = new PerceptronClassifier(alpha=1)
-      val clf = new NeuralNetworkClassifier(alpha=0.01, batchSize= -1, activation= "tanh")
+      val clf = new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 4, 2))
       // val clf = new SVMClassifier()
       clf.train(X_train, y_train)
       // println("Check prediction on training set")

@@ -17,6 +17,8 @@ class NeuralNetworkClassifier(
   //loss: String = "cross-entropy / quadratic / log cross-entropy"
 ) extends Classifier {
 
+  require(layers.length > 2, "too few layers: need at least an input, a middle and an output layer")
+
   val W = for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))
   val b = for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))
 
@@ -160,7 +162,6 @@ class NeuralNetworkClassifier(
     gradientDescent(0)
 
   }
-
 
   def predict(listX: List[List[Double]]): List[Int] = {
     val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
