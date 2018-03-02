@@ -13,7 +13,7 @@ class NeuralNetworkClassifier(
   regularization: Double = 0.01,
   activation: String = "tanh",
   batchSize: Int = -1
-  //loss: String = "cross-entropy / quadratic"
+  //loss: String = "cross-entropy / quadratic / log cross-entropy"
 ) extends Classifier {
 
   val inputLayer: Int = 2
@@ -135,8 +135,8 @@ class NeuralNetworkClassifier(
 
   def predict(listX: List[List[Double]]): List[Int] = {
     val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
-    val probs = getProbabilities(X)
-    val prediction: DenseVector[Int] = argmax(probs(*, ::))
+    val output = feedForward(X)
+    val prediction: DenseVector[Int] = argmax(output(*, ::))
     (for (i <- 0 until prediction.size) yield prediction(i)).toList
   }
 
