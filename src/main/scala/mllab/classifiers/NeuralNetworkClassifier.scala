@@ -30,12 +30,16 @@ class NeuralNetworkClassifier(
     if (activation == "tanh") tanh(Z)
     else if (activation == "logistic") 1.0 / (exp(-Z) + 1.0)
     else if (activation == "identity") 0.01 * Z  // TODO: fix it: NaN in training if not scaled down
+    else if (activation == "RELU") I(Z :> 0.0) *:* Z
+    else if (activation == "leakyRELU") (I(Z :> 0.0) + 0.1 * I(Z :<= 0.0)) *:* Z
     else throw new Exception("activation function not implented")
 
   def derivActivate(A: DenseMatrix[Double]): DenseMatrix[Double] =
     if (activation == "tanh") 1.0 - pow(A, 2)
     else if (activation == "logistic") A *:* (1.0 - A)
     else if (activation == "identity") DenseMatrix.ones[Double](A.rows, A.cols)
+    else if (activation == "RELU") I(A :> 0.0)
+    else if (activation == "leakyRELU") I(A :> 0.0) + 0.1 * I(A :<= 0.0)
     else throw new Exception("activation function not implented")
 
   def probabilities(Z: DenseMatrix[Double]): DenseMatrix[Double] = {
