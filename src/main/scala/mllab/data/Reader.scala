@@ -1,4 +1,4 @@
-package mllab
+package data
 
 import scala.io.Source
 
