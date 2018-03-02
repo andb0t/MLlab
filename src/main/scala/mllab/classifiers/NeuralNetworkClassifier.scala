@@ -12,14 +12,10 @@ class NeuralNetworkClassifier(
   alphaDecay: String = "exp",
   regularization: Double = 0.01,
   activation: String = "tanh",
-  batchSize: Int = -1
+  batchSize: Int = -1,
+  layers: List[Int] = List(2, 4, 2)
   //loss: String = "cross-entropy / quadratic / log cross-entropy"
 ) extends Classifier {
-
-  val inputLayer: Int = 2
-  val middleLayer: Int = 4
-  val outputLayer: Int = 2  // == 2 required for this implementation of binary classification
-  val layers: List[Int] = List(inputLayer, middleLayer, outputLayer)
 
   val W = for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))
   val b = for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))
@@ -63,7 +59,7 @@ class NeuralNetworkClassifier(
     val Z = feedForward(X)
     val expScores = exp(Z)
     val expSums = sum(expScores(*, ::))
-    expScores(::, *) / expSums
+    expScores(::, *) / expSums  // softmax
   }
 
   def getLoss(X: DenseMatrix[Double], y: DenseVector[Int]): Double = {
@@ -101,28 +97,68 @@ class NeuralNetworkClassifier(
         val thisy: DenseVector[Int] = y(thisBatch).toDenseVector
 
         // forward propagation
-        val activationLayer: DenseMatrix[Double] = activate(neuronTrafo(thisX, W(0), b(0)))  // (nInstances, 10)
+        def propagateForward(
+          inputA: DenseMatrix[Double],
+          count: Int,
+          upd: List[DenseMatrix[Double]]
+        ): List[DenseMatrix[Double]] = {
+          if (count < layers.length - 2) {
+            val Z: DenseMatrix[Double] = neuronTrafo(inputA, W(count), b(count))  // (nInstances, 10)
+            val A: DenseMatrix[Double] = activate(Z)  // (nInstances, 10)
+            propagateForward(A, count + 1, A :: upd)
+          }
+          else upd
+        }
+        val A = propagateForward(thisX, 0, Nil).reverse
 
-        // backward propagation layer 1
+        // println("A " + A.length)
+        // for (a <- A) println("A (" + a.rows + "," + a.cols + ")")
+        // println("A0 (" + A0.rows + "," + A0.cols + ")")
+
+        // backward propagation
+
+        // output layer
         val probs: DenseMatrix[Double] = getProbabilities(thisX)  // (nInstances, 2)
-        val outputDelta: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, inputLayer){
+        val deltaOutput: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, layers.head){
           case (i, j) => if (j == thisy(i)) probs(i, j) - 1 else probs(i, j)
         }
-        val dW1: DenseMatrix[Double] = activationLayer.t * outputDelta + regularization *:* W(1)  // (10, 2)
-        val db1: DenseVector[Double] = sum(outputDelta.t(*, ::))  // (2)
+        val dWoutput: DenseMatrix[Double] = A(layers.length - 3).t * deltaOutput + regularization *:* W(layers.length - 2)  // (10, 2)
+        val dboutput: DenseVector[Double] = sum(deltaOutput.t(*, ::))  // (2)
 
-        // backward propagation layer 0
-        val partDerivWeight: DenseMatrix[Double] = outputDelta * W(1).t  // (nInstances, 10)
-        val partDerivActiv: DenseMatrix[Double] = derivActivate(activationLayer)  // (nInstances, 10)
-        val middleDelta: DenseMatrix[Double] = partDerivWeight *:* partDerivActiv  // (nInstances, 10)
-        val dW0: DenseMatrix[Double] = thisX.t * middleDelta + regularization *:* W(0)  // (2, 10)
-        val db0: DenseVector[Double] = sum(middleDelta.t(*, ::))  // (10)
+        // other layers
+        def propagateBack(
+          deltaPlus: DenseMatrix[Double],
+          count: Int,
+          upd: List[Tuple2[DenseMatrix[Double], DenseVector[Double]]]
+        ): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
+          if (count >= 0) {
+            val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count+1).t  // (nInstances, 10)
+            val partDerivActiv: DenseMatrix[Double] = derivActivate(A(count))  // (nInstances, 10)
+            val delta: DenseMatrix[Double] = partDerivCost *:* partDerivActiv  // (nInstances, 10)
+            val db: DenseVector[Double] = sum(delta.t(*, ::))  // (10)
+            val inputA = if (count > 0) A(count - 1) else thisX
+            val dW: DenseMatrix[Double] = inputA.t * delta + regularization *:* W(count)  // (2, 10)
+            propagateBack(delta, count - 1, (dW, db)::upd)
+          }
+          else upd
+        }
+        val dWdb = propagateBack(deltaOutput, layers.length - 3, Nil)
+        // println("dWdb " + dWdb.length)
+        // for (upd <- dWdb) println("dW (" + upd._1.rows + "," + upd._1.cols + ") db (" + upd._2.size + ")")
 
-        // updates
-        W(1) :+= -decayedAlpha *:* dW1
-        b(1) :+= -decayedAlpha *:* db1
-        W(0) :+= -decayedAlpha *:* dW0
-        b(0) :+= -decayedAlpha *:* db0
+        def updateWeights(count: Int): Unit = {
+          if (count < layers.length - 2) {
+            W(count) :+= -decayedAlpha *:* dWdb(count)._1
+            b(count) :+= -decayedAlpha *:* dWdb(count)._2
+            updateWeights(count + 1)
+          }
+          else{
+            W(layers.length - 2) :+= -decayedAlpha *:* dWoutput
+            b(layers.length - 2) :+= -decayedAlpha *:* dboutput
+          }
+        }
+        updateWeights(0)
+
 
         gradientDescent(count + 1)
       }else println(s"Training finished after $count epochs with loss " + getLoss(X, y))
