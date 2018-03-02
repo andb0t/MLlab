@@ -19,7 +19,6 @@ This is a basic machine learning library.
 ### Todo
 * support vector machine with linear and non-linear kernel
 * NN: extend to any number of layers
-* NN: test other activation functions
 
 ## Installation
 

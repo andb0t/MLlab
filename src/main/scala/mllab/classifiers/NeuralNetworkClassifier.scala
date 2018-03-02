@@ -6,7 +6,7 @@ import breeze.numerics._
 import utils._
 
 
-class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.01, activation: String = "tanh") extends Classifier {
+class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.01, activation: String = "logistic") extends Classifier {
 
   val inputLayer: Int = 2
   val middleLayer: Int = 4
@@ -22,7 +22,7 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
 
   def activate(Z: DenseMatrix[Double]): DenseMatrix[Double] =
     if (activation == "tanh") tanh(Z)
-    else if (activation == "logistic") 1.0 / (exp(Z) + 1.0)
+    else if (activation == "logistic") 1.0 / (exp(-Z) + 1.0)
     else if (activation == "identity") 0.01 * Z  // TODO: fix it: NaN in training if not scaled down
     else throw new Exception("activation function not implented")
 
