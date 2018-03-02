@@ -50,9 +50,16 @@ class NeuralNetworkClassifier(
   }
 
   def getProbabilities(X: DenseMatrix[Double]): DenseMatrix[Double] = {
-    val inputZ = neuronTrafo(X, W(0), b(0))
-    val inputZactive = activate(inputZ)
-    val middleZ = neuronTrafo(inputZactive, W(1), b(1))
+    def applyLayer(X: DenseMatrix[Double], count: Int): DenseMatrix[Double] =
+      if (count < layers.length - 2) {
+        val inputZ = neuronTrafo(X, W(count), b(count))
+        val inputZactive = activate(inputZ)
+        applyLayer(inputZactive, count+1)
+      }
+      else {
+        neuronTrafo(X, W(count), b(count))
+      }
+    val middleZ = applyLayer(X, 0)
     probabilities(middleZ)
   }
 
