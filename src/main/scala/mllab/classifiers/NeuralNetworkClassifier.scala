@@ -6,7 +6,7 @@ import breeze.numerics._
 import utils._
 
 
-class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.01, activation: String = "logistic") extends Classifier {
+class NeuralNetworkClassifier(alpha: Double = 0.01, alphaHalflife: Int = 20, regularization: Double = 0.01, activation: String = "logistic") extends Classifier {
 
   val inputLayer: Int = 2
   val middleLayer: Int = 4
@@ -64,6 +64,9 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
     def gradientDescent(count: Int): Unit = {
       // a simple implementation: http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
       // check http://neuralnetworksanddeeplearning.com/chap2.html
+      val decayedAlpha = alpha / Math.pow(2, count / alphaHalflife)
+      println(count + " " + decayedAlpha)
+
       if (count < maxEpoch) {
         if (count % 100 == 0) println(s"- epoch $count: loss " + getLoss(X, y))
 
@@ -85,10 +88,10 @@ class NeuralNetworkClassifier(alpha: Double = 0.01, regularization: Double = 0.0
         val dW1reg: DenseMatrix[Double] = dW1 + regularization *:* W(1)
         val dW0reg: DenseMatrix[Double] = dW0 + regularization *:* W(0)
         // // updates
-        W(1) :+= -alpha *:* dW1reg
-        W(0) :+= -alpha *:* dW0reg
-        b(1) :+= -alpha *:* db1
-        b(0) :+= -alpha *:* db0
+        W(1) :+= -decayedAlpha *:* dW1reg
+        W(0) :+= -decayedAlpha *:* dW0reg
+        b(1) :+= -decayedAlpha *:* db1
+        b(0) :+= -decayedAlpha *:* db0
 
         gradientDescent(count + 1)
       }else println(s"Training finished after $count epochs with loss " + getLoss(X, y))
