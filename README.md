@@ -17,8 +17,7 @@ This is a basic machine learning library.
 * linear regression
 
 ### Todo
-* support vector machine with linear and non-linear kernel
-* NN: extend to any number of layers
+* SVM with linear and non-linear kernel
 
 ## Installation
 
