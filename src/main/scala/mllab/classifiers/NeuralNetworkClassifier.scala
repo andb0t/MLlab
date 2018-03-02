@@ -14,6 +14,7 @@ class NeuralNetworkClassifier(
   activation: String = "tanh",
   batchSize: Int = -1,
   layers: List[Int] = List(2, 4, 2)
+  // seed: Int = 1337,
   //loss: String = "cross-entropy / quadratic / log cross-entropy"
 ) extends Classifier {
 
@@ -81,7 +82,7 @@ class NeuralNetworkClassifier(
 
     def gradientDescent(count: Int): Unit = {
       // a simple implementation: http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
-      // check http://neuralnetworksanddeeplearning.com/chap2.html
+      // more profound explanation: http://neuralnetworksanddeeplearning.com/chap2.html
       val decayedAlpha: Double =
         if (alphaDecay == "step") alpha / Math.pow(2, Math.floor(count.toFloat / alphaHalflife))
         else if (alphaDecay == "exp") alpha * Math.exp(-1.0 * count / alphaHalflife)

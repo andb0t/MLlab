@@ -47,7 +47,7 @@ class PerceptronClassifier(alpha: Double = 1) extends Classifier {
         needMoreTraining = false
         breakable{
           for (idx <- 0 until X.length) {
-            // take random instance to avoid being trapped in two close instances
+            // take random instance to avoid being trapped between two too close instances
             val i: Int = (Math.random * X.length).toInt
             if (!isCorrect(X(i), y(i))) {
               println("Incorrect classification of instance " + i + ": " + X(i) + " true label " + y(i))
