@@ -3,6 +3,7 @@ package mllab
 import classifiers._
 import data._
 import evaluation._
+// import plot._
 import regressors._
 
 
@@ -16,11 +17,11 @@ object Mllab {
       val X_train = trainReader.getX()
       val y_train = trainReader.getY().map(_.toInt)
 
-      // val clf = new RandomClassifier()
+      val clf = new RandomClassifier()
       // val clf = new kNNClassifier(k=3)
       // val clf = new DecisionTreeClassifier(depth=3)
       // val clf = new PerceptronClassifier(alpha=1)
-      val clf = new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 4, 2))
+      // val clf = new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 4, 2))
       // val clf = new SVMClassifier()
       clf.train(X_train, y_train)
       // println("Check prediction on training set")
@@ -49,28 +50,29 @@ object Mllab {
 
       println("Visualize the data")
       trainReader.plot()
-
-
-      println("\n\nTry basic regressor functionality")
-
-      val trainReader_reg = new Reader("src/test/resources/train_reg.csv", label= -1, index=0)
-      trainReader_reg.loadFile()
-      val X_train_reg = trainReader_reg.getX()
-      val y_train_reg = trainReader_reg.getY()
-
-      val testReader_reg = new Reader("src/test/resources/test_reg.csv", label= -1, index=0)
-      testReader_reg.loadFile()
-      val X_test_reg = testReader_reg.getX()
-      val y_test_reg = testReader_reg.getY()
-
-      println("Test feature vector: " + X_train_reg.head + " with label " + y_train_reg.head)
-
-      // val reg = new RandomRegressor()
-      val reg = new LinearRegressor()
-      reg.train(X_train_reg, y_train_reg)
-      val y_pred_reg: List[Double] = reg.predict(X_test_reg)
-      for (i <- 0 until Math.min(y_pred_reg.length, 10)) {
-        println("Test instance " + i + ": " + X_test_reg(i) + " prediction %.2f  true value %.2f".format(y_pred_reg(i), y_test_reg(i)))
-      }
+      // Plot.plotThis()
+      //
+      //
+      // println("\n\nTry basic regressor functionality")
+      //
+      // val trainReader_reg = new Reader("src/test/resources/train_reg.csv", label= -1, index=0)
+      // trainReader_reg.loadFile()
+      // val X_train_reg = trainReader_reg.getX()
+      // val y_train_reg = trainReader_reg.getY()
+      //
+      // val testReader_reg = new Reader("src/test/resources/test_reg.csv", label= -1, index=0)
+      // testReader_reg.loadFile()
+      // val X_test_reg = testReader_reg.getX()
+      // val y_test_reg = testReader_reg.getY()
+      //
+      // println("Test feature vector: " + X_train_reg.head + " with label " + y_train_reg.head)
+      //
+      // // val reg = new RandomRegressor()
+      // val reg = new LinearRegressor()
+      // reg.train(X_train_reg, y_train_reg)
+      // val y_pred_reg: List[Double] = reg.predict(X_test_reg)
+      // for (i <- 0 until Math.min(y_pred_reg.length, 10)) {
+      //   println("Test instance " + i + ": " + X_test_reg(i) + " prediction %.2f  true value %.2f".format(y_pred_reg(i), y_test_reg(i)))
+      // }
   }
 }
