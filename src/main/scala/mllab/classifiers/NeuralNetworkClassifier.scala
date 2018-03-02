@@ -33,6 +33,7 @@ class NeuralNetworkClassifier(
     else if (activation == "identity") 0.01 * Z  // TODO: fix it: NaN in training if not scaled down
     else if (activation == "RELU") I(Z :> 0.0) *:* Z
     else if (activation == "leakyRELU") (I(Z :> 0.0) + 0.1 * I(Z :<= 0.0)) *:* Z
+    else if (activation == "perceptron") I(Z :> 0.0)
     else throw new Exception("activation function not implented")
 
   def derivActivate(A: DenseMatrix[Double]): DenseMatrix[Double] =
@@ -41,6 +42,7 @@ class NeuralNetworkClassifier(
     else if (activation == "identity") DenseMatrix.ones[Double](A.rows, A.cols)
     else if (activation == "RELU") I(A :> 0.0)
     else if (activation == "leakyRELU") I(A :> 0.0) + 0.1 * I(A :<= 0.0)
+    else if (activation == "perceptron") DenseMatrix.zeros[Double](A.rows, A.cols)
     else throw new Exception("activation function not implented")
 
   def probabilities(Z: DenseMatrix[Double]): DenseMatrix[Double] = {
@@ -88,7 +90,8 @@ class NeuralNetworkClassifier(
         else alpha
 
       if (count < maxEpoch) {
-        if (count % 100 == 0) println(s"- epoch $count: alpha %.2e, loss %.4e".format(decayedAlpha, getLoss(X, y)))
+        if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
+          println(s"- epoch $count: alpha %.2e, loss %.4e".format(decayedAlpha, getLoss(X, y)))
 
         val thisBatch: Seq[Int] =
           if (batchSize != -1)  Seq.fill(batchSize)(scala.util.Random.nextInt(X.rows))
