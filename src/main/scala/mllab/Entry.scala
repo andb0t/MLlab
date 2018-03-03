@@ -3,7 +3,7 @@ package mllab
 import classifiers._
 import data._
 import evaluation._
-// import plot._
+import plot._
 import regressors._
 
 
@@ -50,9 +50,9 @@ object Mllab {
 
       println("Visualize the data")
       trainReader.plot()
-      // Plot.plotThis()
-      //
-      //
+      Plot.plotThis()
+
+
       // println("\n\nTry basic regressor functionality")
       //
       // val trainReader_reg = new Reader("src/test/resources/train_reg.csv", label= -1, index=0)
