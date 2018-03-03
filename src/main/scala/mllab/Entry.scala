@@ -3,7 +3,7 @@ package mllab
 import classifiers._
 import data._
 import evaluation._
-import plot._
+import plotting._
 import regressors._
 
 
@@ -42,15 +42,15 @@ object Mllab {
       //   println("Test instance " + i + ": prediction " + y_pred(i) + " true value " + y_test(i))
       // }
 
+      println("Visualize the data")
+      trainReader.plot()
+      Plotting.plotData(X_train, y_train)
+
       println("Evaulate of the model")
       Evaluation.matrix(y_pred, y_test)
       println("Precision: %.2f".format(Evaluation.precision(y_pred, y_test)))
       println("Recall: %.2f".format(Evaluation.recall(y_pred, y_test)))
       println("f1: %.2f".format(Evaluation.f1(y_pred, y_test)))
-
-      println("Visualize the data")
-      trainReader.plot()
-      Plot.plotThis()
 
 
       // println("\n\nTry basic regressor functionality")
