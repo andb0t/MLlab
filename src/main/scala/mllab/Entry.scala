@@ -17,11 +17,11 @@ object Mllab {
       val X_train = trainReader.getX()
       val y_train = trainReader.getY().map(_.toInt)
 
-      val clf = new RandomClassifier()
+      // val clf = new RandomClassifier()
       // val clf = new kNNClassifier(k=3)
-      // val clf = new DecisionTreeClassifier(depth=3)
+      val clf = new DecisionTreeClassifier(depth=3)
       // val clf = new PerceptronClassifier(alpha=1)
-      // val clf = new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 4, 2))
+      // val clf = new NeuralNetworkClassifier(alpha=0.1, activation= "logistic", layers=List(2, 4, 2))
       // val clf = new SVMClassifier()
       clf.train(X_train, y_train)
       // println("Check prediction on training set")
@@ -45,6 +45,8 @@ object Mllab {
       println("Visualize the data")
       trainReader.plot()
       Plotting.plotData(X_train, y_train)
+      Plotting.plotClf(X_train, y_train, clf)
+      Plotting.plotGrid(X_train, clf)
 
       println("Evaulate of the model")
       Evaluation.matrix(y_pred, y_test)
