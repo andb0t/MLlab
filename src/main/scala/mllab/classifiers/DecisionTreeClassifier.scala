@@ -55,8 +55,6 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") exten
       if (!xThisNode.isEmpty) {
         for (iFeature <- 0 until nFeatures){
           var xThisFeature = xThisNode.map(_.apply(iFeature))
-          // println(x.take(10))
-          // println(y.take(10))
 
           var max: Double = xThisFeature.max
           var min: Double = xThisFeature.min
@@ -65,7 +63,6 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") exten
           var stepSize = (max - min) / (nSteps - 1)
           var purestStep: Double = 0
           var maxPurity: Double = Double.MinValue
-
 
           for (i <- 0 until nZooms) {
             for (i <- 0 until nSteps) {
