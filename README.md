@@ -17,7 +17,7 @@ This is a basic machine learning library.
 * linear regression
 
 ### Todo
-* SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf))
+* SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
 
 ## Installation
 
