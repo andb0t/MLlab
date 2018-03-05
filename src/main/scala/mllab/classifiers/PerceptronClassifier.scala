@@ -8,6 +8,8 @@ import utils._
 
 class PerceptronClassifier(alpha: Double = 1) extends Classifier {
 
+  val name: String = "PerceptronClassifier"
+
   var weight = new ListBuffer[Double]()
   var bias: Double = 0
 

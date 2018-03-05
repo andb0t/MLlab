@@ -5,6 +5,8 @@ import scala.collection.mutable.ListBuffer
 
 class kNNClassifier(k: Int = 3) extends Classifier {
 
+  val name: String = "kNNClassifier"
+
   var X_NN = new ListBuffer[List[Double]]()
   var y_NN = new ListBuffer[Int]()
 

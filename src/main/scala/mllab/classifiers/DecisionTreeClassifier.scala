@@ -6,6 +6,8 @@ import scala.util.control.Breaks._
 
 class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") extends Classifier {
 
+  val name: String = "DecisionTreeClassifier"
+
   var decisionTree = new DecisionTree(depth)
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {

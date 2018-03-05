@@ -16,10 +16,12 @@ object Plotting {
       val filteredData: List[List[Double]] = (data zip labels).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.')
+      p += plot(x, y, '.', name= "class " + category)
     }
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
+    p.legend = true
+    p.title = "Data"
     f.saveas(name)
   }
 
@@ -33,17 +35,19 @@ object Plotting {
       val filteredData: List[List[Double]] = (data zip predictions).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.')
+      p += plot(x, y, '.', name= "prediction " + category)
     }
 
     val wrong: List[Boolean] = (predictions zip labels).map{case (x, y) => x != y}
     val filteredData: List[List[Double]] = (data zip wrong).filter(_._2).map(_._1)
     val x: List[Double] = filteredData.map(e => e.head)
     val y: List[Double] = filteredData.map(e => e(1))
-    p += plot(x, y, '+', colorcode= "r")
+    p += plot(x, y, '+', colorcode= "r", name= "false prediction")
 
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
+    p.title = clf.name + " decisions"
+    p.legend = true
     f.saveas(name)
 
   }
@@ -76,23 +80,27 @@ object Plotting {
       val filteredData: List[List[Double]] = (gridData zip predictions).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.')
+      p += plot(x, y, '.', name= "class " + category)
     }
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
+    p.title = clf.name + " decision map"
+    p.legend = true
     f.saveas(name)
   }
 
-  def plotCurves(curves: List[List[(Double, Double)]], name: String = "curves.pdf"): Unit = {
+  def plotCurves(curves: List[List[(Double, Double)]], names: List[String]=Nil, name: String = "curves.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
     val x = linspace(0.0,1.0)
-    for (curve <- curves){
-      p += plot(curve.map(_._1), curve.map(_._2))
+    for (i <- 0 until curves.length){
+      val curve = curves(i)
+      if (i < names.length) p += plot(curve.map(_._1), curve.map(_._2), name=names(i))
+      else p += plot(curve.map(_._1), curve.map(_._2))
     }
-    p.xlabel = "x axis"
-    p.ylabel = "y axis"
+    p.xlabel = "Training epoch"
+    p.legend = true
     f.saveas(name)
   }
 }

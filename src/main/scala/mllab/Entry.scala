@@ -56,7 +56,8 @@ object Mllab {
       val mDiag = clf.diagnostics
       Plotting.plotCurves(
         List(mDiag.getOrElse("loss", List((0.0, 0.0))),
-        mDiag.getOrElse("alpha", List((0.0, 0.0))))
+        mDiag.getOrElse("alpha", List((0.0, 0.0)))),
+        List("loss", "alpha")
       )
 
       // println("\n\nTry basic regressor functionality")

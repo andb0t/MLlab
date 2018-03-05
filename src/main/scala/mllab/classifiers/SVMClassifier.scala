@@ -5,6 +5,8 @@ import scala.collection.mutable.ListBuffer
 
 class SVMClassifier() extends Classifier {
 
+  val name: String = "SVMClassifier"
+
   def train(X: List[List[Double]], y: List[Int]): Unit =
     require(X.length == y.length, "number of training instances and labels is not equal")
 
