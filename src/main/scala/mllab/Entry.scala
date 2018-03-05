@@ -49,11 +49,15 @@ object Mllab {
       println("f1: %.2f".format(Evaluation.f1(y_pred, y_test)))
 
       println("Visualize the data")
-      trainReader.plot()
       Plotting.plotData(X_train, y_train)
       Plotting.plotClf(X_train, y_train, clf)
       Plotting.plotGrid(X_train, clf)
 
+      val mDiag = clf.diagnostics
+      Plotting.plotCurves(
+        List(mDiag.getOrElse("loss", List((0.0, 0.0))),
+        mDiag.getOrElse("alpha", List((0.0, 0.0))))
+      )
 
       // println("\n\nTry basic regressor functionality")
       //

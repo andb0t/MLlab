@@ -31,7 +31,4 @@ class Reader(val fileName: String, val label: Int = -1, val index: Int = -1) {
     if (label != -1) data.getData(only=label).head
     else data.getData(only=nColumns -1).head
 
-  def plot(figName: String="data.png"): Unit = {
-    println("Plot the dataset to " + figName)
-  }
 }

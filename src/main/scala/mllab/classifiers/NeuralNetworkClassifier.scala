@@ -1,5 +1,7 @@
 package classifiers
 
+import scala.collection.mutable.ListBuffer
+
 import breeze.linalg._
 import breeze.numerics._
 
@@ -22,6 +24,9 @@ class NeuralNetworkClassifier(
 
   val W = for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))
   val b = for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))
+
+  var lossEvolution = new ListBuffer[(Double, Double)]()
+  var alphaEvolution = new ListBuffer[(Double, Double)]()
 
   def neuronTrafo(X: DenseMatrix[Double], W: DenseMatrix[Double], b: DenseVector[Double]): DenseMatrix[Double] =
     X * W + DenseVector.ones[Double](X.rows) * b.t
@@ -88,9 +93,14 @@ class NeuralNetworkClassifier(
         else if (alphaDecay == "exp") alpha * Math.exp(-1.0 * count / alphaHalflife)
         else alpha
 
+      alphaEvolution += Tuple2(decayedAlpha, count.toDouble)
+
       if (count < maxEpoch) {
-        if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
-          println(s"- epoch $count: alpha %.2e, loss %.4e".format(decayedAlpha, getLoss(X, y)))
+        if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5)) {
+          val loss = getLoss(X, y)
+          lossEvolution += Tuple2(loss, count.toDouble)
+          println(s"- epoch $count: alpha %.2e, loss %.4e".format(decayedAlpha, loss))
+        }
 
         val thisBatch: Seq[Int] =
           if (batchSize != -1)  Seq.fill(batchSize)(scala.util.Random.nextInt(X.rows))
@@ -157,7 +167,11 @@ class NeuralNetworkClassifier(
 
 
         gradientDescent(count + 1)
-      }else println(s"Training finished after $count epochs with loss " + getLoss(X, y))
+      }else {
+        val loss = getLoss(X, y)
+        lossEvolution += Tuple2(loss, count.toDouble)
+        println(s"Training finished after $count epochs with loss " + loss)
+      }
     }
 
     gradientDescent(0)
@@ -169,6 +183,12 @@ class NeuralNetworkClassifier(
     val output = feedForward(X)
     val prediction: DenseVector[Int] = argmax(output(*, ::))
     (for (i <- 0 until prediction.size) yield prediction(i)).toList
+  }
+
+  override def diagnostics(): Map[String, List[(Double, Double)]] = {
+    Map("loss" -> lossEvolution.toList,
+        "alpha" -> alphaEvolution.toList
+      )
   }
 
 }

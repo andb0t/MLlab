@@ -82,4 +82,8 @@ object Plotting {
     p.ylabel = "Feature 1"
     f.saveas(name)
   }
+
+  def plotCurves(curves: List[List[(Double, Double)]]): Unit = {
+    println(curves.mkString("\n"))
+  }
 }
