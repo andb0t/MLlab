@@ -17,16 +17,18 @@ object Mllab {
       val X_train = trainReader.getX()
       val y_train = trainReader.getY().map(_.toInt)
 
-      // val clf = new RandomClassifier()
-      // val clf = new kNNClassifier(k=3)
-      // val clf = new DecisionTreeClassifier(depth=3)
-      // val clf = new PerceptronClassifier(alpha=1)
-      val clf = new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
-      // val clf = new SVMClassifier()
+      val clf =
+        if (args.length == 0 || args(0) == "Random") new RandomClassifier()
+        else if (args(0) == "kNN") new kNNClassifier(k=3)
+        else if (args(0) == "DecisionTree") new DecisionTreeClassifier(depth=3)
+        else if (args(0) == "Perceptron") new PerceptronClassifier(alpha=1)
+        else if (args(0) == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
+        else if (args(0) == "SVM") new SVMClassifier()
+        else throw new IllegalArgumentException("algorithm not implemented.")
       clf.train(X_train, y_train)
+
       // println("Check prediction on training set")
       // clf.predict(X_train)
-
 
       println{"Apply to test set"}
       val testReader = new Reader("src/test/resources/test_clf.csv", label=3, index=0)

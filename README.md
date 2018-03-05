@@ -36,7 +36,7 @@ sudo apt-get install sbt
 ```shell
 cd mllab
 sbt
-[~]run  # compile and run the app, use ~ for automatic updates and recompilation
+[~]run [NameOfAlgorithm]  # compile and run the app, use ~ for automatic updates and recompilation
 test  # compile and execute tests  
 compile  # only compile the app
 console  # start scala console for this project
@@ -47,6 +47,10 @@ console  # start scala console for this project
 Create and alter test data with this script:
 ```bash
 python3 src/test/resources/create_data.py train test --reg
+```
+Run compiled jar from python
+```bash
+python examples/run_jar.py
 ```
 
 ## Development
