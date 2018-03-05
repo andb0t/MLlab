@@ -54,11 +54,8 @@ object Mllab {
       Plotting.plotGrid(X_train, clf)
 
       val mDiag = clf.diagnostics
-      Plotting.plotCurves(
-        List(mDiag.getOrElse("loss", List((0.0, 0.0))),
-        mDiag.getOrElse("alpha", List((0.0, 0.0)))),
-        List("loss", "alpha")
-      )
+      Plotting.plotCurves(List(mDiag.getOrElse("loss", List((0.0, 0.0)))), List("loss"), name= "loss.pdf")
+      Plotting.plotCurves(List(mDiag.getOrElse("alpha", List((0.0, 0.0)))), List("alpha"), name= "alpha.pdf")
 
       // println("\n\nTry basic regressor functionality")
       //

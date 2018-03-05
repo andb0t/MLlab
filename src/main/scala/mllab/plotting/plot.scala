@@ -99,8 +99,9 @@ object Plotting {
       if (i < names.length) p += plot(curve.map(_._1), curve.map(_._2), name=names(i))
       else p += plot(curve.map(_._1), curve.map(_._2))
     }
-    p.xlabel = "Training epoch"
-    p.legend = true
+    p.xlabel = "training epoch"
+    if (curves.length == 1) p.ylabel = names.head
+    else p.legend = true
     f.saveas(name)
   }
 }
