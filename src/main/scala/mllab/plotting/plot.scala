@@ -16,7 +16,7 @@ object Plotting {
       val filteredData: List[List[Double]] = (data zip labels).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', name= "class " + category)
+      p += plot(x, y, '.', name= "feature " + category)
     }
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
@@ -44,8 +44,8 @@ object Plotting {
     val y: List[Double] = filteredData.map(e => e(1))
     p += plot(x, y, '+', colorcode= "r", name= "false prediction")
 
-    p.xlabel = "Feature 0"
-    p.ylabel = "Feature 1"
+    p.xlabel = "feature 0"
+    p.ylabel = "feature 1"
     p.title = clf.name + " decisions"
     p.legend = true
     f.saveas(name)
@@ -80,10 +80,10 @@ object Plotting {
       val filteredData: List[List[Double]] = (gridData zip predictions).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', name= "class " + category)
+      p += plot(x, y, '.', name= "feature " + category)
     }
-    p.xlabel = "Feature 0"
-    p.ylabel = "Feature 1"
+    p.xlabel = "feature 0"
+    p.ylabel = "feature 1"
     p.title = clf.name + " decision map"
     p.legend = true
     f.saveas(name)
@@ -101,7 +101,28 @@ object Plotting {
     }
     p.xlabel = "training epoch"
     if (curves.length == 1) p.ylabel = names.head
-    else p.legend = true
+    p.legend = curves.length != 1
+    f.saveas(name)
+  }
+
+  def plotRegData(data: List[List[Double]], labels: List[Double], name: String="plot.pdf"): Unit = {
+    val f = Figure()
+    f.visible= false
+    val p = f.subplot(0)
+
+    val dataPerFeature = data.transpose
+
+    for (i <- 0 until dataPerFeature.length){
+      val x = dataPerFeature(i)
+      if (data.head.length == 1) p += plot(x, labels, '.')
+      else p += plot(x, labels, '.', name= "feature " + i)
+    }
+
+    p.ylabel = "Label"
+    if (data.head.length == 1) p.xlabel = "feature 0"
+    p.legend = (data.head.length != 1)
+    p.title = "Data"
+
     f.saveas(name)
   }
 }

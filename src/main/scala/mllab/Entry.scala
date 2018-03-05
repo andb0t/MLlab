@@ -93,7 +93,7 @@ object Mllab {
       }
 
       println("Visualize the data")
-      // Plotting.plotRegData(X_train, y_train)
+      Plotting.plotRegData(X_train, y_train)
     }
   }
 }
