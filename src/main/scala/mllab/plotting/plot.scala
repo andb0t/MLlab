@@ -83,7 +83,16 @@ object Plotting {
     f.saveas(name)
   }
 
-  def plotCurves(curves: List[List[(Double, Double)]]): Unit = {
-    println(curves.mkString("\n"))
+  def plotCurves(curves: List[List[(Double, Double)]], name: String = "curves.pdf"): Unit = {
+    val f = Figure()
+    f.visible= false
+    val p = f.subplot(0)
+    val x = linspace(0.0,1.0)
+    for (curve <- curves){
+      p += plot(curve.map(_._1), curve.map(_._2))
+    }
+    p.xlabel = "x axis"
+    p.ylabel = "y axis"
+    f.saveas(name)
   }
 }

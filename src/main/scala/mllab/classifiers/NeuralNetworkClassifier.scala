@@ -93,12 +93,12 @@ class NeuralNetworkClassifier(
         else if (alphaDecay == "exp") alpha * Math.exp(-1.0 * count / alphaHalflife)
         else alpha
 
-      alphaEvolution += Tuple2(decayedAlpha, count.toDouble)
+      alphaEvolution += Tuple2(count.toDouble, decayedAlpha)
 
       if (count < maxEpoch) {
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5)) {
           val loss = getLoss(X, y)
-          lossEvolution += Tuple2(loss, count.toDouble)
+          lossEvolution += Tuple2(count.toDouble, loss)
           println(s"- epoch $count: alpha %.2e, loss %.4e".format(decayedAlpha, loss))
         }
 
@@ -169,7 +169,7 @@ class NeuralNetworkClassifier(
         gradientDescent(count + 1)
       }else {
         val loss = getLoss(X, y)
-        lossEvolution += Tuple2(loss, count.toDouble)
+        lossEvolution += Tuple2(count.toDouble, loss)
         println(s"Training finished after $count epochs with loss " + loss)
       }
     }
