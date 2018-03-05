@@ -36,7 +36,7 @@ sudo apt-get install sbt
 ```shell
 cd mllab
 sbt
-[~]run [NameOfAlgorithm]  # compile and run the app, use ~ for automatic updates and recompilation
+[~]run [clf, reg] [NameOfAlgorithm]  # compile and run the app, use ~ for automatic updates and recompilation
 test  # compile and execute tests  
 compile  # only compile the app
 console  # start scala console for this project

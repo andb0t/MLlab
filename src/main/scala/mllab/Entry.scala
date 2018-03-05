@@ -9,8 +9,14 @@ import regressors._
 
 object Mllab {
   def main(args: Array[String]): Unit = {
-      println("Execute MLlab!")
+    println("Execute MLlab!")
 
+    val task =
+      if (args.length == 0 || args(0) == "clf") "clf"
+      else if (args(0) == "reg") "reg"
+      else throw new IllegalArgumentException("task not implemented. Chose 'clf' or 'reg'")
+
+    if (task == "clf") {
       println{"Train the model"}
       val trainReader = new Reader("src/test/resources/train_clf.csv", label=3, index=0)
       trainReader.loadFile()
@@ -18,12 +24,12 @@ object Mllab {
       val y_train = trainReader.getY().map(_.toInt)
 
       val clf =
-        if (args.length == 0 || args(0) == "Random") new RandomClassifier()
-        else if (args(0) == "kNN") new kNNClassifier(k=3)
-        else if (args(0) == "DecisionTree") new DecisionTreeClassifier(depth=3)
-        else if (args(0) == "Perceptron") new PerceptronClassifier(alpha=1)
-        else if (args(0) == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
-        else if (args(0) == "SVM") new SVMClassifier()
+        if (args.length <= 1 || args(1) == "Random") new RandomClassifier()
+        else if (args(1) == "kNN") new kNNClassifier(k=3)
+        else if (args(1) == "DecisionTree") new DecisionTreeClassifier(depth=3)
+        else if (args(1) == "Perceptron") new PerceptronClassifier(alpha=1)
+        else if (args(1) == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
+        else if (args(1) == "SVM") new SVMClassifier()
         else throw new IllegalArgumentException("algorithm not implemented.")
       clf.train(X_train, y_train)
 
@@ -59,26 +65,35 @@ object Mllab {
       Plotting.plotCurves(List(mDiag.getOrElse("loss", List((0.0, 0.0)))), List("loss"), name= "loss.pdf")
       Plotting.plotCurves(List(mDiag.getOrElse("alpha", List((0.0, 0.0)))), List("alpha"), name= "alpha.pdf")
 
-      // println("\n\nTry basic regressor functionality")
-      //
-      // val trainReader_reg = new Reader("src/test/resources/train_reg.csv", label= -1, index=0)
-      // trainReader_reg.loadFile()
-      // val X_train_reg = trainReader_reg.getX()
-      // val y_train_reg = trainReader_reg.getY()
-      //
-      // val testReader_reg = new Reader("src/test/resources/test_reg.csv", label= -1, index=0)
-      // testReader_reg.loadFile()
-      // val X_test_reg = testReader_reg.getX()
-      // val y_test_reg = testReader_reg.getY()
-      //
-      // println("Test feature vector: " + X_train_reg.head + " with label " + y_train_reg.head)
-      //
-      // // val reg = new RandomRegressor()
-      // val reg = new LinearRegressor()
-      // reg.train(X_train_reg, y_train_reg)
-      // val y_pred_reg: List[Double] = reg.predict(X_test_reg)
-      // for (i <- 0 until Math.min(y_pred_reg.length, 10)) {
-      //   println("Test instance " + i + ": " + X_test_reg(i) + " prediction %.2f  true value %.2f".format(y_pred_reg(i), y_test_reg(i)))
-      // }
+    }
+    else if (task == "reg") {
+      println("\n\nTry basic regressor functionality")
+
+      val trainReader = new Reader("src/test/resources/train_reg.csv", label= -1, index=0)
+      trainReader.loadFile()
+      val X_train = trainReader.getX()
+      val y_train = trainReader.getY()
+
+      val testReader = new Reader("src/test/resources/test_reg.csv", label= -1, index=0)
+      testReader.loadFile()
+      val X_test = testReader.getX()
+      val y_test = testReader.getY()
+
+      println("Test feature vector: " + X_train.head + " with label " + y_train.head)
+
+      val reg =
+        if (args.length <= 1 || args(1) == "Random") new RandomRegressor()
+        else if (args(1) == "Linear") new LinearRegressor()
+        else throw new IllegalArgumentException("algorithm not implemented.")
+      reg.train(X_train, y_train)
+
+      val y_pred: List[Double] = reg.predict(X_test)
+      for (i <- 0 until Math.min(y_pred.length, 10)) {
+        println("Test instance " + i + ": " + X_test(i) + " prediction %.2f  true value %.2f".format(y_pred(i), y_test(i)))
+      }
+
+      println("Visualize the data")
+      // Plotting.plotRegData(X_train, y_train)
+    }
   }
 }
