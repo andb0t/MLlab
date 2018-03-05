@@ -5,6 +5,8 @@ import scala.collection.mutable.ListBuffer
 
 class RandomRegressor() extends Regressor {
 
+  val name: String = "RandomRegressor"
+
   def train(X: List[List[Double]], y: List[Double]): Unit =
     require(X.length == y.length, "both arguments must have the same length")
 

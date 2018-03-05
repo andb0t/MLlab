@@ -8,6 +8,8 @@ import utils._
 
 class LinearRegressor() extends Regressor {
 
+  val name: String = "LinearRegressor"
+
   var weight = new ListBuffer[Double]()
   var bias: Double = 0
 
