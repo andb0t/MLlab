@@ -45,23 +45,41 @@ for command in args.command:
                     label = random.randint(0, 1)
                     x = 0
                     y = 0
-                    strategy = 'diagonal'
+                    strategy = 'circles'
                     if strategy == 'halfs':
                         x = -random.random() if label is 0 else random.random()
                         y = 2 * random.random() - 1
                     elif strategy == 'quarters':
                         x = 2 * random.random() - 1
-                        y = (1 if label == 1 else -1) * sign(x) * random.random()
+                        y = 2 * random.random() - 1
+                        label = 0 if x * y > 0 else 1
                     elif strategy == 'diagonal':
                         x = 2 * random.random() - 1
-                        if label == 1:
-                            y = x + random.random() * (1 - x)
-                        else:
-                            y = random.random() * (1 + x) - 1
+                        y = 2 * random.random() - 1
+                        label = 0 if x - y > 0 else 1
                     elif strategy == 'circle':
                         x = 2 * random.random() - 1
                         y = 2 * random.random() - 1
                         label = 1 if math.sqrt(x**2 + y**2) < 0.5 else 0
+                    elif strategy == 'ellipse':
+                        x = 2 * random.random() - 1
+                        y = 2 * random.random() - 1
+                        xCenter = x - 0.2
+                        yCenter = y + 0.3
+                        rx = 0.75
+                        ry = 0.5
+                        label = 1 if math.sqrt((xCenter/rx)**2 + (yCenter/ry)**2) < 1 else 0
+                    elif strategy == 'circles':
+                        x = 2 * random.random() - 1
+                        y = 2 * random.random() - 1
+                        d = 0.5
+                        r = 0.25
+                        partOfCircle = \
+                            math.sqrt((x-d)**2 + (y-d)**2) < r or \
+                            math.sqrt((x+d)**2 + (y+d)**2) < r or \
+                            math.sqrt((x-d)**2 + (y+d)**2) < r or \
+                            math.sqrt((x+d)**2 + (y-d)**2) < r
+                        label = 1 if partOfCircle else 0
                     x = round(x, 2)
                     y = round(y, 2)
                     print('{} {} {} {}'.format(i, x, y, label), file=myfile)
