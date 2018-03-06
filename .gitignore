@@ -4,3 +4,6 @@
 
 # scala
 target/
+
+# linter-scalac
+.classpath
