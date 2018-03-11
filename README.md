@@ -18,6 +18,8 @@ This is a basic machine learning library.
 
 ### Todo
 * SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
+* logistic regression/classification
+* naive bayesian regression/classification
 
 ## Installation
 
