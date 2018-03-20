@@ -6,7 +6,7 @@ import evaluation._
 import utils._
 
 
-class LogisticRegressionClassifier() extends Classifier {
+class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIter: Int = 1000) extends Classifier {
 
   val name: String = "LogisticRegressionClassifier"
 
@@ -33,7 +33,6 @@ class LogisticRegressionClassifier() extends Classifier {
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
-    val alpha: Double = 1
     for (i <- 0 until X.head.length)
       weight += 0
     bias = 0
@@ -41,7 +40,7 @@ class LogisticRegressionClassifier() extends Classifier {
     def updateWeights(count: Int): Unit = {
       val loss = Evaluation.LogLoss(getProbabilities(X), y)
       lossEvolution += Tuple2(count.toDouble, loss)
-      if (loss > 0.01 && count < 1000) {
+      if (loss > tol && count < maxIter) {
         val weightUpdate = lossGradient(X, y).map(_ * alpha)
         // println(s"$count. Step with loss $loss:")
         // println(" - current log loss: %.3f".format(loss))
