@@ -6,22 +6,23 @@ This is a basic machine learning library.
 ## Implemented algorithms
 
 ### Classification
-[x] random
-[x] k-nearest neigbours
-[x] decision tree
-[x] perceptron
-[x] multilayer neural network
-[ ] logistic regression
-[ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
-[ ] naive bayesian classification
+- [x] random
+- [x] k-nearest neigbours
+- [x] decision tree
+- [x] perceptron
+- [x] multilayer neural network
+- [ ] logistic regression
+- [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
+- [ ] naive bayesian classification
 
 ### Regression
-[x] random
-[x] linear regression
-[ ] naive bayesian regression
+- [x] random
+- [x] linear regression
+- [ ] naive bayesian regression
 
 
 ## Installation
+Follow the steps below to install MLlab on your machine.
 
 ### Set up sbt
 This app uses [sbt](https://www.scala-sbt.org/index.html) as build tool.
