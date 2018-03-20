@@ -30,6 +30,7 @@ object Mllab {
         else if (args(1) == "Perceptron") new PerceptronClassifier(alpha=1)
         else if (args(1) == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
         else if (args(1) == "SVM") new SVMClassifier()
+        else if (args(1) == "LogisticRegression") new LogisticRegressionClassifier()
         else throw new IllegalArgumentException("algorithm not implemented.")
       clf.train(X_train, y_train)
 
