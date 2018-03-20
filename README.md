@@ -6,20 +6,20 @@ This is a basic machine learning library.
 ## Implemented algorithms
 
 ### Classification
-* random
-* k-nearest neigbours
-* decision tree
-* perceptron
-* multilayer neural network
+[x] random
+[x] k-nearest neigbours
+[x] decision tree
+[x] perceptron
+[x] multilayer neural network
+[ ] logistic regression
+[ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
+[ ] naive bayesian classification
 
 ### Regression
-* random
-* linear regression
+[x] random
+[x] linear regression
+[ ] naive bayesian regression
 
-### Todo
-* SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
-* logistic regression/classification
-* naive bayesian regression/classification
 
 ## Installation
 
