@@ -6,7 +6,7 @@ import evaluation._
 import utils._
 
 
-class LinearRegressor() extends Regressor {
+class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 1000) extends Regressor {
 
   val name: String = "LinearRegressor"
 
@@ -23,14 +23,13 @@ class LinearRegressor() extends Regressor {
 
   def train(X: List[List[Double]], y: List[Double]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
-    val alpha: Double = 1
     for (i <- 0 until X.head.length)
       weight += 0
     bias = 0
 
     def updateWeights(count: Int): Unit = {
       val scaleIndependentLoss = Evaluation.MSE(predict(X), y)
-      if (scaleIndependentLoss > 0.001 && count < 1000) {
+      if (scaleIndependentLoss > tol && count < maxIter) {
         val weightUpdate = lossGradient(X, y).map(_ * alpha)
         // println(s"$count. Step with loss: %.3f".format(scaleIndependentLoss))
         // println(" - current MSE: " + scaleIndependentLoss)
