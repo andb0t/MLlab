@@ -11,7 +11,7 @@ This is a basic machine learning library.
 - [x] decision tree
 - [x] perceptron
 - [x] multilayer neural network
-- [ ] logistic regression
+- [x] logistic regression
 - [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
 - [ ] naive Bayesian classification
 
