@@ -37,4 +37,7 @@ object Evaluation{
   def MSE(y_pred: List[Double], y_true: List[Double]): Double =
     (y_pred zip y_true).map{case (x, y) => Math.pow(x - y, 2)}.sum / y_true.length
 
+  def LogLoss(p_pred: List[Double], y_true: List[Int]): Double =
+    - (p_pred zip y_true).map{case (p, y) => y * Math.log(p) + (1 - y) * Math.log(1 - p)}.sum / y_true.length
+
 }
