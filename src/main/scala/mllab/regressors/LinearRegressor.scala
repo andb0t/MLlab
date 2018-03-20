@@ -22,8 +22,8 @@ class LinearRegressor() extends Regressor {
   }
 
   def train(X: List[List[Double]], y: List[Double]): Unit = {
-    val alpha: Double = 1
     require(X.length == y.length, "both arguments must have the same length")
+    val alpha: Double = 1
     for (i <- 0 until X.head.length)
       weight += 0
     bias = 0
@@ -32,7 +32,7 @@ class LinearRegressor() extends Regressor {
       val scaleIndependentLoss = Evaluation.MSE(predict(X), y)
       if (scaleIndependentLoss > 0.001 && count < 1000) {
         val weightUpdate = lossGradient(X, y).map(_ * alpha)
-        // println(s"$count. Step with loss $scaleIndependentLoss:")
+        // println(s"$count. Step with loss: %.3f".format(scaleIndependentLoss))
         // println(" - current MSE: " + scaleIndependentLoss)
         // println(" - current weight " + weight + " bias " + bias)
         // println(" - weightUpdate " + weightUpdate)
@@ -41,7 +41,7 @@ class LinearRegressor() extends Regressor {
           weight(i) = weight(i) - weightUpdate(i + 1)
         updateWeights(count + 1)
       } else{
-        println(s"Final values after $count steps at loss $scaleIndependentLoss:")
+        println(s"Final values after $count steps at loss %.3f:".format(scaleIndependentLoss))
         println("weight: " + weight + " bias: " + bias)
       }
     }
