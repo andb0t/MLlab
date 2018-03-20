@@ -8,7 +8,7 @@ import breeze.plot._
 
 object Plotting {
 
-  def plotData(data: List[List[Double]], labels: List[Int], name: String="plot.pdf"): Unit = {
+  def plotData(data: List[List[Double]], labels: List[Int], name: String="plots/plot.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
@@ -25,7 +25,7 @@ object Plotting {
     f.saveas(name)
   }
 
-  def plotClf(data: List[List[Double]], labels: List[Int], clf: Classifier, name: String="clf.pdf"): Unit = {
+  def plotClf(data: List[List[Double]], labels: List[Int], clf: Classifier, name: String="plots/clf.pdf"): Unit = {
     val predictions = clf.predict(data)
     val f = Figure()
     f.visible= false
@@ -52,7 +52,7 @@ object Plotting {
 
   }
 
-  def plotGrid(data: List[List[Double]], clf: Classifier, name: String="grid.pdf"): Unit = {
+  def plotGrid(data: List[List[Double]], clf: Classifier, name: String="plots/grid.pdf"): Unit = {
 
     def createGrid(xMin: Double, xMax: Double, yMin: Double, yMax: Double): List[List[Double]] = {
       val granularity: Int = 100
@@ -89,7 +89,7 @@ object Plotting {
     f.saveas(name)
   }
 
-  def plotCurves(curves: List[List[(Double, Double)]], names: List[String]=Nil, name: String = "curves.pdf"): Unit = {
+  def plotCurves(curves: List[List[(Double, Double)]], names: List[String]=Nil, name: String = "plots/curves.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
@@ -105,7 +105,7 @@ object Plotting {
     f.saveas(name)
   }
 
-  def plotRegData(data: List[List[Double]], labels: List[Double], name: String="plot.pdf"): Unit = {
+  def plotRegData(data: List[List[Double]], labels: List[Double], name: String="plots/plot.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
