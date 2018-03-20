@@ -13,12 +13,12 @@ This is a basic machine learning library.
 - [x] multilayer neural network
 - [ ] logistic regression
 - [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
-- [ ] naive bayesian classification
+- [ ] naive Bayesian classification
 
 ### Regression
 - [x] random
 - [x] linear regression
-- [ ] naive bayesian regression
+- [ ] naive Bayesian regression
 
 
 ## Installation
