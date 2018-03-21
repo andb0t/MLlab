@@ -17,7 +17,7 @@ parser.add_argument("--reg",
 
 args = parser.parse_args()
 
-TARGET_DIR = os.path.join(os.path.dirname(__file__), '../src/test/resources')
+TARGET_DIR = os.path.join(os.path.dirname(__file__), '../data')
 
 sign = functools.partial(math.copysign, 1)
 
@@ -108,7 +108,7 @@ if args.clf is not None:
     random.seed(1337)
     for command in ['train', 'test']:
 
-        filename = os.path.join(TARGET_DIR, 'clf_' + args.clf + '_' + command + '.csv')
+        filename = os.path.join(TARGET_DIR, 'clf_' + command + '.csv')
         print('Creating data in', filename)
         print('Shape:', args.clf)
         print('Example:', next(generate_clf_point(args.clf)))
@@ -126,7 +126,7 @@ if args.reg is not None:
     random.seed(1337)
     for command in ['train', 'test']:
 
-        filename = os.path.join(TARGET_DIR, 'reg_' + args.reg + '_' + command + '.csv')
+        filename = os.path.join(TARGET_DIR, 'reg_' + command + '.csv')
         print('Creating data in', filename)
         print('Shape:', args.reg)
         print('Example:', next(generate_reg_point(args.reg)))

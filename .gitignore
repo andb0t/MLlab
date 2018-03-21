@@ -1,6 +1,7 @@
 # project
 plots/*.pdf
 plots/*.png
+data/*.csv
 
 # scala
 target/

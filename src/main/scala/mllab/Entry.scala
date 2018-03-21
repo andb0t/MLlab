@@ -8,36 +8,52 @@ import regressors._
 
 
 object Mllab {
+  def parse(args: Array[String]): Map[String, String]= {
+    val task =
+      if (args.length == 0) "clf"
+      else args(0)
+
+    val algo =
+      if (args.length <= 1) "Random"
+      else args(1)
+
+    val input =
+      if (args.length <= 2) "src/test/resources"
+      else args(2)
+
+    Map("task" -> task, "algo" -> algo, "input" -> input)
+  }
+
   def main(args: Array[String]): Unit = {
     println("Execute MLlab!")
 
-    val task =
-      if (args.length == 0 || args(0) == "clf") "clf"
-      else if (args(0) == "reg") "reg"
-      else throw new IllegalArgumentException("task not implemented. Chose 'clf' or 'reg'")
+    val argMap = parse(args)
+    val task = argMap("task")
+    val algo = argMap("algo")
+    val input = argMap("input")
 
     if (task == "clf") {
       println{"Train the model"}
 
-      val trainReader = new Reader("src/test/resources/clf_train.csv", label=3, index=0)
+      val trainReader = new Reader(input + "/clf_train.csv", label=3, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY().map(_.toInt)
 
-      val testReader = new Reader("src/test/resources/clf_test.csv", label=3, index=0)
+      val testReader = new Reader(input + "/clf_test.csv", label=3, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY().map(_.toInt)
 
       val clf =
-        if (args.length <= 1 || args(1) == "Random") new RandomClassifier()
-        else if (args(1) == "kNN") new kNNClassifier(k=3)
-        else if (args(1) == "DecisionTree") new DecisionTreeClassifier(depth=3)
-        else if (args(1) == "Perceptron") new PerceptronClassifier(alpha=1)
-        else if (args(1) == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
-        else if (args(1) == "SVM") new SVMClassifier()
-        else if (args(1) == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=2000)
-        else throw new IllegalArgumentException("algorithm not implemented.")
+        if (algo == "Random") new RandomClassifier()
+        else if (algo == "kNN") new kNNClassifier(k=3)
+        else if (algo == "DecisionTree") new DecisionTreeClassifier(depth=3)
+        else if (algo == "Perceptron") new PerceptronClassifier(alpha=1)
+        else if (algo == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
+        else if (algo == "SVM") new SVMClassifier()
+        else if (algo == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=2000)
+        else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
       clf.train(X_train, y_train)
 
       // println("Check prediction on training set")
@@ -72,12 +88,12 @@ object Mllab {
     else if (task == "reg") {
       println("\n\nTry basic regressor functionality")
 
-      val trainReader = new Reader("src/test/resources/reg_train.csv", label= -1, index=0)
+      val trainReader = new Reader(input + "/reg_train.csv", label= -1, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
 
-      val testReader = new Reader("src/test/resources/reg_test.csv", label= -1, index=0)
+      val testReader = new Reader(input + "/reg_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY()
@@ -85,9 +101,9 @@ object Mllab {
       println("Test feature vector: " + X_train.head + " with label " + y_train.head)
 
       val reg =
-        if (args.length <= 1 || args(1) == "Random") new RandomRegressor()
-        else if (args(1) == "Linear") new LinearRegressor()
-        else throw new IllegalArgumentException("algorithm not implemented.")
+        if (algo == "Random") new RandomRegressor()
+        else if (algo == "Linear") new LinearRegressor()
+        else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
       reg.train(X_train, y_train)
 
       val y_pred: List[Double] = reg.predict(X_test)
@@ -98,5 +114,6 @@ object Mllab {
       println("Visualize the data")
       Plotting.plotRegData(X_train, y_train)
     }
+    else throw new IllegalArgumentException("task " + task + " not implemented. Chose 'clf' or 'reg'.")
   }
 }
