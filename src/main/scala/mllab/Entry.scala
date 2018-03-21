@@ -52,7 +52,7 @@ object Mllab {
         else if (algo == "Perceptron") new PerceptronClassifier(alpha=1)
         else if (algo == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
         else if (algo == "SVM") new SVMClassifier()
-        else if (algo == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=2000)
+        else if (algo == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=1000)
         else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
       clf.train(X_train, y_train)
 
@@ -100,7 +100,7 @@ object Mllab {
 
       val reg =
         if (algo == "Random") new RandomRegressor()
-        else if (algo == "Linear") new LinearRegressor()
+        else if (algo == "Linear") new LinearRegressor(maxIter=100)
         else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
       reg.train(X_train, y_train)
 
