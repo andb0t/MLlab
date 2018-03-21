@@ -3,7 +3,6 @@ import functools
 import math
 import os
 import random
-import sys
 
 
 parser = argparse.ArgumentParser()
