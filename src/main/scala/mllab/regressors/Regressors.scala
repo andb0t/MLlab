@@ -24,4 +24,12 @@ abstract class Regressor() {
    * @return List of predictions
    */
   def predict(X: List[List[Double]]): List[Double]
+
+  /**
+   * Provides meta-information on the regressor
+   * @return Map object of metric names and metric values
+   */
+  def diagnostics(): Map[String, List[(Double, Double)]] = {
+    Map()
+  }
 }

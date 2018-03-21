@@ -81,7 +81,7 @@ object Mllab {
       Plotting.plotGrid(X_train, clf)
 
       for (diag <- clf.diagnostics)
-        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/" + diag._1 + ".pdf")
+        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/clf_" + algo + "_" + diag._1 + ".pdf")
     }
     else if (task == "reg") {
       println("\n\nTry basic regressor functionality")
@@ -111,6 +111,9 @@ object Mllab {
 
       println("Visualize the data")
       Plotting.plotRegData(X_train, y_train)
+
+      for (diag <- reg.diagnostics)
+        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/reg_" + algo + "_" + diag._1 + ".pdf")
     }
     else throw new IllegalArgumentException("task " + task + " not implemented. Chose 'clf' or 'reg'.")
   }
