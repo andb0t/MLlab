@@ -8,7 +8,7 @@ This is an experimental platform independent machine learning library.
 
 
 ## Implemented algorithms
-Please consult the (API)[https://andb0t.github.io/MLlab/] for detailed information.
+Please consult the [API](https://andb0t.github.io/MLlab/) for detailed information.
 
 ### Classification
 - [x] random
