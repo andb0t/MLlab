@@ -7,6 +7,7 @@ version      := "0.1.0-SNAPSHOT"
 name := "mllab"
 
 target in Compile in doc := baseDirectory.value / "docs"
+scalacOptions in Compile ++= Seq("-doc-root-content", "rootdoc.txt")
 
 libraryDependencies += scalaTest % Test
 
