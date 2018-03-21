@@ -49,7 +49,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A class to read and access data files
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -88,8 +89,8 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="data.Reader#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(fileName:String,label:Int,index:Int):data.Reader"></a>
+              <ol><li name="data.Reader#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(fileName:String,label:Int,index:Int,sep:String):data.Reader"></a>
       <a id="&lt;init&gt;:Reader"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,14 +98,14 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Reader</span><span class="params">(<span name="fileName">fileName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="label">label: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="index">index: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>)</span>
+        <span class="name">Reader</span><span class="params">(<span name="fileName">fileName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="label">label: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="index">index: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="sep">sep: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot; &quot;</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#data.Reader@&lt;init&gt;(fileName:String,label:Int,index:Int):data.Reader" title="Permalink" target="_top">
+      <a href="../index.html#data.Reader@&lt;init&gt;(fileName:String,label:Int,index:Int,sep:String):data.Reader" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Create a new data file reader</p><div class="fullcomment"><div class="comment cmt"><p>Create a new data file reader</p></div><dl class="paramcmts block"><dt class="param">fileName</dt><dd class="cmt"><p>The file path to access (expects .csv files)</p></dd><dt class="param">label</dt><dd class="cmt"><p>The instance label column (if present)</p></dd><dt class="param">index</dt><dd class="cmt"><p>The index column (if present)</p></dd><dt class="param">sep</dt><dd class="cmt"><p>The column separator</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -221,7 +222,8 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">The object to collect the data
+</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -272,7 +274,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">The file path to access (expects .csv files)</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -313,7 +315,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="data.Reader#getX" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="data.Reader#getX" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getX():List[List[Double]]"></a>
       <a id="getX():List[List[Double]]"></a>
       <h4 class="signature">
@@ -329,8 +331,8 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="data.Reader#getY" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Get the list of features</p><div class="fullcomment"><div class="comment cmt"><p>Get the list of features</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List of features</p></dd></dl></div>
+    </li><li name="data.Reader#getY" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getY():List[Double]"></a>
       <a id="getY():List[Double]"></a>
       <h4 class="signature">
@@ -346,7 +348,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Get the list of labels</p><div class="fullcomment"><div class="comment cmt"><p>Get the list of labels</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List of labels</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -380,7 +382,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">The index column (if present)</p>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -414,7 +416,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">The instance label column (if present)</p>
     </li><li name="data.Reader#loadFile" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="loadFile():Unit"></a>
       <a id="loadFile():Unit"></a>
@@ -431,7 +433,8 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Load the data file
+</p>
     </li><li name="data.Reader#nColumns" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="nColumns:Int"></a>
       <a id="nColumns:Int"></a>
@@ -448,7 +451,8 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">The number of columns in the data file
+</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -500,23 +504,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="data.Reader#sep" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="sep:String"></a>
-      <a id="sep:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">sep</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#data.Reader@sep:String" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
