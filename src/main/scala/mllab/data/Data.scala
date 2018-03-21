@@ -3,8 +3,7 @@ package data
 import scala.collection.mutable.ListBuffer
 
 
-/**
-  * A class to handle datasets
+/** A class to handle datasets
   *
   * @constructor Create a new dataset
   * @param index If specified: column index of an index column in the data to be ignored
@@ -14,8 +13,7 @@ class Data(index: Int = -1) {
   /** The object to collect the data */
   var data = new ListBuffer[List[Double]]()
 
-  /**
-   * Adds an instance to the data
+  /** Adds an instance to the data
    * @param instance List of features for this instance
    */
   def addInstance(instance: List[Double]): Unit = {
@@ -23,8 +21,7 @@ class Data(index: Int = -1) {
     data += instance
   }
 
-  /**
-   * Get the loaded dataset
+  /** Gets the loaded dataset
    * @param not Skip this column
    * @param only Only read this column
    * @return List of instances

@@ -4,8 +4,7 @@ import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
 
-/**
-  * A class representing a single node in a decision tree
+/** A class representing a single node in a decision tree
   *
   * @constructor Create a new node
   * @param index Index of the node top-left to down-right
@@ -33,8 +32,7 @@ class DecisionNode(index: Int){
   var purity: Double = Double.MinValue
 }
 
-/**
-  * A class representing a decision tree
+/** A class representing a decision tree
   *
   * @constructor Create a new decision tree
   * @param depth Depth of the tree
@@ -44,8 +42,7 @@ class DecisionTree(depth: Int){
   /** Number of nodes in this tree */
   val nNodes: Int = Math.pow(2, depth).toInt - 1
 
-  /**
-  * Recursive function to initialize a list of nodes
+  /** Initializes a list of nodes
   * @param nNodes number of nodes to initialize
   * @param tree start/intermediate tree object
   * @return List of nodes
@@ -57,8 +54,7 @@ class DecisionTree(depth: Int){
   /** The object holding the nodes */
   val tree = initTree(nNodes, Nil)
 
-  /**
-   * Update an existing node with new decision instructions, in case its purity is improved
+  /** Updates an existing node with new decision instructions, in case its purity is improved
    * @param nodeIndex The index of the node to be customized
    * @param featureIndex The index of the feature the decision is based on
    * @param threshold The threshold of the proposed decision
@@ -76,8 +72,7 @@ class DecisionTree(depth: Int){
     }
   }
 
-  /**
-   * Set node attributes
+  /** Sets node attributes
    * @param nodeIndex The index of the node to be customized
    * @param featureIndex The index of the feature the node decides on
    * @param threshold The threshold the node's decision will apply
@@ -127,8 +122,7 @@ class DecisionTree(depth: Int){
     "------------------------------"
   }
 
-  /**
-   * Classifies an instance based on its feature vector
+  /** Classifies an instance based on its feature vector
    * @param instance Feature list of an instance
    * @return Predicted label
    */
@@ -171,8 +165,7 @@ class DecisionTree(depth: Int){
     label
   }
 
-  /**
-   * Returns the data (instances and labels) present at this node
+  /** Returns the data (instances and labels) present at this node
    * @param nodeIndex The node index
    * @param X List of instances
    * @param y List of labels

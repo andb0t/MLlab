@@ -3,8 +3,7 @@ package data
 import scala.io.Source
 
 
-/**
-  * A class to read and access data files
+/** A class to read and access data files
   *
   * @constructor Create a new data file reader
   * @param fileName The file path to access (expects .csv files)
@@ -32,16 +31,14 @@ class Reader(val fileName: String, val label: Int = -1, val index: Int = -1, sep
     sourceStream.close
   }
 
-  /**
-   * Get the list of features
+  /** Gets the list of features
    * @return List of features
    */
   def getX(): List[List[Double]] =
     if (label != -1) data.getData(not=label)
     else data.getData(not=nColumns -1)
 
-  /**
-   * Get the list of labels
+  /** Gets the list of labels
    * @return List of labels
    */
   def getY(): List[Double] =
