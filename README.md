@@ -45,7 +45,9 @@ From sbt:
 ```shell
 cd mllab
 sbt
-[~]run [clf, reg] [NameOfAlgorithm]  # compile and run the app, use ~ for automatic updates and recompilation
+# compile and run the app, use ~ for automatic updates and recompilation
+# arguments have to be passed in this order
+[~]run [clf, reg] [NameOfAlgorithm] [PathOfDataDir]
 test  # compile and execute tests  
 compile  # only compile the app
 console  # start scala console for this project
@@ -56,11 +58,12 @@ Run compiled jar from python:
 python examples/run_jar.py
 ```
 
-Create and alter test data with this script:
+Create test data in the `data` directory:
 ```bash
 python3 bin/create_data.py --reg linear  # create dummy regression data
 python3 bin/create_data.py --clf circles  # create dummy classification data
 ```
+Then run MLlab on it, e.g. with `sbt run clf DecisionTree data`
 
 ## Development
 
