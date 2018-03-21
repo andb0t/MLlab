@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DecisionNode - classifiers.DecisionNode</title>
-          <meta name="description" content="DecisionNode - classifiers.DecisionNode" />
-          <meta name="keywords" content="DecisionNode classifiers.DecisionNode" />
+          <title>DecisionTree - datastructures.DecisionTree</title>
+          <meta name="description" content="DecisionTree - datastructures.DecisionTree" />
+          <meta name="keywords" content="DecisionTree datastructures.DecisionTree" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../index.html';
-            var hash = 'classifiers.DecisionNode';
+            var hash = 'datastructures.DecisionTree';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -29,11 +29,11 @@
         <body class="type">
       <div id="definition">
         <img alt="Class" src="../lib/class_big.png" />
-        <p id="owner"><a href="package.html" class="extype" name="classifiers">classifiers</a></p>
-        <h1>DecisionNode</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="classifiers">package classifiers</a>
+        <p id="owner"><a href="package.html" class="extype" name="datastructures">datastructures</a></p>
+        <h1>DecisionTree</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="datastructures">package datastructures</a>
           </div></span></h3><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -45,11 +45,12 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">DecisionNode</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">DecisionTree</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A class representing a decision tree
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -69,7 +70,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="classifiers.DecisionNode"><span>DecisionNode</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="datastructures.DecisionTree"><span>DecisionTree</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -88,23 +89,23 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="classifiers.DecisionNode#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(nIndex:Int):classifiers.DecisionNode"></a>
-      <a id="&lt;init&gt;:DecisionNode"></a>
+              <ol><li name="datastructures.DecisionTree#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(depth:Int):datastructures.DecisionTree"></a>
+      <a id="&lt;init&gt;:DecisionTree"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DecisionNode</span><span class="params">(<span name="nIndex">nIndex: <span class="extype" name="scala.Int">Int</span></span>)</span>
+        <span class="name">DecisionTree</span><span class="params">(<span name="depth">depth: <span class="extype" name="scala.Int">Int</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@&lt;init&gt;(nIndex:Int):classifiers.DecisionNode" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@&lt;init&gt;(depth:Int):datastructures.DecisionTree" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Create a new decision tree</p><div class="fullcomment"><div class="comment cmt"><p>Create a new decision tree</p></div><dl class="paramcmts block"><dt class="param">depth</dt><dd class="cmt"><p>Depth of the tree</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -126,7 +127,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -143,7 +144,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@##():Int" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@##():Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -160,7 +161,7 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -177,11 +178,45 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="datastructures.DecisionTree#atNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="atNode(nodeIndex:Int,X:List[List[Double]],y:List[Int]):(List[List[Double]],List[Int])"></a>
+      <a id="atNode(Int,List[List[Double]],List[Int]):(List[List[Double]],List[Int])"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">atNode</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: (<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]], <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>])</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.DecisionTree@atNode(nodeIndex:Int,X:List[List[Double]],y:List[Int]):(List[List[Double]],List[Int])" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns the data (instances and labels) present at this node</p><div class="fullcomment"><div class="comment cmt"><p>Returns the data (instances and labels) present at this node</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The node index</p></dd><dt class="param">X</dt><dd class="cmt"><p>List of instances</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of labels</p></dd><dt>returns</dt><dd class="cmt"><p>List of instances and list of labels, both being a subset of the input X and y</p></dd></dl></div>
+    </li><li name="datastructures.DecisionTree#classify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="classify(instance:List[Double]):Int"></a>
+      <a id="classify(List[Double]):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">classify</span><span class="params">(<span name="instance">instance: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.DecisionTree@classify(instance:List[Double]):Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Classifies an instance based on its feature vector</p><div class="fullcomment"><div class="comment cmt"><p>Classifies an instance based on its feature vector</p></div><dl class="paramcmts block"><dt class="param">instance</dt><dd class="cmt"><p>Feature list of an instance</p></dd><dt>returns</dt><dd class="cmt"><p>Predicted label</p></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -194,7 +229,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@clone():Object" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@clone():Object" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -217,7 +252,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -234,45 +269,11 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="classifiers.DecisionNode#featureIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="featureIndex:Int"></a>
-      <a id="featureIndex:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">featureIndex</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@featureIndex:Int" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="classifiers.DecisionNode#filled" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="filled:Boolean"></a>
-      <a id="filled:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">filled</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@filled:Boolean" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -285,7 +286,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@finalize():Unit" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@finalize():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -308,28 +309,11 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="classifiers.DecisionNode#greater" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="greater:Boolean"></a>
-      <a id="greater:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">greater</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@greater:Boolean" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -342,11 +326,28 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@hashCode():Int" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@hashCode():Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="datastructures.DecisionTree#initTree" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="initTree(nNodes:Int,tree:List[datastructures.DecisionNode]):List[datastructures.DecisionNode]"></a>
+      <a id="initTree(Int,List[DecisionNode]):List[DecisionNode]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initTree</span><span class="params">(<span name="nNodes">nNodes: <span class="extype" name="scala.Int">Int</span></span>, <span name="tree">tree: <span class="extype" name="scala.List">List</span>[<a href="DecisionNode.html" class="extype" name="datastructures.DecisionNode">DecisionNode</a>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="DecisionNode.html" class="extype" name="datastructures.DecisionNode">DecisionNode</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.DecisionTree@initTree(nNodes:Int,tree:List[datastructures.DecisionNode]):List[datastructures.DecisionNode]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Recursive function to initialize a list of nodes</p><div class="fullcomment"><div class="comment cmt"><p>Recursive function to initialize a list of nodes</p></div><dl class="paramcmts block"><dt class="param">nNodes</dt><dd class="cmt"><p>number of nodes to initialize</p></dd><dt class="param">tree</dt><dd class="cmt"><p>start/intermediate tree object</p></dd><dt>returns</dt><dd class="cmt"><p>List of nodes</p></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -359,45 +360,46 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="classifiers.DecisionNode#isRightChild" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="isRightChild:Boolean"></a>
-      <a id="isRightChild:Boolean"></a>
+    </li><li name="datastructures.DecisionTree#nFilledNodes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="nFilledNodes():Int"></a>
+      <a id="nFilledNodes():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">nFilledNodes</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.DecisionTree@nFilledNodes():Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Counts the nodes which have been filled by the user</p><div class="fullcomment"><div class="comment cmt"><p>Counts the nodes which have been filled by the user</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>Number of filled nodes</p></dd></dl></div>
+    </li><li name="datastructures.DecisionTree#nNodes" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="nNodes:Int"></a>
+      <a id="nNodes:Int"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">isRightChild</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">nNodes</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@isRightChild:Boolean" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@nNodes:Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="classifiers.DecisionNode#left" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="left:Int"></a>
-      <a id="left:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">left</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@left:Int" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
+      <p class="shortcomment cmt">Number of nodes in this tree
+</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -410,28 +412,11 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="classifiers.DecisionNode#nodeIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="nodeIndex:Int"></a>
-      <a id="nodeIndex:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">nodeIndex</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@nodeIndex:Int" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -444,7 +429,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@notify():Unit" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@notify():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -461,62 +446,28 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="classifiers.DecisionNode#parent" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="parent:Int"></a>
-      <a id="parent:Int"></a>
+    </li><li name="datastructures.DecisionTree#setNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit"></a>
+      <a id="setNode(Int,Int,Double,Boolean,Double):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">parent</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+        <span class="name">setNode</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="featureIndex">featureIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>, <span name="greater">greater: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="purity">purity: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">Double.MinValue</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@parent:Int" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@setNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="classifiers.DecisionNode#purity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="purity:Double"></a>
-      <a id="purity:Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">purity</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@purity:Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="classifiers.DecisionNode#right" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="right:Int"></a>
-      <a id="right:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">right</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@right:Int" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
+      <p class="shortcomment cmt">Set node attributes, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Set node attributes, i.e. customize the node to take a decision</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The index of the node to be customized</p></dd><dt class="param">featureIndex</dt><dd class="cmt"><p>The index of the feature the node decides on</p></dd><dt class="param">threshold</dt><dd class="cmt"><p>The threshold the node's decision will apply</p></dd><dt class="param">greater</dt><dd class="cmt"><p>Is the signal region greater or less than the threshold?</p></dd><dt class="param">purity</dt><dd class="cmt"><p>The purity of the split in this node</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -529,29 +480,12 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="classifiers.DecisionNode#threshold" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="threshold:Double"></a>
-      <a id="threshold:Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">threshold</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@threshold:Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="datastructures.DecisionTree#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
       <h4 class="signature">
@@ -560,14 +494,49 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@toString():String" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@toString():String" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="datastructures.DecisionTree">DecisionTree</a> → AnyRef → Any</dd></dl></div>
+    </li><li name="datastructures.DecisionTree#tree" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tree:List[datastructures.DecisionNode]"></a>
+      <a id="tree:List[DecisionNode]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tree</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="DecisionNode.html" class="extype" name="datastructures.DecisionNode">DecisionNode</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.DecisionTree@tree:List[datastructures.DecisionNode]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">The object holding the nodes
+</p>
+    </li><li name="datastructures.DecisionTree#updateNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="updateNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit"></a>
+      <a id="updateNode(Int,Int,Double,Boolean,Double):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">updateNode</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="featureIndex">featureIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>, <span name="greater">greater: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="purity">purity: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.DecisionTree@updateNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Update an existing node with new decision instructions, in case its purity is improved</p><div class="fullcomment"><div class="comment cmt"><p>Update an existing node with new decision instructions, in case its purity is improved</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The index of the node to be customized</p></dd><dt class="param">featureIndex</dt><dd class="cmt"><p>The index of the feature the decision is based on</p></dd><dt class="param">threshold</dt><dd class="cmt"><p>The threshold of the proposed decision</p></dd><dt class="param">greater</dt><dd class="cmt"><p>Is the signal region greater or less than the threshold?</p></dd><dt class="param">purity</dt><dd class="cmt"><p>The purity of the proposed split</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -580,7 +549,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@wait():Unit" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@wait():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -603,7 +572,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -626,7 +595,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionNode@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
