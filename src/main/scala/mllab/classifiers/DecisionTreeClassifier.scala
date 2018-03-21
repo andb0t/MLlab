@@ -87,7 +87,7 @@ class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") exten
       }
     }
 
-    for (nodeIndex <- 0 until decisionTree.nodes){
+    for (nodeIndex <- 0 until decisionTree.nNodes){
       setOptimalCut(nodeIndex)
     }
     println(decisionTree)

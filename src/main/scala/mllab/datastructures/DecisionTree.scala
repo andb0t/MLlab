@@ -4,8 +4,14 @@ import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
 
-class DecisionNode(nIndex: Int){
-  val nodeIndex: Int = nIndex
+/**
+  * A class representing a single node in a decision tree
+  *
+  * @constructor Create a new node
+  * @param index Index of the node top-left to down-right
+  */
+class DecisionNode(index: Int){
+  val nodeIndex: Int = index
   var right: Int = (nodeIndex + 1) * 2
   var left: Int = (nodeIndex + 1) * 2 - 1
   val parent: Int = if (nodeIndex == 0) -1 else (nodeIndex - 1) / 2
@@ -18,14 +24,42 @@ class DecisionNode(nIndex: Int){
   var purity: Double = Double.MinValue
 }
 
+/**
+  * A class representing a decision tree
+  *
+  * @constructor Create a new decision tree
+  * @param depth Depth of the tree
+  */
 class DecisionTree(depth: Int){
 
-  var tree = new ListBuffer[DecisionNode]()
-  val nodes: Int = Math.pow(2, depth).toInt - 1
-  for (i <- 0 until nodes){
-    tree += new DecisionNode(i)
-  }
+  /**
+  * Number of nodes in this tree
+  */
+  val nNodes: Int = Math.pow(2, depth).toInt - 1
 
+  /**
+  * Recursive function to initialize a list of nodes
+  * @param nNodes number of nodes to initialize
+  * @param tree start/intermediate tree object
+  * @return List of nodes
+  */
+  def initTree(nNodes: Int, tree: List[DecisionNode]): List[DecisionNode] =
+    if (tree.length < nNodes) initTree(nNodes, new DecisionNode(tree.length)::tree)
+    else tree.reverse
+
+  /**
+   * The object holding the nodes
+   */
+  val tree = initTree(nNodes, Nil)
+
+  /**
+   * Update an existing node with new decision instructions, in case its purity is improved
+   * @param nodeIndex The index of the node to be customized
+   * @param featureIndex The index of the feature the decision is based on
+   * @param threshold The threshold of the proposed decision
+   * @param greater Is the signal region greater or less than the threshold?
+   * @param purity The purity of the proposed split
+   */
   def updateNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, purity: Double): Unit = {
     if (tree(nodeIndex).purity < purity){
       // println("Improving purity of node " + nodeIndex +
@@ -33,11 +67,19 @@ class DecisionTree(depth: Int){
       //   (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
       //   ": " + "%.3e".format(tree(nodeIndex).purity) +
       //   " -> " + "%.3e".format(purity))
-        addNode(nodeIndex, featureIndex, threshold, greater, purity)
+        setNode(nodeIndex, featureIndex, threshold, greater, purity)
     }
   }
 
-  def addNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, purity: Double=Double.MinValue): Unit = {
+  /**
+   * Set node attributes, i.e. customize the node to take a decision
+   * @param nodeIndex The index of the node to be customized
+   * @param featureIndex The index of the feature the node decides on
+   * @param threshold The threshold the node's decision will apply
+   * @param greater Is the signal region greater or less than the threshold?
+   * @param purity The purity of the split in this node
+   */
+  def setNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, purity: Double=Double.MinValue): Unit = {
     if (nodeIndex > tree.length - 1) {
       println("Warning: tree not deep enough! (" + nodeIndex + " > " + (tree.length - 1) + ") Ignore node.")
     }else{
@@ -45,12 +87,16 @@ class DecisionTree(depth: Int){
       tree(nodeIndex).threshold = threshold
       tree(nodeIndex).greater = greater
       tree(nodeIndex).filled = true
-      if (tree(nodeIndex).right >= nodes) tree(nodeIndex).right = -1
-      if (tree(nodeIndex).left >= nodes) tree(nodeIndex).left = -1
+      if (tree(nodeIndex).right >= nNodes) tree(nodeIndex).right = -1
+      if (tree(nodeIndex).left >= nNodes) tree(nodeIndex).left = -1
       tree(nodeIndex).purity = purity
     }
   }
 
+  /**
+   * Counts the nodes which have been filled by the user
+   * @return Number of filled nodes
+   */
   def nFilledNodes(): Int = {
     var nFilled: Int = 0
     for (node <- tree) {
@@ -64,7 +110,7 @@ class DecisionTree(depth: Int){
   override def toString(): String = {
 
     def printNodes(): String =
-      (for { node <- tree if (node.filled) } yield
+      (for { node <- tree if (node.filled || true) } yield
         "Node " + node.nodeIndex +
         ", decides on feature " + node.featureIndex +
         (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
@@ -74,11 +120,16 @@ class DecisionTree(depth: Int){
       ).mkString
 
     "------- Decision Tree -------\n" +
-    "Tree complete with " + nFilledNodes() + " / " + nodes + " filled nodes\n" +
+    "Tree complete with " + nFilledNodes() + " / " + nNodes + " filled nodes\n" +
     printNodes +
     "------------------------------"
   }
 
+  /**
+   * Classifies an instance based on its feature vector
+   * @param instance Feature list of an instance
+   * @return Predicted label
+   */
   def classify(instance: List[Double]): Int = {
     var label = 0
     var currentNodeIndex = 0
@@ -118,6 +169,13 @@ class DecisionTree(depth: Int){
     label
   }
 
+  /**
+   * Returns the data (instances and labels) present at this node
+   * @param nodeIndex The node index
+   * @param X List of instances
+   * @param y List of labels
+   * @return List of instances and list of labels, both being a subset of the input X and y
+   */
   def atNode(nodeIndex: Int, X: List[List[Double]], y: List[Int]): (List[List[Double]], List[Int]) = {
 
     require(X.length == y.length, "both arguments must have the same length")
