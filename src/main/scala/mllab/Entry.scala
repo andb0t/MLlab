@@ -18,10 +18,16 @@ object Mllab {
 
     if (task == "clf") {
       println{"Train the model"}
-      val trainReader = new Reader("src/test/resources/train_clf.csv", label=3, index=0)
+
+      val trainReader = new Reader("src/test/resources/clf_train.csv", label=3, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY().map(_.toInt)
+
+      val testReader = new Reader("src/test/resources/clf_test.csv", label=3, index=0)
+      testReader.loadFile()
+      val X_test = testReader.getX()
+      val y_test = testReader.getY().map(_.toInt)
 
       val clf =
         if (args.length <= 1 || args(1) == "Random") new RandomClassifier()
@@ -38,10 +44,6 @@ object Mllab {
       // clf.predict(X_train)
 
       println{"Apply to test set"}
-      val testReader = new Reader("src/test/resources/test_clf.csv", label=3, index=0)
-      testReader.loadFile()
-      val X_test = testReader.getX()
-      val y_test = testReader.getY().map(_.toInt)
 
       println("Now do prediction on test set")
       val y_pred = clf.predict(X_test)
@@ -70,12 +72,12 @@ object Mllab {
     else if (task == "reg") {
       println("\n\nTry basic regressor functionality")
 
-      val trainReader = new Reader("src/test/resources/train_reg.csv", label= -1, index=0)
+      val trainReader = new Reader("src/test/resources/reg_train.csv", label= -1, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
 
-      val testReader = new Reader("src/test/resources/test_reg.csv", label= -1, index=0)
+      val testReader = new Reader("src/test/resources/reg_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY()

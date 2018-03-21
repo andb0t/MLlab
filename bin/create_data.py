@@ -108,7 +108,7 @@ if args.clf is not None:
     random.seed(1337)
     for command in ['train', 'test']:
 
-        filename = os.path.join(TARGET_DIR, command + '_clf_' + args.clf + '.csv')
+        filename = os.path.join(TARGET_DIR, 'clf_' + args.clf + '_' + command + '.csv')
         print('Creating data in', filename)
         print('Shape:', args.clf)
         print('Example:', next(generate_clf_point(args.clf)))
@@ -126,7 +126,7 @@ if args.reg is not None:
     random.seed(1337)
     for command in ['train', 'test']:
 
-        filename = os.path.join(TARGET_DIR, command + '_reg_' + args.reg + '.csv')
+        filename = os.path.join(TARGET_DIR, 'reg_' + args.reg + '_' + command + '.csv')
         print('Creating data in', filename)
         print('Shape:', args.reg)
         print('Example:', next(generate_reg_point(args.reg)))
