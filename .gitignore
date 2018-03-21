@@ -1,6 +1,6 @@
 # project
-*.png
-*.pdf
+plots/*.pdf
+plots/*.png
 
 # scala
 target/
