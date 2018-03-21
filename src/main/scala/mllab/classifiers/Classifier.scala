@@ -8,9 +8,7 @@ package classifiers
   */
 abstract class Classifier() {
 
-  /**
-   * The name of the classifier
-   */
+  /** The name of the classifier */
   val name: String
 
   /**

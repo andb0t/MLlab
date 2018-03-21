@@ -11,9 +11,7 @@ import scala.collection.mutable.ListBuffer
   */
 class Data(index: Int = -1) {
 
-  /**
-   * The object to collect the data
-   */
+  /** The object to collect the data */
   var data = new ListBuffer[List[Double]]()
 
   /**

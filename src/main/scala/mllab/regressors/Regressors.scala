@@ -8,9 +8,7 @@ package regressors
   */
 abstract class Regressor() {
 
-  /**
-   * The name of the regressor
-   */
+  /** The name of the regressor */
   val name: String
 
   /**

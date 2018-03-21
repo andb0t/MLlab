@@ -14,18 +14,12 @@ import scala.io.Source
   */
 class Reader(val fileName: String, val label: Int = -1, val index: Int = -1, sep: String = " ") {
 
-  /**
-   * The object to collect the data
-   */
+  /** The object to collect the data */
   val data = new Data(index)
-  /**
-   * The number of columns in the data file
-   */
+  /** The number of columns in the data file */
   var nColumns: Int = 0
 
-  /**
-   * Load the data file
-   */
+  /** Load the data file */
   def loadFile(): Unit = {
     println("Load the file " + fileName)
     val sourceStream = Source.fromFile(fileName)

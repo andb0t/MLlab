@@ -12,15 +12,24 @@ import scala.util.control.Breaks._
   */
 class DecisionNode(index: Int){
   val nodeIndex: Int = index
+  /** Index of right child */
   var right: Int = (nodeIndex + 1) * 2
+  /** Index of left child */
   var left: Int = (nodeIndex + 1) * 2 - 1
+  /** Index of parent */
   val parent: Int = if (nodeIndex == 0) -1 else (nodeIndex - 1) / 2
+  /** Is this node a right child? */
   val isRightChild: Boolean = (nodeIndex % 2 == 0)
 
+  /** Index of feature column this node decides on */
   var featureIndex: Int = -1
+  /** Threshold this node applies */
   var threshold: Double = 0
+  /** Is the signal greater or less than the threshold? */
   var greater: Boolean = true
+  /** Has this node been touched since initialization? */
   var filled: Boolean = false
+  /** Node purity */
   var purity: Double = Double.MinValue
 }
 
@@ -32,9 +41,7 @@ class DecisionNode(index: Int){
   */
 class DecisionTree(depth: Int){
 
-  /**
-  * Number of nodes in this tree
-  */
+  /** Number of nodes in this tree */
   val nNodes: Int = Math.pow(2, depth).toInt - 1
 
   /**
@@ -47,9 +54,7 @@ class DecisionTree(depth: Int){
     if (tree.length < nNodes) initTree(nNodes, new DecisionNode(tree.length)::tree)
     else tree.reverse
 
-  /**
-   * The object holding the nodes
-   */
+  /** The object holding the nodes */
   val tree = initTree(nNodes, Nil)
 
   /**
@@ -72,7 +77,7 @@ class DecisionTree(depth: Int){
   }
 
   /**
-   * Set node attributes, i.e. customize the node to take a decision
+   * Set node attributes
    * @param nodeIndex The index of the node to be customized
    * @param featureIndex The index of the feature the node decides on
    * @param threshold The threshold the node's decision will apply
@@ -93,10 +98,7 @@ class DecisionTree(depth: Int){
     }
   }
 
-  /**
-   * Counts the nodes which have been filled by the user
-   * @return Number of filled nodes
-   */
+  /** Counts the nodes which have been filled by the user */
   def nFilledNodes(): Int = {
     var nFilled: Int = 0
     for (node <- tree) {
