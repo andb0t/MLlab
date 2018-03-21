@@ -1,7 +1,11 @@
 # MLlab
 
+
+
 ## Introduction
-This is a basic machine learning library.
+This is a machine learning library.
+
+
 
 ## Implemented algorithms
 
@@ -21,11 +25,9 @@ This is a basic machine learning library.
 - [ ] naive Bayesian regression
 
 
-## Installation
-Follow the steps below to install MLlab on your machine.
 
-### Set up sbt
-This app uses [sbt](https://www.scala-sbt.org/index.html) as build tool.
+## Installation
+This app uses [sbt](https://www.scala-sbt.org/index.html) as build tool. Installation for Ubuntu:
 
 ```shell
 echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
@@ -35,7 +37,10 @@ sudo apt-get install sbt
 # sbt new sbt/scala-seed.g8  # set up a dummy project
 ```
 
-### Run the app
+
+## Execution
+
+From sbt:
 ```shell
 cd mllab
 sbt
@@ -45,20 +50,20 @@ compile  # only compile the app
 console  # start scala console for this project
 ```
 
-## Execution
-
-Create and alter test data with this script:
-```bash
-python3 bin/create_data.py train test --reg
-```
-Run compiled jar from python
+Run compiled jar from python:
 ```bash
 python examples/run_jar.py
 ```
 
+Create and alter test data with this script:
+```bash
+python3 bin/create_data.py --reg linear  # create dummy regression data
+python3 bin/create_data.py --clf circles  # create dummy classification data
+```
+
 ## Development
 
-### Create executable app
+### Create executable jar
 This will package everything in a fat jar, using [sbt-assembly](https://github.com/sbt/sbt-assembly).
 
 ```shell
