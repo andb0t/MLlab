@@ -80,10 +80,8 @@ object Mllab {
       Plotting.plotClf(X_train, y_train, clf)
       Plotting.plotGrid(X_train, clf)
 
-      val mDiag = clf.diagnostics
-      Plotting.plotCurves(List(mDiag.getOrElse("loss", List((0.0, 0.0)))), List("loss"), name= "plots/loss.pdf")
-      Plotting.plotCurves(List(mDiag.getOrElse("alpha", List((0.0, 0.0)))), List("alpha"), name= "plots/alpha.pdf")
-
+      for (diag <- clf.diagnostics)
+        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/" + diag._1 + ".pdf")
     }
     else if (task == "reg") {
       println("\n\nTry basic regressor functionality")
