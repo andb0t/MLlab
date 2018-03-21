@@ -6,8 +6,14 @@ import breeze.linalg._
 import breeze.plot._
 
 
+/** Provides functions for plotting data and algorithm results */
 object Plotting {
 
+  /** Plot labeled data
+   *@param data List of features
+   *@param labels List of labels
+   *@param name Path to save the plot
+   */
   def plotData(data: List[List[Double]], labels: List[Int], name: String="plots/plot.pdf"): Unit = {
     val f = Figure()
     f.visible= false
@@ -25,6 +31,12 @@ object Plotting {
     f.saveas(name)
   }
 
+  /** Plot labeled data and classifier decision
+   *@param data List of features
+   *@param labels List of labels
+   *@param clf Trained classifier
+   *@param name Path to save the plot
+   */
   def plotClf(data: List[List[Double]], labels: List[Int], clf: Classifier, name: String="plots/clf.pdf"): Unit = {
     val predictions = clf.predict(data)
     val f = Figure()
@@ -52,6 +64,11 @@ object Plotting {
 
   }
 
+  /** Plot classifier decision areas on an envelope plane of the data
+   *@param data List of features
+   *@param clf Trained classifier
+   *@param name Path to save the plot
+   */
   def plotGrid(data: List[List[Double]], clf: Classifier, name: String="plots/grid.pdf"): Unit = {
 
     def createGrid(xMin: Double, xMax: Double, yMin: Double, yMax: Double): List[List[Double]] = {
@@ -89,6 +106,11 @@ object Plotting {
     f.saveas(name)
   }
 
+  /** Plot a set of curves
+   *@param curves List of curves, with a curve being a list of points (x, y)
+   *@param names List of the curves' names
+   *@param name Path to save the plot
+   */
   def plotCurves(curves: List[List[(Double, Double)]], names: List[String]=Nil, name: String = "plots/curves.pdf"): Unit = {
     val f = Figure()
     f.visible= false
@@ -105,6 +127,11 @@ object Plotting {
     f.saveas(name)
   }
 
+  /** Plot data for regression
+   *@param data List of features, e.g. in 2D: x-coordinates
+   *@param labels List of labels, e.g. in 2D: y-coordinates
+   *@param name Path to save the plot
+   */
   def plotRegData(data: List[List[Double]], labels: List[Double], name: String="plots/plot.pdf"): Unit = {
     val f = Figure()
     f.visible= false

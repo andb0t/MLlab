@@ -7,7 +7,15 @@ import plotting._
 import regressors._
 
 
+/** The current entry point for MLlab
+ *
+ * Currently, this is a collection of usage examples
+ *
+ * @todo generalize to allow simple integration in other projects
+ */
 object Mllab {
+
+  /** Parse the input arguments */
   def parse(args: Array[String]): Map[String, String]= {
     val task =
       if (args.length == 0) "clf"
@@ -24,6 +32,7 @@ object Mllab {
     Map("task" -> task, "algo" -> algo, "input" -> input)
   }
 
+  /** Runs the algorithms */
   def main(args: Array[String]): Unit = {
     println("Execute MLlab!")
 

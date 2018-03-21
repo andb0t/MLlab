@@ -347,7 +347,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Recursive function to initialize a list of nodes</p><div class="fullcomment"><div class="comment cmt"><p>Recursive function to initialize a list of nodes</p></div><dl class="paramcmts block"><dt class="param">nNodes</dt><dd class="cmt"><p>number of nodes to initialize</p></dd><dt class="param">tree</dt><dd class="cmt"><p>start/intermediate tree object</p></dd><dt>returns</dt><dd class="cmt"><p>List of nodes</p></dd></dl></div>
+      <p class="shortcomment cmt">Initializes a list of nodes</p><div class="fullcomment"><div class="comment cmt"><p>Initializes a list of nodes</p></div><dl class="paramcmts block"><dt class="param">nNodes</dt><dd class="cmt"><p>number of nodes to initialize</p></dd><dt class="param">tree</dt><dd class="cmt"><p>start/intermediate tree object</p></dd><dt>returns</dt><dd class="cmt"><p>List of nodes</p></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -365,7 +365,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="datastructures.DecisionTree#nFilledNodes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="datastructures.DecisionTree#nFilledNodes" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="nFilledNodes():Int"></a>
       <a id="nFilledNodes():Int"></a>
       <h4 class="signature">
@@ -381,7 +381,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Counts the nodes which have been filled by the user</p><div class="fullcomment"><div class="comment cmt"><p>Counts the nodes which have been filled by the user</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>Number of filled nodes</p></dd></dl></div>
+      <p class="shortcomment cmt">Counts the nodes which have been filled by the user</p>
     </li><li name="datastructures.DecisionTree#nNodes" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="nNodes:Int"></a>
       <a id="nNodes:Int"></a>
@@ -398,8 +398,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Number of nodes in this tree
-</p>
+      <p class="shortcomment cmt">Number of nodes in this tree</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -467,7 +466,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Set node attributes, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Set node attributes, i.e. customize the node to take a decision</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The index of the node to be customized</p></dd><dt class="param">featureIndex</dt><dd class="cmt"><p>The index of the feature the node decides on</p></dd><dt class="param">threshold</dt><dd class="cmt"><p>The threshold the node's decision will apply</p></dd><dt class="param">greater</dt><dd class="cmt"><p>Is the signal region greater or less than the threshold?</p></dd><dt class="param">purity</dt><dd class="cmt"><p>The purity of the split in this node</p></dd></dl></div>
+      <p class="shortcomment cmt">Sets node attributes</p><div class="fullcomment"><div class="comment cmt"><p>Sets node attributes</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The index of the node to be customized</p></dd><dt class="param">featureIndex</dt><dd class="cmt"><p>The index of the feature the node decides on</p></dd><dt class="param">threshold</dt><dd class="cmt"><p>The threshold the node's decision will apply</p></dd><dt class="param">greater</dt><dd class="cmt"><p>Is the signal region greater or less than the threshold?</p></dd><dt class="param">purity</dt><dd class="cmt"><p>The purity of the split in this node</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -518,8 +517,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">The object holding the nodes
-</p>
+      <p class="shortcomment cmt">The object holding the nodes</p>
     </li><li name="datastructures.DecisionTree#updateNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="updateNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit"></a>
       <a id="updateNode(Int,Int,Double,Boolean,Double):Unit"></a>
@@ -536,7 +534,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Update an existing node with new decision instructions, in case its purity is improved</p><div class="fullcomment"><div class="comment cmt"><p>Update an existing node with new decision instructions, in case its purity is improved</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The index of the node to be customized</p></dd><dt class="param">featureIndex</dt><dd class="cmt"><p>The index of the feature the decision is based on</p></dd><dt class="param">threshold</dt><dd class="cmt"><p>The threshold of the proposed decision</p></dd><dt class="param">greater</dt><dd class="cmt"><p>Is the signal region greater or less than the threshold?</p></dd><dt class="param">purity</dt><dd class="cmt"><p>The purity of the proposed split</p></dd></dl></div>
+      <p class="shortcomment cmt">Updates an existing node with new decision instructions, in case its purity is improved</p><div class="fullcomment"><div class="comment cmt"><p>Updates an existing node with new decision instructions, in case its purity is improved</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The index of the node to be customized</p></dd><dt class="param">featureIndex</dt><dd class="cmt"><p>The index of the feature the decision is based on</p></dd><dt class="param">threshold</dt><dd class="cmt"><p>The threshold of the proposed decision</p></dd><dt class="param">greater</dt><dd class="cmt"><p>Is the signal region greater or less than the threshold?</p></dd><dt class="param">purity</dt><dd class="cmt"><p>The purity of the proposed split</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
