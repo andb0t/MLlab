@@ -3,15 +3,16 @@
 
 
 ## Introduction
-This is a machine learning library.
+This is an experimental platform independent machine learning library.
 
 
 
 ## Implemented algorithms
+Please consult the (API)[https://andb0t.github.io/MLlab/] for detailed information.
 
 ### Classification
 - [x] random
-- [x] k-nearest neigbours
+- [x] k-nearest neighbours
 - [x] decision tree
 - [x] perceptron
 - [x] multilayer neural network
@@ -67,8 +68,12 @@ python3 bin/create_data.py --clf circles  # create dummy classification data
 This will package everything in a fat jar, using [sbt-assembly](https://github.com/sbt/sbt-assembly).
 
 ```shell
-sbt
-assembly
+sbt assembly
+```
+
+### Create API documentation
+```shell
+sbt doc
 ```
 
 ### Style check and linter
