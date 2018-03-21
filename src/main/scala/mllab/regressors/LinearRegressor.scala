@@ -13,6 +13,8 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
   var weight = new ListBuffer[Double]()
   var bias: Double = 0
 
+  var lossEvolution = new ListBuffer[(Double, Double)]()
+
   def lossGradient(X: List[List[Double]], y: List[Double]): List[Double] = {
     // dLoss = d(MSE scaled) = Sum (const * linearDistanceScaled * instanceVector)
     val linDist: List[Double] = for (xy <- X zip y) yield (Maths.dot(weight.toList, xy._1) + bias - xy._2) / y.length
@@ -28,11 +30,14 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
     bias = 0
 
     def updateWeights(count: Int): Unit = {
-      val scaleIndependentLoss = Evaluation.MSE(predict(X), y)
-      if (scaleIndependentLoss > tol && count < maxIter) {
+      val loss = Evaluation.MSE(predict(X), y)
+      lossEvolution += Tuple2(count.toDouble, loss)
+      if (loss > tol && count < maxIter) {
         val weightUpdate = lossGradient(X, y).map(_ * alpha)
-        // println(s"$count. Step with loss: %.3f".format(scaleIndependentLoss))
-        // println(" - current MSE: " + scaleIndependentLoss)
+        if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
+          println(s"Step $count with loss %.4e".format(loss))
+        // println(s"$count. Step with loss: %.3f".format(loss))
+        // println(" - current MSE: " + loss)
         // println(" - current weight " + weight + " bias " + bias)
         // println(" - weightUpdate " + weightUpdate)
         bias = bias - weightUpdate.head
@@ -40,7 +45,7 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
           weight(i) = weight(i) - weightUpdate(i + 1)
         updateWeights(count + 1)
       } else{
-        println(s"Final values after $count steps at loss %.3f:".format(scaleIndependentLoss))
+        println(s"Final values after $count steps at loss %.3f:".format(loss))
         println("weight: " + weight + " bias: " + bias)
       }
     }
@@ -51,4 +56,7 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
   def predict(X: List[List[Double]]): List[Double] =
     for (instance <- X) yield Maths.dot(weight.toList, instance) + bias
 
+  override def diagnostics(): Map[String, List[(Double, Double)]] = {
+    Map("loss" -> lossEvolution.toList)
+  }
 }
