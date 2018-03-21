@@ -11,7 +11,7 @@ parser.add_argument("--clf", action="store_true", default=False, help='only crea
 parser.add_argument("--reg", action="store_true", default=False, help='only create regression data')
 args = parser.parse_args()
 
-TARGET_DIR = os.path.dirname(__file__)
+TARGET_DIR = os.path.join(os.path.dirname(__file__), '../src/test/resources')
 
 sign = functools.partial(math.copysign, 1)
 

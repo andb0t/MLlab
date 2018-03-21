@@ -49,7 +49,7 @@ console  # start scala console for this project
 
 Create and alter test data with this script:
 ```bash
-python3 src/test/resources/create_data.py train test --reg
+python3 bin/create_data.py train test --reg
 ```
 Run compiled jar from python
 ```bash
