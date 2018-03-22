@@ -1,6 +1,8 @@
 package plotting
 
 import classifiers._
+import regressors._
+import utils._
 
 import breeze.linalg._
 import breeze.plot._
@@ -14,7 +16,7 @@ object Plotting {
    *@param labels List of labels
    *@param name Path to save the plot
    */
-  def plotData(data: List[List[Double]], labels: List[Int], name: String="plots/data.pdf"): Unit = {
+  def plotClfData(data: List[List[Double]], labels: List[Int], name: String="plots/data.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
@@ -69,7 +71,7 @@ object Plotting {
    *@param clf Trained classifier
    *@param name Path to save the plot
    */
-  def plotGrid(data: List[List[Double]], clf: Classifier, name: String="plots/grid.pdf"): Unit = {
+  def plotClfGrid(data: List[List[Double]], clf: Classifier, name: String="plots/grid.pdf"): Unit = {
 
     def createGrid(xMin: Double, xMax: Double, yMin: Double, yMax: Double): List[List[Double]] = {
       val granularity: Int = 100
@@ -132,7 +134,7 @@ object Plotting {
    *@param labels List of labels, e.g. in 2D: y-coordinates
    *@param name Path to save the plot
    */
-  def plotRegData(data: List[List[Double]], labels: List[Double], name: String="plots/plot.pdf"): Unit = {
+  def plotRegData(data: List[List[Double]], labels: List[Double], name: String="plots/data.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
@@ -149,6 +151,42 @@ object Plotting {
     if (data.head.length == 1) p.xlabel = "feature 0"
     p.legend = (data.head.length != 1)
     p.title = "Data"
+
+    f.saveas(name)
+  }
+
+
+  def plotReg(data: List[List[Double]], labels: List[Double], reg: Regressor, name: String="plots/reg.pdf"): Unit = {
+    val f = Figure()
+    f.visible= false
+    val p = f.subplot(0)
+
+    val dataPerFeature = data.transpose
+    val xMeans = for (feat <- dataPerFeature) yield feat.sum / feat.length
+
+    for (i <- 0 until dataPerFeature.length){
+      val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i))
+
+      val x = dataPerFeature(i)
+
+      if (data.head.length == 1) p += plot(x, labels, '.', colorcode=col)
+      else p += plot(x, labels, '.', colorcode=col, name= "feature " + i)
+
+      // get equidistant points in this feature for line plotting
+      val equiVec: DenseVector[Double] = linspace(x.min, x.max, 5)
+      val xEqui: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
+      // create new data, equidistant in this feature, respective mean in all other features
+      val xEquiMean: List[List[Double]] = for (xe <- xEqui) yield
+        (for (j <- 0 until dataPerFeature.length) yield if (i == j) xe else xMeans(j)).toList
+      val y = reg.predict(xEquiMean)
+      p += plot(xEqui, y, '-', colorcode=col, name= "reg " + i)
+      // p += plot(xEqui, y, '-', colorcode= "[50,200,100]", name= "reg " + i)
+    }
+
+    p.ylabel = "Label"
+    if (data.head.length == 1) p.xlabel = "feature 0"
+    p.legend = true
+    p.title = reg.name + " prediction"
 
     f.saveas(name)
   }
