@@ -85,9 +85,9 @@ object Mllab {
       println("f1: %.2f".format(Evaluation.f1(y_pred, y_test)))
 
       println("Visualize the data")
-      Plotting.plotData(X_train, y_train)
-      Plotting.plotClf(X_train, y_train, clf)
-      Plotting.plotGrid(X_train, clf)
+      Plotting.plotData(X_train, y_train, name= "plots/clf_" + algo + "_data.pdf")
+      Plotting.plotClf(X_train, y_train, clf, name= "plots/clf_" + algo + "_clf.pdf")
+      Plotting.plotGrid(X_train, clf, name= "plots/clf_" + algo + "_grid.pdf")
 
       for (diag <- clf.diagnostics)
         Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/clf_" + algo + "_" + diag._1 + ".pdf")
@@ -119,7 +119,7 @@ object Mllab {
       }
 
       println("Visualize the data")
-      Plotting.plotRegData(X_train, y_train)
+      Plotting.plotRegData(X_train, y_train, name= "plots/reg_" + algo + "_data.pdf")
 
       for (diag <- reg.diagnostics)
         Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/reg_" + algo + "_" + diag._1 + ".pdf")

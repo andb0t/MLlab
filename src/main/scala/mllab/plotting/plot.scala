@@ -14,7 +14,7 @@ object Plotting {
    *@param labels List of labels
    *@param name Path to save the plot
    */
-  def plotData(data: List[List[Double]], labels: List[Int], name: String="plots/plot.pdf"): Unit = {
+  def plotData(data: List[List[Double]], labels: List[Int], name: String="plots/data.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
