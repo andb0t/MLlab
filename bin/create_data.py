@@ -12,7 +12,7 @@ parser.add_argument("--clf",
                     help='create classification data with specified shape')
 parser.add_argument("--reg",
                     default=None,
-                    choices=['linear', 'twodimlinear', 'multidimlinear', 'quadratic', 'twodimquadratic'],
+                    choices=['linear', 'twodimlinear', 'multidimlinear', 'quadratic', 'twodimquadratic', 'cubic'],
                     help='create regression data with specified shape')
 
 args = parser.parse_args()
@@ -97,6 +97,9 @@ def generate_reg_point(strategy):
         elif strategy == 'twodimquadratic':
             x = [2 * random.random() - 1, 2 * random.random() - 1]
             y = 2 * x[0]**2 - 3 * x[1]**2 + 4 * x[0] * x[1] + 1*x[0] - 2 * x[1] - 1
+        elif strategy == 'cubic':
+            x = [2 * random.random() - 1]
+            y = -2 * x[0]**3 + 2 * x[0]**2 + 1*x[0] - 1
         else:
             raise NotImplementedError('this shape is not implemented for reg')
 
