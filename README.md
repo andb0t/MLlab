@@ -23,6 +23,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/) for detailed informati
 ### Regression
 - [x] random
 - [x] linear regression
+- [x] polynomial regression with linear kernel
 - [ ] naive Bayesian regression
 
 

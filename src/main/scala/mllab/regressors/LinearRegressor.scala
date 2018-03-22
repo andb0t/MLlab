@@ -2,6 +2,7 @@ package regressors
 
 import scala.collection.mutable.ListBuffer
 
+import datastructures._
 import evaluation._
 import utils._
 
@@ -19,36 +20,6 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
    * @param degree Maximum order of polynomial features to add
    * @return Original instance extended by polynomial combination of its features
    */
-  def addPolyFeatures(X: List[List[Double]], degree: Int): List[List[Double]] = {
-    if (degree == 1) X
-    else {
-      val xFeatures = X.transpose
-      val nFeatures = xFeatures.length
-
-      def polyMap(deg: Int): List[Map[Int, Int]] = {
-        // val maps = List(Map(0 -> 2), Map(0 -> 3))
-        val maps = for (i <- 2 to degree) yield Map(0 -> i)
-        maps.toSet.toList
-      }
-
-      def addFeatures(xExtended: List[List[Double]], featureMapList: List[Map[Int, Int]]): List[List[Double]] = featureMapList match {
-        case Nil => xExtended
-        case mHead::mTail => {
-          val indices: List[Int] = (for (m <- mHead) yield List.fill(m._2)(m._1)).flatten.toList
-          val newFeature: List[Double] = for (x <- X) yield indices.map(i => x(i)).product
-          addFeatures(newFeature::xExtended, mTail)
-        }
-      }
-
-      val xExtended = addFeatures(xFeatures, polyMap(degree)).transpose
-      println("Instances with the transformed features:")
-      println(X.head + " -> " + xExtended.head)
-      println(X(1) + " -> " + xExtended(1))
-      println(X(2) + " -> " + xExtended(2))
-      println(X(3) + " -> " + xExtended(3))
-      xExtended
-    }
-  }
 
   def lossGradient(X: List[List[Double]], y: List[Double]): List[Double] = {
     // dLoss = d(MSE scaled) = Sum (const * linearDistanceScaled * instanceVector)
@@ -92,10 +63,10 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
     for (instance <- X) yield Maths.dot(weight.toList, instance) + bias
 
   def predict(X: List[List[Double]]): List[Double] =
-    _predict(addPolyFeatures(X, degree))
+    _predict(DataTrafo.addPolyFeatures(X, degree))
 
   def train(X: List[List[Double]], y: List[Double]): Unit =
-    _train(addPolyFeatures(X, degree), y)
+    _train(DataTrafo.addPolyFeatures(X, degree), y)
 
   override def diagnostics(): Map[String, List[(Double, Double)]] = {
     Map("loss" -> lossEvolution.toList)
