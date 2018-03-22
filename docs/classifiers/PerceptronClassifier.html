@@ -89,7 +89,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="classifiers.PerceptronClassifier#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(alpha:Double):classifiers.PerceptronClassifier"></a>
+      <a id="&lt;init&gt;(alpha:Double,degree:Int):classifiers.PerceptronClassifier"></a>
       <a id="&lt;init&gt;:PerceptronClassifier"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,10 +97,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">PerceptronClassifier</span><span class="params">(<span name="alpha">alpha: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">1</span></span>)</span>
+        <span class="name">PerceptronClassifier</span><span class="params">(<span name="alpha">alpha: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">1.0</span></span>, <span name="degree">degree: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.PerceptronClassifier@&lt;init&gt;(alpha:Double):classifiers.PerceptronClassifier" title="Permalink" target="_top">
+      <a href="../index.html#classifiers.PerceptronClassifier@&lt;init&gt;(alpha:Double,degree:Int):classifiers.PerceptronClassifier" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -165,6 +165,40 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="classifiers.PerceptronClassifier#_predict" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="_predict(X:List[List[Double]]):List[Int]"></a>
+      <a id="_predict(List[List[Double]]):List[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_predict</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#classifiers.PerceptronClassifier@_predict(X:List[List[Double]]):List[Int]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="classifiers.PerceptronClassifier#_train" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="_train(X:List[List[Double]],y:List[Int]):Unit"></a>
+      <a id="_train(List[List[Double]],List[Int]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_train</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#classifiers.PerceptronClassifier@_train(X:List[List[Double]],y:List[Int]):Unit" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
