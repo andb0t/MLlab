@@ -2,11 +2,12 @@ package classifiers
 
 import scala.collection.mutable.ListBuffer
 
+import datastructures._
 import evaluation._
 import utils._
 
 
-class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIter: Int = 1000) extends Classifier {
+class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIter: Int = 1000, degree: Int=1) extends Classifier {
 
   val name: String = "LogisticRegressionClassifier"
 
@@ -31,7 +32,7 @@ class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIte
     biasGradient::weightGradient
   }
 
-  def train(X: List[List[Double]], y: List[Int]): Unit = {
+  def _train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     for (i <- 0 until X.head.length)
       weight += 0
@@ -61,8 +62,14 @@ class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIte
     updateWeights(0)
   }
 
-  def predict(X: List[List[Double]]): List[Int] =
+  def _predict(X: List[List[Double]]): List[Int] =
     for (p <- getProbabilities(X)) yield if (p > 0.5) 1 else 0
+
+  def predict(X: List[List[Double]]): List[Int] =
+    _predict(DataTrafo.addPolyFeatures(X, degree))
+
+  def train(X: List[List[Double]], y: List[Int]): Unit =
+    _train(DataTrafo.addPolyFeatures(X, degree), y)
 
   override def diagnostics(): Map[String, List[(Double, Double)]] = {
     Map("loss" -> lossEvolution.toList)

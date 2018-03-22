@@ -3,10 +3,11 @@ package classifiers
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
+import datastructures._
 import utils._
 
 
-class PerceptronClassifier(alpha: Double = 1) extends Classifier {
+class PerceptronClassifier(alpha: Double = 1.0, degree: Int=1) extends Classifier {
 
   val name: String = "PerceptronClassifier"
 
@@ -24,7 +25,7 @@ class PerceptronClassifier(alpha: Double = 1) extends Classifier {
   def isCorrect(instance: List[Double], label: Int): Boolean =
     getPrediction(instance) == label
 
-  def train(X: List[List[Double]], y: List[Int]): Unit = {
+  def _train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
 
     // initialize parameters
@@ -70,7 +71,13 @@ class PerceptronClassifier(alpha: Double = 1) extends Classifier {
     println("Bias: " + bias)
   }
 
-  def predict(X: List[List[Double]]): List[Int] =
+  def _predict(X: List[List[Double]]): List[Int] =
     for (instance <- X) yield getPrediction(instance)
+
+  def predict(X: List[List[Double]]): List[Int] =
+    _predict(DataTrafo.addPolyFeatures(X, degree))
+
+  def train(X: List[List[Double]], y: List[Int]): Unit =
+    _train(DataTrafo.addPolyFeatures(X, degree), y)
 
 }
