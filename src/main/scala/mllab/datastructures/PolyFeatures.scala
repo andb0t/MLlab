@@ -1,10 +1,10 @@
 package datastructures
 
-
+/** Provides some internal data preprocessing functions */
 object DataTrafo {
 
-  /** Produces a list of all possible multiplicities of at least 2 features */
-  def polyList(deg: Int, nFeat: Int, list: List[List[Int]]): List[List[Int]] = {
+  /** Produces a list of all possible feature multiplicities involving at least two features */
+  def polyList(degree: Int, nFeat: Int, list: List[List[Int]]): List[List[Int]] = {
     def oneHot(idx: Int): List[Int] =
       (for (i <- 0 until nFeat) yield if (i == idx) 1 else 0).toList
     def addOne(list: List[Int]): List[List[Int]] = list match {
@@ -12,17 +12,17 @@ object DataTrafo {
         case _ =>
           (for (i <- 0 until nFeat) yield list.zip(oneHot(i)).map{case (x, y) => x + y}).toList
       }
-    if (deg == 0) list
+    if (degree == 0) list
     else {
       val thisDegreeList =
         if (list == Nil) (for (i <- 0 until nFeat) yield oneHot(i)).toList
-        else if (deg == 1) (list.map(l => addOne(l))).flatten  // don't record unit multiplicities
+        else if (degree == 1) (list.map(l => addOne(l))).flatten  // don't record unit multiplicities
         else (list.map(l => addOne(l))).flatten ::: list
-      polyList(deg-1, nFeat, thisDegreeList.toSet.toList)
+      polyList(degree-1, nFeat, thisDegreeList.toSet.toList)
     }
   }
 
-    /** Turns turns the lists with multiplicities into polynomial mapping */
+    /** Turns the lists with multiplicities into polynomial mapping */
   def polyMap(degree: Int, nFeatures: Int): List[Map[Int, Int]] =
     polyList(degree, nFeatures, Nil).map(l => (for (i <- 0 until l.length) yield i -> l(i)).toMap)
 
