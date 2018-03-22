@@ -7,7 +7,7 @@ import evaluation._
 import utils._
 
 
-class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 1000, degree: Int=3) extends Regressor {
+class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 1000, degree: Int=1) extends Regressor {
 
   val name: String = "LinearRegressor"
 
@@ -15,11 +15,6 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
   var bias: Double = 0
 
   var lossEvolution = new ListBuffer[(Double, Double)]()
-
-  /** Add polynomial features to instances
-   * @param degree Maximum order of polynomial features to add
-   * @return Original instance extended by polynomial combination of its features
-   */
 
   def lossGradient(X: List[List[Double]], y: List[Double]): List[Double] = {
     // dLoss = d(MSE scaled) = Sum (const * linearDistanceScaled * instanceVector)

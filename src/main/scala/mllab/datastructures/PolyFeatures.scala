@@ -26,7 +26,11 @@ object DataTrafo {
   def polyMap(degree: Int, nFeatures: Int): List[Map[Int, Int]] =
     polyList(degree, nFeatures, Nil).map(l => (for (i <- 0 until l.length) yield i -> l(i)).toMap)
 
-  /** Adds polynomial features of up until given degree */
+  /** Add polynomial features to instances
+   * @param X Instance list
+   * @param degree Maximum order of polynomial features to add
+   * @return Original instance extended by polynomial combination of its features
+   */
   def addPolyFeatures(X: List[List[Double]], degree: Int): List[List[Double]] = {
     if (degree == 1) X
     else {
