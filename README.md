@@ -26,7 +26,8 @@ Please consult the [API](https://andb0t.github.io/MLlab/) for detailed informati
 - [x] polynomial regression with linear kernel
 - [ ] naive Bayesian regression
 
-
+### Misc
+- [x] extension of linear models to polynomial dependencies via feature transformation
 
 ## Installation
 This app uses [sbt](https://www.scala-sbt.org/index.html) as build tool. Installation for Ubuntu:
