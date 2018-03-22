@@ -23,12 +23,12 @@ object DataTrafo {
   }
 
     /** Turns turns the lists with multiplicities into polynomial mapping */
-  def polyMap(order: Int, nFeatures: Int): List[Map[Int, Int]] =
-    polyList(order, nFeatures, Nil).map(l => (for (i <- 0 until l.length) yield i -> l(i)).toMap)
+  def polyMap(degree: Int, nFeatures: Int): List[Map[Int, Int]] =
+    polyList(degree, nFeatures, Nil).map(l => (for (i <- 0 until l.length) yield i -> l(i)).toMap)
 
-  /** Adds polynomial features of up until given order */
-  def addPolyFeatures(X: List[List[Double]], order: Int): List[List[Double]] = {
-    if (order == 1) X
+  /** Adds polynomial features of up until given degree */
+  def addPolyFeatures(X: List[List[Double]], degree: Int): List[List[Double]] = {
+    if (degree == 1) X
     else {
       val xFeatures = X.transpose
       val nFeatures = xFeatures.length
@@ -41,7 +41,7 @@ object DataTrafo {
           addFeatures(newFeature::xExtended, mTail)
         }
       }
-      val polyMaps = polyMap(order, nFeatures)
+      val polyMaps = polyMap(degree, nFeatures)
       // println("Polynomial mapping (%d maps):".format(polyMaps.length))
       // println(polyMaps.sortBy(_.values).mkString("\n"))
       val xExtended = addFeatures(xFeatures, polyMaps).transpose
