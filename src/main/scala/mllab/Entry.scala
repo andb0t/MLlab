@@ -42,7 +42,7 @@ object Mllab {
     val input = argMap("input")
 
     if (task == "clf") {
-      println{"Train the model"}
+      println{"Train the classifier"}
 
       val trainReader = new Reader(input + "/clf_train.csv", label=3, index=0)
       trainReader.loadFile()
@@ -73,7 +73,7 @@ object Mllab {
       println("Now do prediction on test set")
       val y_pred = clf.predict(X_test)
       assert (y_pred.length == y_test.length)
-      println("Predicted values:")
+      // println("Predicted values:")
       // for (i <- 0 until Math.min(y_pred.length, 10)) {
       //   println("Test instance " + i + ": prediction " + y_pred(i) + " true value " + y_test(i))
       // }
@@ -93,7 +93,7 @@ object Mllab {
         Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/clf_" + algo + "_" + diag._1 + ".pdf")
     }
     else if (task == "reg") {
-      println("\n\nTry basic regressor functionality")
+      println{"Train the regressor"}
 
       val trainReader = new Reader(input + "/reg_train.csv", label= -1, index=0)
       trainReader.loadFile()
@@ -113,6 +113,7 @@ object Mllab {
         else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
       reg.train(X_train, y_train)
 
+      println{"Apply to test set"}
       val y_pred: List[Double] = reg.predict(X_test)
       for (i <- 0 until Math.min(y_pred.length, 10)) {
         println("Test instance " + i + ": " + X_test(i) + " prediction %.2f  true value %.2f".format(y_pred(i), y_test(i)))
