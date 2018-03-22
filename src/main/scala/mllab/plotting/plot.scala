@@ -175,7 +175,7 @@ object Plotting {
       p += plot(x, labels, '.', colorcode=col, name= "feature " + i)
 
       // get equidistant points in this feature for line plotting
-      val equiVec: DenseVector[Double] = linspace(x.min, x.max, 5)
+      val equiVec: DenseVector[Double] = linspace(x.min, x.max, 200)
       val xEqui: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
       // create new data, equidistant in this feature, respective mean in all other features
       val xEquiMean: List[List[Double]] = for (xe <- xEqui) yield
