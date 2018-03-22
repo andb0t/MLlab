@@ -1,5 +1,7 @@
 # MLlab
 
+[![Build status](https://travis-ci.org/andb0t/MLlab.svg?branch=master)](https://travis-ci.org/andb0t)
+
 
 
 ## Introduction
