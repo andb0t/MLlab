@@ -6,6 +6,7 @@ import java.awt.Color
 /** Provides auxiliary functions for string transformations */
 object StringTrafo {
 
+  /** Convert color object to RGB string */
   def convertToColorCode(col: java.awt.Color): String = {
     val binCol = col.getRGB.toBinaryString
     val b = Integer.parseInt(binCol.takeRight(8), 2)

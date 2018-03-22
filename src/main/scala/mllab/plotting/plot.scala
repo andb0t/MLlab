@@ -154,7 +154,12 @@ object Plotting {
     f.saveas(name)
   }
 
-
+  /** Plot data for regression
+   *@param data List of features, e.g. in 2D: x-coordinates
+   *@param labels List of labels, e.g. in 2D: y-coordinates
+   *@param reg Trained regressor
+   *@param name Path to save the plot
+   */
   def plotReg(data: List[List[Double]], labels: List[Double], reg: Regressor, name: String="plots/reg.pdf"): Unit = {
     val f = Figure()
     f.visible= false
@@ -167,9 +172,7 @@ object Plotting {
       val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i))
 
       val x = dataPerFeature(i)
-
-      if (data.head.length == 1) p += plot(x, labels, '.', colorcode=col)
-      else p += plot(x, labels, '.', colorcode=col, name= "feature " + i)
+      p += plot(x, labels, '.', colorcode=col, name= "feature " + i)
 
       // get equidistant points in this feature for line plotting
       val equiVec: DenseVector[Double] = linspace(x.min, x.max, 5)
