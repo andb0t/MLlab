@@ -7,6 +7,21 @@ scala:
    - 2.11.8
    - 2.12.4
 
-script:
-   - sbt ++$TRAVIS_SCALA_VERSION test
-   - sbt ++$TRAVIS_SCALA_VERSION run
+stages:
+  - compile
+  - test
+  - run
+
+jobs:
+  include:
+    - stage: compile
+      script: sbt ++$TRAVIS_SCALA_VERSION compile
+    - stage: test
+      script: sbt ++$TRAVIS_SCALA_VERSION test
+    - stage: run
+      script: sbt ++$TRAVIS_SCALA_VERSION run
+
+
+# script:
+#    - sbt ++$TRAVIS_SCALA_VERSION test
+#    - sbt ++$TRAVIS_SCALA_VERSION run
