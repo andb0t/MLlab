@@ -8,11 +8,14 @@ import random
 parser = argparse.ArgumentParser()
 parser.add_argument("--clf",
                     default=None,
-                    choices=['halfs', 'quarters', 'diagonal', 'circle', 'ellipse', 'circles', 'shifteddiagonal'],
+                    choices=['halfs', 'quarters', 'diagonal', 'circle',
+                             'ellipse', 'circles', 'shifteddiagonal'],
                     help='create classification data with specified shape')
 parser.add_argument("--reg",
                     default=None,
-                    choices=['linear', 'twodimlinear', 'multidimlinear', 'quadratic', 'twodimquadratic', 'cubic'],
+                    choices=['linear', 'twodimlinear', 'multidimlinear',
+                             'quadratic', 'twodimquadratic', 'cubic',
+                             'twodimcubic'],
                     help='create regression data with specified shape')
 
 args = parser.parse_args()
@@ -94,6 +97,9 @@ def generate_reg_point(strategy):
         elif strategy == 'quadratic':
             x = [2 * random.random() - 1]
             y = 2 * x[0]**2 + 1*x[0] - 1
+        elif strategy == 'twodimcubic':
+            x = [2 * random.random() - 1, 2 * random.random() - 1]
+            y = -x[0]**3 + 2 * x[1]**3 + 2 * x[0]**2 - 3 * x[1]**2 + 1*x[0] - 2 * x[1] - 1
         elif strategy == 'twodimquadratic':
             x = [2 * random.random() - 1, 2 * random.random() - 1]
             y = 2 * x[0]**2 - 3 * x[1]**2 + 4 * x[0] * x[1] + 1*x[0] - 2 * x[1] - 1
