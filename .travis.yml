@@ -12,6 +12,11 @@ stages:
   - test
   - run
 
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
 jobs:
   include:
     - stage: compile
@@ -20,8 +25,3 @@ jobs:
       script: sbt ++$TRAVIS_SCALA_VERSION test
     - stage: run
       script: sbt ++$TRAVIS_SCALA_VERSION run
-
-
-# script:
-#    - sbt ++$TRAVIS_SCALA_VERSION test
-#    - sbt ++$TRAVIS_SCALA_VERSION run
