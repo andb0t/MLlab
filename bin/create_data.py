@@ -96,7 +96,8 @@ def generate_reg_point(strategy):
         else:
             raise NotImplementedError('this shape is not implemented for reg')
 
-        y *= 1 + 0.1 * (2 * random.random() - 1)  # 10% fluctuation
+        mu, sigma = 0, 0.3  # mean and standard deviation
+        y += random.gauss(mu, sigma)  # gaussian noise
 
         x = list(map(lambda xs: round(xs, 3), x))
         y = round(y, 3)
