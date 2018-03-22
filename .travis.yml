@@ -11,6 +11,7 @@ stages:
   - compile
   - test
   - run
+  - doc
 
 before_script:
   - "export DISPLAY=:99.0"
@@ -25,3 +26,5 @@ jobs:
       script: sbt ++$TRAVIS_SCALA_VERSION test
     - stage: run
       script: sbt ++$TRAVIS_SCALA_VERSION run
+    - stage: doc
+      script: sbt ++$TRAVIS_SCALA_VERSION doc
