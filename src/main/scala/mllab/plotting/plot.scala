@@ -117,7 +117,6 @@ object Plotting {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
-    val x = linspace(0.0,1.0)
     for (i <- 0 until curves.length){
       val curve = curves(i)
       if (i < names.length) p += plot(curve.map(_._1), curve.map(_._2), name=names(i))
