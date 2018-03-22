@@ -7,7 +7,7 @@ import evaluation._
 import utils._
 
 
-class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 1000, degree: Int=3) extends Regressor {
+class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 1000, poly: Int=3) extends Regressor {
 
   val name: String = "LinearRegressor"
 
@@ -17,7 +17,7 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
   var lossEvolution = new ListBuffer[(Double, Double)]()
 
   /** Add polynomial features to instances
-   * @param degree Maximum order of polynomial features to add
+   * @param poly Maximum order of polynomial features to add
    * @return Original instance extended by polynomial combination of its features
    */
 
@@ -63,10 +63,10 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
     for (instance <- X) yield Maths.dot(weight.toList, instance) + bias
 
   def predict(X: List[List[Double]]): List[Double] =
-    _predict(DataTrafo.addPolyFeatures(X, degree))
+    _predict(DataTrafo.addPolyFeatures(X, poly))
 
   def train(X: List[List[Double]], y: List[Double]): Unit =
-    _train(DataTrafo.addPolyFeatures(X, degree), y)
+    _train(DataTrafo.addPolyFeatures(X, poly), y)
 
   override def diagnostics(): Map[String, List[(Double, Double)]] = {
     Map("loss" -> lossEvolution.toList)
