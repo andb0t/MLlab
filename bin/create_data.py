@@ -8,7 +8,7 @@ import random
 parser = argparse.ArgumentParser()
 parser.add_argument("--clf",
                     default=None,
-                    choices=['halfs', 'quarters', 'diagonal', 'circle', 'ellipse', 'circles'],
+                    choices=['halfs', 'quarters', 'diagonal', 'circle', 'ellipse', 'circles', 'shifteddiagonal'],
                     help='create classification data with specified shape')
 parser.add_argument("--reg",
                     default=None,
@@ -39,6 +39,10 @@ def generate_clf_point(strategy):
             x = 2 * random.random() - 1
             y = 2 * random.random() - 1
             label = 0 if x - y > 0 else 1
+        elif strategy == 'shifteddiagonal':
+            x = 2 * random.random() - 1
+            y = 2 * random.random() - 1
+            label = 0 if x - y + 0.5 > 0 else 1
         elif strategy == 'circle':
             x = 2 * random.random() - 1
             y = 2 * random.random() - 1
