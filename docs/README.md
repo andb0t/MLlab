@@ -158,7 +158,7 @@ A naive application of the NN with the default settings to the circular dataset 
 
 ![Linear regression](./neuralnetwork_classification_default_example.png)
 
-After increasing the number of neurons on the second layer to 16, the NN performs reasonably very well.
+After increasing the number of neurons on the second layer to 16, the NN performs very well.
 
 ```scala
 val clf = new NeuralNetworkClassifier(layers=List(2, 16, 2))
