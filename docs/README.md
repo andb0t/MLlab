@@ -18,16 +18,19 @@ This is an experimental platform-independent machine learning library. Born from
 * [Algorithm details](#algorithm-details)
 
 
+
+
+
 ## Implemented algorithms
 Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the implemented hyper parameters.
 
 ### Classification
 - [x] random
+- [x] logistic regression
+- [x] perceptron
 - [x] k-nearest neighbors
 - [x] decision tree
-- [x] perceptron
 - [x] multilayer neural network
-- [x] logistic regression
 - [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
 - [ ] naive Bayesian classification
 
@@ -41,8 +44,16 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] extension of linear models to polynomial dependencies via feature transformation
 
 
+
+
+
+
+
 ## Examples of usage
 This section gives some impressions of what the implemented algorithms can perform and how to use the API.
+
+
+
 
 
 ### Classification
@@ -77,6 +88,38 @@ val clf = new LogisticRegressionClassifier(degree=2)
 This adds powers up until quadratic powers of the feature to the feature vector. Here is an example of the same algorithm applied to circular data. The classifier can now solve the corresponding classification task.
 
 ![Linear regression](./logisticregression_classification_quadratic_example.png)
+
+
+#### Perceptron
+The perceptron algorithm tries to find any linear boundary to perfectly separate the classes. It updates the weights of the linear model sequentially for each training instance in each training step in the direction of correct classification. This is repeated until a chosen precision or maximum of iterations is reached.
+```scala
+val clf = new PerceptronClassifier()
+```
+![Linear regression](./perceptron_classification_example.png)
+
+Applying the same feature transformation as above, also this linear algorithm can solve the circular data task.
+```scala
+val clf = new PerceptronClassifier(degree=2)
+```
+![Linear regression](./perceptron_classification_quadratic_example.png)
+
+
+#### k-Nearest Neighbors
+```scala
+val clf = new kNNClassifier()
+```
+#### Decision Tree
+```scala
+val clf = new DecisionTreeClassifier()
+```
+#### Multilayer Neural Network
+```scala
+val clf = new NeuralNetworkClassifier()
+```
+
+
+
+
 
 
 ### Regression
