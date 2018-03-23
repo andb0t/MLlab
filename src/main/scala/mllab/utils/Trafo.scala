@@ -14,8 +14,8 @@ object Trafo {
   def toVector(y: List[Double]): DenseVector[Double] =
     DenseVector(y.toArray)
 
-    /** Transform 1D list to 1D vector of integers */
-  def toVectorInt(y: List[Int]): DenseVector[Int] =  // breeze doesn't allow polymorphism?
+    /** Transform 1D list to 1D vector of integers (breeze doesn't allow polymorphism?)  */
+  def toVectorInt(y: List[Int]): DenseVector[Int] =
     convert(toVector(y.map(_.toDouble)), Int)
 
 }
