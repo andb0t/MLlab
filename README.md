@@ -10,11 +10,11 @@ This is an experimental platform independent machine learning library.
 
 
 ## Implemented algorithms
-Please consult the [API](https://andb0t.github.io/MLlab/) for detailed information, e.g. options for hyperparameters.
+Please consult the [API](https://andb0t.github.io/MLlab/) for detailed information, e.g. options for hyper parameters.
 
 ### Classification
 - [x] random
-- [x] k-nearest neighbours
+- [x] k-nearest neighbors
 - [x] decision tree
 - [x] perceptron
 - [x] multilayer neural network
@@ -91,6 +91,23 @@ sbt
 scalastyle  # style check
 [compile, run]  # linter runs as compilation hook
 ```
+
+## Contribution
+Everyone is welcome to contribute! I would especially appreciate support in
+* a static webpage for the project
+* a GUI to select datasets, algorithms and hyper parameters, run the analysis
+  and do grid hyper parameter optimization
+
+PRs and issues are always welcome.
+
+### Testing
+Please write unit tests for your methods.
+
+### Contributors
+This code is developed and maintained by me. List of contributors in alphabetical order:
+* no one yet :/
+* maybe you? ^^
+
 
 ## Some remarks about scala
 Some useful links:
