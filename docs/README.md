@@ -28,7 +28,26 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] extension of linear models to polynomial dependencies via feature transformation
 
 
-## Examples
-![Linear regression](./regression_example.png)
-![Linear regression](./regression_example.png =100x)
-<img src=" MLlab/docs/regression_example.png" width="100">
+## Examples of usage
+Machine learning algorithms and [APIs](https://andb0t.github.io/MLlab/api/index.html) may seem quite abstract. This section gives you some examples of how the algorithms can be applied.
+
+### Regression
+
+#### Linear regression
+MLlab provides several algorithms for regression tasks. The most basic is the linear regression. It is designed to fit data with a underlying linear dependencies on an arbitrary dimensional set of features. This is a basic example for the case of a 1D feature vector and a 1D label. The training and testing data have been drawn from a linear function with Gaussian noise.
+
+![Linear regression](./linear_regression_example.png)
+
+Using a trick, the internal addition of higher orders of the features, linear algorithms can be applied to non-linear datasets. This is an example of the same algorithm applied to 3D data, where powers of the feature have been added to the feature vector.
+
+![Linear regression](./linear_regression_cubic_example.png)
+
+### Classification
+
+<!-- ## Algorithm details
+
+### Linear regression
+### Linear regression
+### Linear regression
+### Linear regression
+### Linear regression -->
