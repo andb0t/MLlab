@@ -15,7 +15,6 @@ This is an experimental platform-independent machine learning library. Born from
     * [Logistic regression](#logistic-regression)
   * [Regression](#regression)
     * [Linear regression](#linear-regression)
-* [Algorithm details](#algorithm-details)
 
 
 
@@ -175,8 +174,3 @@ val reg = new LinearRegressor(degree=3)
 This is an example of the same algorithm applied to data with a cubic dependence, where powers up until cubic powers of the feature have been added to the feature vector.
 
 ![Linear regression](./linear_regression_cubic_example.png)
-
-
-## Algorithm details
-
-This section explains the implemented algorithms in more depth.
