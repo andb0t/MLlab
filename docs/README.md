@@ -4,6 +4,8 @@
 
 This is an experimental platform-independent machine learning library. Born from the desire to implement modern machine learning algorithms by hand, this project has grown considerably and provides now basic algorithms for various classification and regression tasks.
 
+The library is written in [Scala](https://www.scala-lang.org/) and can therefore make use of the [JVM](https://java.com/), making it platform-independent.
+
 
 #### Content
 * [Implemented algorithms](#implemented-algorithms)
