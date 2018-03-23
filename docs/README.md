@@ -5,6 +5,19 @@
 This is an experimental platform-independent machine learning library. Born from the desire to implement modern machine learning algorithms by hand, this project has grown considerably and provides now basic algorithms for various classification and regression tasks.
 
 
+#### Content
+* [Implemented algorithms](#Implemented-algorithms)
+  * [Classification](#Classification)
+  * [Regression](#Regression)
+  * [Misc](#Misc)
+* [Examples of usage](#Examples-of-usage)
+  * [Classification](#Classification)
+    * [Logistic regression](#Logistic-regression)
+  * [Regression](#Regression)
+    * [Linear regression](#Linear-regression)
+* [Algorithm details](#Algorithm-details)
+
+
 ## Implemented algorithms
 Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the implemented hyper parameters.
 
@@ -100,10 +113,7 @@ This is an example of the same algorithm applied to data with a cubic dependence
 
 ![Linear regression](./linear_regression_cubic_example.png)
 
-<!-- ## Algorithm details
 
-### Linear regression
-### Linear regression
-### Linear regression
-### Linear regression
-### Linear regression -->
+## Algorithm details
+
+This section explains the implemented algorithms in more depth.
