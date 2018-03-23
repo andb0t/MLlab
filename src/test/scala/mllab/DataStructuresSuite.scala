@@ -5,7 +5,7 @@ import datastructures._
 
 class DataStructuresSuite extends FunSuite {
 
-  test("polylist") {
+  test("polynomial components") {
     val twoTwo = List(List(2, 0), List(1, 1), List(0, 2))
     assert (DataTrafo.polyList(2, 2, Nil).toSet  === twoTwo.toSet)
     assert (DataTrafo.polyList(2, 2, Nil).length === twoTwo.length)
@@ -21,6 +21,13 @@ class DataStructuresSuite extends FunSuite {
     )
     assert (DataTrafo.polyList(3, 3, Nil).toSet  === threeThree.toSet)
     assert (DataTrafo.polyList(3, 3, Nil).length === threeThree.length)
+  }
+
+  test ("decision nodes") {
+    assert (new DecisionNode(4).left === 9)
+    assert (new DecisionNode(4).right === 10)
+    assert (new DecisionNode(4).parent === 1)
+    assert (new DecisionNode(0).parent === -1)
   }
 
   test ("decisiontree nodes") {
