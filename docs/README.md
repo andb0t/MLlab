@@ -211,4 +211,4 @@ This is an example of the same algorithm applied to data with a cubic dependence
 
 ## Algorithm details
 
-This section explains the implemented algorithms in more depth. It is currently work in progress! :construction_worker:
+This section explains the implemented algorithms in more depth. It is currently work in progress!
