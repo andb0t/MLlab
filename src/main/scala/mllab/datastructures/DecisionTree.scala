@@ -9,7 +9,7 @@ import scala.util.control.Breaks._
   * @constructor Create a new node
   * @param index Index of the node top-left to down-right
   */
-class DecisionNode(index: Int){
+case class DecisionNode(index: Int){
   val nodeIndex: Int = index
   /** Index of right child */
   var right: Int = (nodeIndex + 1) * 2
@@ -30,6 +30,10 @@ class DecisionNode(index: Int){
   var filled: Boolean = false
   /** Node purity */
   var purity: Double = Double.MinValue
+
+  override def toString(): String = {
+    "Node " + nodeIndex + " " + left + "<- . ->" + right
+  }
 }
 
 /** A class representing a decision tree
