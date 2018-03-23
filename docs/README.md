@@ -44,6 +44,10 @@ Using a trick, the internal addition of higher orders of the features, linear al
 
 ### Classification
 
+#### Logistic regression
+
+![Linear regression](./logisticregression_classification_quadratic_example.png)
+
 <!-- ## Algorithm details
 
 ### Linear regression
