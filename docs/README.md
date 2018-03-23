@@ -29,4 +29,5 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 
 
 ## Examples
-![Linear regression](./regression_example.png | width=100)
+![Linear regression](./regression_example.png)
+<img src="https://andb0t.github.io/MLlab/docs/regression_example.png" width="100">

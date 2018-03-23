@@ -84,8 +84,8 @@ Please write unit tests for your methods.
 
 ### Contributors
 This code is developed and maintained by me. List of contributors in alphabetical order:
-* no one yet :/
-* maybe you? ^^
+* no one yet :grin:
+* maybe you? :satisfied:
 
 
 ## Some useful links
