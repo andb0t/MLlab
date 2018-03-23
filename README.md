@@ -1,8 +1,10 @@
-# [MLlab](https://andb0t.github.io/MLlab
+# MLlab
 
 [![Build status](https://travis-ci.org/andb0t/MLlab.svg?branch=master)](https://travis-ci.org/andb0t)
 
 This is an experimental platform independent machine learning library. Born from the desire to implement modern machine learning algorithms by hand, this project has grown considerably and provides now basic algorithms for various classification and regression tasks.
+
+For reference, these are the projects [website](https://andb0t.github.io/MLlab) and its [github repository](https://github.com/andb0t/MLlab).
 
 
 ## Implemented algorithms
@@ -26,6 +28,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
+
 
 ## Installation
 This app uses [sbt](https://www.scala-sbt.org/index.html) as build tool. Installation for Ubuntu:
