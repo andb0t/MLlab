@@ -4,7 +4,7 @@
 
 This is an experimental platform independent machine learning library. Born from the desire to implement modern machine learning algorithms by hand, this project has grown considerably and provides now basic algorithms for various classification and regression tasks.
 
-For reference, these are the projects [website](https://andb0t.github.io/MLlab) and its [github repository](https://github.com/andb0t/MLlab).
+For reference, here is the project's [website](https://andb0t.github.io/MLlab) and its [github repository](https://github.com/andb0t/MLlab).
 
 
 ## Implemented algorithms
