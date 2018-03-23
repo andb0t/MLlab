@@ -24,7 +24,7 @@ object Plotting {
       val filteredData: List[List[Double]] = (data zip labels).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', name= "feature " + category)
+      p += plot(x, y, '.', name= "Feature " + category)
     }
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
@@ -49,17 +49,17 @@ object Plotting {
       val filteredData: List[List[Double]] = (data zip predictions).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', name= "prediction " + category)
+      p += plot(x, y, '.', name= "Prediction " + category)
     }
 
     val wrong: List[Boolean] = (predictions zip labels).map{case (x, y) => x != y}
     val filteredData: List[List[Double]] = (data zip wrong).filter(_._2).map(_._1)
     val x: List[Double] = filteredData.map(e => e.head)
     val y: List[Double] = filteredData.map(e => e(1))
-    p += plot(x, y, '+', colorcode= "r", name= "false prediction")
+    p += plot(x, y, '+', colorcode= "r", name= "False prediction")
 
-    p.xlabel = "feature 0"
-    p.ylabel = "feature 1"
+    p.xlabel = "Feature 0"
+    p.ylabel = "Feature 1"
     p.title = clf.name + " decisions"
     p.legend = true
     f.saveas(name)
@@ -99,10 +99,10 @@ object Plotting {
       val filteredData: List[List[Double]] = (gridData zip predictions).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', name= "feature " + category)
+      p += plot(x, y, '.', name= "Feature " + category)
     }
-    p.xlabel = "feature 0"
-    p.ylabel = "feature 1"
+    p.xlabel = "Feature 0"
+    p.ylabel = "Feature 1"
     p.title = clf.name + " decision map"
     p.legend = true
     f.saveas(name)
@@ -122,7 +122,7 @@ object Plotting {
       if (i < names.length) p += plot(curve.map(_._1), curve.map(_._2), name=names(i))
       else p += plot(curve.map(_._1), curve.map(_._2))
     }
-    p.xlabel = "training epoch"
+    p.xlabel = "Training epoch"
     if (curves.length == 1) p.ylabel = names.head
     p.legend = curves.length != 1
     f.saveas(name)
@@ -143,11 +143,11 @@ object Plotting {
     for (i <- 0 until dataPerFeature.length){
       val x = dataPerFeature(i)
       if (data.head.length == 1) p += plot(x, labels, '.')
-      else p += plot(x, labels, '.', name= "feature " + i)
+      else p += plot(x, labels, '.', name= "Feature " + i)
     }
 
     p.ylabel = "Label"
-    if (data.head.length == 1) p.xlabel = "feature 0"
+    if (data.head.length == 1) p.xlabel = "Feature 0"
     p.legend = (data.head.length != 1)
     p.title = "Data"
 
@@ -172,7 +172,7 @@ object Plotting {
       val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i))
 
       val x = dataPerFeature(i)
-      p += plot(x, labels, '.', colorcode=col, name= "feature " + i)
+      p += plot(x, labels, '.', colorcode=col, name= "Feature " + i)
 
       // get equidistant points in this feature for line plotting
       val equiVec: DenseVector[Double] = linspace(x.min, x.max, 200)
@@ -181,12 +181,12 @@ object Plotting {
       val xEquiMean: List[List[Double]] = for (xe <- xEqui) yield
         (for (j <- 0 until dataPerFeature.length) yield if (i == j) xe else xMeans(j)).toList
       val y = reg.predict(xEquiMean)
-      p += plot(xEqui, y, '-', colorcode=col, name= "reg " + i)
+      p += plot(xEqui, y, '-', colorcode=col, name= "Prediction " + i)
       // p += plot(xEqui, y, '-', colorcode= "[50,200,100]", name= "reg " + i)
     }
 
     p.ylabel = "Label"
-    if (data.head.length == 1) p.xlabel = "feature 0"
+    if (data.head.length == 1) p.xlabel = "Feature 0"
     p.legend = true
     p.title = reg.name + " prediction"
 
