@@ -15,10 +15,13 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
 * [Examples of usage](#examples-of-usage)
   * [Classification](#classification)
     * [Logistic regression](#logistic-regression)
+    * [Perceptron](#perceptron)
+    * [k-Nearest Neighbors](#k-nearest-neighbors)
+    * [Decision Tree](#decision-tree)
+    * [Multilayer Neural Network](#multilayer-neural-network)
   * [Regression](#regression)
     * [Linear regression](#linear-regression)
 * [Algorithm details](#algorithm-details)
-
 
 
 
