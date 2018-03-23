@@ -49,7 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Provides some internal data preprocessing functions</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -362,7 +362,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="datastructures.DataTrafo#polyList" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="polyList(deg:Int,nFeat:Int,list:List[List[Int]]):List[List[Int]]"></a>
+      <a id="polyList(degree:Int,nFeat:Int,list:List[List[Int]]):List[List[Int]]"></a>
       <a id="polyList(Int,Int,List[List[Int]]):List[List[Int]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -370,14 +370,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">polyList</span><span class="params">(<span name="deg">deg: <span class="extype" name="scala.Int">Int</span></span>, <span name="nFeat">nFeat: <span class="extype" name="scala.Int">Int</span></span>, <span name="list">list: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+        <span class="name">polyList</span><span class="params">(<span name="degree">degree: <span class="extype" name="scala.Int">Int</span></span>, <span name="nFeat">nFeat: <span class="extype" name="scala.Int">Int</span></span>, <span name="list">list: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#datastructures.DataTrafo$@polyList(deg:Int,nFeat:Int,list:List[List[Int]]):List[List[Int]]" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DataTrafo$@polyList(degree:Int,nFeat:Int,list:List[List[Int]]):List[List[Int]]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Produces a list of all possible multiplicities of at least 2 features</p>
+      <p class="shortcomment cmt">Produces a list of all possible feature multiplicities involving at least two features</p>
     </li><li name="datastructures.DataTrafo#polyMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="polyMap(degree:Int,nFeatures:Int):List[Map[Int,Int]]"></a>
       <a id="polyMap(Int,Int):List[Map[Int,Int]]"></a>
@@ -394,7 +394,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Turns turns the lists with multiplicities into polynomial mapping</p>
+      <p class="shortcomment cmt">Turns the lists with multiplicities into polynomial mapping</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

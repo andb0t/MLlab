@@ -146,22 +146,22 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="evaluation.Evaluation#LogLoss" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="LogLoss(p_pred:List[Double],y_true:List[Int]):Double"></a>
-      <a id="LogLoss(List[Double],List[Int]):Double"></a>
+      <a id="LogLoss(p_pred:List[Double],y_true:List[Int],eps:Double):Double"></a>
+      <a id="LogLoss(List[Double],List[Int],Double):Double"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">LogLoss</span><span class="params">(<span name="p_pred">p_pred: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y_true">y_true: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+        <span class="name">LogLoss</span><span class="params">(<span name="p_pred">p_pred: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y_true">y_true: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="eps">eps: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">1e-15</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#evaluation.Evaluation$@LogLoss(p_pred:List[Double],y_true:List[Int]):Double" title="Permalink" target="_top">
+      <a href="../index.html#evaluation.Evaluation$@LogLoss(p_pred:List[Double],y_true:List[Int],eps:Double):Double" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Calculates the log loss</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the log loss</p></div><dl class="paramcmts block"><dt class="param">p_pred</dt><dd class="cmt"><p>List of probabilities for each instance</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd></dl></div>
+      <p class="shortcomment cmt">Calculates the log loss</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the log loss</p></div><dl class="paramcmts block"><dt class="param">p_pred</dt><dd class="cmt"><p>List of probabilities for each instance</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd><dt class="param">eps</dt><dd class="cmt"><p>Clip probabilities to avoid undefined logs at p = 0, 1</p></dd></dl></div>
     </li><li name="evaluation.Evaluation#MSE" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MSE(y_pred:List[Double],y_true:List[Double]):Double"></a>
       <a id="MSE(List[Double],List[Double]):Double"></a>
