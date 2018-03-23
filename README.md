@@ -69,6 +69,7 @@ python3 bin/create_data.py --clf circles  # create dummy classification data
 ```
 Then run MLlab on it, e.g. with `sbt run clf DecisionTree data`
 
+
 ## Development
 
 ### Create executable jar
@@ -92,6 +93,7 @@ scalastyle  # style check
 [compile, run]  # linter runs as compilation hook
 ```
 
+
 ## Contribution
 Everyone is welcome to contribute! I would especially appreciate support in
 * a static webpage for the project
@@ -109,8 +111,9 @@ This code is developed and maintained by me. List of contributors in alphabetica
 * maybe you? ^^
 
 
-## Some remarks about scala
-Some useful links:
+## Some useful links
+
+### Some remarks about scala
 * [Scala API](https://www.scala-lang.org/api/current/)
 * [Java API](https://docs.oracle.com/javase/8/docs/api/)
 * [Style guide](https://docs.scala-lang.org/style/overview.html)
@@ -120,6 +123,6 @@ Some useful links:
 * [Extensive cheatsheet](https://github.com/lampepfl/progfun-wiki/blob/gh-pages/CheatSheet.md)
 * [Exercises](https://www.scala-exercises.org/)
 
-## Some remarks about spark
+### Some remarks about spark
 * [Spark API](https://spark.apache.org/docs/2.2.0/api/scala/index.html)
 * [Spark examples](https://github.com/apache/spark/tree/master/examples/src/main/scala/org/apache/spark/examples)
