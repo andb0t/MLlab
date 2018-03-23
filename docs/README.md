@@ -30,4 +30,6 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 
 ## Examples
 ![Linear regression](./regression_example.png)
+![Linear regression | 20%](./regression_example.png)
+![Linear regression | 100x100](./regression_example.png)
 <img src="https://github.com/andb0t/MLlab/blob/master/docs/regression_example.png" width="100">
