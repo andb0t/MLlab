@@ -6,16 +6,16 @@ This is an experimental platform-independent machine learning library. Born from
 
 
 #### Content
-* [Implemented algorithms](#Implemented-algorithms)
-  * [Classification](#Classification)
-  * [Regression](#Regression)
-  * [Misc](#Misc)
-* [Examples of usage](#Examples-of-usage)
-  * [Classification](#Classification)
-    * [Logistic regression](#Logistic-regression)
-  * [Regression](#Regression)
-    * [Linear regression](#Linear-regression)
-* [Algorithm details](#Algorithm-details)
+* [Implemented algorithms](#implemented-algorithms)
+  * [Classification](#classification)
+  * [Regression](#regression)
+  * [Misc](#misc)
+* [Examples of usage](#examples-of-usage)
+  * [Classification](#classification)
+    * [Logistic regression](#logistic-regression)
+  * [Regression](#regression)
+    * [Linear regression](#linear-regression)
+* [Algorithm details](#algorithm-details)
 
 
 ## Implemented algorithms
