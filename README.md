@@ -2,11 +2,7 @@
 
 [![Build status](https://travis-ci.org/andb0t/MLlab.svg?branch=master)](https://travis-ci.org/andb0t)
 
-
-
-## Introduction
-This is an experimental platform independent machine learning library.
-
+This is an experimental platform independent machine learning library. Born from the desire to implement machine learning algorithms by hand, this project has grown over the past months and provides now basic algorithms for various classification and regression tasks.
 
 
 ## Implemented algorithms
