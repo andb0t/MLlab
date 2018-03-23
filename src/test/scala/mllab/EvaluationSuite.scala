@@ -26,4 +26,9 @@ class EvaluationSuite extends FunSuite {
     assert (Evaluation.MSE(List(1, 4), List(-2, 3)) === 5)
   }
 
+  test("log loss"){
+    assert (Evaluation.LogLoss(List(0.8, 0.4, 0.5), List(1, 0, 1)) === 0.47570545188004854)
+    assert (Evaluation.LogLoss(List(0.01, 0, 1), List(1, 0, 1)) === 1.5350567286626975)
+  }
+
 }

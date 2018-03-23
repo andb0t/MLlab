@@ -62,8 +62,12 @@ object Evaluation{
   /** Calculates the log loss
    *@param p_pred List of probabilities for each instance
    *@param y_true List of labels
+   *@param eps Clip probabilities to avoid undefined logs at p = 0, 1
    */
-  def LogLoss(p_pred: List[Double], y_true: List[Int]): Double =
-    - (p_pred zip y_true).map{case (p, y) => y * Math.log(p) + (1 - y) * Math.log(1 - p)}.sum / y_true.length
+  def LogLoss(p_pred: List[Double], y_true: List[Int], eps: Double=1e-15): Double = {
+    def clipped(p: Double): Double =
+      Math.max(eps, Math.min(1 - eps, p))
+    - (p_pred.map(clipped) zip y_true).map{case (p, y) => y * Math.log(p) + (1 - y) * Math.log(1 - p)}.sum / y_true.length
+  }
 
 }
