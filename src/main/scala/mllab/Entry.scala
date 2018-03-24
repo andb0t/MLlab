@@ -61,7 +61,7 @@ object Mllab {
         else if (algo == "Perceptron") new PerceptronClassifier(alpha=1, degree=1)
         else if (algo == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
         else if (algo == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=1000, degree=1)
-        else if (algo == "NaiveBayes") new NaiveBayesClassifier()
+        else if (algo == "NaiveBayes") new NaiveBayesClassifier(model= "gaussian")
         else if (algo == "SVM") new SVMClassifier()
         else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
       clf.train(X_train, y_train)

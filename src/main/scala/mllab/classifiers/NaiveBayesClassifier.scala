@@ -21,6 +21,10 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) e
   def getLikeli(x: List[Double]): List[List[Double]] =
     if (model == "gaussian")
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.norm(fp._1, fp._2.head, fp._2(1))).toList
+    else if (model == "multinomial")
+      (for (pClass <- params) yield for (fp <- x zip pClass) yield 0.0).toList
+    else if (model == "bernoulli")
+      (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.bernoulli(fp._1.toInt, fp._2.head)).toList
     else throw new NotImplementedError("Bayesian model " + model + " not implemented")
 
   /** Calculates the probabilities of belonging to a class for a given instance
@@ -53,6 +57,8 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) e
       val thisClassFeatures = thisClassX.transpose
       val featParams: List[List[Double]] = for (feature <- thisClassFeatures) yield {
         if (model == "gaussian") List(Maths.mean(feature), Maths.std(feature))
+        else if (model == "multinomial") List(0.0)
+        else if (model == "bernoulli") List(1.0 * feature.count(_==0) / feature.length)
         else throw new NotImplementedError("Bayesian model " + model + " not implemented")
       }
       params += featParams

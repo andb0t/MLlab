@@ -41,4 +41,7 @@ object Maths{
   def std(l: List[Double]): Double =
     Math.sqrt(variance(l))
 
+  def bernoulli(x: Int, p: Double): Double =
+    Math.pow(p, x) * Math.pow((1 - p), 1-x)
+
 }

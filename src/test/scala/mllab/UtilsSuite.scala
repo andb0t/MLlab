@@ -27,6 +27,13 @@ class UtilsSuite extends FunSuite {
     assert (Maths.norm(2, -1, 4) == 0.07528435803870111)
   }
 
+  test ("bernoulli distribution") {
+    assert (Maths.bernoulli(0, 0.5) == 0.5)
+    assert (Maths.bernoulli(1, 0.5) == 0.5)
+    assert (Maths.bernoulli(1, 0.3) == 0.3)
+    assert (Maths.bernoulli(0, 0.3) == 0.7)
+  }
+
   test ("mean") {
     // numpy.mean([1, 2, 3])
     assert (Maths.mean(List(1, 2, 3)) === 2)
