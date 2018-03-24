@@ -48,6 +48,11 @@ object Maths{
     Math.max(0, h - Math.signum(dist) * dist * slope)
   }
 
+  def rectangular(x: Double, f: Double, t: Double): Double =
+    if (x <= f) 0.0
+    else if (x >= t) 0.0
+    else 1.0 / (t - f)
+
   /** Returns the mean of a list of values */
   def mean(l: List[Double]): Double =
     l.sum / l.length

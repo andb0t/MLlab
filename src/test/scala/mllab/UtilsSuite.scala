@@ -48,6 +48,14 @@ class UtilsSuite extends FunSuite {
     assert (Maths.triangular(100, 1, 1) === 0)
   }
 
+  test ("rectangular distribution") {
+    assert (Maths.rectangular(0, 0, 1) === 0)
+    assert (Maths.rectangular(1, 0, 1) === 0)
+    assert (Maths.rectangular(0.5, 0, 1) === 1)
+    assert (Maths.rectangular(0.5, 0, 2) === 0.5)
+    assert (Maths.rectangular(100, 1, 1) === 0)
+  }
+
   test ("bernoulli distribution") {
     assert (Maths.bernoulli(0, 0.5) == 0.5)
     assert (Maths.bernoulli(1, 0.5) == 0.5)

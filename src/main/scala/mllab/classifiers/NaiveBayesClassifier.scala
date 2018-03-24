@@ -28,6 +28,8 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, a
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.norm(fp._1, fp._2.head, fp._2(1))).toList
     else if (model == "triangular")
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.triangular(fp._1, fp._2.head, fp._2(1))).toList
+    else if (model == "rectangular")
+      (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.rectangular(fp._1, fp._2.head, fp._2(1))).toList
     else if (model == "bernoulli")
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.bernoulli(fp._1.toInt, fp._2.head)).toList
     else
@@ -70,6 +72,8 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, a
           List(Maths.mean(feature), Maths.std(feature))
         else if (model == "triangular")
           List(Maths.mean(feature), 3 * Maths.std(feature))  // assume no values outside 3 std dev
+        else if (model == "rectangular")
+          List(feature.min, feature.max)
         else if (model == "bernoulli")
           List(1.0 * feature.count(_==0) / feature.length)
         else if (model == "multinomial")
