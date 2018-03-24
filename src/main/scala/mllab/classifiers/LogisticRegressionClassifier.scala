@@ -7,6 +7,12 @@ import evaluation._
 import utils._
 
 
+/** Logistic regression classifier
+ * @param alpha Learning rate
+ * @param tol Loss tolerance to stop training
+ * @param maxIter Maximum number of training iterations
+ * @param degree Order of polynomial features to add to the instances (1 for no addition)
+ */
 class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIter: Int = 1000, degree: Int=1) extends Classifier {
 
   val name: String = "LogisticRegressionClassifier"

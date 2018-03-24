@@ -3,6 +3,9 @@ package classifiers
 import scala.collection.mutable.ListBuffer
 
 
+/** k-nearest neighbors classifier
+ * @param k Number of closest neighbors to consider
+ */
 class kNNClassifier(k: Int = 3) extends Classifier {
 
   val name: String = "kNNClassifier"

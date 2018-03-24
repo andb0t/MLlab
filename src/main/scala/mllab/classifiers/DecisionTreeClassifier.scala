@@ -5,6 +5,10 @@ import datastructures._
 import scala.collection.mutable.ListBuffer
 
 
+/** Decision tree classifier
+ * @param depth Depth of the tree
+ * @param purityMeasure Purity measure to decide on optimal cut features and thresholds
+ */
 class DecisionTreeClassifier(depth: Int = 3, purityMeasure: String="gini") extends Classifier {
 
   val name: String = "DecisionTreeClassifier"

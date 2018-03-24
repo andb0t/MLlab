@@ -3,6 +3,7 @@ package classifiers
 import scala.collection.mutable.ListBuffer
 
 
+/** Support vector machine classifier */
 class SVMClassifier() extends Classifier {
 
   val name: String = "SVMClassifier"

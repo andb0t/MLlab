@@ -8,6 +8,15 @@ import breeze.numerics._
 import utils._
 
 
+/** Neural network classifier
+ * @param alpha Learning rate
+ * @param alphaHalflife Learning rate decay after this number of training steps
+ * @param alphaDecay Type of learning rate decay
+ * @param regularization Regularization parameter
+ * @param activation Activation function
+ * @param batchSize Number of (randomized) training instances to use for each training step
+ * @param layers Structure of the network as a list of number of neurons in each layer
+ */
 class NeuralNetworkClassifier(
   alpha: Double = 0.01,
   alphaHalflife: Int = 100,

@@ -7,6 +7,10 @@ import datastructures._
 import utils._
 
 
+/** Perceptron classifier
+ * @param alpha Learning rate
+ * @param degree Order of polynomial features to add to the instances (1 for no addition)
+ */
 class PerceptronClassifier(alpha: Double = 1.0, degree: Int=1) extends Classifier {
 
   val name: String = "PerceptronClassifier"

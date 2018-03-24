@@ -3,6 +3,10 @@ package regressors
 import scala.collection.mutable.ListBuffer
 
 
+/** Random regressor
+ *
+ * This is a regressor providing random predictions
+ */
 class RandomRegressor() extends Regressor {
 
   val name: String = "RandomRegressor"

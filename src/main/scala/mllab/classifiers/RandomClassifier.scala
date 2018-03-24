@@ -4,7 +4,7 @@ import scala.collection.mutable.ListBuffer
 
 /** Random classifier
  *
- * This is a classifier deciding
+ * This is a classifier deciding randomly on the output class
  */
 class RandomClassifier() extends Classifier {
 
