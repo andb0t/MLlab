@@ -44,12 +44,12 @@ object Mllab {
     if (task == "clf") {
       println{"Train the classifier"}
 
-      val trainReader = new Reader(input + "/clf_train.csv", label=3, index=0)
+      val trainReader = new Reader(input + "/clf_train.csv", label= -1, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY().map(_.toInt)
 
-      val testReader = new Reader(input + "/clf_test.csv", label=3, index=0)
+      val testReader = new Reader(input + "/clf_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY().map(_.toInt)
