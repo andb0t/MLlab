@@ -15,9 +15,19 @@ class UtilsSuite extends FunSuite {
     assert (Maths.plus(List(0, 3), List(1, -1)) === List(1, 2))
   }
 
+  test ("vector subtraction") {
+    assert (Maths.minus(List(1, 2, -1), List(0, -1, -1)) === List(1, 3, 0))
+    assert (Maths.minus(List(0, 3), List(1, -1)) === List(-1, 4))
+  }
+
   test ("absolute value") {
     assert (Maths.abs(List(1, 2, -1)) === Math.sqrt(6))
     assert (Maths.abs(List(0, 0)) === 0)
+  }
+
+  test ("distance") {
+    assert (Maths.distance(List(1, 2, -1), List(0, -1, -1)) === Math.sqrt(10))
+    assert (Maths.distance(List(0, 3), List(1, -1)) === Math.sqrt(17))
   }
 
   test ("factorial") {

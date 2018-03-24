@@ -16,12 +16,21 @@ object Maths{
     (a zip b).map{case (x, y) => x + y}
   }
 
+  /** Vector subtraction using lists as vectors*/
+  def minus(a: List[Double], b: List[Double]): List[Double] =
+    plus(a, b.map(-_))
+
   /** Vector L2 norm using list as vector */
   def abs(a: List[Double]): Double =
     Math.sqrt(dot(a, a))
 
-  def round(a: Double, p: Int): Double =
-    scala.math.BigDecimal(a).setScale(p, scala.math.BigDecimal.RoundingMode.HALF_UP).toDouble
+  /** Euclidian distance between two vectors */
+  def distance(a: List[Double], b: List[Double]): Double =
+    abs(minus(a, b))
+
+  /** Rounds to specified amount of digits */
+  def round(a: Double, digits: Int): Double =
+    scala.math.BigDecimal(a).setScale(digits, scala.math.BigDecimal.RoundingMode.HALF_UP).toDouble
 
   /** The factorial function x! */
   def factorial(x: Int): Int =
