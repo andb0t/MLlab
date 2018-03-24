@@ -17,24 +17,30 @@ class NaiveBayesClassifier(model: String="gaussian") extends Classifier {
   /** Calculates the per class and per feature likelihood value of a given instance */
   def getLikeli(x: List[Double]): List[List[Double]] =
     if (model == "gaussian")
-      (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.norm(fp._1, fp._2.head ,fp._2(1))).toList
+      (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.norm(fp._1, fp._2.head, fp._2(1))).toList
     else throw new NotImplementedError("Bayesian model " + model + " not implemented")
 
-  /** Calculates the probabilities of belonging to a class for a given instance */
+  /** Calculates the probabilities of belonging to a class for a given instance
+   *
+   * This bases on Bayes theorem: p(C | x) = p(x | C) * p(C) / const
+   * using the naive assumption, that p(x0, ..., xn | C) * p(C) = p(C) * p(x0 | C) * ... * p(xn | C).
+   * The constant factor is neglected.
+   */
   def getProbabs(x: List[Double]): List[Double] =
     (for (pl <- prior zip getLikeli(x)) yield pl._1 * pl._2.product).toList
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     val classes: List[Int] = y.toSet.toList
-    val features: List[Int] = (for (i <- 0 until X.head.length) yield i).toList
+    println("Determine prior from training set frequencies")
     for (cl <- classes) {
       prior += 1.0 * y.count(_==cl) / y.length
     }
-    println("Prior:\n" + prior.zipWithIndex.map{case (p, c) => " - class " + c + ": " + p}.mkString("\n"))
+    println("Prior:")
+    println(prior.zipWithIndex.map{case (p, c) => " - class " + c + ": " + p}.mkString("\n"))
+    println("Determine model parameters from training features")
     for (cl <- classes) {
       val thisClassX = (X zip y).filter(_._2 == cl).map(_._1)
-      println("Class " + cl + " has " + thisClassX.length + " training instances")
       val thisClassFeatures = thisClassX.transpose
       val featParams: List[List[Double]] = for (feature <- thisClassFeatures) yield {
         if (model == "gaussian") List(Maths.mean(feature), Maths.std(feature))
@@ -42,7 +48,7 @@ class NaiveBayesClassifier(model: String="gaussian") extends Classifier {
       }
       params += featParams
     }
-    println("Likelihood parameters: ")
+    println("Model parameters: ")
     for (cp <- classes zip params) {
       println("- class " + cp._1 + ":")
       for (pi <- cp._2.zipWithIndex)
@@ -50,10 +56,6 @@ class NaiveBayesClassifier(model: String="gaussian") extends Classifier {
     }
   }
 
-  def predict(X: List[List[Double]]): List[Int] = {
-    val result = for (instance <- X) yield getProbabs(instance).zipWithIndex.maxBy(_._1)._2
-    println("Details:")
-    println((X zip X.map(getProbabs(_)) zip result).take(5).mkString("\n"))
-    result
-  }
+  def predict(X: List[List[Double]]): List[Int] =
+    for (instance <- X) yield getProbabs(instance).zipWithIndex.maxBy(_._1)._2
 }
