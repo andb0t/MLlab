@@ -31,7 +31,7 @@ class NaiveBayesClassifier(model: String="gaussian") extends Classifier {
     for (cl <- classes) {
       prior += 1.0 * y.count(_==cl) / y.length
     }
-    println("Prior: " + prior)
+    println("Prior:\n" + prior.zipWithIndex.map{case (p, c) => " - class " + c + ": " + p}.mkString("\n"))
     for (cl <- classes) {
       val thisClassX = (X zip y).filter(_._2 == cl).map(_._1)
       println("Class " + cl + " has " + thisClassX.length + " training instances")
@@ -42,8 +42,12 @@ class NaiveBayesClassifier(model: String="gaussian") extends Classifier {
       }
       params += featParams
     }
-    println("Likelihood params: ")
-    println(params.mkString("\n"))
+    println("Likelihood parameters: ")
+    for (cp <- classes zip params) {
+      println("- class " + cp._1 + ":")
+      for (pi <- cp._2.zipWithIndex)
+        println("  - feature " + pi._2 + ": " + pi._1)
+    }
   }
 
   def predict(X: List[List[Double]]): List[Int] = {
