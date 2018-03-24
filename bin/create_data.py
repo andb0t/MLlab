@@ -10,7 +10,7 @@ parser.add_argument("--clf",
                     default=None,
                     choices=['halfs', 'quarters', 'diagonal', 'circle',
                              'ellipse', 'circles', 'shifteddiagonal',
-                             'bernoulli'],
+                             'bernoulli', 'multinomial'],
                     help='create classification data with specified shape')
 parser.add_argument("--reg",
                     default=None,
@@ -79,6 +79,9 @@ def generate_clf_point(strategy):
         elif strategy == 'bernoulli':
             x = [random.randint(0, 1) for _ in range(5)]
             label = 1 if (sum(x) > 2) else 0
+        elif strategy == 'multinomial':
+            x = [random.randint(0, 10) for _ in range(5)]
+            label = 1 if (sum(x) > 25 and x[0] + x[1] < 10) else 0
         else:
             raise NotImplementedError('this shape is not implemented for clf')
 
