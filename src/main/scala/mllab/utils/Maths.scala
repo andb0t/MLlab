@@ -21,6 +21,9 @@ object Maths{
     Math.sqrt(dot(a, a))
   }
 
+  def round(a: Double, p: Int): Double =
+    scala.math.BigDecimal(a).setScale(p, scala.math.BigDecimal.RoundingMode.HALF_UP).toDouble
+
   /** The factorial function x! */
   def factorial(x: Int): Int =
     if (x <= 1) 1
@@ -55,7 +58,7 @@ object Maths{
    * @param p Binned probability distribution
    */
   def multinomial(x: List[Int], p: List[Double]): Double = {
-    require (p.sum == 1, "probabilities do not add up to unity")
+    require (round(p.sum, 9) == 1, "probabilities do not add up to unity: " + p.sum + " != 1")
     val num: Double = factorial(x.sum)
     val denom: Double = x.map(factorial(_)).product
     val prod: Double = (p zip x).map(px => Math.pow(px._1, px._2)).product
