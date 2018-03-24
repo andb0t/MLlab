@@ -9,7 +9,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--clf",
                     default=None,
                     choices=['halfs', 'quarters', 'diagonal', 'circle',
-                             'ellipse', 'circles', 'shifteddiagonal'],
+                             'ellipse', 'circles', 'shifteddiagonal',
+                             'bernoulli'],
                     help='create classification data with specified shape')
 parser.add_argument("--reg",
                     default=None,
@@ -69,6 +70,10 @@ def generate_clf_point(strategy):
                 math.sqrt((x-d)**2 + (y+d)**2) < r or \
                 math.sqrt((x+d)**2 + (y-d)**2) < r
             label = 1 if partOfCircle else 0
+        elif strategy == 'bernoulli':
+            x = random.randint(0, 1)
+            y = random.randint(0, 1)
+            label = 1 if (x == 1) else 0
         else:
             raise NotImplementedError('this shape is not implemented for clf')
 
