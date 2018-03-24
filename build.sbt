@@ -6,7 +6,7 @@ scalaVersion := "2.11.8"
 version      := "0.1.0-SNAPSHOT"
 name := "mllab"
 
-target in Compile in doc := baseDirectory.value / "api"
+target in Compile in doc := baseDirectory.value / "docs/api"
 scalacOptions in Compile in doc ++= Seq("-doc-root-content", "rootdoc.txt")
 
 libraryDependencies += scalaTest % Test
