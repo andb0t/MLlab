@@ -10,10 +10,6 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
 #### Content
 * [Implemented algorithms](#implemented-algorithms)
   * [Classification](#classification)
-  * [Regression](#regression)
-  * [Misc](#misc)
-* [Examples of usage](#examples-of-usage)
-  * [Classification](#classification)
     * [Logistic regression](#logistic-regression)
     * [Perceptron](#perceptron)
     * [k-Nearest Neighbors](#k-nearest-neighbors)
@@ -27,35 +23,9 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
 
 
 ## Implemented algorithms
-Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the implemented hyper parameters.
-
-### Classification
-- [x] random
-- [x] logistic regression
-- [x] perceptron
-- [x] k-nearest neighbors
-- [x] decision tree
-- [x] multilayer neural network
-- [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
-- [ ] naive Bayesian classification
-
-### Regression
-- [x] random
-- [x] linear regression
-- [x] polynomial regression with linear kernel
-- [ ] naive Bayesian regression
-
-### Misc
-- [x] extension of linear models to polynomial dependencies via feature transformation
-
-
-
-
-
-
-
-## Examples of usage
 This section gives some impressions of what the implemented algorithms can perform and how to use the API.
+
+Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the implemented hyper parameters.
 
 
 

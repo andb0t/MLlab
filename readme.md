@@ -7,6 +7,31 @@ This is an experimental platform-independent machine learning library. Born from
 For further information on implemented algorithms and usage examples, please consult the project's [website](https://andb0t.github.io/MLlab).
 
 
+## Implemented algorithms
+Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the implemented hyper parameters.
+
+### Classification
+- [x] random
+- [x] logistic regression
+- [x] perceptron
+- [x] k-nearest neighbors
+- [x] decision tree
+- [x] multilayer neural network
+- [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
+- [ ] naive Bayesian classification
+
+### Regression
+- [x] random
+- [x] linear regression
+- [x] polynomial regression with linear kernel
+- [ ] naive Bayesian regression
+
+### Misc
+- [x] extension of linear models to polynomial dependencies via feature transformation
+
+
+
+
 ## Installation
 This app uses [sbt](https://www.scala-sbt.org/index.html) as build tool. Installation for Ubuntu:
 
