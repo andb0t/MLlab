@@ -26,6 +26,8 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, a
   def getLikeli(x: List[Double]): List[List[Double]] =
     if (model == "gaussian")
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.norm(fp._1, fp._2.head, fp._2(1))).toList
+    else if (model == "triangular")
+      (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.triangular(fp._1, fp._2.head, fp._2(1))).toList
     else if (model == "bernoulli")
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.bernoulli(fp._1.toInt, fp._2.head)).toList
     else
@@ -38,13 +40,10 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, a
    * The constant factor is neglected.
    */
   def getProbabs(x: List[Double]): List[Double] =
-    if (model == "gaussian" || model == "bernoulli")
-      (for (pl <- prior zip getLikeli(x)) yield pl._1 * pl._2.product).toList
-    else if (model == "multinomial") {
+    if (model == "multinomial")
       (for (prpa <- prior zip params.map(_.flatten)) yield prpa._1 * Maths.multinomial(x.map(_.toInt), prpa._2)).toList
-    }
-    else throw new NotImplementedError("Bayesian model " + model + " not implemented"
-    )
+    else
+      (for (pl <- prior zip getLikeli(x)) yield pl._1 * pl._2.product).toList
 
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
@@ -69,6 +68,8 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, a
       val featParams: List[List[Double]] = for (feature <- thisClassFeatures) yield {
         if (model == "gaussian")
           List(Maths.mean(feature), Maths.std(feature))
+        else if (model == "triangular")
+          List(Maths.mean(feature), 3 * Maths.std(feature))  // assume no values outside 3 std dev
         else if (model == "bernoulli")
           List(1.0 * feature.count(_==0) / feature.length)
         else if (model == "multinomial")

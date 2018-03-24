@@ -45,7 +45,7 @@ object Maths{
     val dist = x - m
     val h = 0.5 / w
     val slope = h / w
-    h - Math.signum(dist) * dist * slope
+    Math.max(0, h - Math.signum(dist) * dist * slope)
   }
 
   /** Returns the mean of a list of values */
