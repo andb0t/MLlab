@@ -50,7 +50,7 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, a
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
-    val classes: List[Int] = y.toSet.toList
+    val classes: List[Int] = y.toSet.toList.sorted
     if (priors != Nil) {
       for (p <- priors) prior += p
       assert (prior.length == classes.length, "number of provided priors does not match number of classes")
