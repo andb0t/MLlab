@@ -21,11 +21,10 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) e
   def getLikeli(x: List[Double]): List[List[Double]] =
     if (model == "gaussian")
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.norm(fp._1, fp._2.head, fp._2(1))).toList
-    else if (model == "multinomial")
-      (for (pClass <- params) yield for (fp <- x zip pClass) yield 0.0).toList
     else if (model == "bernoulli")
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.bernoulli(fp._1.toInt, fp._2.head)).toList
-    else throw new NotImplementedError("Bayesian model " + model + " not implemented")
+    else
+      Nil
 
   /** Calculates the probabilities of belonging to a class for a given instance
    *
@@ -34,7 +33,15 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) e
    * The constant factor is neglected.
    */
   def getProbabs(x: List[Double]): List[Double] =
-    (for (pl <- prior zip getLikeli(x)) yield pl._1 * pl._2.product).toList
+    if (model == "gaussian" || model == "bernoulli")
+      (for (pl <- prior zip getLikeli(x)) yield pl._1 * pl._2.product).toList
+    else if (model == "multinomial") {
+      val binnedClassPDFs = params.map(_.flatten).map(pdf => pdf.map(_ / pdf.sum))
+      (for (prpa <- prior zip binnedClassPDFs) yield prpa._1 * Maths.multinomial(x.map(_.toInt), prpa._2)).toList
+    }
+    else throw new NotImplementedError("Bayesian model " + model + " not implemented"
+    )
+
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
@@ -57,8 +64,9 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) e
       val thisClassFeatures = thisClassX.transpose
       val featParams: List[List[Double]] = for (feature <- thisClassFeatures) yield {
         if (model == "gaussian") List(Maths.mean(feature), Maths.std(feature))
-        else if (model == "multinomial") List(0.0)
         else if (model == "bernoulli") List(1.0 * feature.count(_==0) / feature.length)
+        else if (model == "multinomial") List(Maths.mean(feature))
+        // else if (model == "multinomial") for () yield (1.0 * feature.count(_==0) / feature.length)
         else throw new NotImplementedError("Bayesian model " + model + " not implemented")
       }
       params += featParams
