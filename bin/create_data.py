@@ -4,6 +4,8 @@ import math
 import os
 import random
 
+import numpy as np
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--clf",
@@ -80,8 +82,15 @@ def generate_clf_point(strategy):
             x = [random.randint(0, 1) for _ in range(5)]
             label = 1 if (sum(x) > 2) else 0
         elif strategy == 'multinomial':
-            x = [random.randint(0, 10) for _ in range(6)]
-            label = 1 if (x[0] > 5 and x[2] > 3) else 0
+            nFeatures = 10
+            nTotalHistEntries = 10
+            label = random.randint(0, 1)
+            if label == 0:
+                sample = np.random.normal(loc=2.0, scale=3.0, size=nTotalHistEntries)
+            else:
+                sample = np.random.normal(loc=7.0, scale=4.0, size=nTotalHistEntries)
+            hist = np.histogram(sample, bins=nFeatures, range=[0, 10])
+            x = hist[0]
         else:
             raise NotImplementedError('this shape is not implemented for clf')
 
