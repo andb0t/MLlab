@@ -7,7 +7,7 @@ import utils._
 
 class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) extends Classifier {
 
-  val name: String = "SVMClassifier"
+  val name: String = "NaiveBayesClassifier"
 
   /** Prior probability for the classes */
   var prior = new ListBuffer[Double]()
