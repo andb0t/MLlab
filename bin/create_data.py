@@ -29,58 +29,62 @@ sign = functools.partial(math.copysign, 1)
 def generate_clf_point(strategy):
     while True:
         label = 0
-        x = 0
-        y = 0
+        x = [0, 0]
         if strategy == 'halfs':
             label = random.randint(0, 1)
-            x = -random.random() if label is 0 else random.random()
-            y = 2 * random.random() - 1
+            x0 = -random.random() if label is 0 else random.random()
+            x1 = 2 * random.random() - 1
+            x = [x0, x1]
         elif strategy == 'quarters':
-            x = 2 * random.random() - 1
-            y = 2 * random.random() - 1
-            label = 0 if x * y > 0 else 1
+            x0 = 2 * random.random() - 1
+            x1 = 2 * random.random() - 1
+            x = [x0, x1]
+            label = 0 if x0 * x1 > 0 else 1
         elif strategy == 'diagonal':
-            x = 2 * random.random() - 1
-            y = 2 * random.random() - 1
-            label = 0 if x - y > 0 else 1
+            x0 = 2 * random.random() - 1
+            x1 = 2 * random.random() - 1
+            x = [x0, x1]
+            label = 0 if x0 - x1 > 0 else 1
         elif strategy == 'shifteddiagonal':
-            x = 2 * random.random() - 1
-            y = 2 * random.random() - 1
-            label = 0 if x - y + 0.5 > 0 else 1
+            x0 = 2 * random.random() - 1
+            x1 = 2 * random.random() - 1
+            x = [x0, x1]
+            label = 0 if x0 - x1 + 0.5 > 0 else 1
         elif strategy == 'circle':
-            x = 2 * random.random() - 1
-            y = 2 * random.random() - 1
-            label = 1 if math.sqrt(x**2 + y**2) < 0.5 else 0
+            x0 = 2 * random.random() - 1
+            x1 = 2 * random.random() - 1
+            x = [x0, x1]
+            label = 1 if math.sqrt(x0**2 + x1**2) < 0.5 else 0
         elif strategy == 'ellipse':
-            x = 2 * random.random() - 1
-            y = 2 * random.random() - 1
-            xCenter = x - 0.2
-            yCenter = y + 0.3
-            rx = 0.75
-            ry = 0.5
-            label = 1 if math.sqrt((xCenter/rx)**2 + (yCenter/ry)**2) < 1 else 0
+            x0 = 2 * random.random() - 1
+            x1 = 2 * random.random() - 1
+            x = [x0, x1]
+            x0Center = x0 - 0.2
+            x1Center = x1 + 0.3
+            rx0 = 0.75
+            rx1 = 0.5
+            label = 1 if math.sqrt((x0Center/rx0)**2 + (x1Center/rx1)**2) < 1 else 0
         elif strategy == 'circles':
-            x = 2 * random.random() - 1
-            y = 2 * random.random() - 1
+            x0 = 2 * random.random() - 1
+            x1 = 2 * random.random() - 1
+            x = [x0, x1]
             d = 0.5
             r = 0.25
             partOfCircle = \
-                math.sqrt((x-d)**2 + (y-d)**2) < r or \
-                math.sqrt((x+d)**2 + (y+d)**2) < r or \
-                math.sqrt((x-d)**2 + (y+d)**2) < r or \
-                math.sqrt((x+d)**2 + (y-d)**2) < r
+                math.sqrt((x0-d)**2 + (x1-d)**2) < r or \
+                math.sqrt((x0+d)**2 + (x1+d)**2) < r or \
+                math.sqrt((x0-d)**2 + (x1+d)**2) < r or \
+                math.sqrt((x0+d)**2 + (x1-d)**2) < r
             label = 1 if partOfCircle else 0
         elif strategy == 'bernoulli':
-            x = random.randint(0, 1)
-            y = random.randint(0, 1)
-            label = 1 if (x == 1) else 0
+            x = [random.randint(0, 1) for _ in range(5)]
+            label = 1 if (sum(x) > 2) else 0
         else:
             raise NotImplementedError('this shape is not implemented for clf')
 
-        x = round(x, 2)
-        y = round(y, 2)
+        x = list(map(lambda xs: round(xs, 2), x))
 
-        yield (x, y, label)
+        yield (x, label)
 
 
 def generate_reg_point(strategy):
@@ -138,8 +142,8 @@ if args.clf is not None:
 
             nInstances = 1000
             for i in range(nInstances):
-                x, y, label = next(generate_clf_point(args.clf))
-                print('{} {} {} {}'.format(i, x, y, label), file=myfile)
+                x, label = next(generate_clf_point(args.clf))
+                print('{} {} {}'.format(i, ' '.join(map(str, x)), label), file=myfile)
 
 if args.reg is not None:
     random.seed(1337)
