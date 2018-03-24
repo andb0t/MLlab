@@ -10,8 +10,8 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
 #### Content
 * [Implemented algorithms](#implemented-algorithms)
   * [Classification](#classification)
-    * [Logistic Regression](#logistic-regression)
     * [Naive Bayes](#naive-bayes)
+    * [Logistic Regression](#logistic-regression)
     * [Perceptron](#perceptron)
     * [k-Nearest Neighbors](#k-nearest-neighbors)
     * [Decision Tree](#decision-tree)
@@ -49,13 +49,28 @@ val diag = clf.diagnostics  // obtain a map of metrics for algorithm training
 
 ```
 
+
+#### Naive Bayes
+This algorithm bases on the assumption of mutually uncorrelated features. It uses Bayes' theorem to infer probabilities for each instance to belong to each class. The model parameters for the feature likelihoods are inferred from the training feature vectors.
+
+```scala
+val clf = new NaiveBayesClassifier()
+```
+
+The application of the standard settings to a test dataset of a shifted diagonal as class separator shows a bias. This stems from the fact, that the assumption of Gaussian distributed features for each class is not true for this dataset.
+
+![Linear regression](./naivebayes_classification_example.png)
+
+Despite the limits of the naive assumption, the naive Bayes' algorithm provides good results in many cases. It is especially efficient for highly dimensional datasets with little training data, since it treats all feature instances separately.
+
+
 #### Logistic regression
 Classification via logistic regression is a standard algorithm for binary linear classification. It optimizes the parameters of a linear hyperplane in the feature space to separate regions of different label classes. For this, the linear transformation of the instance vectors is further transformed with the logistic sigmoid function to obtain probabilities of belonging to a specific class. It can be instantiated as follows:
 
 ```scala
 val clf = new LogisticRegressionClassifier()
 ```
-The picture below shows the performance of the algorithm applied to a test dataset of a shifted diagonal as class separator.
+The picture below shows the performance of the algorithm applied to the diagonal dataset.
 
 ![Linear regression](./logisticregression_classification_example.png)
 
@@ -67,18 +82,6 @@ val clf = new LogisticRegressionClassifier(degree=2)
 This adds powers up until quadratic powers of the feature to the feature vector. Here is an example of the same algorithm applied to circular data. The classifier can now solve the corresponding classification task.
 
 ![Linear regression](./logisticregression_classification_quadratic_example.png)
-
-
-#### Naive Bayes
-This algorithm bases on the assumption of mutually uncorrelated features. It then uses Bayes' theorem to infer probabilities for each instance to belong to each class. The model parameters for the feature likelihoods are inferred from the training feature vectors.
-
-```scala
-val clf = new NaiveBayesClassifier()
-```
-
-The application of the standard settings to the diagonal dataset show a bias. This stems from the fact, that the assumption of Gaussian distributed features for each class is not true for this dataset.
-
-![Linear regression](./naivebayes_classification_example.png)
 
 
 #### Perceptron
