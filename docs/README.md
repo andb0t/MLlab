@@ -10,13 +10,14 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
 #### Content
 * [Implemented algorithms](#implemented-algorithms)
   * [Classification](#classification)
-    * [Logistic regression](#logistic-regression)
+    * [Logistic Regression](#logistic-regression)
+    * [Naive Bayes](#naive-bayes)
     * [Perceptron](#perceptron)
     * [k-Nearest Neighbors](#k-nearest-neighbors)
     * [Decision Tree](#decision-tree)
     * [Multilayer Neural Network](#multilayer-neural-network)
   * [Regression](#regression)
-    * [Linear regression](#linear-regression)
+    * [Linear](#linear)
 * [Algorithm details](#algorithm-details)
 
 
@@ -66,6 +67,18 @@ val clf = new LogisticRegressionClassifier(degree=2)
 This adds powers up until quadratic powers of the feature to the feature vector. Here is an example of the same algorithm applied to circular data. The classifier can now solve the corresponding classification task.
 
 ![Linear regression](./logisticregression_classification_quadratic_example.png)
+
+
+#### Naive Bayes
+This algorithm bases on the assumption of mutually uncorrelated features. It then uses Bayes' theorem to infer probabilities for each instance to belong to each class. The model parameters for the feature likelihoods are inferred from the training feature vectors.
+
+```scala
+val clf = new NaiveBayesClassifier()
+```
+
+The application of the standard settings to the diagonal dataset show a bias. This stems from the fact, that the assumption of Gaussian distributed features for each class is not true for this dataset.
+
+![Linear regression](./naivebayes_classification_example.png)
 
 
 #### Perceptron
@@ -157,7 +170,7 @@ val diag = reg.diagnostics  // obtain a map of metrics for algorithm training
 
 ```
 
-#### Linear regression
+#### Linear
 MLlab provides several algorithms for regression tasks. The most basic is the linear regression. It is designed to fit data with a underlying linear dependencies on an arbitrary dimensional set of features.
 
 ```scala
