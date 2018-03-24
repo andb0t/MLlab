@@ -5,7 +5,12 @@ import scala.collection.mutable.ListBuffer
 import utils._
 
 
-class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) extends Classifier {
+/** Naive Bayes classifier
+ * @param model The distribution function to assume for the feature distributions
+ * @param priors Prior probabilities to assume for the classes
+ * @param alpha Additive (Laplace/Lidstone) smoothing parameter (0 for no smoothing)
+ */
+class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, alpha: Double = 1.0) extends Classifier {
 
   val name: String = "NaiveBayesClassifier"
 
@@ -62,9 +67,12 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) e
       val thisClassX = (X zip y).filter(_._2 == cl).map(_._1)
       val thisClassFeatures = thisClassX.transpose
       val featParams: List[List[Double]] = for (feature <- thisClassFeatures) yield {
-        if (model == "gaussian") List(Maths.mean(feature), Maths.std(feature))
-        else if (model == "bernoulli") List(1.0 * feature.count(_==0) / feature.length)
-        else if (model == "multinomial") List(feature.sum / thisClassFeatures.flatten.sum)
+        if (model == "gaussian")
+          List(Maths.mean(feature), Maths.std(feature))
+        else if (model == "bernoulli")
+          List(1.0 * feature.count(_==0) / feature.length)
+        else if (model == "multinomial")
+            List((feature.sum + alpha) / (thisClassFeatures.flatten.sum + thisClassFeatures.length * alpha))
         else throw new NotImplementedError("Bayesian model " + model + " not implemented")
       }
       params += featParams
