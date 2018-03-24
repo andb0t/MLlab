@@ -2,6 +2,8 @@ package classifiers
 
 import scala.collection.mutable.ListBuffer
 
+import utils._
+
 
 /** k-nearest neighbors classifier
  * @param k Number of closest neighbors to consider
@@ -20,56 +22,30 @@ class kNNClassifier(k: Int = 3) extends Classifier {
     y.copyToBuffer(y_NN)
   }
 
-  def predict(X: List[List[Double]]): List[Int] = {
-    var result = new ListBuffer[Int]()
-    for (instance <- X){
-      var min_distance: Double = Double.MaxValue
-      var min_distances = new ListBuffer[Double]()
-      var min_indices = new ListBuffer[Int]()
-      for (i <- 0 until k) {
-        min_distances +=  Double.MaxValue
-        min_indices += -1
-      }
+  def getPrediction(x: List[Double], classes: List[Int]): Int = {
+    var nearest = new ListBuffer[Tuple2[Double, Int]]()
+    for (_ <- 0 until k) nearest += Tuple2(Double.MaxValue, -1)
 
-      def queueNewMinimum(index: Int, distance: Double): Unit = {
-        min_distance = distance
-        // replace entry with highest distance with new nearest
-        val max = min_distances.max
-        val max_index = min_distances.indexOf(max)
-        min_distances(max_index) = distance
-        min_indices(max_index) = index
-      }
-
-      def getPrediction(): Int = {
-
-        assert (!min_indices.contains(-1))
-
-        var prediction: Int = -1
-
-        val strat: String = "majority"
-        if (strat == "minimum"){
-          val min = min_distances.min
-          val min_index = min_distances.indexOf(min)
-          val min_global_index = min_indices(min_index)
-          prediction = y_NN(min_global_index)
-        }
-        else if (strat == "majority"){
-          var nearest_labels = for (i <- min_indices) yield y_NN(i)
-          prediction = (nearest_labels.sum / k).round
-        }
-        prediction
-      }
-
-      for (i <- 0 until X_NN.length) {
-        var squares = for ((x, y) <- X_NN(i) zip instance) yield Math.pow(x - y, 2)
-        val distance = squares.sum
-        if (distance < min_distance || min_indices.contains(-1)) {
-          queueNewMinimum(i, distance)
-        }
-      }
-      val prediction = getPrediction()
-      result += prediction
+    def queueNewMinimum(distance: Double, label: Int): Unit = {
+      val maxIdx = nearest.zipWithIndex.maxBy(_._1._1)._2
+      nearest(maxIdx) = (distance, label)
     }
-    result.toList
+
+    for (xy <- X_NN zip y_NN) {
+      val instance: List[Double] = xy._1
+      val label: Int = xy._2
+      val distance = Maths.distance(x, instance)
+      queueNewMinimum(distance, label)
+    }
+
+    val labels = for (dl <- nearest) yield dl._2
+    val probab: List[Double] = for (l <- classes.sorted) yield 1.0 * labels.count(_==l) / labels.length
+    probab.zipWithIndex.maxBy(_._1)._2
   }
+
+  def predict(X: List[List[Double]]): List[Int] = {
+    val classes: List[Int] = y_NN.toSet.toList.sorted
+    for (instance <- X) yield getPrediction(instance, classes)
+  }
+
 }
