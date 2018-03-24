@@ -16,7 +16,7 @@ class NaiveBayesClassifier(model: String="gaussian") extends Classifier {
 
   def getLikeli(x: List[Double]): List[List[Double]] =
     if (model == "gaussian")
-      (for (pClass <- params) yield for (ip <- x zip pClass) yield Maths.gaussian(ip._1, ip._2.head ,ip._2(1))).toList
+      (for (pClass <- params) yield for (ip <- x zip pClass) yield Maths.norm(ip._1, ip._2.head ,ip._2(1))).toList
     else throw new NotImplementedError("Bayesian model " + model + " not implemented")
 
   def getProbabs(x: List[Double]): List[Double] =
@@ -35,7 +35,7 @@ class NaiveBayesClassifier(model: String="gaussian") extends Classifier {
       println("Class " + cl + " has " + thisClassX.length + " training instances")
       val thisClassFeatures = thisClassX.transpose
       val featParams: List[List[Double]] = for (feature <- thisClassFeatures) yield {
-        if (model == "gaussian") List(Maths.mean(feature), Maths.stdDev(feature))
+        if (model == "gaussian") List(Maths.mean(feature), Maths.std(feature))
         else throw new NotImplementedError("Bayesian model " + model + " not implemented")
       }
       params += featParams

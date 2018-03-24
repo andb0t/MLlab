@@ -21,7 +21,7 @@ object Maths{
     Math.sqrt(dot(a, a))
   }
 
-  def gaussian(x: Double, m: Double, s: Double): Double =
+  def norm(x: Double, m: Double, s: Double): Double =
     Math.exp( -Math.pow((x - m), 2) / (2 * Math.pow(s, 2))) / Math.sqrt(2 * math.Pi * Math.pow(s, 2))
 
   def mean(l: List[Double]): Double =
@@ -30,7 +30,7 @@ object Maths{
   def variance(l: List[Double]): Double =
       l.map(a => Math.pow(a - mean(l), 2)).sum / l.size
 
-  def stdDev(l: List[Double]): Double =
+  def std(l: List[Double]): Double =
     Math.sqrt(variance(l))
 
 }
