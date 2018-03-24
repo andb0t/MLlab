@@ -70,18 +70,18 @@ def generate_clf_point(strategy):
             x = [x0, x1]
             d = 0.5
             r = 0.25
-            partOfCircle = \
+            part_of_circle = \
                 math.sqrt((x0-d)**2 + (x1-d)**2) < r or \
                 math.sqrt((x0+d)**2 + (x1+d)**2) < r or \
                 math.sqrt((x0-d)**2 + (x1+d)**2) < r or \
                 math.sqrt((x0+d)**2 + (x1-d)**2) < r
-            label = 1 if partOfCircle else 0
+            label = 1 if part_of_circle else 0
         elif strategy == 'bernoulli':
             x = [random.randint(0, 1) for _ in range(5)]
             label = 1 if (sum(x) > 2) else 0
         elif strategy == 'multinomial':
-            x = [random.randint(0, 10) for _ in range(5)]
-            label = 1 if (sum(x) > 25 and x[0] + x[1] < 10) else 0
+            x = [random.randint(0, 10) for _ in range(6)]
+            label = 1 if (sum(x[:3]) > sum(x[3:])) else 0
         else:
             raise NotImplementedError('this shape is not implemented for clf')
 

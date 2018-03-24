@@ -64,4 +64,5 @@ object Maths{
     val prod: Double = (p zip x).map(px => Math.pow(px._1, px._2)).product
     num / denom * prod
   }
+
 }

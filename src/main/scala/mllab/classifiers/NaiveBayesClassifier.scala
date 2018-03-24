@@ -36,8 +36,7 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) e
     if (model == "gaussian" || model == "bernoulli")
       (for (pl <- prior zip getLikeli(x)) yield pl._1 * pl._2.product).toList
     else if (model == "multinomial") {
-      val binnedClassPDFs = params.map(_.flatten).map(pdf => pdf.map(_ / pdf.sum))
-      (for (prpa <- prior zip binnedClassPDFs) yield prpa._1 * Maths.multinomial(x.map(_.toInt), prpa._2)).toList
+      (for (prpa <- prior zip params.map(_.flatten)) yield prpa._1 * Maths.multinomial(x.map(_.toInt), prpa._2)).toList
     }
     else throw new NotImplementedError("Bayesian model " + model + " not implemented"
     )
@@ -58,20 +57,19 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil) e
     }
     println("Prior:")
     println(prior.zipWithIndex.map{case (p, c) => " - class " + c + ": " + p}.mkString("\n"))
-    println("Determine model parameters from training features")
+    println(s"Determine $model model parameters from training features")
     for (cl <- classes) {
       val thisClassX = (X zip y).filter(_._2 == cl).map(_._1)
       val thisClassFeatures = thisClassX.transpose
       val featParams: List[List[Double]] = for (feature <- thisClassFeatures) yield {
         if (model == "gaussian") List(Maths.mean(feature), Maths.std(feature))
         else if (model == "bernoulli") List(1.0 * feature.count(_==0) / feature.length)
-        else if (model == "multinomial") List(Maths.mean(feature))
-        // else if (model == "multinomial") for () yield (1.0 * feature.count(_==0) / feature.length)
+        else if (model == "multinomial") List(feature.sum / thisClassFeatures.flatten.sum)
         else throw new NotImplementedError("Bayesian model " + model + " not implemented")
       }
       params += featParams
     }
-    println("Model parameters: ")
+    println("%s model parameters: ".format(model.capitalize))
     for (cp <- classes zip params) {
       println("- class " + cp._1 + ":")
       for (pi <- cp._2.zipWithIndex)

@@ -79,7 +79,7 @@ object Mllab {
       //   println("Test instance " + i + ": prediction " + y_pred(i) + " true value " + y_test(i))
       // }
 
-      println("Evaulate of the model")
+      println("Evaulate the model")
       Evaluation.matrix(y_pred, y_test)
       println("Precision: %.2f".format(Evaluation.precision(y_pred, y_test)))
       println("Recall: %.2f".format(Evaluation.recall(y_pred, y_test)))
