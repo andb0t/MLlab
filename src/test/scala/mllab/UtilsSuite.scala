@@ -41,6 +41,12 @@ class UtilsSuite extends FunSuite {
     assert (Maths.norm(2, -1, 4) == 0.07528435803870111)
   }
 
+  test ("triangular distribution") {
+    assert (Maths.triangular(0, 0, 1) === 0.5)
+    assert (Maths.triangular(0.5, 0, 1) === 0.25)
+    assert (Maths.triangular(0.5, 1, 1) === 0.25)
+  }
+
   test ("bernoulli distribution") {
     assert (Maths.bernoulli(0, 0.5) == 0.5)
     assert (Maths.bernoulli(1, 0.5) == 0.5)

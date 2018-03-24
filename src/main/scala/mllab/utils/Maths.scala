@@ -17,9 +17,8 @@ object Maths{
   }
 
   /** Vector L2 norm using list as vector */
-  def abs(a: List[Double]): Double = {
+  def abs(a: List[Double]): Double =
     Math.sqrt(dot(a, a))
-  }
 
   def round(a: Double, p: Int): Double =
     scala.math.BigDecimal(a).setScale(p, scala.math.BigDecimal.RoundingMode.HALF_UP).toDouble
@@ -36,6 +35,18 @@ object Maths{
    */
   def norm(x: Double, m: Double, s: Double): Double =
     Math.exp( -Math.pow((x - m), 2) / (2 * Math.pow(s, 2))) / Math.sqrt(2 * math.Pi * Math.pow(s, 2))
+
+  /** Triangular function
+  * @param x Abscissa
+   * @param m Peak position
+   * @param w Half width at y = 0
+   */
+  def triangular(x: Double, m: Double, w: Double): Double = {
+    val dist = x - m
+    val h = 0.5 / w
+    val slope = h / w
+    h - Math.signum(dist) * dist * slope
+  }
 
   /** Returns the mean of a list of values */
   def mean(l: List[Double]): Double =
