@@ -70,8 +70,8 @@ class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends C
     val nSteps = 10
     val nZooms = 3
 
-    val nFeatures: Int = X.head.length
     if (!X.isEmpty) {
+      val nFeatures: Int = X.head.length
       for (iFeature <- 0 until nFeatures){
         val featureX = X.map(_.apply(iFeature))
         val featureMax: Double = featureX.max
