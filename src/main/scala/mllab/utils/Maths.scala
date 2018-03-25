@@ -45,6 +45,9 @@ object Maths{
   def norm(x: Double, m: Double, s: Double): Double =
     Math.exp( -Math.pow((x - m), 2) / (2 * Math.pow(s, 2))) / Math.sqrt(2 * math.Pi * Math.pow(s, 2))
 
+  /** Logistic function */
+  def logistic(x: Double): Double = 1.0 / (Math.exp(-x) + 1.0)
+
   /** Triangular function
   * @param x Abscissa
    * @param m Peak position
