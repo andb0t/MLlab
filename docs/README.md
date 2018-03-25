@@ -211,7 +211,7 @@ This is the application of a decision tree regression algorithm to the cubic dat
 Increasing the tree depth increases the number of nodes by about factors of two. With this setting, the decision tree is able to classify the test data reasonably well.
 
 ```scala
-val reg = new DecisionTreeRegressor(depth=8)
+val reg = new DecisionTreeRegressor(depth=6)
 ```
 
 ![Linear regression](./decisiontree_regression_more_example.png)
