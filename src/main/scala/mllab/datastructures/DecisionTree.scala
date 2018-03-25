@@ -1,8 +1,5 @@
 package datastructures
 
-import scala.collection.mutable.ListBuffer
-import scala.util.control.Breaks._
-
 
 /** A class representing a single node in a decision tree
   *
@@ -184,39 +181,34 @@ class DecisionTree(depth: Int){
     val ancestors = walkTree(nodeIndex, Nil)
     // println("node " + nodeIndex + " has ancestors " + ancestors)
 
-    // apply the corresponding cuts successively
-    var newX = new ListBuffer[List[Double]]()
-    var newy = new ListBuffer[Int]()
-    X.copyToBuffer(newX)
-    y.copyToBuffer(newy)
-    for (ancestor <- ancestors) {
-      // println("temporary length X " + newX.length + " y " + newy.length)
-      val takeRightArm = ancestor._2
-      val iFeature = tree(ancestor._1).featureIndex
-      val threshold = tree(ancestor._1).threshold
-      // println("ancestor " + ancestor._1 +
-      //   " goes " + (if (takeRightArm) "right" else "left") +
-      //   " with feature " + iFeature)
-      assert (newX.length == newy.length)
-      var tmpX = new ListBuffer[List[Double]]()
-      var tmpy = new ListBuffer[Int]()
-      for (i <- 0 until newX.length){
-        val feature = newX(i).apply(iFeature)
-        if ((takeRightArm && feature > threshold) ||
-            (!takeRightArm && feature <= threshold)) {
-          tmpX += newX(i)
-          tmpy += newy(i)
+    // successively apply cuts in nodes
+    def applyCuts(
+      X: List[List[Double]],
+      y: List[Int],
+      ancestors: List[Tuple2[Int, Boolean]]): Tuple2[List[List[Double]], List[Int]] = ancestors match {
+      case Nil => Tuple2(X, y)
+      case ancestor::rest => {
+        val goRight = ancestor._2
+        val iFeature = tree(ancestor._1).featureIndex
+        val thresh = tree(ancestor._1).threshold
+        val featureX: List[Double] = X.transpose.apply(iFeature)
+        val goodIndices = featureX.zipWithIndex.filter(xi => (goRight && xi._1 > thresh) || (!goRight && xi._1 <= thresh)).map(_._2)
+        def getElements[T](list: List[T], indices: List[Int], result: List[T]=Nil): List[T] = indices match {
+          case Nil => result
+          case index::rest => {
+            getElements(list, rest, list(index)::result)
+          }
         }
+        val newXy = getElements(X zip y, goodIndices)
+        applyCuts(newXy.map(_._1), newXy.map(_._2), rest)
       }
-      newX.clear()
-      newy.clear()
-      tmpX.copyToBuffer(newX)
-      tmpy.copyToBuffer(newy)
     }
 
-    // println("Node " + nodeIndex + " has " + newX.length + " entries")
+    val survivors = applyCuts(X, y, ancestors)
 
-    Tuple2(newX.toList, newy.toList)
+    // println("Node " + nodeIndex + " has " + survivors._1.length + " entries")
+
+    survivors
   }
 
 
