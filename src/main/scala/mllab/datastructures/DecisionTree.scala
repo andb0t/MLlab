@@ -130,43 +130,36 @@ class DecisionTree(depth: Int){
    * @param instance Feature list of an instance
    * @return Predicted label
    */
+  def predict(instance: List[Double]): Double = {
+    1.0
+  }
+
+  /** Classifies an instance based on its feature vector
+   * @param instance Feature list of an instance
+   * @return Predicted label
+   */
   def classify(instance: List[Double]): Int = {
-    var label = 0
-    var currentNodeIndex = 0
-    breakable {
-      while (true) {
-        val greater = tree(currentNodeIndex).greater
-        val featureIndex = tree(currentNodeIndex).featureIndex
-        val threshold = tree(currentNodeIndex).threshold
-        val left = tree(currentNodeIndex).left
-        val right = tree(currentNodeIndex).right
 
-        if (!tree(currentNodeIndex).filled) break
-
-        if (greater) {
-          if (instance(featureIndex) > threshold) {
-            label = 1
-            currentNodeIndex = right
-          }
-          else{
-            label = 0
-            currentNodeIndex = left
-          }
-        }
-        else{
-          if (instance(featureIndex) < threshold) {
-            label = 1
-            currentNodeIndex = left
-          }
-          else{
-            label = 0
-            currentNodeIndex = right
-          }
-        }
-        if (currentNodeIndex == -1) break
+    def walkTree(currentNodeIndex: Int, label: Int): Int = {
+      if (currentNodeIndex == -1) label
+      else if (!tree(currentNodeIndex).filled) label
+      else {
+        val thisNode = tree(currentNodeIndex)
+        val greater = thisNode.greater
+        val featureIndex = thisNode.featureIndex
+        val threshold = thisNode.threshold
+        val left = thisNode.left
+        val right = thisNode.right
+        if (greater)
+          if (instance(featureIndex) > threshold) walkTree(right, 1)
+          else walkTree(left, 0)
+        else
+          if (instance(featureIndex) < threshold) walkTree(left, 1)
+          else walkTree(right, 0)
       }
     }
-    label
+
+    walkTree(0, -1)
   }
 
   /** Returns the data (instances and labels) present at this node
