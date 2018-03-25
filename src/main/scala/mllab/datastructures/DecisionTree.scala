@@ -1,12 +1,14 @@
 package datastructures
 
+import utils._
+
 
 /** A class representing a single node in a decision tree
   *
   * @constructor Create a new node
   * @param index Index of the node top-left to down-right
   */
-case class DecisionNode(index: Int){
+case class DecisionNode(index: Int) {
   val nodeIndex: Int = index
   /** Index of right child */
   var right: Int = (nodeIndex + 1) * 2
@@ -198,13 +200,7 @@ class DecisionTree(depth: Int){
         val thresh = tree(ancestor._1).threshold
         val featureX: List[Double] = X.transpose.apply(iFeature)
         val goodIndices = featureX.zipWithIndex.filter(xi => (goRight && xi._1 > thresh) || (!goRight && xi._1 <= thresh)).map(_._2)
-        def getElements[T](list: List[T], indices: List[Int], result: List[T]=Nil): List[T] = indices match {
-          case Nil => result
-          case index::rest => {
-            getElements(list, rest, list(index)::result)
-          }
-        }
-        val newXy = getElements(X zip y, goodIndices)
+        val newXy = Trafo.iloc(X zip y, goodIndices)
         applyCuts(newXy.map(_._1), newXy.map(_._2), rest)
       }
     }
@@ -215,6 +211,5 @@ class DecisionTree(depth: Int){
 
     survivors
   }
-
 
 }

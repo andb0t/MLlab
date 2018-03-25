@@ -18,4 +18,11 @@ object Trafo {
   def toVectorInt(y: List[Int]): DenseVector[Int] =
     convert(toVector(y.map(_.toDouble)), Int)
 
+  /** Picks elements from a list according to a list of indices */
+  def iloc[T](list: List[T], indices: List[Int], result: List[T]=Nil): List[T] = indices match {
+    case Nil => result
+    case index::rest => {
+      iloc(list, rest, list(index)::result)
+    }
+  }
 }
