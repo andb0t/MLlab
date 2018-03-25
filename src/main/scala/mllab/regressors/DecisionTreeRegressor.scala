@@ -29,7 +29,7 @@ class DecisionTreeRegressor(depth: Int = 3) extends Regressor {
     val aboveXMean: Double = aboveX.sum / aboveX.length
     val cost: Double = Math.sqrt(belowX.map(x => Math.pow(x - belowXMean, 2)).sum + aboveX.map(x => Math.pow(x - aboveXMean, 2)).sum)
     val purity: Double = -cost
-    println("threshold " + threshold + " purity " + purity)
+    // println("threshold " + threshold + " purity " + purity)
     Tuple2(purity, true)
   }
 

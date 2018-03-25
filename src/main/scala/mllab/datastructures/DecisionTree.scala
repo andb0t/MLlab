@@ -130,7 +130,7 @@ class DecisionTree(depth: Int){
     "------------------------------"
   }
 
-  /** Classifies an instance based on its feature vector
+  /** Predicits an instance's label based on its feature vector
    * @param instance Feature list of an instance
    * @return Predicted label
    */
@@ -225,9 +225,7 @@ class DecisionTree(depth: Int){
     }
 
     val survivors = applyCuts(X, y, ancestors)
-
     // println("Node " + nodeIndex + " has " + survivors._1.length + " entries")
-
     survivors
   }
 
