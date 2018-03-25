@@ -52,8 +52,6 @@ class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends C
         val GRight: Double =
           if (mRight != 0) impFunc(List(1.0 * rightSig/mRight, 1.0 * rightBkg/mRight))
           else 0
-        println(GRight)
-        println(GLeft)
         val cost = GLeft * mLeft / m + GRight * mRight / m
         -cost
       }

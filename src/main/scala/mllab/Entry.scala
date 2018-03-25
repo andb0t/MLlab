@@ -57,7 +57,7 @@ object Mllab {
       val clf =
         if (algo == "Random") new RandomClassifier()
         else if (algo == "kNN") new kNNClassifier(k=3)
-        else if (algo == "DecisionTree") new DecisionTreeClassifier(depth=3)
+        else if (algo == "DecisionTree") new DecisionTreeClassifier(depth=3, criterion= "gini")
         else if (algo == "Perceptron") new PerceptronClassifier(alpha=1, degree=1)
         else if (algo == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
         else if (algo == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=1000, degree=1)
