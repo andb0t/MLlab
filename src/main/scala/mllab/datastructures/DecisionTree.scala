@@ -72,7 +72,7 @@ class DecisionTree(depth: Int){
       //   (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
       //   ": " + "%.3e".format(tree(nodeIndex).purity) +
       //   " -> " + "%.3e".format(purity))
-        setNode(nodeIndex, featureIndex, threshold, greater, purity)
+      setNode(nodeIndex, featureIndex, threshold, greater, purity)
     }
   }
 
@@ -173,18 +173,15 @@ class DecisionTree(depth: Int){
     require(X.length == y.length, "both arguments must have the same length")
 
     // determine ancestors of this node
-    var ancestors = new ListBuffer[(Int, Boolean)]()
-    var currentNode = nodeIndex
-    breakable{
-      while (true) {
+    def walkTree(currentNode: Int, ancestors: List[Tuple2[Int, Boolean]]): List[Tuple2[Int, Boolean]] =
+      if (currentNode == 0) ancestors
+      else {
         val parent = tree(currentNode).parent
         val isRightChild = tree(currentNode).isRightChild
-        if (parent == -1) break
-        ancestors += Tuple2(parent, isRightChild)
-        currentNode = parent
+        walkTree(parent, Tuple2(parent, isRightChild)::ancestors)
       }
-    }
-    ancestors = ancestors.reverse
+
+    val ancestors = walkTree(nodeIndex, Nil)
     // println("node " + nodeIndex + " has ancestors " + ancestors)
 
     // apply the corresponding cuts successively
