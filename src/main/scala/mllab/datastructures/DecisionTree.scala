@@ -135,7 +135,27 @@ class DecisionTree(depth: Int){
    * @return Predicted label
    */
   def predict(instance: List[Double]): Double = {
-    1.0
+    def walkTree(currentNodeIndex: Int, label: Double): Double = {
+      if (currentNodeIndex == -1) label
+      else if (!tree(currentNodeIndex).filled) label
+      else {
+        val thisNode = tree(currentNodeIndex)
+        val greater = thisNode.greater
+        val featureIndex = thisNode.featureIndex
+        val threshold = thisNode.threshold
+        val left = thisNode.left
+        val right = thisNode.right
+        val mean = thisNode.mean
+        if (greater)
+          if (instance(featureIndex) > threshold) walkTree(right, mean)
+          else walkTree(left, mean)
+        else
+          if (instance(featureIndex) < threshold) walkTree(left, mean)
+          else walkTree(right, mean)
+      }
+    }
+
+    walkTree(0, -1)
   }
 
   /** Classifies an instance based on its feature vector
@@ -143,7 +163,6 @@ class DecisionTree(depth: Int){
    * @return Predicted label
    */
   def classify(instance: List[Double]): Int = {
-
     def walkTree(currentNodeIndex: Int, label: Int): Int = {
       if (currentNodeIndex == -1) label
       else if (!tree(currentNodeIndex).filled) label
@@ -172,7 +191,7 @@ class DecisionTree(depth: Int){
    * @param y List of labels
    * @return List of instances and list of labels, both being a subset of the input X and y
    */
-  def atNode(nodeIndex: Int, X: List[List[Double]], y: List[Int]): (List[List[Double]], List[Int]) = {
+  def atNode[T](nodeIndex: Int, X: List[List[Double]], y: List[T]): (List[List[Double]], List[T]) = {
 
     require(X.length == y.length, "both arguments must have the same length")
 
@@ -189,10 +208,10 @@ class DecisionTree(depth: Int){
     // println("node " + nodeIndex + " has ancestors " + ancestors)
 
     // successively apply cuts in nodes
-    def applyCuts(
+    def applyCuts[T](
       X: List[List[Double]],
-      y: List[Int],
-      ancestors: List[Tuple2[Int, Boolean]]): Tuple2[List[List[Double]], List[Int]] = ancestors match {
+      y: List[T],
+      ancestors: List[Tuple2[Int, Boolean]]): Tuple2[List[List[Double]], List[T]] = ancestors match {
       case Nil => Tuple2(X, y)
       case ancestor::rest => {
         val goRight = ancestor._2
