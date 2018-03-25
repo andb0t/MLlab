@@ -22,9 +22,11 @@ class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIte
 
   var lossEvolution = new ListBuffer[(Double, Double)]()
 
+  /** Calculates probability score for each instance */
   def getProbabilities(X: List[List[Double]]): List[Double] =
     for (instance <- X) yield Maths.logistic(Maths.dot(weight.toList, instance) + bias)
 
+  /** Calculates the gradient of the loss function for the given training data */
   def lossGradient(X: List[List[Double]], y: List[Int]): List[Double] = {
     // dLoss = d(LogLoss) = Sum ((p - y) * x) / nInstances
     val weightGradient: List[Double] =

@@ -18,13 +18,18 @@ class PerceptronClassifier(alpha: Double = 1.0, degree: Int=1) extends Classifie
   var weight = new ListBuffer[Double]()
   var bias: Double = 0
 
-  def getDistance(instance: List[Double]): Double = {
+  /** Calculates the distance to the decision decision hyperplane */
+  def distToPlane(instance: List[Double]): Double = {
     val side: Double = bias + Maths.dot(weight.toList, instance)
     side / Maths.abs(weight.toList)
   }
 
+  /** Gets the prediction for this instance
+    *
+    * Predicts if instance is above or below the decision hyperplane
+    */
   def getPrediction(instance: List[Double]): Int =
-    if (getDistance(instance) > 0) 1 else 0
+    if (distToPlane(instance) > 0) 1 else 0
 
   def isCorrect(instance: List[Double], label: Int): Boolean =
     getPrediction(instance) == label

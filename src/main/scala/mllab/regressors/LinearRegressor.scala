@@ -22,6 +22,7 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
 
   var lossEvolution = new ListBuffer[(Double, Double)]()
 
+  /** Calculates the gradient of the loss function for the given training data */
   def lossGradient(X: List[List[Double]], y: List[Double]): List[Double] = {
     // dLoss = d(MSE scaled) = Sum (const * linearDistanceScaled * instanceVector)
     val linDist: List[Double] = for (xy <- X zip y) yield (Maths.dot(weight.toList, xy._1) + bias - xy._2) / y.length
