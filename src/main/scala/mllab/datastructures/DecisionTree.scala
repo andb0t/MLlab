@@ -119,7 +119,7 @@ class DecisionTree(depth: Int){
         (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
         ", parent " + node.parent +
         ", purity %.3e".format(node.purity) +
-        ", l child " + node.left + " r child " + node.right +
+        ", children: l " + node.left + " r " + node.right +
         ", mean label %.3f".format(node.mean) +
         "\n"
       ).mkString
