@@ -93,4 +93,16 @@ object Maths{
     num / denom * prod
   }
 
+  /** Shannon entropy
+   * @param pc Ratio of class instances
+   */
+  def entropy(pc: List[Double]): Double =
+    - pc.filter(_ != 0).map(p => p * Math.log(p)).sum
+
+  /** Gini impurity
+   * @param pc Ratio of class instances
+   */
+  def gini(pc: List[Double]): Double =
+    1 - pc.map(Math.pow(_, 2)).sum
+
 }

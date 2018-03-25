@@ -1,6 +1,7 @@
 package classifiers
 
 import datastructures._
+import utils._
 
 import scala.collection.mutable.ListBuffer
 
@@ -32,25 +33,30 @@ class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends C
     val greater: Boolean = (rightSig > leftSig)
     val purity =
       if (crit == "maxcorrect"){
-        1.0 * (rightSig + leftBkg) / featureX.length
+        if (greater) 1.0 * (rightSig + leftBkg) / featureX.length
+        else 1.0 * (leftSig + rightBkg) / featureX.length
       }
-      else if (crit == "gini"){
+      else{
+        val impFunc =
+          if (crit == "gini") Maths.gini(_)
+          else if (crit == "entropy") Maths.entropy(_)
+          else throw new NotImplementedError("criterion " + crit + " not implemented")
+
         // CART cost function
         val m: Int = featureX.length
         val mLeft: Int = leftIdx.length
         val mRight: Int = rightIdx.length
         val GLeft: Double =
-          if (mLeft != 0) 1.0 - Math.pow(1.0 * leftSig/mLeft, 2) - Math.pow(1.0 * leftBkg/mLeft, 2)
+          if (mLeft != 0) impFunc(List(1.0 * leftSig/mLeft, 1.0 * leftBkg/mLeft))
           else 0
         val GRight: Double =
-          if (mRight != 0) 1.0 - Math.pow(1.0 * rightSig/mRight, 2) - Math.pow(1.0 * rightBkg/mRight, 2)
+          if (mRight != 0) impFunc(List(1.0 * rightSig/mRight, 1.0 * rightBkg/mRight))
           else 0
         println(GRight)
         println(GLeft)
         val cost = GLeft * mLeft / m + GRight * mRight / m
         -cost
       }
-      else Double.MinValue
     // println("threshold " + threshold + " purity " + purity)
     Tuple2(purity, greater)
   }

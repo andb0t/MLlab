@@ -97,4 +97,12 @@ class UtilsSuite extends FunSuite {
     assert (Maths.std(List(1.3, 3.7, 123)) === 56.81269419964365)
   }
 
+  test ("gini impurity") {
+    assert (Maths.round(Maths.gini(List(49.0/54, 5.0/54)), 6) === 0.168038)
+  }
+
+  test ("shannon entropy") {
+    assert (Maths.round(Maths.entropy(List(49.0/54, 5.0/54)), 6) === 0.308495)
+  }
+
 }
