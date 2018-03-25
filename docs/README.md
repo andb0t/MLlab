@@ -18,13 +18,14 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
     * [Multilayer Neural Network](#multilayer-neural-network)
   * [Regression](#regression)
     * [Linear](#linear)
+    * [Decision Tree](#decision-tree)
 * [Algorithm details](#algorithm-details)
 
 
 
 
 ## Implemented algorithms
-This section gives some impressions of the usage and what the implemented algorithms can perform. 
+This section gives some impressions of the usage and what the implemented algorithms can perform.
 Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the extensive list of implemented hyper parameters.
 
 
@@ -192,6 +193,32 @@ val reg = new LinearRegressor(degree=3)
 This is an example of the same algorithm applied to data with a cubic dependence, where powers up until cubic powers of the feature have been added to the feature vector.
 
 ![Linear regression](./linear_regression_cubic_example.png)
+
+
+
+
+#### Decision Tree
+The decision tree regression determines the predicted value associated to a given test instance from the average of the training labels at the corresponding decision node. The decision threshold is determined from the minimum quadratic sum of the label distance. Let's try a decision tree depth of 3 again:
+
+```scala
+val reg = new DecisionTreeRegressor(depth=3)
+```
+
+This is the application of a decision tree regression algorithm to the cubic dataset. Using only $2^3$ the number of decisions is quite crude:
+
+![Decion tree regression](./decisiontree_regression_example.png)
+
+Increasing the tree depth increases the number of nodes by about factors of two. With this setting, the decision tree is able to classify the test data reasonably well.
+
+```scala
+val reg = new DecisionTreeRegressor(depth=8)
+```
+
+![Linear regression](./decisiontree_regression_more_example.png)
+
+
+
+
 
 
 ## Algorithm details
