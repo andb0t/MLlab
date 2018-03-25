@@ -9,7 +9,7 @@ import datastructures._
  *
  * @param depth Depth of the tree
  */
-class DecisionTreeRegressor(depth: Int = 3) extends Regressor {
+class DecisionTreeRegressor(depth: Int = 6) extends Regressor {
 
   val name: String = "DecisionTreeRegressor"
 

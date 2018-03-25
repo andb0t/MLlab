@@ -111,7 +111,7 @@ object Mllab {
       val reg =
         if (algo == "Random") new RandomRegressor()
         else if (algo == "Linear") new LinearRegressor(maxIter=100, degree=1)
-        else if (algo == "DecisionTree") new DecisionTreeRegressor(depth=3)
+        else if (algo == "DecisionTree") new DecisionTreeRegressor(depth=6)
         else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
       reg.train(X_train, y_train)
 
