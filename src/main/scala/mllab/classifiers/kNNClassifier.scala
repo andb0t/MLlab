@@ -22,22 +22,22 @@ class kNNClassifier(k: Int = 3) extends Classifier {
     y.copyToBuffer(y_NN)
   }
 
+  def updateNearest(x: List[Double], instance: List[Double], label: Int, nearest: List[Tuple2[Double, Int]]): List[Tuple2[Double, Int]] = {
+    val distance: Double = Maths.distance(x, instance)
+    val candidate: Tuple2[Double, Int] = (distance, label)
+    val maxIdx: Int = nearest.zipWithIndex.maxBy(_._1._1)._2
+    if (nearest(maxIdx)._1 > distance)
+      nearest.zipWithIndex.map(ni => if (ni._2 != maxIdx) ni._1 else candidate )
+    else
+      nearest
+  }
+
+  def loopEvents(x: List[Double], X_NN: List[List[Double]], y_NN: List[Int], nearest: List[Tuple2[Double, Int]]): List[Tuple2[Double, Int]] =
+    if (X_NN == Nil) nearest
+    else loopEvents(x, X_NN.tail, y_NN.tail, updateNearest(x, X_NN.head, y_NN.head, nearest))
+
   def getPrediction(x: List[Double], classes: List[Int]): Int = {
-    var nearest = new ListBuffer[Tuple2[Double, Int]]()
-    for (_ <- 0 until k) nearest += Tuple2(Double.MaxValue, -1)
-
-    def queueNewMinimum(distance: Double, label: Int): Unit = {
-      val maxIdx = nearest.zipWithIndex.maxBy(_._1._1)._2
-      nearest(maxIdx) = (distance, label)
-    }
-
-    for (xy <- X_NN zip y_NN) {
-      val instance: List[Double] = xy._1
-      val label: Int = xy._2
-      val distance = Maths.distance(x, instance)
-      queueNewMinimum(distance, label)
-    }
-
+    val nearest = loopEvents(x, X_NN.toList, y_NN.toList, List.fill(k)(Tuple2(Double.MaxValue, -1)))
     val labels = for (dl <- nearest) yield dl._2
     val probab: List[Double] = for (l <- classes.sorted) yield 1.0 * labels.count(_==l) / labels.length
     probab.zipWithIndex.maxBy(_._1)._2
