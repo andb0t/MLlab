@@ -69,6 +69,7 @@ class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends C
     println("Tuning node " + nodeIndex)
     val nSteps = 10
     val nZooms = 3
+    val mean: Double = 1.0 * y.sum / y.length
 
     if (!X.isEmpty) {
       val nFeatures: Int = X.head.length
@@ -88,7 +89,7 @@ class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends C
           for (i <- 0 until nSteps) {
             val currThresh: Double = min + i * stepSize
             val (currPurity, currGreater) = getPurity(featureX, y, currThresh, criterion)
-            decTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, currPurity)
+            decTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, mean, currPurity)
             if (maxPurity < currPurity) {
               maxPurity = currPurity
               purestStep = currThresh

@@ -27,6 +27,8 @@ case class DecisionNode(index: Int){
   var filled: Boolean = false
   /** Node purity */
   var purity: Double = Double.MinValue
+  /** Mean label of instances in this node */
+  var mean: Double = 0
 
   override def toString(): String = {
     "Node " + nodeIndex + " " + left + "<- . ->" + right
@@ -62,14 +64,14 @@ class DecisionTree(depth: Int){
    * @param greater Is the signal region greater or less than the threshold?
    * @param purity The purity of the proposed split
    */
-  def updateNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, purity: Double): Unit = {
+  def updateNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, mean: Double, purity: Double): Unit = {
     if (tree(nodeIndex).purity < purity){
       // println("Improving purity of node " + nodeIndex +
       //   " with feature " + featureIndex +
       //   (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
       //   ": " + "%.3e".format(tree(nodeIndex).purity) +
       //   " -> " + "%.3e".format(purity))
-      setNode(nodeIndex, featureIndex, threshold, greater, purity)
+      setNode(nodeIndex, featureIndex, threshold, greater, mean, purity)
     }
   }
 
@@ -80,7 +82,7 @@ class DecisionTree(depth: Int){
    * @param greater Is the signal region greater or less than the threshold?
    * @param purity The purity of the split in this node
    */
-  def setNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, purity: Double=Double.MinValue): Unit = {
+  def setNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, mean: Double, purity: Double=Double.MinValue): Unit = {
     if (nodeIndex > tree.length - 1) {
       println("Warning: tree not deep enough! (" + nodeIndex + " > " + (tree.length - 1) + ") Ignore node.")
     }else{
@@ -90,6 +92,7 @@ class DecisionTree(depth: Int){
       tree(nodeIndex).filled = true
       if (tree(nodeIndex).right >= nNodes) tree(nodeIndex).right = -1
       if (tree(nodeIndex).left >= nNodes) tree(nodeIndex).left = -1
+      tree(nodeIndex).mean = mean
       tree(nodeIndex).purity = purity
     }
   }
@@ -110,11 +113,13 @@ class DecisionTree(depth: Int){
     def printNodes(): String =
       (for { node <- tree if (node.filled || true) } yield
         "Node " + node.nodeIndex +
-        ", decides on feature " + node.featureIndex +
+        ", decisive feature " + node.featureIndex +
         (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
         ", parent " + node.parent +
         ", purity %.3e".format(node.purity) +
-        " left child " + node.left + " right child " + node.right + "\n"
+        ", l child " + node.left + " r child " + node.right +
+        ", mean label %.3f".format(node.mean) +
+        "\n"
       ).mkString
 
     "------- Decision Tree -------\n" +
