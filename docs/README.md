@@ -24,9 +24,8 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
 
 
 ## Implemented algorithms
-This section gives some impressions of what the implemented algorithms can perform and how to use the API.
-
-Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the implemented hyper parameters.
+This section gives some impressions of the usage and what the implemented algorithms can perform. 
+Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the extensive list of implemented hyper parameters.
 
 
 
