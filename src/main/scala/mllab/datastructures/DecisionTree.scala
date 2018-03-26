@@ -214,13 +214,16 @@ class DecisionTree(depth: Int){
       ancestors: List[Tuple2[Int, Boolean]]): Tuple2[List[List[Double]], List[T]] = ancestors match {
       case Nil => Tuple2(X, y)
       case ancestor::rest => {
-        val goRight = ancestor._2
-        val iFeature = tree(ancestor._1).featureIndex
-        val thresh = tree(ancestor._1).threshold
-        val featureX: List[Double] = X.transpose.apply(iFeature)
-        val goodIndices = featureX.zipWithIndex.filter(xi => (goRight && xi._1 > thresh) || (!goRight && xi._1 <= thresh)).map(_._2)
-        val newXy = Trafo.iloc(X zip y, goodIndices)
-        applyCuts(newXy.map(_._1), newXy.map(_._2), rest)
+        if (X.isEmpty) Tuple2(Nil, Nil)
+        else {
+          val goRight = ancestor._2
+          val iFeature = tree(ancestor._1).featureIndex
+          val thresh = tree(ancestor._1).threshold
+          val featureX: List[Double] = X.transpose.apply(iFeature)
+          val goodIndices = featureX.zipWithIndex.filter(xi => (goRight && xi._1 > thresh) || (!goRight && xi._1 <= thresh)).map(_._2)
+          val newXy = Trafo.iloc(X zip y, goodIndices)
+          applyCuts(newXy.map(_._1), newXy.map(_._2), rest)
+        }
       }
     }
 
