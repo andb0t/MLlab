@@ -124,7 +124,7 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     width = optimalWidth
 
     println("Final estimated parameter means for Y <- N(B.head + B.tail * X, S):")
-    println("B = " + weight)
+    println("B = " + weight.map(Maths.round(_, 3)))
     println("S = %.3f".format(width))
 
     // get equidistant points in this feature for line plotting
