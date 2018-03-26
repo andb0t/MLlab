@@ -27,7 +27,7 @@ class BayesRegressor(degree: Int=1) extends Regressor {
   val sigmaB: Double = 3.0
   val sigmaLike: Double = 2
 
-  def carefulLog(x: Double): Double =
+  def finiteLog(x: Double): Double =
     if (x == 0) -10000 else Math.log(x)
 
   def optimize(func: (Double, Double, Double) => Double): Tuple3[Double, Double, Double] = {
@@ -75,32 +75,21 @@ class BayesRegressor(degree: Int=1) extends Regressor {
     // restrict regression to one feature
     val oneFeatureX = X.transpose.head
 
-    // Gaussian likelihood for parameters
+    // gaussian priors for linear parameters
     val priorA = (a: Double) => {Maths.normal(a, meanA, sigmaA)}
     val priorB = (b: Double) => {Maths.normal(b, meanB, sigmaB)}
-    // Rectangular likelihood for prior sigma
+    // rectangular prior for prior sigma
     val priorS = (s: Double) => {Maths.rectangular(s, 0, sigmaLike)}
-    // Gaussian likelihood
-    val likelihood = (x: List[Double], y: List[Double], a: Double, b: Double, s: Double) => {
-      val normals = (x zip y).map{case (xi, yi) => Maths.normal(yi, a + b * xi, s)}
-      val logs = normals.map(n => if (n == 0) 1 else n).map(n => Math.log(n))
-      logs.filter(_ > Double.MinValue).sum
-        // x.map(xi => Maths.normal(y, a + b * xi, s)).product
-    }
-    // prior given the data
-    val likelihoodPickled = (a: Double, b: Double, s: Double) => {
-      likelihood(oneFeatureX, y, a, b, s)
+    // likelihood
+    val likelihood = (a: Double, b: Double, s: Double) => {
+      (oneFeatureX zip y).map{case (xi, yi) => finiteLog(Maths.normal(yi, a + b * xi, s))}.sum
     }
     // posterior
-    val posterior = (a: Double, b: Double, s: Double, x: List[Double], y: List[Double]) => {
-      likelihood(x, y, a, b, s) + carefulLog(priorA(a)) + carefulLog(priorB(b)) + carefulLog(priorS(s))
-    }
-    // posterior given the data
-    val posteriorPickled = (a: Double, b: Double, s: Double) => {
-      posterior(a, b, s, oneFeatureX, y)
+    val posterior = (a: Double, b: Double, s: Double) => {
+      likelihood(a, b, s) + finiteLog(priorA(a)) + finiteLog(priorB(b)) + finiteLog(priorS(s))
     }
     // determine maximum likelihood parameters
-    val (maxA: Double, maxB: Double, maxS: Double) = optimize(posteriorPickled)
+    val (maxA: Double, maxB: Double, maxS: Double) = optimize(posterior)
     paramA = maxA
     paramB = maxB
     paramS = maxS
@@ -116,15 +105,15 @@ class BayesRegressor(degree: Int=1) extends Regressor {
     val valsB = xEqui zip (xEqui.map(priorB(_)))
     val valsS = xEqui zip (xEqui.map(priorS(_)))
     val valsPosterior = xEqui zip (xEqui.map(eq => Maths.normal(eq, paramA + paramB * eq, paramS)))
-    val valsPosteriorPickledA = xEqui zip (xEqui.map(eq => posteriorPickled(eq, paramB, paramS)))
-    val valsPosteriorPickledB = xEqui zip (xEqui.map(eq => posteriorPickled(paramA, eq, paramS)))
-    val valsPosteriorPickledS = xEqui zip (xEqui.map(eq => posteriorPickled(paramA, paramB, eq)))
-    val valsLikelihoodPickledA = xEqui zip (xEqui.map(eq => likelihoodPickled(eq, paramB, paramS)))
-    val valsLikelihoodPickledB = xEqui zip (xEqui.map(eq => likelihoodPickled(paramA, eq, paramS)))
-    val valsLikelihoodPickledS = xEqui zip (xEqui.map(eq => likelihoodPickled(paramA, paramB, eq)))
+    val valsPosteriorA = xEqui zip (xEqui.map(eq => posterior(eq, paramB, paramS)))
+    val valsPosteriorB = xEqui zip (xEqui.map(eq => posterior(paramA, eq, paramS)))
+    val valsPosteriorS = xEqui zip (xEqui.map(eq => posterior(paramA, paramB, eq)))
+    val valsLikelihoodA = xEqui zip (xEqui.map(eq => likelihood(eq, paramB, paramS)))
+    val valsLikelihoodB = xEqui zip (xEqui.map(eq => likelihood(paramA, eq, paramS)))
+    val valsLikelihoodS = xEqui zip (xEqui.map(eq => likelihood(paramA, paramB, eq)))
 
-    Plotting.plotCurves(List(valsPosteriorPickledA, valsPosteriorPickledB, valsPosteriorPickledS), List("Posterior(A)", "Posterior(B)", "Posterior(S)"), xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
-    Plotting.plotCurves(List(valsLikelihoodPickledA, valsLikelihoodPickledB, valsLikelihoodPickledS), List("Likelihood(A)", "Likelihood(B)", "Likelihood(S)"), xlabel= "Value", name= "plots/reg_Bayes_like_dep.pdf")
+    Plotting.plotCurves(List(valsPosteriorA, valsPosteriorB, valsPosteriorS), List("Posterior(A)", "Posterior(B)", "Posterior(S)"), xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
+    Plotting.plotCurves(List(valsLikelihoodA, valsLikelihoodB, valsLikelihoodS), List("Likelihood(A)", "Likelihood(B)", "Likelihood(S)"), xlabel= "Value", name= "plots/reg_Bayes_like_dep.pdf")
     Plotting.plotCurves(List(valsPosterior), List("Posterior"), xlabel= "Value", name= "plots/reg_Bayes_posterior.pdf")
     Plotting.plotCurves(List(valsA, valsB, valsS), List("A", "B", "S"), xlabel= "Value", name= "plots/reg_Bayes_prior.pdf")
 
