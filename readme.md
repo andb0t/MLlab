@@ -30,6 +30,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] polynomial regression with linear kernel
 - [x] decision tree
 - [ ] naive Bayesian regression
+- [ ] neural network regression
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
