@@ -114,25 +114,39 @@ class BayesRegressor(degree: Int=1, savePlots: Boolean=true) extends Regressor {
       val xEqui: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
       val equiFeatures = List.fill(nFeatures)(xEqui)
       // plot some distributions
-      val valsA = List(xEqui zip (xEqui.map(priorA(_))))
+      val valsA = xEqui zip (xEqui.map(priorA(_)))
       val valsB = equiFeatures.transpose.map(priorB(_)).transpose.map(xEqui zip _)
-      val valsS = List(xEqui zip (xEqui.map(priorS(_))))
-      val vals = valsA ::: valsB ::: valsS
+      val valsS = xEqui zip (xEqui.map(priorS(_)))
+      val vals = List(valsA) ::: valsB ::: List(valsS)
       val names = List("A") ::: (for (i <- 0 until nFeatures) yield "B" + i).toList ::: List("S")
       Plotting.plotCurves(vals, names, xlabel= "Value", name= "plots/reg_Bayes_priors.pdf")
 
-      //
-      // val valsPosteriorA = xEqui zip (xEqui.map(eq => posterior(eq, paramB, paramS)))
-      // val valsPosteriorB = xEqui zip (xEqui.map(eq => posterior(paramA, eq, paramS)))
-      // val valsPosteriorS = xEqui zip (xEqui.map(eq => posterior(paramA, paramB, eq)))
-      // Plotting.plotCurves(List(valsPosteriorA, valsPosteriorB, valsPosteriorS), List("Posterior(A)", "Posterior(B)", "Posterior(S)"), xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
+
+      val valsPosteriorA = xEqui zip (xEqui.map(eq => posterior(eq, paramB.toList, paramS)))
+      val valsPosteriorB =
+        (for (i <- 0 until nFeatures) yield xEqui zip (xEqui.map(eq => {
+            val eqB: List[Double] = (for (j <- 0 until nFeatures) yield if (i == j) eq else paramB(j)).toList
+            posterior(paramA, eqB, paramS)
+          }
+        ))).toList
+      val valsPosteriorS = xEqui zip (xEqui.map(eq => posterior(paramA, paramB.toList, eq)))
+      val valsPosterior = List(valsPosteriorA) ::: valsPosteriorB ::: List(valsPosteriorS)
+      val namesPosterior = names.map("Posterior(" + _ + ")")
+      Plotting.plotCurves(valsPosterior, namesPosterior, xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
 
 
 
-      // val valsLikelihoodA = xEqui zip (xEqui.map(eq => likelihood(eq, paramB, paramS)))
-      // val valsLikelihoodB = xEqui zip (xEqui.map(eq => likelihood(paramA, eq, paramS)))
-      // val valsLikelihoodS = xEqui zip (xEqui.map(eq => likelihood(paramA, paramB, eq)))
-      // Plotting.plotCurves(List(valsLikelihoodA, valsLikelihoodB, valsLikelihoodS), List("Likelihood(A)", "Likelihood(B)", "Likelihood(S)"), xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
+      val valsLikelihoodA = xEqui zip (xEqui.map(eq => likelihood(eq, paramB.toList, paramS)))
+      val valsLikelihoodB =
+        (for (i <- 0 until nFeatures) yield xEqui zip (xEqui.map(eq => {
+            val eqB: List[Double] = (for (j <- 0 until nFeatures) yield if (i == j) eq else paramB(j)).toList
+            likelihood(paramA, eqB, paramS)
+          }
+        ))).toList
+      val valsLikelihoodS = xEqui zip (xEqui.map(eq => likelihood(paramA, paramB.toList, eq)))
+      val valsLikelihood = List(valsLikelihoodA) ::: valsLikelihoodB ::: List(valsLikelihoodS)
+      val namesLikelihood = names.map("Likelihood(" + _ + ")")
+      Plotting.plotCurves(valsLikelihood, namesLikelihood, xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
     }
   }
 
