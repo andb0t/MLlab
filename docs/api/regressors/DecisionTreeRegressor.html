@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Maths - utils.Maths</title>
-          <meta name="description" content="Maths - utils.Maths" />
-          <meta name="keywords" content="Maths utils.Maths" />
+          <title>DecisionTreeRegressor - regressors.DecisionTreeRegressor</title>
+          <meta name="description" content="DecisionTreeRegressor - regressors.DecisionTreeRegressor" />
+          <meta name="keywords" content="DecisionTreeRegressor regressors.DecisionTreeRegressor" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../index.html';
-            var hash = 'utils.Maths$';
+            var hash = 'regressors.DecisionTreeRegressor';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,14 +26,14 @@
    	  </script>
     
         </head>
-        <body class="value">
+        <body class="type">
       <div id="definition">
-        <img alt="Object" src="../lib/object_big.png" />
-        <p id="owner"><a href="package.html" class="extype" name="utils">utils</a></p>
-        <h1>Maths</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="utils">package utils</a>
+        <img alt="Class" src="../lib/class_big.png" />
+        <p id="owner"><a href="package.html" class="extype" name="regressors">regressors</a></p>
+        <h1>DecisionTreeRegressor</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="regressors">package regressors</a>
           </div></span></h3><span class="permalink">
-      <a href="../index.html#utils.Maths$" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,16 +42,17 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">Maths</span>
+        <span class="name">DecisionTreeRegressor</span><span class="result"> extends <a href="Regressor.html" class="extype" name="regressors.Regressor">Regressor</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Provides auxiliary functions for mathematical operations</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Decision tree regressor
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="Regressor.html" class="extype" name="regressors.Regressor">Regressor</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -69,7 +70,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="utils.Maths"><span>Maths</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="regressors.DecisionTreeRegressor"><span>DecisionTreeRegressor</span></li><li class="in" name="regressors.Regressor"><span>Regressor</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -86,7 +87,27 @@
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="regressors.DecisionTreeRegressor#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(depth:Int,minSamplesSplit:Int):regressors.DecisionTreeRegressor"></a>
+      <a id="&lt;init&gt;:DecisionTreeRegressor"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DecisionTreeRegressor</span><span class="params">(<span name="depth">depth: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">6</span></span>, <span name="minSamplesSplit">minSamplesSplit: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">2</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#regressors.DecisionTreeRegressor@&lt;init&gt;(depth:Int,minSamplesSplit:Int):regressors.DecisionTreeRegressor" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">depth</dt><dd class="cmt"><p>Depth of the tree</p></dd><dt class="param">minSamplesSplit</dt><dd class="cmt"><p>Minimum number of samples required to split an internal node</p></dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
@@ -106,7 +127,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -123,7 +144,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@##():Int" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@##():Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -140,28 +161,11 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="utils.Maths#abs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="abs(a:List[Double]):Double"></a>
-      <a id="abs(List[Double]):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">abs</span><span class="params">(<span name="a">a: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@abs(a:List[Double]):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Vector L2 norm using list as vector</p>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -174,28 +178,11 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="utils.Maths#bernoulli" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bernoulli(x:Int,p:Double):Double"></a>
-      <a id="bernoulli(Int,Double):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bernoulli</span><span class="params">(<span name="x">x: <span class="extype" name="scala.Int">Int</span></span>, <span name="p">p: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@bernoulli(x:Int,p:Double):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns the bernoulli probabilities for an event given a probability for 0</p>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -208,7 +195,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@clone():Object" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@clone():Object" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -219,57 +206,40 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="utils.Maths#distance" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="distance(a:List[Double],b:List[Double]):Double"></a>
-      <a id="distance(List[Double],List[Double]):Double"></a>
+    </li><li name="regressors.DecisionTreeRegressor#decisionTree" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="decisionTree:datastructures.DecisionTree"></a>
+      <a id="decisionTree:DecisionTree"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">decisionTree</span><span class="result">: <a href="../datastructures/DecisionTree.html" class="extype" name="datastructures.DecisionTree">DecisionTree</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#regressors.DecisionTreeRegressor@decisionTree:datastructures.DecisionTree" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="regressors.Regressor#diagnostics" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="diagnostics():Map[String,List[(Double,Double)]]"></a>
+      <a id="diagnostics():Map[String,List[(Double,Double)]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">distance</span><span class="params">(<span name="a">a: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="b">b: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+        <span class="name">diagnostics</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.Double">Double</span>)]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@distance(a:List[Double],b:List[Double]):Double" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@diagnostics():Map[String,List[(Double,Double)]]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Euclidian distance between two vectors</p>
-    </li><li name="utils.Maths#dot" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="dot(a:List[Double],b:List[Double]):Double"></a>
-      <a id="dot(List[Double],List[Double]):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dot</span><span class="params">(<span name="a">a: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="b">b: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@dot(a:List[Double],b:List[Double]):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Dot product using lists as vectors</p>
-    </li><li name="utils.Maths#entropy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="entropy(pc:List[Double]):Double"></a>
-      <a id="entropy(List[Double]):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">entropy</span><span class="params">(<span name="pc">pc: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@entropy(pc:List[Double]):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Shannon entropy</p><div class="fullcomment"><div class="comment cmt"><p>Shannon entropy</p></div><dl class="paramcmts block"><dt class="param">pc</dt><dd class="cmt"><p>Ratio of class instances</p></dd></dl></div>
+      <p class="shortcomment cmt">Provides meta-information on the regressor</p><div class="fullcomment"><div class="comment cmt"><p>Provides meta-information on the regressor</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>Map object of metric names and metric values</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Regressor.html" class="extype" name="regressors.Regressor">Regressor</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -282,7 +252,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -299,28 +269,11 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="utils.Maths#factorial" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="factorial(x:Int):Int"></a>
-      <a id="factorial(Int):Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">factorial</span><span class="params">(<span name="x">x: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@factorial(x:Int):Int" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">The factorial function x!</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -333,7 +286,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@finalize():Unit" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@finalize():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -356,28 +309,28 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="utils.Maths#gini" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="gini(pc:List[Double]):Double"></a>
-      <a id="gini(List[Double]):Double"></a>
+    </li><li name="regressors.DecisionTreeRegressor#getPurity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getPurity(featureX:List[Double],threshold:Double):Double"></a>
+      <a id="getPurity(List[Double],Double):Double"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">gini</span><span class="params">(<span name="pc">pc: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+        <span class="name">getPurity</span><span class="params">(<span name="featureX">featureX: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@gini(pc:List[Double]):Double" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@getPurity(featureX:List[Double],threshold:Double):Double" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Gini impurity</p><div class="fullcomment"><div class="comment cmt"><p>Gini impurity</p></div><dl class="paramcmts block"><dt class="param">pc</dt><dd class="cmt"><p>Ratio of class instances</p></dd></dl></div>
+      <p class="shortcomment cmt">Calculates the purity for a cut at threshold at this node</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the purity for a cut at threshold at this node</p></div><dl class="paramcmts block"><dt class="param">featureX</dt><dd class="cmt"><p>List of this feature for all instances at this node</p></dd><dt class="param">threshold</dt><dd class="cmt"><p>The cut-off threshold to be applied</p></dd><dt>returns</dt><dd class="cmt"><p>The purity of this split</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -390,7 +343,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@hashCode():Int" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@hashCode():Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -407,79 +360,28 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="utils.Maths#logistic" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="logistic(x:Double):Double"></a>
-      <a id="logistic(Double):Double"></a>
+    </li><li name="regressors.DecisionTreeRegressor#name" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="name:String"></a>
+      <a id="name:String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">logistic</span><span class="params">(<span name="x">x: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+        <span class="name">name</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@logistic(x:Double):Double" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@name:String" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Logistic function</p>
-    </li><li name="utils.Maths#mean" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="mean(l:List[Double]):Double"></a>
-      <a id="mean(List[Double]):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">mean</span><span class="params">(<span name="l">l: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@mean(l:List[Double]):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns the mean of a list of values</p>
-    </li><li name="utils.Maths#minus" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="minus(a:List[Double],b:List[Double]):List[Double]"></a>
-      <a id="minus(List[Double],List[Double]):List[Double]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">minus</span><span class="params">(<span name="a">a: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="b">b: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@minus(a:List[Double],b:List[Double]):List[Double]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Vector subtraction using lists as vectors</p>
-    </li><li name="utils.Maths#multinomial" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="multinomial(x:List[Int],p:List[Double]):Double"></a>
-      <a id="multinomial(List[Int],List[Double]):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">multinomial</span><span class="params">(<span name="x">x: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="p">p: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@multinomial(x:List[Int],p:List[Double]):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns the probability to observe a given histogram</p><div class="fullcomment"><div class="comment cmt"><p>Returns the probability to observe a given histogram</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>Histogram of counts</p></dd><dt class="param">p</dt><dd class="cmt"><p>Binned probability distribution</p></dd></dl></div>
+      <p class="shortcomment cmt">The name of the regressor</p><div class="fullcomment"><div class="comment cmt"><p>The name of the regressor</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="regressors.DecisionTreeRegressor">DecisionTreeRegressor</a> → <a href="Regressor.html" class="extype" name="regressors.Regressor">Regressor</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -492,28 +394,11 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="utils.Maths#normal" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="normal(x:Double,m:Double,s:Double):Double"></a>
-      <a id="normal(Double,Double,Double):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">normal</span><span class="params">(<span name="x">x: <span class="extype" name="scala.Double">Double</span></span>, <span name="m">m: <span class="extype" name="scala.Double">Double</span></span>, <span name="s">s: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@normal(x:Double,m:Double,s:Double):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Normal (Gaussian) function</p><div class="fullcomment"><div class="comment cmt"><p>Normal (Gaussian) function</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>Abscissa</p></dd><dt class="param">m</dt><dd class="cmt"><p>Mean</p></dd><dt class="param">s</dt><dd class="cmt"><p>Sigma</p></dd></dl></div>
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -526,7 +411,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@notify():Unit" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@notify():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -543,79 +428,45 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="utils.Maths#plus" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="plus(a:List[Double],b:List[Double]):List[Double]"></a>
-      <a id="plus(List[Double],List[Double]):List[Double]"></a>
+    </li><li name="regressors.DecisionTreeRegressor#predict" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="predict(X:List[List[Double]]):List[Double]"></a>
+      <a id="predict(List[List[Double]]):List[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">plus</span><span class="params">(<span name="a">a: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="b">b: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+        <span class="name">predict</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@plus(a:List[Double],b:List[Double]):List[Double]" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@predict(X:List[List[Double]]):List[Double]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Vector addition using lists as vectors</p>
-    </li><li name="utils.Maths#rectangular" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="rectangular(x:Double,f:Double,t:Double):Double"></a>
-      <a id="rectangular(Double,Double,Double):Double"></a>
+      <p class="shortcomment cmt">Applies the trained regressor to a dataset</p><div class="fullcomment"><div class="comment cmt"><p>Applies the trained regressor to a dataset</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>List of data instances</p></dd><dt>returns</dt><dd class="cmt"><p>List of predictions</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="regressors.DecisionTreeRegressor">DecisionTreeRegressor</a> → <a href="Regressor.html" class="extype" name="regressors.Regressor">Regressor</a></dd></dl></div>
+    </li><li name="regressors.DecisionTreeRegressor#setOptimalCut" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setOptimalCut(X:List[List[Double]],y:List[Double],decTree:datastructures.DecisionTree,nodeIndex:Int):Unit"></a>
+      <a id="setOptimalCut(List[List[Double]],List[Double],DecisionTree,Int):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">rectangular</span><span class="params">(<span name="x">x: <span class="extype" name="scala.Double">Double</span></span>, <span name="f">f: <span class="extype" name="scala.Double">Double</span></span>, <span name="t">t: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+        <span class="name">setOptimalCut</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="decTree">decTree: <a href="../datastructures/DecisionTree.html" class="extype" name="datastructures.DecisionTree">DecisionTree</a></span>, <span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@rectangular(x:Double,f:Double,t:Double):Double" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@setOptimalCut(X:List[List[Double]],y:List[Double],decTree:datastructures.DecisionTree,nodeIndex:Int):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Rectangular function</p><div class="fullcomment"><div class="comment cmt"><p>Rectangular function</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>Abscissa</p></dd><dt class="param">f</dt><dd class="cmt"><p>Lower bound</p></dd><dt class="param">t</dt><dd class="cmt"><p>Upper bound</p></dd></dl></div>
-    </li><li name="utils.Maths#round" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="round(a:Double,digits:Int):Double"></a>
-      <a id="round(Double,Int):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">round</span><span class="params">(<span name="a">a: <span class="extype" name="scala.Double">Double</span></span>, <span name="digits">digits: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@round(a:Double,digits:Int):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Rounds to specified amount of digits</p>
-    </li><li name="utils.Maths#std" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="std(l:List[Double]):Double"></a>
-      <a id="std(List[Double]):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">std</span><span class="params">(<span name="l">l: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@std(l:List[Double]):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns the standard deviation of a list of values</p>
+      <p class="shortcomment cmt">Sets optimal feature and cut-off value for this node</p><div class="fullcomment"><div class="comment cmt"><p>Sets optimal feature and cut-off value for this node</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>Feature vectors of instances at this node</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of labels of instances at this node</p></dd><dt class="param">decTree</dt><dd class="cmt"><p>Decision tree to update</p></dd><dt class="param">nodeIndex</dt><dd class="cmt"><p>Index of the node to tune</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -628,7 +479,7 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -645,45 +496,28 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@toString():String" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@toString():String" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="utils.Maths#triangular" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="triangular(x:Double,m:Double,w:Double):Double"></a>
-      <a id="triangular(Double,Double,Double):Double"></a>
+    </li><li name="regressors.DecisionTreeRegressor#train" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="train(X:List[List[Double]],y:List[Double]):Unit"></a>
+      <a id="train(List[List[Double]],List[Double]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">triangular</span><span class="params">(<span name="x">x: <span class="extype" name="scala.Double">Double</span></span>, <span name="m">m: <span class="extype" name="scala.Double">Double</span></span>, <span name="w">w: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+        <span class="name">train</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@triangular(x:Double,m:Double,w:Double):Double" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@train(X:List[List[Double]],y:List[Double]):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Triangular function</p><div class="fullcomment"><div class="comment cmt"><p>Triangular function</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>Abscissa</p></dd><dt class="param">m</dt><dd class="cmt"><p>Peak position</p></dd><dt class="param">w</dt><dd class="cmt"><p>Half width at y = 0</p></dd></dl></div>
-    </li><li name="utils.Maths#variance" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="variance(l:List[Double]):Double"></a>
-      <a id="variance(List[Double]):Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">variance</span><span class="params">(<span name="l">l: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@variance(l:List[Double]):Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns the variance of a list of values</p>
+      <p class="shortcomment cmt">Performs the training of the regressor</p><div class="fullcomment"><div class="comment cmt"><p>Performs the training of the regressor</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>List of training instances</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of training labels</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="regressors.DecisionTreeRegressor">DecisionTreeRegressor</a> → <a href="Regressor.html" class="extype" name="regressors.Regressor">Regressor</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -696,7 +530,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@wait():Unit" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@wait():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -719,7 +553,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -742,7 +576,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.Maths$@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../index.html#regressors.DecisionTreeRegressor@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -762,7 +596,9 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="regressors.Regressor">
+              <h3>Inherited from <a href="Regressor.html" class="extype" name="regressors.Regressor">Regressor</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

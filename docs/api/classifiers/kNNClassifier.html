@@ -313,6 +313,40 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="classifiers.kNNClassifier#getNearest" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getNearest(x:List[Double],X_NN:List[List[Double]],y_NN:List[Int],nearest:List[(Double,Int)]):List[(Double,Int)]"></a>
+      <a id="getNearest(List[Double],List[List[Double]],List[Int],List[(Double,Int)]):List[(Double,Int)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getNearest</span><span class="params">(<span name="x">x: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="X_NN">X_NN: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y_NN">y_NN: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="nearest">nearest: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.Int">Int</span>)]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.Int">Int</span>)]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#classifiers.kNNClassifier@getNearest(x:List[Double],X_NN:List[List[Double]],y_NN:List[Int],nearest:List[(Double,Int)]):List[(Double,Int)]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets list of nearest neighbors</p>
+    </li><li name="classifiers.kNNClassifier#getPrediction" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getPrediction(x:List[Double],classes:List[Int]):Int"></a>
+      <a id="getPrediction(List[Double],List[Int]):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPrediction</span><span class="params">(<span name="x">x: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="classes">classes: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#classifiers.kNNClassifier@getPrediction(x:List[Double],classes:List[Int]):Int" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Predicts a label for a single instance</p>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -483,6 +517,23 @@
       </a>
     </span>
       <p class="shortcomment cmt">Performs the training of the classifier</p><div class="fullcomment"><div class="comment cmt"><p>Performs the training of the classifier</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>List of training instances</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of training labels</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="classifiers.kNNClassifier">kNNClassifier</a> → <a href="Classifier.html" class="extype" name="classifiers.Classifier">Classifier</a></dd></dl></div>
+    </li><li name="classifiers.kNNClassifier#updateNearest" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="updateNearest(x:List[Double],instance:List[Double],label:Int,nearest:List[(Double,Int)]):List[(Double,Int)]"></a>
+      <a id="updateNearest(List[Double],List[Double],Int,List[(Double,Int)]):List[(Double,Int)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">updateNearest</span><span class="params">(<span name="x">x: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="instance">instance: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="label">label: <span class="extype" name="scala.Int">Int</span></span>, <span name="nearest">nearest: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.Int">Int</span>)]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.Int">Int</span>)]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#classifiers.kNNClassifier@updateNearest(x:List[Double],instance:List[Double],label:Int,nearest:List[(Double,Int)]):List[(Double,Int)]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Yield new collection of nearest neighbors</p><div class="fullcomment"><div class="comment cmt"><p>Yield new collection of nearest neighbors</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>Test instance feature vector</p></dd><dt class="param">instance</dt><dd class="cmt"><p>Training instance feature vector</p></dd><dt class="param">label</dt><dd class="cmt"><p>Training instance label</p></dd><dt class="param">nearest</dt><dd class="cmt"><p>Current collection of nearest neighbors</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>

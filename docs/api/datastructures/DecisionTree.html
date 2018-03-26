@@ -184,18 +184,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="datastructures.DecisionTree#atNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="atNode(nodeIndex:Int,X:List[List[Double]],y:List[Int]):(List[List[Double]],List[Int])"></a>
-      <a id="atNode(Int,List[List[Double]],List[Int]):(List[List[Double]],List[Int])"></a>
+      <a id="atNode[T](nodeIndex:Int,X:List[List[Double]],y:List[T]):(List[List[Double]],List[T])"></a>
+      <a id="atNode[T](Int,List[List[Double]],List[T]):(List[List[Double]],List[T])"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">atNode</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: (<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]], <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>])</span>
+        <span class="name">atNode</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="datastructures.DecisionTree.atNode.T">T</span>]</span>)</span><span class="result">: (<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]], <span class="extype" name="scala.List">List</span>[<span class="extype" name="datastructures.DecisionTree.atNode.T">T</span>])</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#datastructures.DecisionTree@atNode(nodeIndex:Int,X:List[List[Double]],y:List[Int]):(List[List[Double]],List[Int])" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@atNode[T](nodeIndex:Int,X:List[List[Double]],y:List[T]):(List[List[Double]],List[T])" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -450,19 +450,36 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="datastructures.DecisionTree#setNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit"></a>
-      <a id="setNode(Int,Int,Double,Boolean,Double):Unit"></a>
+    </li><li name="datastructures.DecisionTree#predict" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="predict(instance:List[Double]):Double"></a>
+      <a id="predict(List[Double]):Double"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setNode</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="featureIndex">featureIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>, <span name="greater">greater: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="purity">purity: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">Double.MinValue</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">predict</span><span class="params">(<span name="instance">instance: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#datastructures.DecisionTree@setNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@predict(instance:List[Double]):Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Predicits an instance's label based on its feature vector</p><div class="fullcomment"><div class="comment cmt"><p>Predicits an instance's label based on its feature vector</p></div><dl class="paramcmts block"><dt class="param">instance</dt><dd class="cmt"><p>Feature list of an instance</p></dd><dt>returns</dt><dd class="cmt"><p>Predicted label</p></dd></dl></div>
+    </li><li name="datastructures.DecisionTree#setNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,mean:Double,nSamples:Int,purity:Double):Unit"></a>
+      <a id="setNode(Int,Int,Double,Boolean,Double,Int,Double):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setNode</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="featureIndex">featureIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>, <span name="greater">greater: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="mean">mean: <span class="extype" name="scala.Double">Double</span></span>, <span name="nSamples">nSamples: <span class="extype" name="scala.Int">Int</span></span>, <span name="purity">purity: <span class="extype" name="scala.Double">Double</span> = <span class="symbol">Double.MinValue</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.DecisionTree@setNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,mean:Double,nSamples:Int,purity:Double):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -519,18 +536,18 @@
     </span>
       <p class="shortcomment cmt">The object holding the nodes</p>
     </li><li name="datastructures.DecisionTree#updateNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="updateNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit"></a>
-      <a id="updateNode(Int,Int,Double,Boolean,Double):Unit"></a>
+      <a id="updateNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,mean:Double,nSamples:Int,purity:Double):Unit"></a>
+      <a id="updateNode(Int,Int,Double,Boolean,Double,Int,Double):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">updateNode</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="featureIndex">featureIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>, <span name="greater">greater: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="purity">purity: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">updateNode</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="featureIndex">featureIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>, <span name="greater">greater: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="mean">mean: <span class="extype" name="scala.Double">Double</span></span>, <span name="nSamples">nSamples: <span class="extype" name="scala.Int">Int</span></span>, <span name="purity">purity: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#datastructures.DecisionTree@updateNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,purity:Double):Unit" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.DecisionTree@updateNode(nodeIndex:Int,featureIndex:Int,threshold:Double,greater:Boolean,mean:Double,nSamples:Int,purity:Double):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
