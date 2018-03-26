@@ -45,10 +45,10 @@ class UtilsSuite extends FunSuite {
   }
 
   test ("normal distribution") {
-    // scipy.stats.norm.pdf(0, 0, 1)
-    assert (Maths.norm(0, 0, 1) == 0.3989422804014327)
-    assert (Maths.norm(1, 1, 1) == 0.3989422804014327)
-    assert (Maths.norm(2, -1, 4) == 0.07528435803870111)
+    // scipy.stats.normal.pdf(0, 0, 1)
+    assert (Maths.normal(0, 0, 1) == 0.3989422804014327)
+    assert (Maths.normal(1, 1, 1) == 0.3989422804014327)
+    assert (Maths.normal(2, -1, 4) == 0.07528435803870111)
   }
 
   test ("triangular distribution") {
