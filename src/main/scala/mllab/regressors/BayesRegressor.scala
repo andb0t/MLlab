@@ -2,6 +2,7 @@ package regressors
 
 import breeze.linalg._
 
+import datastructures._
 import plotting._
 import utils._
 
@@ -9,8 +10,9 @@ import utils._
 /** Bayes regressor
  *
  * following https://stats.stackexchange.com/questions/252577/bayes-regression-how-is-it-done-in-comparison-to-standard-regression
+ * @param degree Order of polynomial features to add to the instances (1 for no addition)
  */
-class BayesRegressor() extends Regressor {
+class BayesRegressor(degree: Int=1) extends Regressor {
 
   val name: String = "BayesRegressor"
 
@@ -65,7 +67,7 @@ class BayesRegressor() extends Regressor {
     maximize(0, Double.MinValue, (0.0, 0.0, 0.1), ranges)
   }
 
-  def train(X: List[List[Double]], y: List[Double]): Unit = {
+  def _train(X: List[List[Double]], y: List[Double]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
 
     // restrict regression to one feature
@@ -133,10 +135,16 @@ class BayesRegressor() extends Regressor {
     println("S: " + paramS)
   }
 
-  def predict(X: List[List[Double]]): List[Double] = {
+  def _predict(X: List[List[Double]]): List[Double] = {
     // restrict regression to one feature
     val oneFeatureX = X.transpose.head
     for (x <- oneFeatureX) yield paramA + paramB * x
   }
+
+  def predict(X: List[List[Double]]): List[Double] =
+    _predict(DataTrafo.addPolyFeatures(X, degree))
+
+  def train(X: List[List[Double]], y: List[Double]): Unit =
+    _train(DataTrafo.addPolyFeatures(X, degree), y)
 
 }
