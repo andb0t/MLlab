@@ -1,7 +1,5 @@
 package regressors
 
-import scala.collection.mutable.ListBuffer
-
 import breeze.linalg._
 
 import datastructures._
@@ -12,22 +10,34 @@ import utils._
 /** Bayes regressor
  *
  * following https://stats.stackexchange.com/questions/252577/bayes-regression-how-is-it-done-in-comparison-to-standard-regression
+ *
+ * The priors can be set using the priorPars parameter. If left empty, random values will be used.
+ * e.g. List(List(0, 1), List(1, 1), List(2)) for Gaussian priors for the intercept (mean 0, sigma 1) and
+ * the weights (mean 1, sigma 1) and with the posterior width 2
+ *
  * @param degree Order of polynomial features to add to the instances (1 for no addition)
+ * @param randInit If set to true, initialize the prior pdf parameters randomly
+ * @param priorPars Parameters of the prior probability density functions
  */
-class BayesRegressor(degree: Int=1, savePlots: Boolean=true) extends Regressor {
+class BayesRegressor(degree: Int=1, randInit: Boolean= false, priorPars: List[List[Double]]= Nil) extends Regressor {
 
   val name: String = "BayesRegressor"
 
   var paramA: Double = 0
-  var paramB = new ListBuffer[Double]()
+  var paramB: List[Double] = Nil
   var paramS: Double = 0
 
   // Parameter likelihood assumptions
-  val meanA: Double = 1.0
-  val sigmaA: Double = 2.0
-  var meanB = new ListBuffer[Double]()
-  var sigmaB = new ListBuffer[Double]()
-  val sigmaLike: Double = 2
+
+  val (meanA: Double, sigmaA: Double, sigmaLike: Double) =
+    if (priorPars.isEmpty)
+      if (randInit)
+        Tuple3(1.0 * scala.util.Random.nextInt(7) - 3, 1.0 * scala.util.Random.nextInt(3) + 1, 1.0 * scala.util.Random.nextInt(3) + 1)
+      else
+        (0.0, 3.0, 1.0)
+    else (priorPars.head.head, priorPars.head.last, priorPars.last.head)
+  var meanB: List[Double] = Nil
+  var sigmaB: List[Double] = Nil
 
   // gaussian priors for linear parameters
   val priorA = (a: Double) => {Maths.normal(a, meanA, sigmaA)}
@@ -38,6 +48,7 @@ class BayesRegressor(degree: Int=1, savePlots: Boolean=true) extends Regressor {
   def finiteLog(x: Double): Double =
     if (x == 0) -10000 else Math.log(x)
 
+  /** Determine the function maximum by random walks */
   def optimize(func: (Double, List[Double], Double) => Double): Tuple3[Double, List[Double], Double] = {
 
     def maximize(count: Int, maximum: Double, params: List[Double], ranges: List[List[Double]]): List[Double] = {
@@ -68,7 +79,7 @@ class BayesRegressor(degree: Int=1, savePlots: Boolean=true) extends Regressor {
 
     val intervals: Int = 3
     val rangeA: List[List[Double]] = List(List(meanA - intervals * sigmaA, meanA + intervals * sigmaA))
-    val rangeB: List[List[Double]] = (meanB.toList zip sigmaB.toList).map{case (m, s) => List(m - intervals * s, m + intervals * s)}
+    val rangeB: List[List[Double]] = (meanB zip sigmaB).map{case (m, s) => List(m - intervals * s, m + intervals * s)}
     val rangeS: List[List[Double]] = List(List(0, sigmaLike))
     val ranges: List[List[Double]] = rangeA ::: rangeB ::: rangeS
     val startParams: List[Double] = ranges.map(r => Maths.mean(r))
@@ -80,9 +91,19 @@ class BayesRegressor(degree: Int=1, savePlots: Boolean=true) extends Regressor {
     require(X.length == y.length, "both arguments must have the same length")
     val nFeatures = X.head.length
     // init weights
-    for (i <- 0 until nFeatures) {
-      meanB += i
-      sigmaB += 3 + i
+    if (priorPars.isEmpty) {
+      if (randInit){
+        meanB = (for (i <- 0 until nFeatures) yield 1.0 * scala.util.Random.nextInt(7) - 3).toList
+        sigmaB = (for (i <- 0 until nFeatures) yield 1.0 * scala.util.Random.nextInt(3) + 1).toList
+      }
+      else {
+        meanB = (for (i <- 0 until nFeatures) yield Math.ceil(1.0 * i / 2) * ((i % 2) * 2 - 1)).toList
+        sigmaB = (for (i <- 0 until nFeatures) yield 1.0 * (i % 4 + 1)).toList
+      }
+    }
+    else {
+      meanB = (for (i <- 0 until nFeatures) yield priorPars(1 + i).head).toList
+      sigmaB = (for (i <- 0 until nFeatures) yield priorPars(1 + i).last).toList
     }
     // likelihood
     val likelihood = (a: Double, b: List[Double], s: Double) => {
@@ -93,65 +114,60 @@ class BayesRegressor(degree: Int=1, savePlots: Boolean=true) extends Regressor {
       likelihood(a, b, s) + finiteLog(priorA(a)) + priorB(b).map(pb => finiteLog(pb)).sum + finiteLog(priorS(s))
     }
     // determine maximum likelihood parameters
-    val (maxA: Double, maxB: List[Double], maxS: Double) = optimize(posterior)
-    paramA = maxA
-    maxB.copyToBuffer(paramB)
-    paramS = maxS
+    val (optimalA: Double, optimalB: List[Double], optimalS: Double) = optimize(posterior)
+    paramA = optimalA
+    paramB = optimalB
+    paramS = optimalS
 
     println("Final estimated parameter means for Y <- N(A + B * X, S):")
     println("A = %.3f".format(paramA))
     println("B = " + paramB)
     println("S = %.3f".format(paramS))
 
-    if (savePlots) {
-      // get equidistant points in this feature for line plotting
-      val intervals = 3.0
-      val minB = min((meanB zip sigmaB).map{case (m, s) => m - intervals * s})
-      val maxB = max((meanB zip sigmaB).map{case (m, s) => m + intervals * s})
-      val minX = min(meanA - intervals * sigmaA, minB, 0 - intervals * sigmaLike)
-      val maxX = max(meanA + intervals * sigmaA, maxB, 0 + intervals * sigmaLike)
-      val equiVec: DenseVector[Double] = linspace(minX, maxX, 200)
-      val xEqui: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
-      val equiFeatures = List.fill(nFeatures)(xEqui)
-      // plot some distributions
-      val valsA = xEqui zip (xEqui.map(priorA(_)))
-      val valsB = equiFeatures.transpose.map(priorB(_)).transpose.map(xEqui zip _)
-      val valsS = xEqui zip (xEqui.map(priorS(_)))
-      val vals = List(valsA) ::: valsB ::: List(valsS)
-      val names = List("A") ::: (for (i <- 0 until nFeatures) yield "B" + i).toList ::: List("S")
-      Plotting.plotCurves(vals, names, xlabel= "Value", name= "plots/reg_Bayes_priors.pdf")
+    // get equidistant points in this feature for line plotting
+    val intervals = 3.0
+    val minB = min((meanB zip sigmaB).map{case (m, s) => m - intervals * s})
+    val maxB = max((meanB zip sigmaB).map{case (m, s) => m + intervals * s})
+    val minX = min(meanA - intervals * sigmaA, minB, 0 - intervals * sigmaLike)
+    val maxX = max(meanA + intervals * sigmaA, maxB, 0 + intervals * sigmaLike)
+    val equiVec: DenseVector[Double] = linspace(minX, maxX, 200)
+    val xEqui: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
+    val equiFeatures = List.fill(nFeatures)(xEqui)
+    // plot some distributions
+    val valsA = xEqui zip (xEqui.map(priorA(_)))
+    val valsB = equiFeatures.transpose.map(priorB(_)).transpose.map(xEqui zip _)
+    val valsS = xEqui zip (xEqui.map(priorS(_)))
+    val vals = List(valsA) ::: valsB ::: List(valsS)
+    val names = List("A") ::: (for (i <- 0 until nFeatures) yield "B" + i).toList ::: List("S")
+    Plotting.plotCurves(vals, names, xlabel= "Value", name= "plots/reg_Bayes_priors.pdf")
 
+    val valsPosteriorA = xEqui zip (xEqui.map(eq => posterior(eq, paramB, paramS)))
+    val valsPosteriorB =
+      (for (i <- 0 until nFeatures) yield xEqui zip (xEqui.map(eq => {
+          val eqB: List[Double] = (for (j <- 0 until nFeatures) yield if (i == j) eq else paramB(j)).toList
+          posterior(paramA, eqB, paramS)
+        }
+      ))).toList
+    val valsPosteriorS = xEqui zip (xEqui.map(eq => posterior(paramA, paramB, eq)))
+    val valsPosterior = List(valsPosteriorA) ::: valsPosteriorB ::: List(valsPosteriorS)
+    val namesPosterior = names.map("Posterior(" + _ + ")")
+    Plotting.plotCurves(valsPosterior, namesPosterior, xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
 
-      val valsPosteriorA = xEqui zip (xEqui.map(eq => posterior(eq, paramB.toList, paramS)))
-      val valsPosteriorB =
-        (for (i <- 0 until nFeatures) yield xEqui zip (xEqui.map(eq => {
-            val eqB: List[Double] = (for (j <- 0 until nFeatures) yield if (i == j) eq else paramB(j)).toList
-            posterior(paramA, eqB, paramS)
-          }
-        ))).toList
-      val valsPosteriorS = xEqui zip (xEqui.map(eq => posterior(paramA, paramB.toList, eq)))
-      val valsPosterior = List(valsPosteriorA) ::: valsPosteriorB ::: List(valsPosteriorS)
-      val namesPosterior = names.map("Posterior(" + _ + ")")
-      Plotting.plotCurves(valsPosterior, namesPosterior, xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
-
-
-
-      val valsLikelihoodA = xEqui zip (xEqui.map(eq => likelihood(eq, paramB.toList, paramS)))
-      val valsLikelihoodB =
-        (for (i <- 0 until nFeatures) yield xEqui zip (xEqui.map(eq => {
-            val eqB: List[Double] = (for (j <- 0 until nFeatures) yield if (i == j) eq else paramB(j)).toList
-            likelihood(paramA, eqB, paramS)
-          }
-        ))).toList
-      val valsLikelihoodS = xEqui zip (xEqui.map(eq => likelihood(paramA, paramB.toList, eq)))
-      val valsLikelihood = List(valsLikelihoodA) ::: valsLikelihoodB ::: List(valsLikelihoodS)
-      val namesLikelihood = names.map("Likelihood(" + _ + ")")
-      Plotting.plotCurves(valsLikelihood, namesLikelihood, xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
-    }
+    val valsLikelihoodA = xEqui zip (xEqui.map(eq => likelihood(eq, paramB, paramS)))
+    val valsLikelihoodB =
+      (for (i <- 0 until nFeatures) yield xEqui zip (xEqui.map(eq => {
+          val eqB: List[Double] = (for (j <- 0 until nFeatures) yield if (i == j) eq else paramB(j)).toList
+          likelihood(paramA, eqB, paramS)
+        }
+      ))).toList
+    val valsLikelihoodS = xEqui zip (xEqui.map(eq => likelihood(paramA, paramB, eq)))
+    val valsLikelihood = List(valsLikelihoodA) ::: valsLikelihoodB ::: List(valsLikelihoodS)
+    val namesLikelihood = names.map("Likelihood(" + _ + ")")
+    Plotting.plotCurves(valsLikelihood, namesLikelihood, xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
   }
 
   def _predict(X: List[List[Double]]): List[Double] =
-    for (instance <- X) yield paramA + Maths.dot(paramB.toList, instance)
+    for (instance <- X) yield paramA + Maths.dot(paramB, instance)
 
   def predict(X: List[List[Double]]): List[Double] =
     _predict(DataTrafo.addPolyFeatures(X, degree))
