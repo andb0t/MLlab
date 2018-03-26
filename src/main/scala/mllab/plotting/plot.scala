@@ -113,7 +113,7 @@ object Plotting {
    *@param names List of the curves' names
    *@param name Path to save the plot
    */
-  def plotCurves(curves: List[List[(Double, Double)]], names: List[String]=Nil, name: String = "plots/curves.pdf"): Unit = {
+  def plotCurves(curves: List[List[(Double, Double)]], names: List[String]=Nil, name: String = "plots/curves.pdf", xlabel: String="Training epoch"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
@@ -122,7 +122,7 @@ object Plotting {
       if (i < names.length) p += plot(curve.map(_._1), curve.map(_._2), name=names(i))
       else p += plot(curve.map(_._1), curve.map(_._2))
     }
-    p.xlabel = "Training epoch"
+    p.xlabel = xlabel
     if (curves.length == 1) p.ylabel = names.head
     p.legend = curves.length != 1
     f.saveas(name)
