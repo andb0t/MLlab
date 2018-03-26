@@ -21,9 +21,9 @@ class BayesRegressor(degree: Int=1) extends Regressor {
   var paramS: Double = 0
 
   // Parameter likelihood assumptions
-  val meanA: Double = -1.0
-  val sigmaA: Double = 5.0
-  val meanB: Double = 2.0
+  val meanA: Double = 1.0
+  val sigmaA: Double = 2.0
+  val meanB: Double = 0.0
   val sigmaB: Double = 3.0
   val sigmaLike: Double = 2
 
@@ -31,8 +31,7 @@ class BayesRegressor(degree: Int=1) extends Regressor {
     if (x == 0) -10000 else Math.log(x)
 
   def optimize(func: (Double, Double, Double) => Double): Tuple3[Double, Double, Double] = {
-    println("Optimizing this function: ", func.getClass)
-    val nSteps = 100
+    val nSteps = 1000
     val numberDimensions: Int = 3
 
     def maximize(count: Int, maximum: Double, params: Tuple3[Double, Double, Double], ranges: List[List[Double]]): Tuple3[Double, Double, Double] =
@@ -63,8 +62,7 @@ class BayesRegressor(degree: Int=1) extends Regressor {
     val rangeS: List[Double] = List(0, sigmaLike)
     val startParams = (Maths.mean(rangeA), Maths.mean(rangeB), Maths.mean(rangeS))
     val ranges: List[List[Double]] = List(rangeA, rangeB, rangeS)
-    // maximize(0, Double.MinValue, startParams, ranges)
-    maximize(0, Double.MinValue, (0.0, 0.0, 0.1), ranges)
+    maximize(0, Double.MinValue, startParams, ranges)
   }
 
   def _train(X: List[List[Double]], y: List[Double]): Unit = {
@@ -102,9 +100,6 @@ class BayesRegressor(degree: Int=1) extends Regressor {
     paramA = maxA
     paramB = maxB
     paramS = maxS
-
-    println("Final posterior value: ", posteriorPickled(paramA, paramB, paramS))
-    println("Posterior value correct: ", posteriorPickled(meanA, meanB, sigmaLike))
 
     // get equidistant points in this feature for line plotting
     val intervals = 3.0
