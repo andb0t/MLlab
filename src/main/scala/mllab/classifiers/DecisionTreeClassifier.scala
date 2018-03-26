@@ -3,8 +3,6 @@ package classifiers
 import datastructures._
 import utils._
 
-import scala.collection.mutable.ListBuffer
-
 
 /** Decision tree classifier
  * @param depth Depth of the tree

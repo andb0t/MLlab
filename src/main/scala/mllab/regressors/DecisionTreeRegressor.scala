@@ -1,7 +1,5 @@
 package regressors
 
-import scala.collection.mutable.ListBuffer
-
 import datastructures._
 
 
