@@ -23,7 +23,7 @@ class BayesRegressor() extends Regressor {
   val sigmaA: Double = 5.0
   val meanB: Double = 2.0
   val sigmaB: Double = 3.0
-  val sigmaPrior: Double = 2
+  val sigmaLike: Double = 2
 
   def optimize(func: (Double, Double, Double) => Double): Tuple3[Double, Double, Double] = {
     println("Optimizing this function: ", func.getClass)
@@ -55,7 +55,7 @@ class BayesRegressor() extends Regressor {
     val intervals: Int = 3
     val rangeA: List[Double] = List(meanA - intervals * sigmaA, meanA + intervals * sigmaA)
     val rangeB: List[Double] = List(meanB - intervals * sigmaB, meanB + intervals * sigmaB)
-    val rangeS: List[Double] = List(0, sigmaPrior)
+    val rangeS: List[Double] = List(0, sigmaLike)
     val startParams = (Maths.mean(rangeA), Maths.mean(rangeB), Maths.mean(rangeS))
     val ranges: List[List[Double]] = List(rangeA, rangeB, rangeS)
     // maximize(0, Double.MinValue, startParams, ranges)
@@ -69,24 +69,24 @@ class BayesRegressor() extends Regressor {
     val oneFeatureX = X.transpose.head
 
     // Gaussian likelihood for parameters
-    val likeA = (a: Double) => {Maths.normal(a, meanA, sigmaA)}
-    val likeB = (b: Double) => {Maths.normal(b, meanB, sigmaB)}
+    val priorA = (a: Double) => {Maths.normal(a, meanA, sigmaA)}
+    val priorB = (b: Double) => {Maths.normal(b, meanB, sigmaB)}
     // Rectangular likelihood for prior sigma
-    val likeS = (s: Double) => {Maths.rectangular(s, 0, sigmaPrior)}
-    // Gaussian prior
-    val prior = (x: List[Double], y: List[Double], a: Double, b: Double, s: Double) => {
+    val priorS = (s: Double) => {Maths.rectangular(s, 0, sigmaLike)}
+    // Gaussian likelihood
+    val likelihood = (x: List[Double], y: List[Double], a: Double, b: Double, s: Double) => {
       val normals = (x zip y).map{case (xi, yi) => Maths.normal(yi, a + b * xi, s)}
       val logs = normals.map(n => if (n == 0) 1 else n).map(n => Math.log(n))
       -logs.filter(_ > Double.MinValue).sum
         // x.map(xi => Maths.normal(y, a + b * xi, s)).product
     }
     // prior given the data
-    val priorPickled = (a: Double, b: Double, s: Double) => {
-      prior(oneFeatureX, y, a, b, s)
+    val likelihoodPickled = (a: Double, b: Double, s: Double) => {
+      likelihood(oneFeatureX, y, a, b, s)
     }
     // posterior
     val posterior = (a: Double, b: Double, s: Double, x: List[Double], y: List[Double]) => {
-      prior(x, y, a, b, s) * likeA(a) * likeB(b) * likeS(s)
+      likelihood(x, y, a, b, s) * priorA(a) * priorB(b) * priorS(s)
     }
     // posterior given the data
     val posteriorPickled = (a: Double, b: Double, s: Double) => {
@@ -99,30 +99,30 @@ class BayesRegressor() extends Regressor {
     paramS = maxS
 
     println("Final posterior value: ", posteriorPickled(paramA, paramB, paramS))
-    println("Posterior value correct: ", posteriorPickled(meanA, meanB, sigmaPrior))
+    println("Posterior value correct: ", posteriorPickled(meanA, meanB, sigmaLike))
 
     // get equidistant points in this feature for line plotting
     val intervals = 3.0
-    val minX = min(meanA - intervals * sigmaA, meanB - intervals * sigmaB, 0 - intervals * sigmaPrior)
-    val maxX = max(meanA + intervals * sigmaA, meanB + intervals * sigmaB, 0 + intervals * sigmaPrior)
+    val minX = min(meanA - intervals * sigmaA, meanB - intervals * sigmaB, 0 - intervals * sigmaLike)
+    val maxX = max(meanA + intervals * sigmaA, meanB + intervals * sigmaB, 0 + intervals * sigmaLike)
     val equiVec: DenseVector[Double] = linspace(minX, maxX, 200)
     val xEqui: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
     // plot some distributions
-    val valsA = xEqui zip (xEqui.map(likeA(_)))
-    val valsB = xEqui zip (xEqui.map(likeB(_)))
-    val valsS = xEqui zip (xEqui.map(likeS(_)))
+    val valsA = xEqui zip (xEqui.map(priorA(_)))
+    val valsB = xEqui zip (xEqui.map(priorB(_)))
+    val valsS = xEqui zip (xEqui.map(priorS(_)))
     val valsPosterior = xEqui zip (xEqui.map(eq => Maths.normal(eq, paramA + paramB * eq, paramS)))
     val valsPosteriorPickledA = xEqui zip (xEqui.map(eq => posteriorPickled(eq, paramB, paramS)))
     val valsPosteriorPickledB = xEqui zip (xEqui.map(eq => posteriorPickled(paramA, eq, paramS)))
     val valsPosteriorPickledS = xEqui zip (xEqui.map(eq => posteriorPickled(paramA, paramB, eq)))
-    val valsPriorPickledA = xEqui zip (xEqui.map(eq => priorPickled(eq, paramB, paramS)))
-    val valsPriorPickledB = xEqui zip (xEqui.map(eq => priorPickled(paramA, eq, paramS)))
-    val valsPriorPickledS = xEqui zip (xEqui.map(eq => priorPickled(paramA, paramB, eq)))
+    val valsLikelihoodPickledA = xEqui zip (xEqui.map(eq => likelihoodPickled(eq, paramB, paramS)))
+    val valsLikelihoodPickledB = xEqui zip (xEqui.map(eq => likelihoodPickled(paramA, eq, paramS)))
+    val valsLikelihoodPickledS = xEqui zip (xEqui.map(eq => likelihoodPickled(paramA, paramB, eq)))
 
     Plotting.plotCurves(List(valsPosteriorPickledA, valsPosteriorPickledB, valsPosteriorPickledS), List("Posterior(A)", "Posterior(B)", "Posterior(S)"), xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
-    Plotting.plotCurves(List(valsPriorPickledA, valsPriorPickledB, valsPriorPickledS), List("Prior(A)", "Prior(B)", "Prior(S)"), xlabel= "Value", name= "plots/reg_Bayes_prior_dep.pdf")
+    Plotting.plotCurves(List(valsLikelihoodPickledA, valsLikelihoodPickledB, valsLikelihoodPickledS), List("Likelihood(A)", "Likelihood(B)", "Likelihood(S)"), xlabel= "Value", name= "plots/reg_Bayes_like_dep.pdf")
     Plotting.plotCurves(List(valsPosterior), List("Posterior"), xlabel= "Value", name= "plots/reg_Bayes_posterior.pdf")
-    Plotting.plotCurves(List(valsA, valsB, valsS), List("A", "B", "S"), xlabel= "Value", name= "plots/reg_Bayes_like.pdf")
+    Plotting.plotCurves(List(valsA, valsB, valsS), List("A", "B", "S"), xlabel= "Value", name= "plots/reg_Bayes_prior.pdf")
 
     println("Final estimated parameter means for y <- N(A + B * x, S):")
     println("A: " + paramA)
