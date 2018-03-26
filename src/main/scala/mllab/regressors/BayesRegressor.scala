@@ -59,7 +59,7 @@ class BayesRegressor() extends Regressor {
     val startParams = (Maths.mean(rangeA), Maths.mean(rangeB), Maths.mean(rangeS))
     val ranges: List[List[Double]] = List(rangeA, rangeB, rangeS)
     // maximize(0, Double.MinValue, startParams, ranges)
-    maximize(0, Double.MinValue, (0.0, 0.0, 0.0), ranges)
+    maximize(0, Double.MinValue, (0.0, 0.0, 0.1), ranges)
   }
 
   def train(X: List[List[Double]], y: List[Double]): Unit = {
@@ -76,7 +76,7 @@ class BayesRegressor() extends Regressor {
     // Gaussian prior
     val prior = (x: List[Double], y: List[Double], a: Double, b: Double, s: Double) => {
       val normals = (x zip y).map{case (xi, yi) => Maths.normal(yi, a + b * xi, s)}
-      val logs = normals.map(n => if (n == 0) 1e-10 else n).map(n => Math.log(n))
+      val logs = normals.map(n => if (n == 0) 1 else n).map(n => Math.log(n))
       -logs.filter(_ > Double.MinValue).sum
         // x.map(xi => Maths.normal(y, a + b * xi, s)).product
     }
