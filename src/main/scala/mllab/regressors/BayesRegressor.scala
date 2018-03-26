@@ -16,10 +16,11 @@ import utils._
  * the weights (mean 1, sigma 1) and with the posterior width 2
  *
  * @param degree Order of polynomial features to add to the instances (1 for no addition)
- * @param randInit If set to true, initialize the prior pdf parameters randomly
+ * @param model The shape of the prior function
  * @param priorPars Parameters of the prior probability density functions
+ * @param randInit If set to true, initialize the prior pdf parameters randomly
  */
-class BayesRegressor(degree: Int=1, randInit: Boolean= false, priorPars: List[List[Double]]= Nil) extends Regressor {
+class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[List[Double]]= Nil, randInit: Boolean= false) extends Regressor {
 
   val name: String = "BayesRegressor"
 
@@ -28,23 +29,84 @@ class BayesRegressor(degree: Int=1, randInit: Boolean= false, priorPars: List[Li
   var paramS: Double = 0
 
   // Parameter likelihood assumptions
-
-  val (meanA: Double, sigmaA: Double, sigmaLike: Double) =
-    if (priorPars.isEmpty)
-      if (randInit)
-        Tuple3(1.0 * scala.util.Random.nextInt(7) - 3, 1.0 * scala.util.Random.nextInt(3) + 1, 1.0 * scala.util.Random.nextInt(3) + 1)
-      else
-        (0.0, 3.0, 1.0)
-    else (priorPars.head.head, priorPars.head.last, priorPars.last.head)
+  var meanA: Double = 0
+  var sigmaA: Double = 0
+  var sigmaLike: Double = 0
   var meanB: List[Double] = Nil
   var sigmaB: List[Double] = Nil
 
+  lazy val defaultPars: Map[String, Tuple3[Double, Double, Double]] =
+    Map("gaussian" -> Tuple3(0.0, 3.0, 1.0),
+    "rectangular" -> Tuple3(-10.0, 10.0, 1.0))
+
+  lazy val randomPars: Map[String, Tuple3[Double, Double, Double]] =
+    Map("gaussian" -> Tuple3(1.0 * scala.util.Random.nextInt(7) - 3, 1.0 * scala.util.Random.nextInt(3) + 1, 1.0 * scala.util.Random.nextInt(3) + 1),
+    "rectangular" -> Tuple3(-1.0 * scala.util.Random.nextInt(7) - 1, 1.0 * scala.util.Random.nextInt(7) + 1, 1.0 * scala.util.Random.nextInt(3) + 1))
+
+  lazy val customPars: Map[String, Tuple3[Double, Double, Double]] =
+    Map("gaussian" -> (priorPars.head.head, priorPars.head.last, priorPars.last.head),
+    "rectangular" -> (priorPars.head.head, priorPars.head.last, priorPars.last.head))
+
+  def priorFunc(model: String, x: Double, params: List[Double]): Double =
+    if (model == "gaussian") Maths.normal(x, params.head, params.last)
+    else if (model == "rectangular") Maths.rectangular(x, params.head, params.last)
+    else throw new NotImplementedError("model " + model + " is not implemented")
+
   // gaussian priors for linear parameters
-  val priorA = (a: Double) => {Maths.normal(a, meanA, sigmaA)}
-  val priorB = (b: List[Double]) => {(b zip (meanB zip sigmaB)).map{case (bi, ms) => Maths.normal(bi, ms._1, ms._2)}}
+  val priorA = (a: Double) => {priorFunc(model, a, List(meanA, sigmaA))}
+  val priorB = (b: List[Double]) => {(b zip (meanB zip sigmaB)).map{case (bi, ms) => priorFunc(model, bi, List(ms._1, ms._2))}}
   // rectangular prior for prior sigma
   val priorS = (s: Double) => {Maths.rectangular(s, 0, sigmaLike)}
 
+  def initWeights(model: String, nFeatures: Int): Unit = {
+    if (!priorPars.isEmpty) {
+      meanA = customPars(model)._1
+      sigmaA = customPars(model)._2
+      sigmaLike = customPars(model)._3
+    }
+    else if (randInit) {
+      meanA = randomPars(model)._1
+      sigmaA = randomPars(model)._2
+      sigmaLike = randomPars(model)._3
+    }
+    else {
+      meanA = defaultPars(model)._1
+      sigmaA = defaultPars(model)._2
+      sigmaLike = defaultPars(model)._3
+    }
+
+    if (model == "gaussian")
+      if (priorPars.isEmpty) {
+        if (randInit){
+          meanB = (for (i <- 0 until nFeatures) yield 1.0 * scala.util.Random.nextInt(7) - 3).toList
+          sigmaB = (for (i <- 0 until nFeatures) yield 1.0 * scala.util.Random.nextInt(3) + 1).toList
+        }
+        else {
+          meanB = (for (i <- 0 until nFeatures) yield Math.ceil(1.0 * i / 2) * ((i % 2) * 2 - 1)).toList
+          sigmaB = (for (i <- 0 until nFeatures) yield 1.0 * (i % 4 + 1)).toList
+        }
+      }
+      else {
+        meanB = (for (i <- 0 until nFeatures) yield priorPars(1 + i).head).toList
+        sigmaB = (for (i <- 0 until nFeatures) yield priorPars(1 + i).last).toList
+      }
+    else if (model == "rectangular") {
+      if (randInit){
+        meanB = (for (i <- 0 until nFeatures) yield -1.0 * scala.util.Random.nextInt(7) - 1).toList
+        sigmaB = (for (i <- 0 until nFeatures) yield 1.0 * scala.util.Random.nextInt(7) + 1).toList
+      }
+      else {
+        meanB = (for (i <- 0 until nFeatures) yield Math.ceil(1.0 * i / 2) * ((i % 2) * 2 - 1)).toList
+        sigmaB = (for (i <- 0 until nFeatures) yield meanB(i) + 5 + 1.0 * (i % 4 + 1)).toList
+      }
+    }
+    else {
+      meanB = (for (i <- 0 until nFeatures) yield priorPars(1 + i).head).toList
+      sigmaB = (for (i <- 0 until nFeatures) yield priorPars(1 + i).last).toList
+    }
+  }
+
+  /** Takes the log with a lower limit */
   def finiteLog(x: Double): Double =
     if (x == 0) -10000 else Math.log(x)
 
@@ -90,21 +152,7 @@ class BayesRegressor(degree: Int=1, randInit: Boolean= false, priorPars: List[Li
   def _train(X: List[List[Double]], y: List[Double]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
     val nFeatures = X.head.length
-    // init weights
-    if (priorPars.isEmpty) {
-      if (randInit){
-        meanB = (for (i <- 0 until nFeatures) yield 1.0 * scala.util.Random.nextInt(7) - 3).toList
-        sigmaB = (for (i <- 0 until nFeatures) yield 1.0 * scala.util.Random.nextInt(3) + 1).toList
-      }
-      else {
-        meanB = (for (i <- 0 until nFeatures) yield Math.ceil(1.0 * i / 2) * ((i % 2) * 2 - 1)).toList
-        sigmaB = (for (i <- 0 until nFeatures) yield 1.0 * (i % 4 + 1)).toList
-      }
-    }
-    else {
-      meanB = (for (i <- 0 until nFeatures) yield priorPars(1 + i).head).toList
-      sigmaB = (for (i <- 0 until nFeatures) yield priorPars(1 + i).last).toList
-    }
+    initWeights(model, nFeatures)
     // likelihood
     val likelihood = (a: Double, b: List[Double], s: Double) => {
       (X zip y).map{case (xi, yi) => finiteLog(Maths.normal(yi, a + Maths.dot(b, xi), s))}.sum
