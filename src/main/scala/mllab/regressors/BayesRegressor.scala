@@ -12,8 +12,8 @@ import utils._
  * following https://stats.stackexchange.com/questions/252577/bayes-regression-how-is-it-done-in-comparison-to-standard-regression
  *
  * The priors can be set using the priorPars parameter. If left empty, random values will be used.
- * e.g. List(List(0, 1), List(1, 1), List(2)) for Gaussian priors for the intercept (mean 0, sigma 1) and
- * the other weights (mean 1, sigma 1) and with the posterior width 2
+ * e.g. List(List(2), List(0, 1), List(1, 3)) for a posterior width 2 and Gaussian priors for the intercept (mean 0, sigma 1) and
+ * the other weights (mean 1, sigma 3)
  *
  * @param degree Order of polynomial features to add to the instances (1 for no addition)
  * @param model The shape of the prior function
@@ -29,19 +29,22 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
   /** The posterior width to be determined by the training */
   var width: Double = 0
 
-  // Parameter likelihood assumptions
+  /** Posterior width prior */
   var widthPrior: Double = 0
+  /** Parameter weight mean prior */
   var weightPrior: List[Double] = Nil
+  /** Parameter weight width prior */
   var weightPriorWidth: List[Double] = Nil
 
+  /** The probability distribution for the weight priors */
   def priorFunc(model: String, x: Double, params: List[Double]): Double =
     if (model == "gaussian") Maths.normal(x, params.head, params.last)
     else if (model == "rectangular") Maths.rectangular(x, params.head - params.last, params.head + params.last)
     else throw new NotImplementedError("model " + model + " is not implemented")
 
-  // gaussian priors for linear parameters
+  /** Evaluates the weight prior for the given weight */
   val evalWeightPrior = (b: List[Double]) => {(b zip (weightPrior zip weightPriorWidth)).map{case (bi, ms) => priorFunc(model, bi, List(ms._1, ms._2))}}
-  // rectangular prior for prior sigma
+  /** Evaluates the width prior for the given width */
   val evalWidthPrior = (s: Double) => {Maths.rectangular(s, 0, widthPrior)}
 
   def initWeights(nFeatures: Int): Unit = {
@@ -58,9 +61,9 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
       }
     }
     else {
-      widthPrior = priorPars.last.head
-      weightPrior = (for (i <- 0 to nFeatures) yield priorPars(1 + i).head).toList
-      weightPriorWidth = (for (i <- 0 to nFeatures) yield priorPars(1 + i).last).toList
+      widthPrior = priorPars.head.head
+      weightPrior = priorPars.tail.map(_.head)
+      weightPriorWidth = priorPars.tail.map(_.last)
     }
   }
 
@@ -68,8 +71,8 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
   def finiteLog(x: Double): Double =
     if (x == 0) -10000 else Math.log(x)
 
-  /** Determine the function maximum by random walks */
-  def optimize(func: (List[Double], Double) => Double): Tuple2[List[Double], Double] = {
+  /** Determines the function maximum by random walks */
+  def optimize(func: (Double, List[Double]) => Double): Tuple2[Double, List[Double]] = {
 
     def maximize(count: Int, maximum: Double, params: List[Double], ranges: List[List[Double]]): List[Double] = {
       val nSteps = 1000
@@ -90,7 +93,7 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
         val step: Double = 1.0 * sign * (ranges(dimension)(1) - ranges(dimension).head) / 100
         // println(s"Step $count: step %.3f in dimension $dimension".format(step))
         val newParams: List[Double] = params.zipWithIndex.map{case (p, i) => if (i == dimension) p + step else p}
-        val newMaximum: Double = func((for (i <- 0 until newParams.length-1) yield newParams(i)).toList, newParams.last)
+        val newMaximum: Double = func(newParams.head, newParams.tail)
         // if (newMaximum > maximum) println("New maximum " + maximum + " at " + params)
         if (newMaximum > maximum) maximize(count+1, newMaximum, newParams, ranges)
         else maximize(count+1, maximum, params, ranges)
@@ -100,10 +103,10 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     val intervals: Int = 3
     val rangeWeight: List[List[Double]] = (weightPrior zip weightPriorWidth).map{case (m, s) => List(m - intervals * s, m + intervals * s)}
     val rangeWidth: List[List[Double]] = List(List(0, widthPrior))
-    val ranges: List[List[Double]] = rangeWeight ::: rangeWidth
+    val ranges: List[List[Double]] = rangeWidth ::: rangeWeight
     val startParams: List[Double] = ranges.map(r => Maths.mean(r))
     val params: List[Double] = maximize(0, Double.MinValue, startParams, ranges)
-    ((for (i <- 0 until params.length-1) yield params(i)).toList, params.last)
+    (params.head, params.tail)
   }
 
   def _train(X: List[List[Double]], y: List[Double]): Unit = {
@@ -111,15 +114,15 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     val nFeatures = X.head.length
     initWeights(nFeatures)
     // likelihood
-    val likelihood = (W: List[Double], s: Double) => {
+    val likelihood = (s: Double, W: List[Double]) => {
       (X zip y).map{case (xi, yi) => finiteLog(Maths.normal(yi, Maths.dot(W, 1 :: xi), s))}.sum
     }
     // posterior
-    val posterior = (W: List[Double], s: Double) => {
-      likelihood(W, s) + evalWeightPrior(W).map(wp => finiteLog(wp)).sum + finiteLog(evalWidthPrior(s))
+    val posterior = (s: Double, W: List[Double]) => {
+      likelihood(s, W) + evalWeightPrior(W).map(wp => finiteLog(wp)).sum + finiteLog(evalWidthPrior(s))
     }
     // determine maximum likelihood parameters
-    val (optimalWeight: List[Double], optimalWidth: Double) = optimize(posterior)
+    val (optimalWidth: Double, optimalWeight: List[Double]) = optimize(posterior)
     weight = optimalWeight
     width = optimalWidth
 
@@ -146,10 +149,10 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     val valsPosteriorWeight =
       (for (i <- 0 to nFeatures) yield xEqui zip (xEqui.map(eq => {
           val eqB: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
-          posterior(eqB, width)
+          posterior(width, eqB)
         }
       ))).toList
-    val valsPosteriorWidth = xEqui zip (xEqui.map(eq => posterior(weight, eq)))
+    val valsPosteriorWidth = xEqui zip (xEqui.map(eq => posterior(eq, weight)))
     val valsPosterior = valsPosteriorWeight ::: List(valsPosteriorWidth)
     val namesPosterior = names.map("Posterior(" + _ + ")")
     Plotting.plotCurves(valsPosterior, namesPosterior, xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
@@ -157,10 +160,10 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     val valsLikelihoodWeight =
       (for (i <- 0 to nFeatures) yield xEqui zip (xEqui.map(eq => {
           val eqB: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
-          likelihood(eqB, width)
+          likelihood(width, eqB)
         }
       ))).toList
-    val valsLikelihoodWidth = xEqui zip (xEqui.map(eq => likelihood(weight, eq)))
+    val valsLikelihoodWidth = xEqui zip (xEqui.map(eq => likelihood(eq, weight)))
     val valsLikelihood = valsLikelihoodWeight ::: List(valsLikelihoodWidth)
     val namesLikelihood = names.map("Likelihood(" + _ + ")")
     Plotting.plotCurves(valsLikelihood, namesLikelihood, xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
