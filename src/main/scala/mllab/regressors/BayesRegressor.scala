@@ -18,9 +18,43 @@ class BayesRegressor() extends Regressor {
   var paramB: Double = 0
   var paramS: Double = 0
 
+  // Parameter likelihood assumptions
+  val meanA: Double = -1.0
+  val sigmaA: Double = 3.0
+  val meanB: Double = 2.0
+  val sigmaB: Double = 3.0
+  val sigmaPrior: Double = 1.0
+
   def optimize(func: (Double, Double, Double) => Double): Tuple3[Double, Double, Double] = {
     println("Optimizing this function: ", func.getClass)
-    Tuple3(-1.0, 2.0, 1.0)
+    val nSteps = 1000
+    val intervals: Int = 5
+    val numberDimensions: Int = 3
+
+    def maximize(count: Int, maximum: Double, params: Tuple3[Double, Double, Double]): Tuple3[Double, Double, Double] =
+      if (count == nSteps) params
+      else {
+        if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
+          println(s"- optimization step $count: optimum %.3e, params ".format(maximum) + params)
+        val dimension: Int = scala.util.Random.nextInt(numberDimensions)
+        val step: Double = (scala.util.Random.nextInt(2) * 2 - 1) * 0.05
+        // println(s"Step $count: step %.3f in dimension $dimension".format(step))
+        val newParams =
+          if (dimension == 0) Tuple3(params._1 + step, params._2, params._3)
+          else if (dimension == 1) Tuple3(params._1, params._2 + step, params._3)
+          else if (dimension == 2) Tuple3(params._1, params._2, params._3 + step)
+          else throw new Exception("function only has " + numberDimensions + " parameters")
+        val newMaximum = func(newParams._1, newParams._2, newParams._3)
+        // if (newMaximum > maximum) println("New maximum " + maximum + " at " + params)
+        if (newMaximum > maximum) maximize(count+1, newMaximum, newParams)
+        else maximize(count+1, maximum, params)
+      }
+
+    val rangeA = List(meanA - intervals * sigmaA, meanA + intervals * sigmaA)
+    val rangeB = List(meanB - intervals * sigmaB, meanB + intervals * sigmaB)
+    val rangeS = List(0, sigmaPrior)
+    // maximize(0, Double.MinValue, (Maths.mean(rangeA), Maths.mean(rangeB), Maths.mean(rangeS)))
+    maximize(0, Double.MinValue, (0.0, 0.0, 0.0))
   }
 
   def train(X: List[List[Double]], y: List[Double]): Unit = {
@@ -29,15 +63,10 @@ class BayesRegressor() extends Regressor {
     // restrict regression to one feature
     val oneFeatureX = X.transpose.head
 
-    // Gaussian likelihoods for parameters
-    val meanA: Double = -1.0
-    val sigmaA: Double = 3.0
-    val meanB: Double = 2.0
-    val sigmaB: Double = 3.0
+    // Gaussian likelihood for parameters
     val likeA = (a: Double) => {Maths.normal(a, meanA, sigmaA)}
     val likeB = (b: Double) => {Maths.normal(b, meanB, sigmaB)}
     // Rectangular likelihood for prior sigma
-    val sigmaPrior: Double = 1.0
     val likeS = (s: Double) => {Maths.rectangular(s, 0, sigmaPrior)}
     // Gaussian prior
     val prior = (x: List[Double], y: List[Double], a: Double, b: Double, s: Double) => {
@@ -46,11 +75,11 @@ class BayesRegressor() extends Regressor {
       if (!inftyIndices.isEmpty) {
         val inftyInstances = Trafo.iloc(x zip y, inftyIndices)
         val normalValues = inftyInstances.map(xy => Maths.normal(xy._2, a + b * xy._1, s))
-        println("Warning: " + inftyInstances.length + " infinity logs:")
-        println(inftyInstances + " -> " + normalValues)
-        println("Warning: skip them!")
+        // println("Warning: " + inftyInstances.length + " infinity logs. Skip them!")
+        // println(inftyInstances + " -> " + normalValues)
       }
-      terms.filter(_ > Double.MinValue).sum
+      // negative log likelihood
+      -terms.filter(_ > Double.MinValue).sum
       // x.map(xi => Maths.normal(y, a + b * xi, s)).product
     }
     // posterior
@@ -82,6 +111,10 @@ class BayesRegressor() extends Regressor {
     Plotting.plotCurves(List(valsA, valsB, valsS), List("A", "B", "S"), xlabel= "Value", name= "plots/reg_Bayes_like.pdf")
     // Plotting.plotCurves(List(valsA, valsB, valsS, valsPosterior), List("A", "B", "S", "Posterior"), xlabel= "Value", name= "plots/reg_Bayes_like.pdf")
 
+    println("Final estimated parameter means for y <- N(a + b * x, sigma):")
+    println("a: " + paramA)
+    println("b: " + paramB)
+    println("sigma: " + paramS)
   }
 
   def predict(X: List[List[Double]]): List[Double] = {
