@@ -25,6 +25,9 @@ class BayesRegressor() extends Regressor {
   val sigmaB: Double = 3.0
   val sigmaLike: Double = 2
 
+  def carefulLog(x: Double): Double =
+    if (x == 0) -10000 else Math.log(x)
+
   def optimize(func: (Double, Double, Double) => Double): Tuple3[Double, Double, Double] = {
     println("Optimizing this function: ", func.getClass)
     val nSteps = 100
@@ -86,7 +89,7 @@ class BayesRegressor() extends Regressor {
     }
     // posterior
     val posterior = (a: Double, b: Double, s: Double, x: List[Double], y: List[Double]) => {
-      likelihood(x, y, a, b, s) * priorA(a) * priorB(b) * priorS(s)
+      likelihood(x, y, a, b, s) + carefulLog(priorA(a)) + carefulLog(priorB(b)) + carefulLog(priorS(s))
     }
     // posterior given the data
     val posteriorPickled = (a: Double, b: Double, s: Double) => {
