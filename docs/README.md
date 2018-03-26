@@ -10,15 +10,15 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
 #### Content
 * [Implemented algorithms](#implemented-algorithms)
   * [Classification](#classification)
-    * [Naive Bayes](#naive-bayes)
-    * [Logistic Regression](#logistic-regression)
-    * [Perceptron](#perceptron)
-    * [k-Nearest Neighbors](#k-nearest-neighbors)
-    * [Decision Tree](#decision-tree)
-    * [Multilayer Neural Network](#multilayer-neural-network)
+    * [Naive Bayes](#naive-bayes-classification)
+    * [Logistic Regression](#logistic-regression-classification)
+    * [Perceptron](#perceptron-classification)
+    * [k-Nearest Neighbors](#k-nearest-neighbors-classification)
+    * [Decision Tree](#decision-tree-classification)
+    * [Multilayer Neural Network](#multilayer-neural-network-classification)
   * [Regression](#regression)
-    * [Linear](#linear)
-    * [Decision Tree](#decision-tree)
+    * [Linear](#linear-regression)
+    * [Decision Tree](#decision-tree-regression)
 * [Algorithm details](#algorithm-details)
 
 
@@ -50,7 +50,7 @@ val diag = clf.diagnostics  // obtain a map of metrics for algorithm training
 ```
 
 
-#### Naive Bayes
+#### Naive Bayes Classification
 This algorithm bases on the assumption of mutually uncorrelated features. It uses Bayes' theorem to infer probabilities for each instance to belong to each class. The model parameters for the feature likelihoods are inferred from the training feature vectors.
 
 ```scala
@@ -64,7 +64,7 @@ The application of the standard settings to a test dataset of a shifted diagonal
 Despite the limits of the naive assumption, the naive Bayes' algorithm provides good results in many cases. It is especially efficient for highly dimensional datasets with little training data, since it treats all feature instances separately.
 
 
-#### Logistic regression
+#### Logistic Regression Classification
 Classification via logistic regression is a standard algorithm for binary linear classification. It optimizes the parameters of a linear hyperplane in the feature space to separate regions of different label classes. For this, the linear transformation of the instance vectors is further transformed with the logistic sigmoid function to obtain probabilities of belonging to a specific class. It can be instantiated as follows:
 
 ```scala
@@ -84,7 +84,7 @@ This adds powers up until quadratic powers of the feature to the feature vector.
 ![Linear regression](./logisticregression_classification_quadratic_example.png)
 
 
-#### Perceptron
+#### Perceptron Classification
 The perceptron algorithm tries to find any linear boundary to perfectly separate the classes. It updates the weights of the linear model sequentially for each training instance in each training step in the direction of correct classification. This is repeated until a chosen precision or maximum of iterations is reached.
 
 ```scala
@@ -102,7 +102,7 @@ val clf = new PerceptronClassifier(degree=2)
 ![Linear regression](./perceptron_classification_quadratic_example.png)
 
 
-#### k-Nearest Neighbors
+#### k-Nearest Neighbors Classification
 This algorithm determines predicts the label of an instance from the k (e.g. k=3) nearest instances in the training set, according to some specified metric (mostly Euclidian). It can in principle be applied to arbitrary dimensional and complex features, but has limited performance for large training sets and/or number of features.
 
 ```scala
@@ -113,7 +113,7 @@ Here is its performance on the circular dataset.
 ![Linear regression](./kNN_classification_circle_example.png)
 
 
-#### Decision Tree
+#### Decision Tree Classification
 A decision tree is based on a binary tree datastructure and applies a one dimensional cut-off based on one feature at each node. The cut-off threshold and the feature it is applied to are chosen to maximize a purity metric for the resulting split in the training data. The depth of the tree sets the number of binary decisions to be taken.
 
 ```scala
@@ -133,7 +133,7 @@ val clf = new DecisionTreeClassifier(depth=4)
 ![Linear regression](./decisiontree_classification_deep_example.png)
 
 
-#### Multilayer Neural Network
+#### Multilayer Neural Network Classification
 The implemented neural networks (NN) are feedforward NNs trained using the backpropagation algorithm. They are very versatile but require extensive tuning and experience for successful application.
 
 ```scala
@@ -173,7 +173,7 @@ val diag = reg.diagnostics  // obtain a map of metrics for algorithm training
 
 ```
 
-#### Linear
+#### Linear Regression
 MLlab provides several algorithms for regression tasks. The most basic is the linear regression. It is designed to fit data with a underlying linear dependencies on an arbitrary dimensional set of features.
 
 ```scala
@@ -197,14 +197,14 @@ This is an example of the same algorithm applied to data with a cubic dependence
 
 
 
-#### Decision Tree
+#### Decision Tree Regression
 The decision tree regression determines the predicted value associated to a given test instance from the average of the training labels at the corresponding decision node. The decision threshold is determined from the minimum quadratic sum of the label distance. Let's try a decision tree depth of 3 again:
 
 ```scala
 val reg = new DecisionTreeRegressor(depth=3)
 ```
 
-This is the application of a decision tree regression algorithm to the cubic dataset. Using only $2^3$ the number of decisions is quite crude:
+This is the application of a decision tree regression algorithm to the cubic dataset. Using only a depth of 3 the prediction is quite crude:
 
 ![Decion tree regression](./decisiontree_regression_example.png)
 
