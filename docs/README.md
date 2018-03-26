@@ -174,7 +174,7 @@ val diag = reg.diagnostics  // obtain a map of metrics for algorithm training
 ```
 
 #### Linear Regression
-MLlab provides several algorithms for regression tasks. The most basic is the linear regression. It is designed to fit data with a underlying linear dependencies on an arbitrary dimensional set of features.
+MLlab provides several algorithms for regression tasks. The most basic is the linear regression. It is designed to fit data with an underlying linear dependencies on an arbitrary dimensional set of features.
 
 ```scala
 val reg = new LinearRegressor()
