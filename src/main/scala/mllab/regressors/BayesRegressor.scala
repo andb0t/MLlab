@@ -36,12 +36,16 @@ class BayesRegressor(degree: Int=1) extends Regressor {
 
     def maximize(count: Int, maximum: Double, params: Tuple3[Double, Double, Double], ranges: List[List[Double]]): Tuple3[Double, Double, Double] =
       if (count == nSteps) {
-        println(s"- Final step $count: optimum %.3f, params ".format(maximum) + params)
+        println(s"- final step $count: optimum %.3f, params ".format(maximum) +
+          "(%.3f, %.3f, %.3f)".format(params._1, params._2, params._3)
+        )
         params
       }
       else {
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
-          println(s"- optimization step $count: optimum %.3e, params ".format(maximum) + params)
+          println(s"- optimization step $count: optimum %.3e, params ".format(maximum) +
+            "(%.3f, %.3f, %.3f)".format(params._1, params._2, params._3)
+          )
         val dimension: Int = scala.util.Random.nextInt(numberDimensions)
         val sign: Int = scala.util.Random.nextInt(2) * 2 - 1
         val step: Double = 1.0 * sign * (ranges(dimension)(1) - ranges(dimension).head) / 100
@@ -125,9 +129,7 @@ class BayesRegressor(degree: Int=1) extends Regressor {
     Plotting.plotCurves(List(valsA, valsB, valsS), List("A", "B", "S"), xlabel= "Value", name= "plots/reg_Bayes_prior.pdf")
 
     println("Final estimated parameter means for y <- N(A + B * x, S):")
-    println("A: " + paramA)
-    println("B: " + paramB)
-    println("S: " + paramS)
+    println("A = %.3f, B = %.3f, S = %.3f".format(paramA, paramB, paramS))
   }
 
   def _predict(X: List[List[Double]]): List[Double] = {
