@@ -27,9 +27,8 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 ### Regression
 - [x] random
 - [x] linear regression
-- [x] polynomial regression with linear kernel
 - [x] decision tree
-- [x] naive Bayesian regression
+- [x] Bayes
 - [ ] neural network regression
 
 ### Misc
