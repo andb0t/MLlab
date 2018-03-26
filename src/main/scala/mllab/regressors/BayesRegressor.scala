@@ -40,7 +40,7 @@ class BayesRegressor() extends Regressor {
           println(s"- optimization step $count: optimum %.3e, params ".format(maximum) + params)
         val dimension: Int = scala.util.Random.nextInt(numberDimensions)
         val sign: Int = scala.util.Random.nextInt(2) * 2 - 1
-        val step: Double = 1.0 * (ranges(dimension)(1) - ranges(dimension).head) / 100
+        val step: Double = 1.0 * sign * (ranges(dimension)(1) - ranges(dimension).head) / 100
         // println(s"Step $count: step %.3f in dimension $dimension".format(step))
         val newParams =
           if (dimension == 0) Tuple3(params._1 + step, params._2, params._3)
