@@ -31,6 +31,8 @@ case class DecisionNode(index: Int) {
   var purity: Double = Double.MinValue
   /** Mean label of instances in this node */
   var mean: Double = 0
+  /** Number of instances in this node */
+  var nSamples: Int = 0
 
   override def toString(): String = {
     "Node " + nodeIndex + " " + left + "<- . ->" + right
@@ -66,14 +68,14 @@ class DecisionTree(depth: Int){
    * @param greater Is the signal region greater or less than the threshold?
    * @param purity The purity of the proposed split
    */
-  def updateNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, mean: Double, purity: Double): Unit = {
+  def updateNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, mean: Double, nSamples: Int, purity: Double): Unit = {
     if (tree(nodeIndex).purity < purity){
       // println("Improving purity of node " + nodeIndex +
       //   " with feature " + featureIndex +
       //   (if (greater) " > " else " < ") + "%+.3f".format(threshold) +
       //   ": " + "%.3e".format(tree(nodeIndex).purity) +
       //   " -> " + "%.3e".format(purity))
-      setNode(nodeIndex, featureIndex, threshold, greater, mean, purity)
+      setNode(nodeIndex, featureIndex, threshold, greater, mean, nSamples, purity)
     }
   }
 
@@ -84,7 +86,7 @@ class DecisionTree(depth: Int){
    * @param greater Is the signal region greater or less than the threshold?
    * @param purity The purity of the split in this node
    */
-  def setNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, mean: Double, purity: Double=Double.MinValue): Unit = {
+  def setNode(nodeIndex: Int, featureIndex: Int, threshold: Double, greater: Boolean, mean: Double, nSamples: Int, purity: Double=Double.MinValue): Unit = {
     if (nodeIndex > tree.length - 1) {
       println("Warning: tree not deep enough! (" + nodeIndex + " > " + (tree.length - 1) + ") Ignore node.")
     }else{
@@ -95,6 +97,7 @@ class DecisionTree(depth: Int){
       if (tree(nodeIndex).right >= nNodes) tree(nodeIndex).right = -1
       if (tree(nodeIndex).left >= nNodes) tree(nodeIndex).left = -1
       tree(nodeIndex).mean = mean
+      tree(nodeIndex).nSamples = nSamples
       tree(nodeIndex).purity = purity
     }
   }
@@ -115,12 +118,18 @@ class DecisionTree(depth: Int){
     def printNodes(): String =
       (for { node <- tree if (node.filled || true) } yield
         "Node " + node.nodeIndex +
-        ", decisive feature " + node.featureIndex +
-        (if (node.greater) "> " else "< ") + "%+.3f".format(node.threshold) +
-        ", parent " + node.parent +
-        ", purity %.3e".format(node.purity) +
-        ", children: l " + node.left + " r " + node.right +
-        ", mean label %.3f".format(node.mean) +
+        (if (node.filled) {
+          ": decisive feature " + node.featureIndex +
+          (if (node.greater) " > " else " < ") + "%+.3f".format(node.threshold) +
+          ", parent " + node.parent +
+          ", children: " + node.left + " ^ " + node.right +
+          ", purity %.3e".format(node.purity) +
+          ", mean label %.3f".format(node.mean) +
+          ", nSamples " + node.nSamples
+        }
+        else {
+          ": empty"
+        }) +
         "\n"
       ).mkString
 
@@ -214,11 +223,13 @@ class DecisionTree(depth: Int){
       ancestors: List[Tuple2[Int, Boolean]]): Tuple2[List[List[Double]], List[T]] = ancestors match {
       case Nil => Tuple2(X, y)
       case ancestor::rest => {
+        val thisNode = tree(ancestor._1)
         if (X.isEmpty) Tuple2(Nil, Nil)
+        else if (!thisNode.filled) Tuple2(X, y)
         else {
+          val iFeature = thisNode.featureIndex
+          val thresh = thisNode.threshold
           val goRight = ancestor._2
-          val iFeature = tree(ancestor._1).featureIndex
-          val thresh = tree(ancestor._1).threshold
           val featureX: List[Double] = X.transpose.apply(iFeature)
           val goodIndices = featureX.zipWithIndex.filter(xi => (goRight && xi._1 > thresh) || (!goRight && xi._1 <= thresh)).map(_._2)
           val newXy = Trafo.iloc(X zip y, goodIndices)

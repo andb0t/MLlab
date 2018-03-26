@@ -7,8 +7,9 @@ import utils._
 /** Decision tree classifier
  * @param depth Depth of the tree
  * @param criterion Function to measure the quality of a split
+ * @param minSamplesSplit Minimum number of samples required to split an internal node
  */
-class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends Classifier {
+class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini", minSamplesSplit: Int=2) extends Classifier {
 
   val name: String = "DecisionTreeClassifier"
 
@@ -68,6 +69,7 @@ class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends C
    val nSteps: Int = 10
    val nZooms: Int = 3
    val mean: Double = 1.0 * y.sum / y.length
+   val nSamples: Int = y.length
 
    def zoom(count: Int, min: Double, stepSize: Double, featureX: List[Double], iFeature: Int): Unit =
      if (count < nZooms) {
@@ -76,7 +78,7 @@ class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends C
          if (count < nSteps) {
            val currThresh: Double = min + count * stepSize
            val (currPurity, currGreater) = getPurity(featureX, y, currThresh, criterion)
-           decTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, mean, currPurity)
+           decTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, mean, nSamples, currPurity)
            if (maxPurity < currPurity) scanSteps(count+1, currThresh, currPurity)
            else scanSteps(count+1, purestSplit, maxPurity)
          }
@@ -87,7 +89,7 @@ class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini") extends C
        zoom(count+1, newMin, newStepSize, featureX, iFeature)
      }
 
-    if (!X.isEmpty) {
+    if (X.length >= minSamplesSplit) {
       val nFeatures: Int = X.head.length
       for (iFeature <- 0 until nFeatures){
         val featureX: List[Double] = X.map(_.apply(iFeature))

@@ -6,8 +6,9 @@ import datastructures._
 /** Decision tree regressor
  *
  * @param depth Depth of the tree
+ * @param minSamplesSplit Minimum number of samples required to split an internal node
  */
-class DecisionTreeRegressor(depth: Int = 6) extends Regressor {
+class DecisionTreeRegressor(depth: Int = 6, minSamplesSplit: Int=2) extends Regressor {
 
   val name: String = "DecisionTreeRegressor"
 
@@ -40,6 +41,7 @@ class DecisionTreeRegressor(depth: Int = 6) extends Regressor {
     val nSteps: Int = 10
     val nZooms: Int = 3
     val mean: Double = 1.0 * y.sum / y.length
+    val nSamples: Int = y.length
 
     def zoom(count: Int, min: Double, stepSize: Double, featureX: List[Double], iFeature: Int): Unit =
       if (count < nZooms) {
@@ -48,7 +50,7 @@ class DecisionTreeRegressor(depth: Int = 6) extends Regressor {
           if (count < nSteps) {
             val currThresh: Double = min + count * stepSize
             val currPurity = getPurity(featureX, currThresh)
-            decTree.updateNode(nodeIndex, iFeature, currThresh, true, mean, currPurity)
+            decTree.updateNode(nodeIndex, iFeature, currThresh, true, mean, nSamples, currPurity)
             if (maxPurity < currPurity) scanSteps(count+1, currThresh, currPurity)
             else scanSteps(count+1, purestSplit, maxPurity)
           }
@@ -59,7 +61,7 @@ class DecisionTreeRegressor(depth: Int = 6) extends Regressor {
         zoom(count+1, newMin, newStepSize, featureX, iFeature)
       }
 
-    if (!X.isEmpty) {
+    if (X.length >= minSamplesSplit) {
       val nFeatures: Int = X.head.length
       for (iFeature <- 0 until nFeatures){
         val featureX: List[Double] = X.map(_.apply(iFeature))
