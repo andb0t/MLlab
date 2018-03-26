@@ -27,6 +27,7 @@ class BayesRegressor(degree: Int=1) extends Regressor {
   val sigmaB: Double = 3.0
   val sigmaLike: Double = 2
 
+
   def finiteLog(x: Double): Double =
     if (x == 0) -10000 else Math.log(x)
 
@@ -94,6 +95,9 @@ class BayesRegressor(degree: Int=1) extends Regressor {
     paramB = maxB
     paramS = maxS
 
+    println("Final estimated parameter means for y <- N(A + B * x, S):")
+    println("A = %.3f, B = %.3f, S = %.3f".format(paramA, paramB, paramS))
+
     // get equidistant points in this feature for line plotting
     val intervals = 3.0
     val minX = min(meanA - intervals * sigmaA, meanB - intervals * sigmaB, 0 - intervals * sigmaLike)
@@ -104,21 +108,15 @@ class BayesRegressor(degree: Int=1) extends Regressor {
     val valsA = xEqui zip (xEqui.map(priorA(_)))
     val valsB = xEqui zip (xEqui.map(priorB(_)))
     val valsS = xEqui zip (xEqui.map(priorS(_)))
-    val valsPosterior = xEqui zip (xEqui.map(eq => Maths.normal(eq, paramA + paramB * eq, paramS)))
+    Plotting.plotCurves(List(valsA, valsB, valsS), List("A", "B", "S"), xlabel= "Value", name= "plots/reg_Bayes_priors.pdf")
     val valsPosteriorA = xEqui zip (xEqui.map(eq => posterior(eq, paramB, paramS)))
     val valsPosteriorB = xEqui zip (xEqui.map(eq => posterior(paramA, eq, paramS)))
     val valsPosteriorS = xEqui zip (xEqui.map(eq => posterior(paramA, paramB, eq)))
+    Plotting.plotCurves(List(valsPosteriorA, valsPosteriorB, valsPosteriorS), List("Posterior(A)", "Posterior(B)", "Posterior(S)"), xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
     val valsLikelihoodA = xEqui zip (xEqui.map(eq => likelihood(eq, paramB, paramS)))
     val valsLikelihoodB = xEqui zip (xEqui.map(eq => likelihood(paramA, eq, paramS)))
     val valsLikelihoodS = xEqui zip (xEqui.map(eq => likelihood(paramA, paramB, eq)))
-
-    Plotting.plotCurves(List(valsPosteriorA, valsPosteriorB, valsPosteriorS), List("Posterior(A)", "Posterior(B)", "Posterior(S)"), xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
-    Plotting.plotCurves(List(valsLikelihoodA, valsLikelihoodB, valsLikelihoodS), List("Likelihood(A)", "Likelihood(B)", "Likelihood(S)"), xlabel= "Value", name= "plots/reg_Bayes_like_dep.pdf")
-    Plotting.plotCurves(List(valsPosterior), List("Posterior"), xlabel= "Value", name= "plots/reg_Bayes_posterior.pdf")
-    Plotting.plotCurves(List(valsA, valsB, valsS), List("A", "B", "S"), xlabel= "Value", name= "plots/reg_Bayes_prior.pdf")
-
-    println("Final estimated parameter means for y <- N(A + B * x, S):")
-    println("A = %.3f, B = %.3f, S = %.3f".format(paramA, paramB, paramS))
+    Plotting.plotCurves(List(valsLikelihoodA, valsLikelihoodB, valsLikelihoodS), List("Likelihood(A)", "Likelihood(B)", "Likelihood(S)"), xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
   }
 
   def _predict(X: List[List[Double]]): List[Double] = {
