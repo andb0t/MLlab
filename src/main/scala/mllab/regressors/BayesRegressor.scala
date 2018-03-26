@@ -77,7 +77,7 @@ class BayesRegressor() extends Regressor {
     val likelihood = (x: List[Double], y: List[Double], a: Double, b: Double, s: Double) => {
       val normals = (x zip y).map{case (xi, yi) => Maths.normal(yi, a + b * xi, s)}
       val logs = normals.map(n => if (n == 0) 1 else n).map(n => Math.log(n))
-      -logs.filter(_ > Double.MinValue).sum
+      logs.filter(_ > Double.MinValue).sum
         // x.map(xi => Maths.normal(y, a + b * xi, s)).product
     }
     // prior given the data
