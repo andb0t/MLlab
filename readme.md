@@ -29,7 +29,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] linear regression
 - [x] polynomial regression with linear kernel
 - [x] decision tree
-- [ ] naive Bayesian regression
+- [x] naive Bayesian regression
 - [ ] neural network regression
 
 ### Misc

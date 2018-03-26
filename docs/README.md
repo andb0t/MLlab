@@ -18,6 +18,7 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
     * [Multilayer Neural Network](#multilayer-neural-network-classification)
   * [Regression](#regression)
     * [Linear](#linear-regression)
+    * [Bayes](#bayes-regression)
     * [Decision Tree](#decision-tree-regression)
 * [Algorithm details](#algorithm-details)
 
@@ -59,7 +60,7 @@ val clf = new NaiveBayesClassifier()
 
 The application of the standard settings to a test dataset of a shifted diagonal as class separator shows a bias. This stems from the fact, that the assumption of Gaussian distributed features for each class is not true for this dataset.
 
-![Linear regression](./naivebayes_classification_example.png)
+![Naive Bayes Classification](./naivebayes_classification_example.png)
 
 Despite the limits of the naive assumption, the naive Bayes' algorithm provides good results in many cases. It is especially efficient for highly dimensional datasets with little training data, since it treats all feature instances separately.
 
@@ -72,7 +73,7 @@ val clf = new LogisticRegressionClassifier()
 ```
 The picture below shows the performance of the algorithm applied to the diagonal dataset.
 
-![Linear regression](./logisticregression_classification_example.png)
+![Logistic Regression Classification](./logisticregression_classification_example.png)
 
 Using a trick, the internal addition of higher orders of the features, linear algorithms can be applied to non-linear datasets.
 
@@ -81,7 +82,7 @@ val clf = new LogisticRegressionClassifier(degree=2)
 ```
 This adds powers up until quadratic powers of the feature to the feature vector. Here is an example of the same algorithm applied to circular data. The classifier can now solve the corresponding classification task.
 
-![Linear regression](./logisticregression_classification_quadratic_example.png)
+![Logistic Regression Classification](./logisticregression_classification_quadratic_example.png)
 
 
 #### Perceptron Classification
@@ -91,7 +92,7 @@ The perceptron algorithm tries to find any linear boundary to perfectly separate
 val clf = new PerceptronClassifier()
 ```
 
-![Linear regression](./perceptron_classification_example.png)
+![Perceptron Classification](./perceptron_classification_example.png)
 
 Applying the same feature transformation as above, also this linear algorithm can solve the circular data task.
 
@@ -99,7 +100,7 @@ Applying the same feature transformation as above, also this linear algorithm ca
 val clf = new PerceptronClassifier(degree=2)
 ```
 
-![Linear regression](./perceptron_classification_quadratic_example.png)
+![Perceptron Classification](./perceptron_classification_quadratic_example.png)
 
 
 #### k-Nearest Neighbors Classification
@@ -110,7 +111,7 @@ val clf = new kNNClassifier()
 ```
 Here is its performance on the circular dataset.
 
-![Linear regression](./kNN_classification_circle_example.png)
+![k-Nearest Neighbors Classification](./kNN_classification_circle_example.png)
 
 
 #### Decision Tree Classification
@@ -122,7 +123,7 @@ val clf = new DecisionTreeClassifier()
 
 This is the application of a decision tree algorithm to the circular dataset. In the default configuration the number of decisions is not sufficient to appropriately detecting the circle:
 
-![Linear regression](./decisiontree_classification_example.png)
+![Decision Tree Classification](./decisiontree_classification_example.png)
 
 Increasing the tree depth roughly doubles the number of nodes. With this setting, the decision tree is able to classify the test data reasonably well.
 
@@ -130,7 +131,7 @@ Increasing the tree depth roughly doubles the number of nodes. With this setting
 val clf = new DecisionTreeClassifier(depth=4)
 ```
 
-![Linear regression](./decisiontree_classification_deep_example.png)
+![Decision Tree Classification](./decisiontree_classification_deep_example.png)
 
 
 #### Multilayer Neural Network Classification
@@ -142,7 +143,7 @@ val clf = new NeuralNetworkClassifier()
 
 A naive application of the NN with the default settings to the circular dataset fails:
 
-![Linear regression](./neuralnetwork_classification_default_example.png)
+![Neural Network Classification](./neuralnetwork_classification_default_example.png)
 
 After increasing the number of neurons on the second layer to 16, the NN performs very well.
 
@@ -150,7 +151,7 @@ After increasing the number of neurons on the second layer to 16, the NN perform
 val clf = new NeuralNetworkClassifier(layers=List(2, 16, 2))
 ```
 
-![Linear regression](./neuralnetwork_classification_example.png)
+![Neural Network Classification](./neuralnetwork_classification_example.png)
 
 
 
@@ -182,7 +183,7 @@ val reg = new LinearRegressor()
 
 This is a basic example for the case of a 1D feature vector and a 1D label. The training and testing data have been drawn from a linear function with Gaussian noise.
 
-![Linear regression](./linear_regression_example.png)
+![Linear Regression](./linear_regression_example.png)
 
 Using a trick, the internal addition of higher orders of the features, linear algorithms can be applied to non-linear datasets.
 
@@ -192,9 +193,17 @@ val reg = new LinearRegressor(degree=3)
 
 This is an example of the same algorithm applied to data with a cubic dependence, where powers up until cubic powers of the feature have been added to the feature vector.
 
-![Linear regression](./linear_regression_cubic_example.png)
+![Linear Regression](./linear_regression_cubic_example.png)
 
 
+#### Bayes Regression
+Linear Bayesian regression is the Bayesian counterpart to the linear regression of the frequentist approach. It assumes prior probability density functions for the linear parameters and determines them from the maximum likelihood parameters using the posterior function, given the training data. With the same trick of adding higher feature orders, linear Bayesian regression can be applied to datasets with polynomial truth.
+
+```scala
+val reg = new BayesRegressor(degree=3)
+```
+
+![Bayes Regression](./bayes_regression_example.png)
 
 
 #### Decision Tree Regression
@@ -206,7 +215,7 @@ val reg = new DecisionTreeRegressor(depth=3)
 
 This is the application of a decision tree regression algorithm to the cubic dataset. The prediction is quite crude.
 
-![Decion tree regression](./decisiontree_regression_example.png)
+![Decion Tree Regression](./decisiontree_regression_example.png)
 
 Increasing the tree depth increases the number of nodes by about factors of two. With this setting, the decision tree is able to fit the test data reasonably well.
 
@@ -214,7 +223,7 @@ Increasing the tree depth increases the number of nodes by about factors of two.
 val reg = new DecisionTreeRegressor(depth=6)
 ```
 
-![Linear regression](./decisiontree_regression_more_example.png)
+![Decion Tree Regression](./decisiontree_regression_more_example.png)
 
 
 
