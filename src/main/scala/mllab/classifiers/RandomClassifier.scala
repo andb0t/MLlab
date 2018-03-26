@@ -1,6 +1,5 @@
 package classifiers
 
-import scala.collection.mutable.ListBuffer
 
 /** Random classifier
  *
