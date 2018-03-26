@@ -25,7 +25,7 @@ class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, a
   /** Calculates the per class and per feature likelihood value of a given instance */
   def getLikeli(x: List[Double]): List[List[Double]] =
     if (model == "gaussian")
-      (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.norm(fp._1, fp._2.head, fp._2(1))).toList
+      (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.normal(fp._1, fp._2.head, fp._2(1))).toList
     else if (model == "triangular")
       (for (pClass <- params) yield for (fp <- x zip pClass) yield Maths.triangular(fp._1, fp._2.head, fp._2(1))).toList
     else if (model == "rectangular")

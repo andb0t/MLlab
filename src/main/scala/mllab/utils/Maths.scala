@@ -42,7 +42,7 @@ object Maths{
    * @param m Mean
    * @param s Sigma
    */
-  def norm(x: Double, m: Double, s: Double): Double =
+  def normal(x: Double, m: Double, s: Double): Double =
     Math.exp( -Math.pow((x - m), 2) / (2 * Math.pow(s, 2))) / Math.sqrt(2 * math.Pi * Math.pow(s, 2))
 
   /** Logistic function */
@@ -60,6 +60,11 @@ object Maths{
     Math.max(0, h - Math.signum(dist) * dist * slope)
   }
 
+  /** Rectangular function
+  * @param x Abscissa
+   * @param f Lower bound
+   * @param t Upper bound
+   */
   def rectangular(x: Double, f: Double, t: Double): Double =
     if (x <= f) 0.0
     else if (x >= t) 0.0
