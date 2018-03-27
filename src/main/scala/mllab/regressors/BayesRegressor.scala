@@ -29,65 +29,33 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
   /** The posterior width to be determined by the training */
   var width: Double = 0
 
-  /** Posterior width prior */
-  var widthPrior: Double = 0
-  /** Parameter weight mean prior */
-  var weightPrior: List[Double] = Nil
-  /** Parameter weight width prior */
-  var weightPriorWidth: List[Double] = Nil
-
   /** The probability distribution for the weight priors */
   def priorFunc(model: String, x: Double, params: List[Double]): Double =
     if (model == "gaussian") Maths.normal(x, params.head, params.last)
     else if (model == "rectangular") Maths.rectangular(x, params.head - params.last, params.head + params.last)
     else throw new NotImplementedError("model " + model + " is not implemented")
 
-  /** Evaluates the weight prior for the given weight */
-  val evalWeightPrior = (b: List[Double]) => {(b zip (weightPrior zip weightPriorWidth)).map{case (bi, ms) => priorFunc(model, bi, List(ms._1, ms._2))}}
-  /** Evaluates the width prior for the given width */
-  val evalWidthPrior = (s: Double) => {Maths.rectangular(s, 0, widthPrior)}
-
-  def initWeights(nFeatures: Int): Unit = {
-    if (priorPars.isEmpty) {
-      if (randInit){
-        widthPrior = 1.0 * scala.util.Random.nextInt(3) + 1
-        weightPrior = (for (i <- 0 to nFeatures) yield 1.0 * scala.util.Random.nextInt(7) - 3).toList
-        weightPriorWidth = (for (i <- 0 to nFeatures) yield 1.0 * scala.util.Random.nextInt(3) + 1).toList
-      }
-      else {
-        widthPrior = 1.0
-        weightPrior = (for (i <- 0 to nFeatures) yield Math.ceil(1.0 * i / 2) * ((i % 2) * 2 - 1)).toList
-        weightPriorWidth = (for (i <- 0 to nFeatures) yield 1.0 * (i % 4 + 1)).toList
-      }
-    }
-    else {
-      widthPrior = priorPars.head.head
-      weightPrior = priorPars.tail.map(_.head)
-      weightPriorWidth = priorPars.tail.map(_.last)
-    }
-  }
-
   /** Takes the log with a lower limit */
   def finiteLog(x: Double): Double =
     if (x == 0) -10000 else Math.log(x)
 
   /** Determines the function maximum by random walks */
-  def optimize(func: (Double, List[Double]) => Double): Tuple2[Double, List[Double]] = {
+  def optimize(func: (Double, List[Double]) => Double, startParams: List[Double], startRanges: List[List[Double]]): Tuple2[Double, List[Double]] = {
 
     def maximize(count: Int, maximum: Double, params: List[Double], ranges: List[List[Double]]): List[Double] = {
       val nSteps = 1000
       val numberDimensions: Int = ranges.length
       if (count == nSteps) {
         println(s"- final step $count: optimum %.3f, params ".format(maximum) +
-          "(" + params.map(p => Maths.round(p, 3)).mkString(", ") + ")"
+        "(" + params.map(p => Maths.round(p, 3)).mkString(", ") + ")"
         )
         params
       }
       else {
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
           println(s"- optimization step $count: optimum %.3e, params ".format(maximum) +
-            "(" + params.map(p => Maths.round(p, 3)).mkString(", ") + ")"
-          )
+          "(" + params.map(p => Maths.round(p, 3)).mkString(", ") + ")"
+        )
         val dimension: Int = scala.util.Random.nextInt(numberDimensions)
         val sign: Int = scala.util.Random.nextInt(2) * 2 - 1
         val step: Double = 1.0 * sign * (ranges(dimension)(1) - ranges(dimension).head) / 100
@@ -100,19 +68,41 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
       }
     }
 
-    val intervals: Int = 3
-    val rangeWeight: List[List[Double]] = (weightPrior zip weightPriorWidth).map{case (m, s) => List(m - intervals * s, m + intervals * s)}
-    val rangeWidth: List[List[Double]] = List(List(0, widthPrior))
-    val ranges: List[List[Double]] = rangeWidth ::: rangeWeight
-    val startParams: List[Double] = ranges.map(r => Maths.mean(r))
-    val params: List[Double] = maximize(0, Double.MinValue, startParams, ranges)
+    val params: List[Double] = maximize(0, Double.MinValue, startParams, startRanges)
     (params.head, params.tail)
   }
 
   def _train(X: List[List[Double]], y: List[Double]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
     val nFeatures = X.head.length
-    initWeights(nFeatures)
+
+    /** Posterior width prior */
+    val widthPrior: Double =
+      if (priorPars.isEmpty)
+        if (randInit) 1.0 * scala.util.Random.nextInt(3) + 1
+        else 1.0
+      else priorPars.head.head
+
+    /** Parameter weight mean prior */
+    val weightPrior: List[Double] =
+      if (priorPars.isEmpty)
+        if (randInit) (for (i <- 0 to nFeatures) yield 1.0 * scala.util.Random.nextInt(7) - 3).toList
+        else (for (i <- 0 to nFeatures) yield Math.ceil(1.0 * i / 2) * ((i % 2) * 2 - 1)).toList
+      else priorPars.tail.map(_.head)
+
+    /** Parameter weight width prior */
+    val weightPriorWidth: List[Double] =
+      if (priorPars.isEmpty)
+        if (randInit) (for (i <- 0 to nFeatures) yield 1.0 * scala.util.Random.nextInt(3) + 1).toList
+        else (for (i <- 0 to nFeatures) yield 1.0 * (i % 4 + 1)).toList
+      else priorPars.tail.map(_.last)
+
+    /** Evaluates the weight prior for the given weight */
+    val evalWeightPrior = (b: List[Double]) => {(b zip (weightPrior zip weightPriorWidth)).map{case (bi, ms) => priorFunc(model, bi, List(ms._1, ms._2))}}
+
+    /** Evaluates the width prior for the given width */
+    val evalWidthPrior = (s: Double) => {Maths.rectangular(s, 0, widthPrior)}
+
     // likelihood
     val likelihood = (s: Double, W: List[Double]) => {
       (X zip y).map{case (xi, yi) => finiteLog(Maths.normal(yi, Maths.dot(W, 1 :: xi), s))}.sum
@@ -122,7 +112,12 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
       likelihood(s, W) + evalWeightPrior(W).map(wp => finiteLog(wp)).sum + finiteLog(evalWidthPrior(s))
     }
     // determine maximum likelihood parameters
-    val (optimalWidth: Double, optimalWeight: List[Double]) = optimize(posterior)
+    val intervals: Double = 3.0
+    val rangeWeight: List[List[Double]] = (weightPrior zip weightPriorWidth).map{case (m, s) => List(m - intervals * s, m + intervals * s)}
+    val rangeWidth: List[List[Double]] = List(List(0, widthPrior))
+    val ranges: List[List[Double]] = rangeWidth ::: rangeWeight
+    val startParams: List[Double] = ranges.map(r => Maths.mean(r))
+    val (optimalWidth: Double, optimalWeight: List[Double]) = optimize(posterior, startParams, ranges)
     weight = optimalWeight
     width = optimalWidth
 
@@ -131,7 +126,6 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     println("S = %.3f".format(width))
 
     // get equidistant points in this feature for line plotting
-    val intervals = 3.0
     val minWeight = min((weightPrior zip weightPriorWidth).map{case (m, s) => m - intervals * s})
     val maxWeight = max((weightPrior zip weightPriorWidth).map{case (m, s) => m + intervals * s})
     val minX = min(minWeight, 0 - intervals * widthPrior)
@@ -148,8 +142,8 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
 
     val valsPosteriorWeight =
       (for (i <- 0 to nFeatures) yield xEqui zip (xEqui.map(eq => {
-          val eqB: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
-          posterior(width, eqB)
+          val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
+          posterior(width, allButOne)
         }
       ))).toList
     val valsPosteriorWidth = xEqui zip (xEqui.map(eq => posterior(eq, weight)))
@@ -159,8 +153,8 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
 
     val valsLikelihoodWeight =
       (for (i <- 0 to nFeatures) yield xEqui zip (xEqui.map(eq => {
-          val eqB: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
-          likelihood(width, eqB)
+          val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
+          likelihood(width, allButOne)
         }
       ))).toList
     val valsLikelihoodWidth = xEqui zip (xEqui.map(eq => likelihood(eq, weight)))
