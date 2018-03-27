@@ -293,40 +293,6 @@ the other weights (mean 1, sigma 3)
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="regressors.BayesRegressor#evalWeightPrior" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="evalWeightPrior:List[Double]=&gt;List[Double]"></a>
-      <a id="evalWeightPrior:(List[Double])⇒List[Double]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">evalWeightPrior</span><span class="result">: (<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ <span class="extype" name="scala.collection.immutable.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#regressors.BayesRegressor@evalWeightPrior:List[Double]=&gt;List[Double]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Evaluates the weight prior for the given weight</p>
-    </li><li name="regressors.BayesRegressor#evalWidthPrior" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="evalWidthPrior:Double=&gt;Double"></a>
-      <a id="evalWidthPrior:(Double)⇒Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">evalWidthPrior</span><span class="result">: (<span class="extype" name="scala.Double">Double</span>) ⇒ <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#regressors.BayesRegressor@evalWidthPrior:Double=&gt;Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Evaluates the width prior for the given width</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -401,23 +367,6 @@ the other weights (mean 1, sigma 3)
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="regressors.BayesRegressor#initWeights" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="initWeights(nFeatures:Int):Unit"></a>
-      <a id="initWeights(Int):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">initWeights</span><span class="params">(<span name="nFeatures">nFeatures: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#regressors.BayesRegressor@initWeights(nFeatures:Int):Unit" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -435,6 +384,23 @@ the other weights (mean 1, sigma 3)
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="regressors.BayesRegressor#logToProb" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="logToProb(logs:List[Double]):List[Double]"></a>
+      <a id="logToProb(List[Double]):List[Double]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logToProb</span><span class="params">(<span name="logs">logs: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#regressors.BayesRegressor@logToProb(logs:List[Double]):List[Double]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Converts a list of logarithmic likelihoods to probabilities</p>
     </li><li name="regressors.BayesRegressor#name" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="name:String"></a>
       <a id="name:String"></a>
@@ -504,18 +470,18 @@ the other weights (mean 1, sigma 3)
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="regressors.BayesRegressor#optimize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="optimize(func:(Double,List[Double])=&gt;Double):(Double,List[Double])"></a>
-      <a id="optimize((Double,List[Double])⇒Double):(Double,List[Double])"></a>
+      <a id="optimize(func:(Double,List[Double])=&gt;Double,startParams:List[Double],startRanges:List[List[Double]]):(Double,List[Double])"></a>
+      <a id="optimize((Double,List[Double])⇒Double,List[Double],List[List[Double]]):(Double,List[Double])"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">optimize</span><span class="params">(<span name="func">func: (<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: (<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>])</span>
+        <span class="name">optimize</span><span class="params">(<span name="func">func: (<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ <span class="extype" name="scala.Double">Double</span></span>, <span name="startParams">startParams: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="startRanges">startRanges: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>)</span><span class="result">: (<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>])</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#regressors.BayesRegressor@optimize(func:(Double,List[Double])=&gt;Double):(Double,List[Double])" title="Permalink" target="_top">
+      <a href="../index.html#regressors.BayesRegressor@optimize(func:(Double,List[Double])=&gt;Double,startParams:List[Double],startRanges:List[List[Double]]):(Double,List[Double])" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -691,40 +657,6 @@ the other weights (mean 1, sigma 3)
       </a>
     </span>
       <p class="shortcomment cmt">The weight vector to be determined by the training</p>
-    </li><li name="regressors.BayesRegressor#weightPrior" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="weightPrior:List[Double]"></a>
-      <a id="weightPrior:List[Double]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">weightPrior</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#regressors.BayesRegressor@weightPrior:List[Double]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Parameter weight mean prior</p>
-    </li><li name="regressors.BayesRegressor#weightPriorWidth" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="weightPriorWidth:List[Double]"></a>
-      <a id="weightPriorWidth:List[Double]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">weightPriorWidth</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#regressors.BayesRegressor@weightPriorWidth:List[Double]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Parameter weight width prior</p>
     </li><li name="regressors.BayesRegressor#width" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="width:Double"></a>
       <a id="width:Double"></a>
@@ -742,23 +674,6 @@ the other weights (mean 1, sigma 3)
       </a>
     </span>
       <p class="shortcomment cmt">The posterior width to be determined by the training</p>
-    </li><li name="regressors.BayesRegressor#widthPrior" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="widthPrior:Double"></a>
-      <a id="widthPrior:Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">widthPrior</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#regressors.BayesRegressor@widthPrior:Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Posterior width prior</p>
     </li></ol>
             </div>
 
