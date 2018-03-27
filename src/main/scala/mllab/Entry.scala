@@ -79,7 +79,7 @@ object Mllab {
       //   println("Test instance " + i + ": prediction " + y_pred(i) + " true value " + y_test(i))
       // }
 
-      println("Evaulate the model")
+      println("Evaluate the model")
       Evaluation.matrix(y_pred, y_test)
       println("Precision: %.2f".format(Evaluation.precision(y_pred, y_test)))
       println("Recall: %.2f".format(Evaluation.recall(y_pred, y_test)))
@@ -118,9 +118,14 @@ object Mllab {
 
       println{"Apply to test set"}
       val y_pred: List[Double] = reg.predict(X_test)
-      for (i <- 0 until Math.min(y_pred.length, 10)) {
-        println("Test instance " + i + ": " + X_test(i) + " prediction %.2f  true value %.2f".format(y_pred(i), y_test(i)))
-      }
+
+      println("Evaluate the model")
+      println("Mean Squared Error (MSE): %.2f".format(Evaluation.MSE(y_pred, y_test)))
+      println("Mean Asolute Error (MAE): %.2f".format(Evaluation.MAE(y_pred, y_test)))
+      println("Median Asolute Error (MAE): %.2f".format(Evaluation.MedAE(y_pred, y_test)))
+      println("Explained variance score: %.2f".format(Evaluation.explainedVariance(y_pred, y_test)))
+      println("R squared score: %.2f".format(Evaluation.RSqared(y_pred, y_test)))
+      println("Mean Squared Log Error (MSLE): %.2f".format(Evaluation.MSLE(y_pred, y_test)))
 
       println("Visualize the data")
       Plotting.plotRegData(X_train, y_train, name= "plots/reg_" + algo + "_data.pdf")
