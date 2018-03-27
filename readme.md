@@ -57,7 +57,8 @@ From sbt:
 cd mllab
 sbt
 # compile and run the app, use ~ for automatic updates and recompilation
-[~]run [--task TASK] [--algo NameOfAlgorithm] [--data PathOfDataDir]
+[~]run # run the default random classifier
+run --help  # get more information on options and commands
 test  # compile and execute tests  
 compile  # only compile the app
 console  # start scala console for this project

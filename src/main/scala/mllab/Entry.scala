@@ -28,9 +28,22 @@ object Mllab {
       default = Some("Random"),
       descr = "algorithm to apply"
     )
-    val data = opt[String](
+    val input = opt[String](
       default = Some("src/test/resources"),
       descr = "directory containing the input data"
+    )
+    val output = opt[String](
+      default = Some("plots"),
+      descr = "directory to save output"
+    )
+    val suffix = opt[String](
+      default = Some(""),
+      descr = "suffix to append on all figure names"
+    )
+    val format = opt[String](
+      default = Some("pdf"),
+      descr = "figure format",
+      validate = (s: String) => List("pdf", "png").contains(s)
     )
     verify()
   }
@@ -41,15 +54,17 @@ object Mllab {
 
     println("Execute MLlab!")
 
+    val suff = if (conf.suffix() != "") "_" + conf.suffix() else ""
+
     if (conf.task() == "clf") {
       println{"Train the classifier"}
 
-      val trainReader = new Reader(conf.data() + "/clf_train.csv", label= -1, index=0)
+      val trainReader = new Reader(conf.input() + "/clf_train.csv", label= -1, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY().map(_.toInt)
 
-      val testReader = new Reader(conf.data() + "/clf_test.csv", label= -1, index=0)
+      val testReader = new Reader(conf.input() + "/clf_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY().map(_.toInt)
@@ -86,22 +101,22 @@ object Mllab {
       println("f1: %.2f".format(Evaluation.f1(y_pred, y_test)))
 
       println("Visualize the data")
-      Plotting.plotClfData(X_train, y_train, name= "plots/clf_" + conf.algo() + "_data.pdf")
-      Plotting.plotClf(X_train, y_train, clf, name= "plots/clf_" + conf.algo() + "_clf.pdf")
-      Plotting.plotClfGrid(X_train, clf, name= "plots/clf_" + conf.algo() + "_grid.pdf")
+      Plotting.plotClfData(X_train, y_train, name= conf.output() + "/clf_" + conf.algo() + "_data" + suff + "." + conf.format())
+      Plotting.plotClf(X_train, y_train, clf, name= conf.output() + "/clf_" + conf.algo() + "_clf" + suff + "." + conf.format())
+      Plotting.plotClfGrid(X_train, clf, name= conf.output() + "/clf_" + conf.algo() + "_grid" + suff + "." + conf.format())
 
       for (diag <- clf.diagnostics)
-        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/clf_" + conf.algo() + "_" + diag._1 + ".pdf")
+        Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/clf_" + conf.algo() + "_" + diag._1 + "" + suff + "." + conf.format())
     }
     else if (conf.task() == "reg") {
       println{"Train the regressor"}
 
-      val trainReader = new Reader(conf.data() + "/reg_train.csv", label= -1, index=0)
+      val trainReader = new Reader(conf.input() + "/reg_train.csv", label= -1, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
 
-      val testReader = new Reader(conf.data() + "/reg_test.csv", label= -1, index=0)
+      val testReader = new Reader(conf.input() + "/reg_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY()
@@ -128,11 +143,11 @@ object Mllab {
       println("Mean Squared Log Error (MSLE): %.2f".format(Evaluation.MSLE(y_pred, y_test)))
 
       println("Visualize the data")
-      Plotting.plotRegData(X_train, y_train, name= "plots/reg_" + conf.algo() + "_data.pdf")
-      Plotting.plotReg(X_train, y_train, reg, name= "plots/reg_" + conf.algo() + "_reg.pdf")
+      Plotting.plotRegData(X_train, y_train, name= conf.output() + "/reg_" + conf.algo() + "_data" + suff + "." + conf.format())
+      Plotting.plotReg(X_train, y_train, reg, name= conf.output() + "/reg_" + conf.algo() + "_reg" + suff + "." + conf.format())
 
       for (diag <- reg.diagnostics)
-        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/reg_" + conf.algo() + "_" + diag._1 + ".pdf")
+        Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/reg_" + conf.algo() + "_" + diag._1 + "" + suff + "." + conf.format())
     }
     else throw new IllegalArgumentException("task " + conf.task() + " not implemented. Chose 'clf' or 'reg'.")
   }
