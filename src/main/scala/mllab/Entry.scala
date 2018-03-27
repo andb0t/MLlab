@@ -112,7 +112,7 @@ object Mllab {
         if (algo == "Random") new RandomRegressor()
         else if (algo == "Linear") new LinearRegressor(maxIter=100, degree=1)
         else if (algo == "DecisionTree") new DecisionTreeRegressor(depth=6)
-        else if (algo == "Bayes") new BayesRegressor(degree=1, randInit= false, model= "gaussian", priorPars= Nil)
+        else if (algo == "Bayes") new BayesRegressor(degree=1, model= "gaussian", savePlots= true)
         else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
       reg.train(X_train, y_train)
 
