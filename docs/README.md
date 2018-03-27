@@ -197,13 +197,25 @@ This is an example of the same algorithm applied to data with a cubic dependence
 
 
 #### Bayes Regression
-Linear Bayesian regression is the Bayesian counterpart to the linear regression of the frequentist approach. It assumes prior probability density functions for the linear parameters and determines them from the maximum likelihood parameters using the posterior function, given the training data. With the same trick of adding higher feature orders, linear Bayesian regression can be applied to datasets with polynomial truth.
+Linear Bayesian regression is the Bayesian counterpart to the linear regression of the frequentist approach. It assumes prior probability density functions for the linear parameters and determines them from the maximum likelihood parameters using the posterior function, given the training data.
+
+```scala
+val reg = new BayesRegressor()
+```
+
+This is an application to the linear dataset. The assumed prior and posterior probabilities for the linear parameters are shown as well. Given the training data, the probabilities collapse to the expected values.
+
+![Bayes Regression](./bayes_regression_example.png)
+
+<img src="./naivebayes_regression_priors.png" height="200"> <img src="./naivebayes_regression_posteriors.png" height="200">
+
+With the same trick of adding higher feature orders, linear Bayesian regression can be applied to datasets with polynomial truth.
 
 ```scala
 val reg = new BayesRegressor(degree=3)
 ```
 
-![Bayes Regression](./bayes_regression_example.png)
+![Bayes Regression](./bayes_regression_cubic_example.png)
 
 
 #### Decision Tree Regression
