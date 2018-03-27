@@ -147,7 +147,7 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     val valsWeight = xAxisPerWeight.transpose.map(evalWeightPrior(_)).transpose.map(xAxis zip _)
     val valsWidth = xAxis zip (xAxis.map(evalWidthPrior(_)))
     val vals = valsWidth :: valsWeight
-    val names = "S" :: (for (i <- 0 to nFeatures) yield "B" + i).toList
+    val names = "S" :: (for (i <- 0 to nFeatures) yield "W" + i).toList
     Plotting.plotCurves(vals, names, xlabel= "Parameter value", ylabel= "Prior probability", name= "plots/reg_Bayes_priors.pdf")
 
     // create x-axis for plotting final likelihoods

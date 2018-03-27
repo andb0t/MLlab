@@ -197,13 +197,13 @@ This is an example of the same algorithm applied to data with a cubic dependence
 
 
 #### Bayes Regression
-Linear Bayesian regression is the Bayesian counterpart to the linear regression of the frequentist approach. It assumes prior probability density functions for the linear parameters and determines them from the maximum likelihood parameters using the posterior function, given the training data.
+Linear Bayesian regression is the Bayesian counterpart to the linear regression of the frequentist approach. It assumes prior probability density functions for the linear parameters and the posterior width and determines them from the maximum likelihood parameters using the posterior function, given the training data.
 
 ```scala
 val reg = new BayesRegressor()
 ```
 
-This is an application to the linear dataset. The assumed prior and posterior probabilities for the linear parameters are shown as well. Given the training data, the probabilities collapse to the expected values.
+This is an application to the linear dataset. The assumed prior and posterior probabilities for the posterior width and the linear parameters are shown as well. Given the training data, the probabilities collapse to the expected values.
 
 <img src="bayes_regression_example.png" width="500">
 
