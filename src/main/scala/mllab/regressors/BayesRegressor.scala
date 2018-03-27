@@ -59,39 +59,6 @@ class BayesRegressor(
     probabs
   }
 
-  /** Determines the function maximum by random walks */
-  def optimize(func: (Double, List[Double]) => Double, startParams: List[Double], startRanges: List[List[Double]]): Tuple2[Double, List[Double]] = {
-
-    def maximize(count: Int, maximum: Double, params: List[Double], ranges: List[List[Double]]): List[Double] = {
-      val nSteps = 1000
-      val numberDimensions: Int = ranges.length
-      if (count == nSteps) {
-        println(s"- final step $count: optimum %.3f, params ".format(maximum) +
-        "(" + params.map(p => Maths.round(p, 3)).mkString(", ") + ")"
-        )
-        params
-      }
-      else {
-        if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
-          println(s"- optimization step $count: optimum %.3e, params ".format(maximum) +
-          "(" + params.map(p => Maths.round(p, 3)).mkString(", ") + ")"
-        )
-        val dimension: Int = scala.util.Random.nextInt(numberDimensions)
-        val sign: Int = scala.util.Random.nextInt(2) * 2 - 1
-        val step: Double = 1.0 * sign * (ranges(dimension)(1) - ranges(dimension).head) / 100
-        // println(s"Step $count: step %.3f in dimension $dimension".format(step))
-        val newParams: List[Double] = params.zipWithIndex.map{case (p, i) => if (i == dimension) p + step else p}
-        val newMaximum: Double = func(newParams.head, newParams.tail)
-        // if (newMaximum > maximum) println("New maximum " + maximum + " at " + params)
-        if (newMaximum > maximum) maximize(count+1, newMaximum, newParams, ranges)
-        else maximize(count+1, maximum, params, ranges)
-      }
-    }
-
-    val params: List[Double] = maximize(0, Double.MinValue, startParams, startRanges)
-    (params.head, params.tail)
-  }
-
   def _train(X: List[List[Double]], y: List[Double]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
     val nFeatures = X.head.length
@@ -124,12 +91,12 @@ class BayesRegressor(
     val evalWidthPrior = (s: Double) => {Maths.rectangular(s, 0, widthPrior)}
 
     /** Evaluates the likelihood given the data: p(X, y | W, s) */
-    val likelihood = (s: Double, W: List[Double]) => {
-      (X zip y).map{case (xi, yi) => finiteLog(Maths.normal(yi, Maths.dot(W, 1 :: xi), s))}.sum
+    val likelihood = (pars: List[Double]) => {
+      (X zip y).map{case (xi, yi) => finiteLog(Maths.normal(yi, Maths.dot(pars.tail, 1 :: xi), pars.head))}.sum
     }
     /** Evaluates the posterior given the data: p(W, s | X, y) */
-    val posterior = (s: Double, W: List[Double]) => {
-      likelihood(s, W) + evalWeightPrior(W).map(wp => finiteLog(wp)).sum + finiteLog(evalWidthPrior(s))
+    val posterior = (pars: List[Double]) => {
+      likelihood(pars) + evalWeightPrior(pars.tail).map(wp => finiteLog(wp)).sum + finiteLog(evalWidthPrior(pars.head))
     }
     // determine maximum likelihood parameters
     val intervals: Double = 3.0
@@ -137,7 +104,7 @@ class BayesRegressor(
     val rangeWidth: List[List[Double]] = List(List(0, widthPrior))
     val ranges: List[List[Double]] = rangeWidth ::: rangeWeight
     val startParams: List[Double] = ranges.map(r => Maths.mean(r))
-    val (optimalWidth: Double, optimalWeight: List[Double]) = optimize(posterior, startParams, ranges)
+    val (optimalWidth: Double, optimalWeight: List[Double]) = Optimizer.optimize(posterior, startParams, ranges)
     weight = optimalWeight
     width = optimalWidth
 
@@ -168,10 +135,10 @@ class BayesRegressor(
       val likelihoodWeightPlots =
         (for (i <- 0 to nFeatures) yield xAxisPost zip logToProb(xAxisPost.map(eq => {
           val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
-          likelihood(width, allButOne)
+          likelihood(width :: allButOne)
         }
       ))).toList
-      val likelihoodWidthPlot = xAxisPost zip logToProb(xAxisPost.map(eq => likelihood(eq, weight)))
+      val likelihoodWidthPlot = xAxisPost zip logToProb(xAxisPost.map(eq => likelihood(eq :: weight)))
       val likelihoodPlots = likelihoodWidthPlot :: likelihoodWeightPlots
       Plotting.plotCurves(likelihoodPlots, names, xlabel= "Parameter value", ylabel= "Likelihood probability", name= "plots/reg_Bayes_likelihoods.pdf")
 
@@ -179,10 +146,10 @@ class BayesRegressor(
       val posteriorWeightPlots =
         (for (i <- 0 to nFeatures) yield xAxisPost zip logToProb(xAxisPost.map(eq => {
             val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
-            posterior(width, allButOne)
+            posterior(width :: allButOne)
           }
         ))).toList
-      val posteriorWidthPlot = xAxisPost zip logToProb(xAxisPost.map(eq => posterior(eq, weight)))
+      val posteriorWidthPlot = xAxisPost zip logToProb(xAxisPost.map(eq => posterior(eq :: weight)))
       val posteriorPlots = posteriorWidthPlot :: posteriorWeightPlots
       Plotting.plotCurves(posteriorPlots, names, xlabel= "Parameter value", ylabel= "Posterior probability", name= "plots/reg_Bayes_posteriors.pdf")
     }
