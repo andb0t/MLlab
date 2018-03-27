@@ -18,21 +18,20 @@ algoDict = {'clf': ['DecisionTree', 'kNN', 'LogisticRegression', 'NaiveBayes',
                     'NeuralNetwork', 'Perceptron', 'Random', 'SVM'],
             'reg': ['Bayes', 'DecisionTree', 'Linear', 'Random']}
 
-datasets = {'default': {'input': 'src/test/resources', 'suffix': 'default'},
-            'fancy': {'input': 'data', 'suffix': 'fancy'}}
+datasets = {'linear': {'input': 'src/test/resources'},
+            'nonlinear': {'input': 'data'}}
 
 for task, algorithms in algoDict.items():
     if task not in args.command:
         continue
     for algo in algorithms:
-        for key, payload in datasets.items():
-            print('Now running', task, algo, key, payload)
+        for suffix, setting in datasets.items():
+            print('Now running', task, algo, setting)
             subprocess.call(['java',
                              '-jar',
                              'target/scala-2.11/mllab-assembly-0.1.0-SNAPSHOT.jar',
-                             '--task', task,
-                             '--algo', algo,
-                             '--input', payload['input'],
-                             '--suffix', payload['suffix'],
+                             '--' + task, algo,
+                             '--input', setting['input'],
+                             '--suffix', suffix,
                              '--output', 'plots',  # replace by docs once its ready
                              '--format', args.format])

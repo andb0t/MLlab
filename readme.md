@@ -70,7 +70,7 @@ python3 bin/create_data.py --reg linear  # create dummy regression data
 python3 bin/create_data.py --clf circles  # create dummy classification data
 ```
 
-Then run MLlab on it, e.g. with `sbt run --task clf --algo DecisionTree --data data`
+Then run MLlab on it, e.g. with `sbt run --clf DecisionTree --data data`
 
 
 ## Development
