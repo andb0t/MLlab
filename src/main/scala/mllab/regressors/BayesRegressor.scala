@@ -42,10 +42,6 @@ class BayesRegressor(
     else if (model == "rectangular") Maths.rectangular(x, params.head - params.last, params.head + params.last)
     else throw new NotImplementedError("model " + model + " is not implemented")
 
-  /** Takes the log with a lower limit */
-  def finiteLog(x: Double): Double =
-    if (x == 0) -10000 else Math.log(x)
-
   /** Converts a list of logarithmic likelihoods to probabilities */
   def logToProb(logs: List[Double]): List[Double] = {
     val maxLog = logs.max
@@ -92,11 +88,11 @@ class BayesRegressor(
 
     /** Evaluates the likelihood given the data: p(X, y | W, s) */
     val likelihood = (pars: List[Double]) => {
-      (X zip y).map{case (xi, yi) => finiteLog(Maths.normal(yi, Maths.dot(pars.tail, 1 :: xi), pars.head))}.sum
+      (X zip y).map{case (xi, yi) => Maths.finiteLog(Maths.normal(yi, Maths.dot(pars.tail, 1 :: xi), pars.head))}.sum
     }
     /** Evaluates the posterior given the data: p(W, s | X, y) */
     val posterior = (pars: List[Double]) => {
-      likelihood(pars) + evalWeightPrior(pars.tail).map(wp => finiteLog(wp)).sum + finiteLog(evalWidthPrior(pars.head))
+      likelihood(pars) + evalWeightPrior(pars.tail).map(wp => Maths.finiteLog(wp)).sum + Maths.finiteLog(evalWidthPrior(pars.head))
     }
     // determine maximum likelihood parameters
     val intervals: Double = 3.0

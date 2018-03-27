@@ -110,4 +110,8 @@ object Maths{
   def gini(pc: List[Double]): Double =
     1 - pc.map(Math.pow(_, 2)).sum
 
+  /** Takes the log with a lower limit */
+  def finiteLog(x: Double): Double =
+    if (x == 0) -100000 else Math.log(x)
+
 }
