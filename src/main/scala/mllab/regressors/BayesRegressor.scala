@@ -39,6 +39,19 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
   def finiteLog(x: Double): Double =
     if (x == 0) -10000 else Math.log(x)
 
+  /** Converts a list of logarithmic likelihoods to probabilities */
+  def logToProb(logs: List[Double]): List[Double] = {
+    val maxLog = logs.max
+    val subtractedLogs = logs.map(_ - maxLog)
+    val precision = 1e-16
+    val threshold = Math.log(precision) - Math.log(logs.length)
+    val exponents = subtractedLogs.map(l => if (l < threshold) 0 else Math.exp(l))
+    val sumExponents = exponents.sum
+    val binScaleFactor = 1.0
+    val probabs = exponents.map(_ * binScaleFactor / sumExponents)
+    probabs
+  }
+
   /** Determines the function maximum by random walks */
   def optimize(func: (Double, List[Double]) => Double, startParams: List[Double], startRanges: List[List[Double]]): Tuple2[Double, List[Double]] = {
 
@@ -133,31 +146,37 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     val xAxisPerWeight = List.fill(nFeatures+1)(xAxis)
     val valsWeight = xAxisPerWeight.transpose.map(evalWeightPrior(_)).transpose.map(xAxis zip _)
     val valsWidth = xAxis zip (xAxis.map(evalWidthPrior(_)))
-    val vals = valsWeight ::: List(valsWidth)
-    val names = (for (i <- 0 to nFeatures) yield "B" + i).toList ::: List("S")
-    Plotting.plotCurves(vals, names, xlabel= "Parameter value", ylabel= "Probability", name= "plots/reg_Bayes_priors.pdf")
+    val vals = valsWidth :: valsWeight
+    val names = "S" :: (for (i <- 0 to nFeatures) yield "B" + i).toList
+    Plotting.plotCurves(vals, names, xlabel= "Parameter value", ylabel= "Prior probability", name= "plots/reg_Bayes_priors.pdf")
+
+    // create x-axis for plotting final likelihoods
+    val results: List[Double] = width :: weight
+    val space = (results.max - results.min) * 0.1
+    val equiVecPost: DenseVector[Double] = linspace(results.min - space, results.max + space, 1000)
+    val xAxisPost: List[Double] = (for (i <- 0 until equiVecPost.size) yield equiVecPost(i)).toList
 
     // plot likelihoods
-    val valsLikelihoodWeight =
-      (for (i <- 0 to nFeatures) yield xAxis zip (xAxis.map(eq => {
+    val likelihoodWeightPlots =
+      (for (i <- 0 to nFeatures) yield xAxisPost zip logToProb(xAxisPost.map(eq => {
         val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
         likelihood(width, allButOne)
       }
     ))).toList
-    val valsLikelihoodWidth = xAxis zip (xAxis.map(eq => likelihood(eq, weight)))
-    val valsLikelihood = valsLikelihoodWeight ::: List(valsLikelihoodWidth)
-    Plotting.plotCurves(valsLikelihood, names, xlabel= "Parameter value", ylabel= "Log(Likelihood)", name= "plots/reg_Bayes_likelihood_dep.pdf")
+    val likelihoodWidthPlot = xAxisPost zip logToProb(xAxisPost.map(eq => likelihood(eq, weight)))
+    val likelihoodPlots = likelihoodWidthPlot :: likelihoodWeightPlots
+    Plotting.plotCurves(likelihoodPlots, names, xlabel= "Parameter value", ylabel= "Likelihood probability", name= "plots/reg_Bayes_likelihoods.pdf")
 
     // plot posteriors
-    val valsPosteriorWeight =
-      (for (i <- 0 to nFeatures) yield xAxis zip (xAxis.map(eq => {
+    val posteriorWeightPlots =
+      (for (i <- 0 to nFeatures) yield xAxisPost zip logToProb(xAxisPost.map(eq => {
           val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
           posterior(width, allButOne)
         }
       ))).toList
-    val valsPosteriorWidth = xAxis zip (xAxis.map(eq => posterior(eq, weight)))
-    val valsPosterior = valsPosteriorWeight ::: List(valsPosteriorWidth)
-    Plotting.plotCurves(valsPosterior, names, xlabel= "Parameter value", ylabel= "Posterior Log(Likelihood)", name= "plots/reg_Bayes_posterior_dep.pdf")
+    val posteriorWidthPlot = xAxisPost zip logToProb(xAxisPost.map(eq => posterior(eq, weight)))
+    val posteriorPlots = posteriorWidthPlot :: posteriorWeightPlots
+    Plotting.plotCurves(posteriorPlots, names, xlabel= "Parameter value", ylabel= "Posterior probability", name= "plots/reg_Bayes_posteriors.pdf")
   }
 
   def _predict(X: List[List[Double]]): List[Double] =
