@@ -17,59 +17,55 @@ class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIte
 
   val name: String = "LogisticRegressionClassifier"
 
-  var weight = new ListBuffer[Double]()
-  var bias: Double = 0
+  /** Weights for the linear transformation */
+  var weight: List[Double] = Nil
 
   var lossEvolution = new ListBuffer[(Double, Double)]()
 
   /** Calculates probability score for each instance */
-  def getProbabilities(X: List[List[Double]]): List[Double] =
-    for (instance <- X) yield Maths.logistic(Maths.dot(weight.toList, instance) + bias)
+  def getProbabilities(X: List[List[Double]], weight: List[Double]): List[Double] =
+    for (instance <- X) yield Maths.logistic(Maths.dot(weight, 1.0 :: instance))
 
   /** Calculates the gradient of the loss function for the given training data */
-  def lossGradient(X: List[List[Double]], y: List[Int]): List[Double] = {
+  def lossGradient(X: List[List[Double]], y: List[Int], weight: List[Double]): List[Double] = {
     // dLoss = d(LogLoss) = Sum ((p - y) * x) / nInstances
     val weightGradient: List[Double] =
       for (feature <- X.transpose) yield (
-        for (pyx <- (getProbabilities(X), y.map(_.toDouble), feature).zipped.toList)
+        for (pyx <- (getProbabilities(X, weight), y.map(_.toDouble), feature).zipped.toList)
           yield (pyx._1 - pyx._2) * pyx._3
       ).sum / y.length
-    val biasGradient: Double = (for (py <- getProbabilities(X) zip y) yield py._1 - py._2).sum / y.length
+    val biasGradient: Double = (for (py <- getProbabilities(X, weight) zip y) yield py._1 - py._2).sum / y.length
     biasGradient::weightGradient
   }
 
   def _train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
-    for (i <- 0 until X.head.length)
-      weight += 0
-    bias = 0
+    val nFeatures = X.head.length
 
-    def updateWeights(count: Int): Unit = {
-      val loss: Double = Evaluation.LogLoss(getProbabilities(X), y)
+    def findWeights(count: Int, weight: List[Double]): List[Double] = {
+      val loss: Double = Evaluation.LogLoss(getProbabilities(X, weight), y)
       lossEvolution += Tuple2(count.toDouble, loss)
       if (loss > tol && count < maxIter) {
-        val weightUpdate = lossGradient(X, y).map(_ * alpha)
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
-          println("Step% 4d with loss %.4e".format(count, loss))
-        // println(s"$count. step:")
-        // println(" - current log loss: %.3f".format(loss))
-        // println(" - current weight " + weight + " bias " + bias)
-        // println(" - weightUpdate " + weightUpdate)
-        bias = bias - weightUpdate.head
-        for (i <- 0 until weight.length)
-          weight(i) = weight(i) - weightUpdate(i + 1)
-        updateWeights(count + 1)
+          println("Step% 4d with loss %.4e and weights ".format(count, loss) +
+          weight.map(p => "%+.3f".format(p)).mkString(", ")
+        )
+        val weightUpdate = lossGradient(X, y, weight).map(_ * alpha)
+        val newWeight = weight zip weightUpdate map(wu => wu._1 - wu._2)
+        findWeights(count + 1, newWeight)
       }else{
-        println(s"Final values after $count steps at loss %.4e:".format(loss))
-        println("weight: " + weight + " bias: " + bias)
+        println(s"Final $count with loss %.4e and weights ".format(loss) +
+          weight.map(p => "%+.3f".format(p)).mkString(", ")
+        )
+        weight
       }
     }
 
-    updateWeights(0)
+    weight = findWeights(0, List.fill(nFeatures+1)(0))
   }
 
   def _predict(X: List[List[Double]]): List[Int] =
-    for (p <- getProbabilities(X)) yield if (p > 0.5) 1 else 0
+    for (p <- getProbabilities(X, weight)) yield if (p > 0.5) 1 else 0
 
   def predict(X: List[List[Double]]): List[Int] =
     _predict(DataTrafo.addPolyFeatures(X, degree))
