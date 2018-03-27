@@ -23,6 +23,9 @@ libraryDependencies += scalaTest % Test
 // libraryDependencies += "org.vegas-viz" %% "vegas-spark" % "0.3.9"
 // resolvers += "Mavmav" at "http://mvnrepository.com/artifact/"
 
+// scallop
+libraryDependencies += "org.rogach" %% "scallop" % "3.1.2"
+
 // breeze
 libraryDependencies += "org.scalanlp" %% "breeze" % "0.13.2"
 libraryDependencies += "org.scalanlp" %% "breeze-natives" % "0.13.2"

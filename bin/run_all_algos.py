@@ -10,22 +10,9 @@ parser.add_argument('command',
                     help='create data for classification and/or regression')
 args = parser.parse_args()
 
-algoDict = {'clf': [
-                    'DecisionTree',
-                    'kNN',
-                    'LogisticRegression',
-                    'NaiveBayes',
-                    'NeuralNetwork',
-                    'Perceptron',
-                    'Random',
-                    'SVM',
-                    ],
-            'reg': [
-                    'Bayes',
-                    'DecisionTree',
-                    'Linear',
-                    'Random',
-                    ]}
+algoDict = {'clf': ['DecisionTree', 'kNN', 'LogisticRegression', 'NaiveBayes',
+                    'NeuralNetwork', 'Perceptron', 'Random', 'SVM'],
+            'reg': ['Bayes', 'DecisionTree', 'Linear', 'Random']}
 
 datasets = ['src/test/resources', 'data']
 
@@ -38,6 +25,6 @@ for task, algorithms in algoDict.items():
             subprocess.call(['java',
                              '-jar',
                              'target/scala-2.11/mllab-assembly-0.1.0-SNAPSHOT.jar',
-                             task,
-                             algo,
-                             data])
+                             '--task', task,
+                             '--algo', algo,
+                             '--data', data])

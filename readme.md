@@ -57,16 +57,10 @@ From sbt:
 cd mllab
 sbt
 # compile and run the app, use ~ for automatic updates and recompilation
-# arguments have to be passed in this order
-[~]run [clf, reg] [NameOfAlgorithm] [PathOfDataDir]
+[~]run [--task TASK] [--algo NameOfAlgorithm] [--data PathOfDataDir]
 test  # compile and execute tests  
 compile  # only compile the app
 console  # start scala console for this project
-```
-
-Run compiled jar from python:
-```bash
-python examples/run_jar.py
 ```
 
 Create test data in the `data` directory:
@@ -74,7 +68,8 @@ Create test data in the `data` directory:
 python3 bin/create_data.py --reg linear  # create dummy regression data
 python3 bin/create_data.py --clf circles  # create dummy classification data
 ```
-Then run MLlab on it, e.g. with `sbt run clf DecisionTree data`
+
+Then run MLlab on it, e.g. with `sbt run --task clf --algo DecisionTree --data data`
 
 
 ## Development
@@ -85,6 +80,8 @@ This will package everything in a fat jar, using [sbt-assembly](https://github.c
 ```shell
 sbt assembly
 ```
+
+Run the compiled jar from python with python `examples/run_jar.py`
 
 ### Create API documentation
 ```shell

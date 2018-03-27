@@ -1,5 +1,7 @@
 package mllab
 
+import org.rogach.scallop._
+
 import classifiers._
 import data._
 import evaluation._
@@ -16,54 +18,52 @@ import regressors._
 object Mllab {
 
   /** Parse the input arguments */
-  def parse(args: Array[String]): Map[String, String]= {
-    val task =
-      if (args.length == 0) "clf"
-      else args(0)
-
-    val algo =
-      if (args.length <= 1) "Random"
-      else args(1)
-
-    val input =
-      if (args.length <= 2) "src/test/resources"
-      else args(2)
-
-    Map("task" -> task, "algo" -> algo, "input" -> input)
+  class Conf(arguments: Seq[String]) extends ScallopConf(arguments) {
+    val task = opt[String](
+      default = Some("clf"),
+      descr = "task to execute",
+      validate = (s: String) => List("clf", "reg").contains(s)
+    )
+    val algo = opt[String](
+      default = Some("Random"),
+      descr = "algorithm to apply"
+    )
+    val data = opt[String](
+      default = Some("src/test/resources"),
+      descr = "directory containing the input data"
+    )
+    verify()
   }
 
   /** Runs the algorithms */
   def main(args: Array[String]): Unit = {
+    val conf = new Conf(args)
+
     println("Execute MLlab!")
 
-    val argMap = parse(args)
-    val task = argMap("task")
-    val algo = argMap("algo")
-    val input = argMap("input")
-
-    if (task == "clf") {
+    if (conf.task() == "clf") {
       println{"Train the classifier"}
 
-      val trainReader = new Reader(input + "/clf_train.csv", label= -1, index=0)
+      val trainReader = new Reader(conf.data() + "/clf_train.csv", label= -1, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY().map(_.toInt)
 
-      val testReader = new Reader(input + "/clf_test.csv", label= -1, index=0)
+      val testReader = new Reader(conf.data() + "/clf_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY().map(_.toInt)
 
       val clf =
-        if (algo == "Random") new RandomClassifier()
-        else if (algo == "kNN") new kNNClassifier(k=3)
-        else if (algo == "DecisionTree") new DecisionTreeClassifier(depth=3, criterion= "gini")
-        else if (algo == "Perceptron") new PerceptronClassifier(alpha=1, degree=1)
-        else if (algo == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
-        else if (algo == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=1000, degree=1)
-        else if (algo == "NaiveBayes") new NaiveBayesClassifier(model= "gaussian")
-        else if (algo == "SVM") new SVMClassifier()
-        else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
+        if (conf.algo() == "Random") new RandomClassifier()
+        else if (conf.algo() == "kNN") new kNNClassifier(k=3)
+        else if (conf.algo() == "DecisionTree") new DecisionTreeClassifier(depth=3, criterion= "gini")
+        else if (conf.algo() == "Perceptron") new PerceptronClassifier(alpha=1, degree=1)
+        else if (conf.algo() == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
+        else if (conf.algo() == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=1000, degree=1)
+        else if (conf.algo() == "NaiveBayes") new NaiveBayesClassifier(model= "gaussian")
+        else if (conf.algo() == "SVM") new SVMClassifier()
+        else throw new IllegalArgumentException("algorithm " + conf.algo() + " not implemented.")
       clf.train(X_train, y_train)
 
       // println("Check prediction on training set")
@@ -86,22 +86,22 @@ object Mllab {
       println("f1: %.2f".format(Evaluation.f1(y_pred, y_test)))
 
       println("Visualize the data")
-      Plotting.plotClfData(X_train, y_train, name= "plots/clf_" + algo + "_data.pdf")
-      Plotting.plotClf(X_train, y_train, clf, name= "plots/clf_" + algo + "_clf.pdf")
-      Plotting.plotClfGrid(X_train, clf, name= "plots/clf_" + algo + "_grid.pdf")
+      Plotting.plotClfData(X_train, y_train, name= "plots/clf_" + conf.algo() + "_data.pdf")
+      Plotting.plotClf(X_train, y_train, clf, name= "plots/clf_" + conf.algo() + "_clf.pdf")
+      Plotting.plotClfGrid(X_train, clf, name= "plots/clf_" + conf.algo() + "_grid.pdf")
 
       for (diag <- clf.diagnostics)
-        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/clf_" + algo + "_" + diag._1 + ".pdf")
+        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/clf_" + conf.algo() + "_" + diag._1 + ".pdf")
     }
-    else if (task == "reg") {
+    else if (conf.task() == "reg") {
       println{"Train the regressor"}
 
-      val trainReader = new Reader(input + "/reg_train.csv", label= -1, index=0)
+      val trainReader = new Reader(conf.data() + "/reg_train.csv", label= -1, index=0)
       trainReader.loadFile()
       val X_train = trainReader.getX()
       val y_train = trainReader.getY()
 
-      val testReader = new Reader(input + "/reg_test.csv", label= -1, index=0)
+      val testReader = new Reader(conf.data() + "/reg_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
       val y_test = testReader.getY()
@@ -109,11 +109,11 @@ object Mllab {
       println("Test feature vector: " + X_train.head + " with label " + y_train.head)
 
       val reg =
-        if (algo == "Random") new RandomRegressor()
-        else if (algo == "Linear") new LinearRegressor(maxIter=100, degree=1)
-        else if (algo == "DecisionTree") new DecisionTreeRegressor(depth=6)
-        else if (algo == "Bayes") new BayesRegressor(degree=1, model= "gaussian", savePlots= true)
-        else throw new IllegalArgumentException("algorithm " + algo + " not implemented.")
+        if (conf.algo() == "Random") new RandomRegressor()
+        else if (conf.algo() == "Linear") new LinearRegressor(maxIter=100, degree=1)
+        else if (conf.algo() == "DecisionTree") new DecisionTreeRegressor(depth=6)
+        else if (conf.algo() == "Bayes") new BayesRegressor(degree=1, model= "gaussian", savePlots= true)
+        else throw new IllegalArgumentException("algorithm " + conf.algo() + " not implemented.")
       reg.train(X_train, y_train)
 
       println{"Apply to test set"}
@@ -128,12 +128,12 @@ object Mllab {
       println("Mean Squared Log Error (MSLE): %.2f".format(Evaluation.MSLE(y_pred, y_test)))
 
       println("Visualize the data")
-      Plotting.plotRegData(X_train, y_train, name= "plots/reg_" + algo + "_data.pdf")
-      Plotting.plotReg(X_train, y_train, reg, name= "plots/reg_" + algo + "_reg.pdf")
+      Plotting.plotRegData(X_train, y_train, name= "plots/reg_" + conf.algo() + "_data.pdf")
+      Plotting.plotReg(X_train, y_train, reg, name= "plots/reg_" + conf.algo() + "_reg.pdf")
 
       for (diag <- reg.diagnostics)
-        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/reg_" + algo + "_" + diag._1 + ".pdf")
+        Plotting.plotCurves(List(diag._2), List(diag._1), name= "plots/reg_" + conf.algo() + "_" + diag._1 + ".pdf")
     }
-    else throw new IllegalArgumentException("task " + task + " not implemented. Chose 'clf' or 'reg'.")
+    else throw new IllegalArgumentException("task " + conf.task() + " not implemented. Chose 'clf' or 'reg'.")
   }
 }
