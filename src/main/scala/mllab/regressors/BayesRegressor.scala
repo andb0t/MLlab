@@ -97,17 +97,17 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
         else (for (i <- 0 to nFeatures) yield 1.0 * (i % 4 + 1)).toList
       else priorPars.tail.map(_.last)
 
-    /** Evaluates the weight prior for the given weight */
+    /** Evaluates the weight prior for the given weight: p(W) */
     val evalWeightPrior = (b: List[Double]) => {(b zip (weightPrior zip weightPriorWidth)).map{case (bi, ms) => priorFunc(model, bi, List(ms._1, ms._2))}}
 
-    /** Evaluates the width prior for the given width */
+    /** Evaluates the width prior for the given width: p(s) */
     val evalWidthPrior = (s: Double) => {Maths.rectangular(s, 0, widthPrior)}
 
-    // likelihood
+    /** Evaluates the likelihood given the data: p(X, y | W, s) */
     val likelihood = (s: Double, W: List[Double]) => {
       (X zip y).map{case (xi, yi) => finiteLog(Maths.normal(yi, Maths.dot(W, 1 :: xi), s))}.sum
     }
-    // posterior
+    /** Evaluates the posterior given the data: p(W, s | X, y) */
     val posterior = (s: Double, W: List[Double]) => {
       likelihood(s, W) + evalWeightPrior(W).map(wp => finiteLog(wp)).sum + finiteLog(evalWidthPrior(s))
     }
@@ -125,42 +125,41 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     println("B = " + weight.map(Maths.round(_, 3)))
     println("S = %.3f".format(width))
 
-    // get equidistant points in this feature for line plotting
-    val minWeight = min((weightPrior zip weightPriorWidth).map{case (m, s) => m - intervals * s})
-    val maxWeight = max((weightPrior zip weightPriorWidth).map{case (m, s) => m + intervals * s})
-    val minX = min(minWeight, 0 - intervals * widthPrior)
-    val maxX = max(maxWeight, 0 + intervals * widthPrior)
-    val equiVec: DenseVector[Double] = linspace(minX, maxX, 200)
-    val xEqui: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
-    val equiFeatures = List.fill(nFeatures+1)(xEqui)
-    // plot some distributions
-    val valsWeight = equiFeatures.transpose.map(evalWeightPrior(_)).transpose.map(xEqui zip _)
-    val valsWidth = xEqui zip (xEqui.map(evalWidthPrior(_)))
+    // create x-axis for plotting
+    val equiVec: DenseVector[Double] = linspace(ranges.flatten.min, ranges.flatten.max, 200)
+    val xAxis: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
+
+    // plot priors
+    val xAxisPerWeight = List.fill(nFeatures+1)(xAxis)
+    val valsWeight = xAxisPerWeight.transpose.map(evalWeightPrior(_)).transpose.map(xAxis zip _)
+    val valsWidth = xAxis zip (xAxis.map(evalWidthPrior(_)))
     val vals = valsWeight ::: List(valsWidth)
     val names = (for (i <- 0 to nFeatures) yield "B" + i).toList ::: List("S")
     Plotting.plotCurves(vals, names, xlabel= "Value", name= "plots/reg_Bayes_priors.pdf")
 
+    // plot likelihoods
+    val valsLikelihoodWeight =
+      (for (i <- 0 to nFeatures) yield xAxis zip (xAxis.map(eq => {
+        val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
+        likelihood(width, allButOne)
+      }
+    ))).toList
+    val valsLikelihoodWidth = xAxis zip (xAxis.map(eq => likelihood(eq, weight)))
+    val valsLikelihood = valsLikelihoodWeight ::: List(valsLikelihoodWidth)
+    val namesLikelihood = names.map("Likelihood(" + _ + ")")
+    Plotting.plotCurves(valsLikelihood, namesLikelihood, xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
+
+    // plot posteriors
     val valsPosteriorWeight =
-      (for (i <- 0 to nFeatures) yield xEqui zip (xEqui.map(eq => {
+      (for (i <- 0 to nFeatures) yield xAxis zip (xAxis.map(eq => {
           val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
           posterior(width, allButOne)
         }
       ))).toList
-    val valsPosteriorWidth = xEqui zip (xEqui.map(eq => posterior(eq, weight)))
+    val valsPosteriorWidth = xAxis zip (xAxis.map(eq => posterior(eq, weight)))
     val valsPosterior = valsPosteriorWeight ::: List(valsPosteriorWidth)
     val namesPosterior = names.map("Posterior(" + _ + ")")
     Plotting.plotCurves(valsPosterior, namesPosterior, xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
-
-    val valsLikelihoodWeight =
-      (for (i <- 0 to nFeatures) yield xEqui zip (xEqui.map(eq => {
-          val allButOne: List[Double] = (for (j <- 0 to nFeatures) yield if (i == j) eq else weight(j)).toList
-          likelihood(width, allButOne)
-        }
-      ))).toList
-    val valsLikelihoodWidth = xEqui zip (xEqui.map(eq => likelihood(eq, weight)))
-    val valsLikelihood = valsLikelihoodWeight ::: List(valsLikelihoodWidth)
-    val namesLikelihood = names.map("Likelihood(" + _ + ")")
-    Plotting.plotCurves(valsLikelihood, namesLikelihood, xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
   }
 
   def _predict(X: List[List[Double]]): List[Double] =
