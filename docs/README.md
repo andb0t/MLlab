@@ -4,7 +4,7 @@
 
 This is an experimental platform-independent machine learning library. Born from the desire to implement modern machine learning algorithms by hand, this project has grown considerably and provides now basic algorithms for various classification and regression tasks.
 
-The library is written in [Scala](https://www.scala-lang.org/) and can therefore make use of the [JVM](https://java.com/), making it platform-independent.
+The library is written in [Scala](https://www.scala-lang.org/) and can therefore make use of the [JVM](https://java.com/), making it platform-independent. The library is documented in the [Scaladoc API](https://andb0t.github.io/MLlab/api/index.html).
 
 
 #### Content
@@ -27,7 +27,7 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
 
 ## Implemented algorithms
 This section gives some impressions of the usage and what the implemented algorithms can perform.
-Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the extensive list of implemented hyper parameters.
+Please consult the [Scaladoc API](https://andb0t.github.io/MLlab/api/index.html) for detailed and up-to-date information on the algorithms, e.g. the extensive list of implemented hyper parameters.
 
 
 
