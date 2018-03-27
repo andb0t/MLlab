@@ -12,6 +12,7 @@ class PerceptronClassifier(alpha: Double = 1.0, degree: Int=1) extends Classifie
 
   val name: String = "PerceptronClassifier"
 
+  /** The weights with the intercept as the head element */
   var weight: List[Double] = Nil
 
   /** Calculates the distance to the decision decision hyperplane */
@@ -35,46 +36,42 @@ class PerceptronClassifier(alpha: Double = 1.0, degree: Int=1) extends Classifie
     require(X.length == y.length, "number of training instances and labels is not equal")
     val nFeatures = X.head.length
 
-    def trainEpochs(count: Int, isDone: Boolean, weight: List[Double]): List[Double] = {
+    def trainEpochs(epoch: Int, isDone: Boolean, weight: List[Double]): List[Double] = {
       val maxEpochs: Int = 1000
-      if (count == maxEpochs || isDone) {
-          println("Final% 4d with weights ".format(count) +
+      if (epoch == maxEpochs || isDone) {
+          println("Final% 4d with weights ".format(epoch) +
             weight.map(p => "%+.3f".format(p)).mkString(", ")
         )
         weight
       }
       else {
-        if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
-          println("Epoch% 4d with weights ".format(count) +
+        if (epoch % 100 == 0 || (epoch < 50 && epoch % 10 == 0) || (epoch < 5))
+          println("Epoch% 4d with weights ".format(epoch) +
             weight.map(p => "%+.3f".format(p)).mkString(", ")
         )
 
-        def trainSteps(sCount: Int, damp: Int, weight: List[Double]): Tuple2[List[Double], Boolean] = {
-          if (sCount == X.length) Tuple2(weight, true)
+        def trainSteps(step: Int, damp: Int, weight: List[Double]): Tuple2[List[Double], Boolean] = {
+          if (step == X.length) Tuple2(weight, true)
           else {
-            val i: Int = sCount
-            // val i: Int = (Math.random * X.length).toInt
+            val i: Int = (Math.random * X.length).toInt
             if (!isCorrect(X(i), y(i), weight)) {
-              // println("Incorrect classification of instance " + i + ": " + X(i) + " true label " + y(i))
-              val sign: Int = if (y(i) == 1) 1 else -1
-              val newBias = weight.head + (alpha * sign) / damp
-              val newWeightVec = (for (j <- 0 until weight.tail.length) yield weight.tail(j) + (alpha * sign * X(i)(j)) / damp).toList
-              Tuple2(newBias :: newWeightVec, false)
+              val sign: Int = if (y(i) == 1) 1 else -1  // move closer to correct classification
+              val newWeight = ((1.0 :: X(i)) zip weight).map{case (x, w) => w + (alpha * sign * x) / damp}
+              Tuple2(newWeight, false)
             }
             else
-              trainSteps(sCount+1, damp, weight)
+              trainSteps(step+1, damp, weight)
           }
         }
 
-        val (newWeight: List[Double], newIsDone: Boolean) = trainSteps(0, count+1, weight)
+        val (newWeight: List[Double], newIsDone: Boolean) = trainSteps(0, epoch+1, weight)
 
-        trainEpochs(count+1, newIsDone, newWeight)
+        trainEpochs(epoch+1, newIsDone, newWeight)
       }
     }
 
     val trainedVals = trainEpochs(0, false, 0.0 :: List.fill(nFeatures)(0.0))
     println("New trained values: " + trainedVals)
-
     weight = trainedVals
   }
 
