@@ -17,15 +17,19 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
 
   val name: String = "LinearRegressor"
 
-  var weight = new ListBuffer[Double]()
-  var bias: Double = 0
+  /** Weights for the linear transformation */
+  var weight: List[Double] = Nil
 
   var lossEvolution = new ListBuffer[(Double, Double)]()
 
+  /** Returns the predicted values */
+  def getPredictions(X: List[List[Double]], weight: List[Double]): List[Double] =
+    for (instance <- X) yield Maths.dot(weight, 1 :: instance)
+
   /** Calculates the gradient of the loss function for the given training data */
-  def lossGradient(X: List[List[Double]], y: List[Double]): List[Double] = {
+  def lossGradient(X: List[List[Double]], y: List[Double], weight: List[Double]): List[Double] = {
     // dLoss = d(MSE scaled) = Sum (const * linearDistanceScaled * instanceVector)
-    val linDist: List[Double] = for (xy <- X zip y) yield (Maths.dot(weight.toList, xy._1) + bias - xy._2) / y.length
+    val linDist: List[Double] = for (xy <- X zip y) yield (Maths.dot(weight, 1.0 :: xy._1) - xy._2) / y.length
     val weightGradient: List[Double] = (X zip linDist).map{case (x, d) => x.map(_ * d)}.reduce(Maths.plus(_, _))
     val biasGradient: Double = linDist.sum
     biasGradient::weightGradient
@@ -33,36 +37,32 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
 
   def _train(X: List[List[Double]], y: List[Double]): Unit = {
     require(X.length == y.length, "both arguments must have the same length")
-    for (i <- 0 until X.head.length)
-      weight += 0
-    bias = 0
+    val nFeatures = X.head.length
 
-    def updateWeights(count: Int): Unit = {
-      val loss = Evaluation.MSE(_predict(X), y)
+    def findWeights(count: Int, weight: List[Double]): List[Double] = {
+      val loss: Double = Evaluation.MSE(getPredictions(X, weight), y)
       lossEvolution += Tuple2(count.toDouble, loss)
       if (loss > tol && count < maxIter) {
-        val weightUpdate = lossGradient(X, y).map(_ * alpha)
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
-          println("Step% 4d with loss %.4e".format(count, loss))
-        // println(s"$count. Step with loss: %.3f".format(loss))
-        // println(" - current MSE: " + loss)
-        // println(" - current weight " + weight + " bias " + bias)
-        // println(" - weightUpdate " + weightUpdate)
-        bias = bias - weightUpdate.head
-        for (i <- 0 until weight.length)
-          weight(i) = weight(i) - weightUpdate(i + 1)
-        updateWeights(count + 1)
-      } else{
-        println(s"Final values after $count steps at loss %.3f:".format(loss))
-        println("weight: " + weight + " bias: " + bias)
+          println("Step% 4d with loss %.4e and weights ".format(count, loss) +
+          weight.map(p => "%+.3f".format(p)).mkString(", ")
+        )
+        val weightUpdate = lossGradient(X, y, weight).map(_ * alpha)
+        val newWeight = weight zip weightUpdate map(wu => wu._1 - wu._2)
+        findWeights(count + 1, newWeight)
+      }else{
+        println(s"Final $count with loss %.4e and weights ".format(loss) +
+          weight.map(p => "%+.3f".format(p)).mkString(", ")
+        )
+        weight
       }
     }
 
-    updateWeights(0)
+    weight = findWeights(0, List.fill(nFeatures+1)(0))
   }
 
   def _predict(X: List[List[Double]]): List[Double] =
-    for (instance <- X) yield Maths.dot(weight.toList, instance) + bias
+    getPredictions(X, weight)
 
   def predict(X: List[List[Double]]): List[Double] =
     _predict(DataTrafo.addPolyFeatures(X, degree))
