@@ -1,8 +1,5 @@
 package classifiers
 
-import scala.collection.mutable.ListBuffer
-import scala.util.control.Breaks._
-
 import datastructures._
 import utils._
 
@@ -52,25 +49,25 @@ class PerceptronClassifier(alpha: Double = 1.0, degree: Int=1) extends Classifie
             weight.map(p => "%+.3f".format(p)).mkString(", ")
         )
 
-        var newBias = weight.head
-        var newWeightVec = weight.tail
-        var newIsDone = true
-        breakable{
-          for (idx <- 0 until X.length) {
-            // take random instance to avoid being trapped between two too close instances
-            val i: Int = (Math.random * X.length).toInt
-            // println(s" - classify instance $idx: " + X(i) + " true label " + y(i))
+        def trainSteps(sCount: Int, damp: Int, weight: List[Double]): Tuple2[List[Double], Boolean] = {
+          if (sCount == X.length) Tuple2(weight, true)
+          else {
+            val i: Int = sCount
+            // val i: Int = (Math.random * X.length).toInt
             if (!isCorrect(X(i), y(i), weight)) {
               // println("Incorrect classification of instance " + i + ": " + X(i) + " true label " + y(i))
               val sign: Int = if (y(i) == 1) 1 else -1
-              newBias = newBias + (alpha * sign) / (count+1)
-              newWeightVec = (for (j <- 0 until newWeightVec.length) yield newWeightVec(j) + (alpha * sign * X(i)(j)) / (count+1)).toList
-              newIsDone = false
-              break
+              val newBias = weight.head + (alpha * sign) / damp
+              val newWeightVec = (for (j <- 0 until weight.tail.length) yield weight.tail(j) + (alpha * sign * X(i)(j)) / damp).toList
+              Tuple2(newBias :: newWeightVec, false)
             }
+            else
+              trainSteps(sCount+1, damp, weight)
           }
         }
-        val newWeight = newBias :: newWeightVec
+
+        val (newWeight: List[Double], newIsDone: Boolean) = trainSteps(0, count+1, weight)
+
         trainEpochs(count+1, newIsDone, newWeight)
       }
     }
