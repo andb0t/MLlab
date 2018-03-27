@@ -135,7 +135,7 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     val valsWidth = xAxis zip (xAxis.map(evalWidthPrior(_)))
     val vals = valsWeight ::: List(valsWidth)
     val names = (for (i <- 0 to nFeatures) yield "B" + i).toList ::: List("S")
-    Plotting.plotCurves(vals, names, xlabel= "Value", name= "plots/reg_Bayes_priors.pdf")
+    Plotting.plotCurves(vals, names, xlabel= "Parameter value", ylabel= "Probability", name= "plots/reg_Bayes_priors.pdf")
 
     // plot likelihoods
     val valsLikelihoodWeight =
@@ -146,8 +146,7 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
     ))).toList
     val valsLikelihoodWidth = xAxis zip (xAxis.map(eq => likelihood(eq, weight)))
     val valsLikelihood = valsLikelihoodWeight ::: List(valsLikelihoodWidth)
-    val namesLikelihood = names.map("Likelihood(" + _ + ")")
-    Plotting.plotCurves(valsLikelihood, namesLikelihood, xlabel= "Value", name= "plots/reg_Bayes_likelihood_dep.pdf")
+    Plotting.plotCurves(valsLikelihood, names, xlabel= "Parameter value", ylabel= "Log(Likelihood)", name= "plots/reg_Bayes_likelihood_dep.pdf")
 
     // plot posteriors
     val valsPosteriorWeight =
@@ -158,8 +157,7 @@ class BayesRegressor(degree: Int=1, model: String= "gaussian", priorPars: List[L
       ))).toList
     val valsPosteriorWidth = xAxis zip (xAxis.map(eq => posterior(eq, weight)))
     val valsPosterior = valsPosteriorWeight ::: List(valsPosteriorWidth)
-    val namesPosterior = names.map("Posterior(" + _ + ")")
-    Plotting.plotCurves(valsPosterior, namesPosterior, xlabel= "Value", name= "plots/reg_Bayes_posterior_dep.pdf")
+    Plotting.plotCurves(valsPosterior, names, xlabel= "Parameter value", ylabel= "Posterior Log(Likelihood)", name= "plots/reg_Bayes_posterior_dep.pdf")
   }
 
   def _predict(X: List[List[Double]]): List[Double] =
