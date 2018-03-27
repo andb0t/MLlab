@@ -110,7 +110,7 @@ class NeuralNetworkClassifier(
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5)) {
           val loss = getLoss(X, y)
           lossEvolution += Tuple2(count.toDouble, loss)
-          println(s"- epoch $count: alpha %.2e, loss %.4e".format(decayedAlpha, loss))
+          println("- epoch% 4d: alpha %.2e, loss %.4e".format(count, decayedAlpha, loss))
         }
 
         val thisBatch: Seq[Int] =

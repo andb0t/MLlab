@@ -13,8 +13,8 @@ object Optimizer {
       val numberDimensions: Int = ranges.length
       if (count == nSteps) {
         if (!silent)
-          println(s"- final optim. step $count: optimum %.3f, params ".format(maximum) +
-            "(" + params.map(p => Maths.round(p, 3)).mkString(", ") + ")"
+          println("- final optim. step% 4d: optimum %.3e, params: ".format(count, maximum) +
+            params.map(p => "%+.3f".format(p)).mkString(", ")
           )
         if (zooms == 1) params
         else {
@@ -31,8 +31,8 @@ object Optimizer {
           println("Optimization:")
        }
         if (!silent && (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5)))
-          println(s"- optimization step $count: optimum %.3e, params ".format(maximum) +
-            "(" + params.map(p => Maths.round(p, 3)).mkString(", ") + ")"
+          println("- optimization step% 4d: optimum %.3e, params: ".format(count, maximum) +
+            params.map(p => "%+.3f".format(p)).mkString(", ")
         )
         val dimension: Int = scala.util.Random.nextInt(numberDimensions)
         val sign: Int = scala.util.Random.nextInt(2) * 2 - 1

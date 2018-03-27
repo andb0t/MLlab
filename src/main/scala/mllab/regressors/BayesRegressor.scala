@@ -108,8 +108,8 @@ class BayesRegressor(
     width = finalParams.head
     weight = finalParams.tail
 
-    println("Final estimated parameter means for Y <- N(B.head + B.tail * X, S):")
-    println("B = " + weight.map(Maths.round(_, 3)))
+    println("Final estimated parameter means for Y <- N(W.head + W.tail * X, S):")
+    println("W = " + weight.map(Maths.round(_, 3)).mkString(", "))
     println("S = %.3f".format(width))
 
     if (savePlots) {

@@ -43,7 +43,7 @@ class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 100
       if (loss > tol && count < maxIter) {
         val weightUpdate = lossGradient(X, y).map(_ * alpha)
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
-          println(s"Step $count with loss %.4e".format(loss))
+          println("Step% 4d with loss %.4e".format(count, loss))
         // println(s"$count. Step with loss: %.3f".format(loss))
         // println(" - current MSE: " + loss)
         // println(" - current weight " + weight + " bias " + bias)
