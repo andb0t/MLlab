@@ -104,9 +104,9 @@ class BayesRegressor(
     val rangeWidth: List[List[Double]] = List(List(0, widthPrior))
     val ranges: List[List[Double]] = rangeWidth ::: rangeWeight
     val startParams: List[Double] = ranges.map(r => Maths.mean(r))
-    val (optimalWidth: Double, optimalWeight: List[Double]) = Optimizer.optimize(posterior, startParams, ranges)
-    weight = optimalWeight
-    width = optimalWidth
+    val finalParams = Optimizer.optimize(posterior, startParams, ranges)
+    width = finalParams.head
+    weight = finalParams.tail
 
     println("Final estimated parameter means for Y <- N(B.head + B.tail * X, S):")
     println("B = " + weight.map(Maths.round(_, 3)))

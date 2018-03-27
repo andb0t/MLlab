@@ -3,9 +3,10 @@ package datastructures
 import utils._
 
 
+/** Provides functions for optimizing functions */
 object Optimizer {
   /** Determines the function maximum by random walks */
-  def optimize(func: (List[Double]) => Double, startParams: List[Double], startRanges: List[List[Double]]): Tuple2[Double, List[Double]] = {
+  def optimize(func: (List[Double]) => Double, startParams: List[Double], startRanges: List[List[Double]]): List[Double] = {
 
     def maximize(count: Int, maximum: Double, params: List[Double], ranges: List[List[Double]]): List[Double] = {
       val nSteps = 1000
@@ -33,7 +34,6 @@ object Optimizer {
       }
     }
 
-    val params: List[Double] = maximize(0, Double.MinValue, startParams, startRanges)
-    (params.head, params.tail)
+    maximize(0, Double.MinValue, startParams, startRanges)
   }
 }
