@@ -85,6 +85,12 @@ class UtilsSuite extends FunSuite {
     assert (Maths.mean(List(1.3, 3.7, 123)) === 42.666666666666664)
   }
 
+  test ("median") {
+    assert (Maths.median(List(3)) === 3)
+    assert (Maths.median(List(3, 1, 2)) === 2)
+    assert (Maths.median(List(3, 2, 1, 3)) === 2.5)
+  }
+
   test ("variance") {
     // numpy.var([1, 2, 3])
     assert (Maths.variance(List(1, 2, 3)) === 0.6666666666666666)

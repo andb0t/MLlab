@@ -74,7 +74,15 @@ object Maths{
   def mean(l: List[Double]): Double =
     l.sum / l.length
 
-    /** Returns the variance of a list of values */
+  /** Returns the median of a list of values */
+  def median(l: List[Double]): Double = {
+    val ls = l.sorted
+    val n = l.length
+    if (n % 2 == 0) (ls(n / 2) + ls(n / 2 - 1)) / 2
+    else ls((n - 1) / 2)
+  }
+
+  /** Returns the variance of a list of values */
   def variance(l: List[Double]): Double =
       l.map(a => Math.pow(a - mean(l), 2)).sum / l.size
 
