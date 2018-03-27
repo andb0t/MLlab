@@ -207,7 +207,7 @@ This is an application to the linear dataset. The assumed prior and posterior pr
 
 ![Bayes Regression](./bayes_regression_example.png)
 
-<img src="./naivebayes_regression_priors.png" height="200"> <img src="./naivebayes_regression_posteriors.png" height="200">
+<img src="naivebayes_regression_priors.png" height="200"> <img src="naivebayes_regression_posteriors.png" height="200">
 
 With the same trick of adding higher feature orders, linear Bayesian regression can be applied to datasets with polynomial truth.
 
