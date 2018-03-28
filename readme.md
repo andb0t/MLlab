@@ -29,7 +29,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] linear regression
 - [x] decision tree
 - [x] Bayes
-- [ ] k-nearest neighbors
+- [x] k-nearest neighbors
 - [ ] neural network regression
 
 ### Misc
