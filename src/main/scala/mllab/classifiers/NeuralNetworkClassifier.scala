@@ -40,64 +40,6 @@ class NeuralNetworkClassifier(
   var lossEvolution = new ListBuffer[(Double, Double)]()
   var alphaEvolution = new ListBuffer[(Double, Double)]()
 
-  /** Propagates the instances forward and saves the intermediate output
-   * @param X List of instance feature vectors
-   * @param W Sequence of weight matrices of the layers
-   * @param b Sequence of intercept vectors of the layers
-   * @param activation Activation function identifier
-   * @return List of layer output vectors for all instances
-   */
-  def propagateForward(
-    X: DenseMatrix[Double],
-    W: IndexedSeq[DenseMatrix[Double]],
-    b: IndexedSeq[DenseVector[Double]],
-    activation: String
-  ): List[DenseMatrix[Double]] = {
-    def walkLayersForward(inputA: DenseMatrix[Double], count: Int, upd: List[DenseMatrix[Double]]): List[DenseMatrix[Double]] = {
-      if (count < b.size - 1) {
-        val Z: DenseMatrix[Double] = NeuralNetwork.neuronTrafo(inputA, W(count), b(count))  // (nInstances, 10)
-        val A: DenseMatrix[Double] = NeuralNetwork.activate(Z, activation)  // (nInstances, 10)
-        walkLayersForward(A, count + 1, A :: upd)
-      }
-      else upd
-    }
-    walkLayersForward(X, 0, Nil).reverse
-  }
-
-  /** Propagates the network outputs backward and saves necessary updates for weights and intercepts
-   * @param deltaOutput List of output distances from truth for each class and instance
-   * @param A List of layer output vectors for all instances from forward propagation
-   * @param X List of input instance feature vectors
-   * @param W Sequence of weight matrices of the layers
-   * @param b Sequence of intercept vectors of the layers
-   * @param activation Activation function identifier
-   * @param regularization Regularization parameter
-   * @return List of updates for weight matrix and intercept vector
-   */
-  def propagateBack(
-    deltaOutput: DenseMatrix[Double],
-    A: List[DenseMatrix[Double]],
-    X: DenseMatrix[Double],
-    W: IndexedSeq[DenseMatrix[Double]],
-    b: IndexedSeq[DenseVector[Double]],
-    activation: String,
-    regularization: Double
-  ): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
-    def walkLayersBack(deltaPlus: DenseMatrix[Double], count: Int, upd: List[Tuple2[DenseMatrix[Double], DenseVector[Double]]]): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
-      if (count >= 0) {
-        val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count+1).t  // (nInstances, 10)
-        val partDerivActiv: DenseMatrix[Double] = NeuralNetwork.derivActivate(A(count), activation)  // (nInstances, 10)
-        val delta: DenseMatrix[Double] = partDerivCost *:* partDerivActiv  // (nInstances, 10)
-        val db: DenseVector[Double] = sum(delta.t(*, ::))  // (10)
-        val inputA = if (count > 0) A(count - 1) else X
-        val dW: DenseMatrix[Double] = inputA.t * delta + regularization *:* W(count)  // (2, 10)
-        walkLayersBack(delta, count - 1, (dW, db)::upd)
-      }
-      else upd
-    }
-    walkLayersBack(deltaOutput, b.size - 2, Nil)
-  }
-
   def train(listX: List[List[Double]], listy: List[Int]): Unit = {
     require(listX.length == listy.length, "number of training instances and labels is not equal")
     val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
@@ -130,7 +72,7 @@ class NeuralNetworkClassifier(
         val thisy: DenseVector[Int] = y(thisBatch).toDenseVector
 
         // forward propagation
-        val A = propagateForward(thisX, W, b, activation)
+        val A = NeuralNetwork.propagateForward(thisX, W, b, activation)
 
         // backward propagation
         // output layer
@@ -138,10 +80,11 @@ class NeuralNetworkClassifier(
         val deltaOutput: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, layers.head){
           case (i, j) => if (j == thisy(i)) probs(i, j) - 1 else probs(i, j)
         }
-        val dWoutput: DenseMatrix[Double] = A(b.size - 2).t * deltaOutput + regularization *:* W(b.size - 1)  // (10, 2)
-        val dboutput: DenseVector[Double] = sum(deltaOutput.t(*, ::))  // (2)
+        val dWoutputLayer: DenseMatrix[Double] = A(b.size - 2).t * deltaOutput + regularization *:* W(b.size - 1)  // (10, 2)
+        val dboutputLayer: DenseVector[Double] = sum(deltaOutput.t(*, ::))  // (2)
+        val dWbOutputLayer = Tuple2(dWoutputLayer, dboutputLayer)
         // other layers
-        val dWb = propagateBack(deltaOutput, A, thisX, W, b, activation, regularization)
+        val dWb = NeuralNetwork.propagateBack(deltaOutput, A, thisX, W, b, activation, regularization)
 
         def updateWeights(count: Int): Unit = {
           if (count < b.size - 1) {
@@ -150,8 +93,8 @@ class NeuralNetworkClassifier(
             updateWeights(count + 1)
           }
           else{
-            W(b.size - 1) :+= -decayedAlpha *:* dWoutput
-            b(b.size - 1) :+= -decayedAlpha *:* dboutput
+            W(b.size - 1) :+= -decayedAlpha *:* dWbOutputLayer._1
+            b(b.size - 1) :+= -decayedAlpha *:* dWbOutputLayer._2
           }
         }
         updateWeights(0)

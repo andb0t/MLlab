@@ -94,4 +94,62 @@ object NeuralNetwork {
     dataLossReg / X.rows
   }
 
+  /** Propagates the instances forward and saves the intermediate output
+   * @param X List of instance feature vectors
+   * @param W Sequence of weight matrices of the layers
+   * @param b Sequence of intercept vectors of the layers
+   * @param activation Activation function identifier
+   * @return List of layer output vectors for all instances
+   */
+  def propagateForward(
+    X: DenseMatrix[Double],
+    W: IndexedSeq[DenseMatrix[Double]],
+    b: IndexedSeq[DenseVector[Double]],
+    activation: String
+  ): List[DenseMatrix[Double]] = {
+    def walkLayersForward(inputA: DenseMatrix[Double], count: Int, upd: List[DenseMatrix[Double]]): List[DenseMatrix[Double]] = {
+      if (count < b.size - 1) {
+        val Z: DenseMatrix[Double] = NeuralNetwork.neuronTrafo(inputA, W(count), b(count))  // (nInstances, 10)
+        val A: DenseMatrix[Double] = NeuralNetwork.activate(Z, activation)  // (nInstances, 10)
+        walkLayersForward(A, count + 1, A :: upd)
+      }
+      else upd
+    }
+    walkLayersForward(X, 0, Nil).reverse
+  }
+
+  /** Propagates the network outputs backward and saves necessary updates for weights and intercepts
+  * @param deltaOutput List of output distances from truth for each output neuron for each instance
+  * @param A List of layer output vectors for all instances from forward propagation
+  * @param X List of input instance feature vectors
+  * @param W Sequence of weight matrices of the layers
+  * @param b Sequence of intercept vectors of the layers
+  * @param activation Activation function identifier
+  * @param regularization Regularization parameter
+  * @return List of updates for weight matrix and intercept vector
+  */
+  def propagateBack(
+    deltaOutput: DenseMatrix[Double],
+    A: List[DenseMatrix[Double]],
+    X: DenseMatrix[Double],
+    W: IndexedSeq[DenseMatrix[Double]],
+    b: IndexedSeq[DenseVector[Double]],
+    activation: String,
+    regularization: Double
+  ): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
+    def walkLayersBack(deltaPlus: DenseMatrix[Double], count: Int, upd: List[Tuple2[DenseMatrix[Double], DenseVector[Double]]]): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
+      if (count >= 0) {
+        val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count+1).t  // (nInstances, 10)
+        val partDerivActiv: DenseMatrix[Double] = NeuralNetwork.derivActivate(A(count), activation)  // (nInstances, 10)
+        val delta: DenseMatrix[Double] = partDerivCost *:* partDerivActiv  // (nInstances, 10)
+        val db: DenseVector[Double] = sum(delta.t(*, ::))  // (10)
+        val inputA = if (count > 0) A(count - 1) else X
+        val dW: DenseMatrix[Double] = inputA.t * delta + regularization *:* W(count)  // (2, 10)
+        walkLayersBack(delta, count - 1, (dW, db)::upd)
+      }
+      else upd
+    }
+    walkLayersBack(deltaOutput, b.size - 2, Nil)
+  }
+
 }
