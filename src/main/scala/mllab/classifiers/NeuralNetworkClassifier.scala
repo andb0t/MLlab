@@ -6,6 +6,7 @@ import breeze.linalg._
 import breeze.numerics._
 
 import utils._
+import datastructures._
 
 
 /** Neural network classifier
@@ -33,60 +34,11 @@ class NeuralNetworkClassifier(
 
   val name: String = "NeuralNetworkClassifier"
 
-  val W: List[DenseMatrix[Double]] = (for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))).toList
-  val b: List[DenseVector[Double]] = (for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))).toList
+  val W: IndexedSeq[DenseMatrix[Double]] = for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))
+  val b: IndexedSeq[DenseVector[Double]] = for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))
 
   var lossEvolution = new ListBuffer[(Double, Double)]()
   var alphaEvolution = new ListBuffer[(Double, Double)]()
-
-  def neuronTrafo(X: DenseMatrix[Double], W: DenseMatrix[Double], b: DenseVector[Double]): DenseMatrix[Double] =
-    X * W + DenseVector.ones[Double](X.rows) * b.t
-
-  def activate(Z: DenseMatrix[Double]): DenseMatrix[Double] =
-    if (activation == "tanh") tanh(Z)
-    else if (activation == "logistic") 1.0 / (exp(-Z) + 1.0)
-    else if (activation == "identity") 0.01 * Z  // TODO: fix it: NaN in training if not scaled down
-    else if (activation == "RELU") I(Z :> 0.0) *:* Z
-    else if (activation == "leakyRELU") (I(Z :> 0.0) + 0.1 * I(Z :<= 0.0)) *:* Z
-    else if (activation == "perceptron") I(Z :> 0.0)
-    else throw new Exception("activation function not implented")
-
-  def derivActivate(A: DenseMatrix[Double]): DenseMatrix[Double] =
-    if (activation == "tanh") 1.0 - pow(A, 2)
-    else if (activation == "logistic") A *:* (1.0 - A)
-    else if (activation == "identity") DenseMatrix.ones[Double](A.rows, A.cols)
-    else if (activation == "RELU") I(A :> 0.0)
-    else if (activation == "leakyRELU") I(A :> 0.0) + 0.1 * I(A :<= 0.0)
-    else if (activation == "perceptron") DenseMatrix.zeros[Double](A.rows, A.cols)
-    else throw new Exception("activation function not implented")
-
-  def feedForward(X: DenseMatrix[Double]): DenseMatrix[Double] = {
-    def applyLayer(X: DenseMatrix[Double], count: Int): DenseMatrix[Double] =
-      if (count < layers.length - 2) {
-        val inputZ = neuronTrafo(X, W(count), b(count))
-        val inputZactive = activate(inputZ)
-        applyLayer(inputZactive, count+1)
-      }
-      else {
-        neuronTrafo(X, W(count), b(count))
-      }
-      applyLayer(X, 0)
-    }
-
-  def getProbabilities(X: DenseMatrix[Double]): DenseMatrix[Double] = {
-    val Z = feedForward(X)
-    val expScores = exp(Z)
-    val expSums = sum(expScores(*, ::))
-    expScores(::, *) / expSums  // softmax
-  }
-
-  def getLoss(X: DenseMatrix[Double], y: DenseVector[Int]): Double = {
-    val probs: DenseMatrix[Double] = getProbabilities(X)
-    val correctLogProbs: DenseVector[Double] = DenseVector.tabulate(y.size){i => -Math.log(probs(i, y(i)))}
-    val dataLoss: Double = correctLogProbs.sum
-    val dataLossReg: Double = dataLoss + regularization / 2 * W.map(w => pow(w, 2).sum).sum
-    dataLossReg / X.rows
-  }
 
   def train(listX: List[List[Double]], listy: List[Int]): Unit = {
     require(listX.length == listy.length, "number of training instances and labels is not equal")
@@ -108,7 +60,7 @@ class NeuralNetworkClassifier(
 
       if (count < maxEpoch) {
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5)) {
-          val loss = getLoss(X, y)
+          val loss = NeuralNetwork.getLoss(X, y, W, b, activation, regularization)
           lossEvolution += Tuple2(count.toDouble, loss)
           println("- epoch% 4d: alpha %.2e, loss %.4e".format(count, decayedAlpha, loss))
         }
@@ -126,8 +78,8 @@ class NeuralNetworkClassifier(
           upd: List[DenseMatrix[Double]]
         ): List[DenseMatrix[Double]] = {
           if (count < layers.length - 2) {
-            val Z: DenseMatrix[Double] = neuronTrafo(inputA, W(count), b(count))  // (nInstances, 10)
-            val A: DenseMatrix[Double] = activate(Z)  // (nInstances, 10)
+            val Z: DenseMatrix[Double] = NeuralNetwork.neuronTrafo(inputA, W(count), b(count))  // (nInstances, 10)
+            val A: DenseMatrix[Double] = NeuralNetwork.activate(Z, activation)  // (nInstances, 10)
             propagateForward(A, count + 1, A :: upd)
           }
           else upd
@@ -137,7 +89,7 @@ class NeuralNetworkClassifier(
         // backward propagation
 
         // output layer
-        val probs: DenseMatrix[Double] = getProbabilities(thisX)  // (nInstances, 2)
+        val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(thisX, W, b, activation)  // (nInstances, 2)
         val deltaOutput: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, layers.head){
           case (i, j) => if (j == thisy(i)) probs(i, j) - 1 else probs(i, j)
         }
@@ -152,7 +104,7 @@ class NeuralNetworkClassifier(
         ): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
           if (count >= 0) {
             val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count+1).t  // (nInstances, 10)
-            val partDerivActiv: DenseMatrix[Double] = derivActivate(A(count))  // (nInstances, 10)
+            val partDerivActiv: DenseMatrix[Double] = NeuralNetwork.derivActivate(A(count), activation)  // (nInstances, 10)
             val delta: DenseMatrix[Double] = partDerivCost *:* partDerivActiv  // (nInstances, 10)
             val db: DenseVector[Double] = sum(delta.t(*, ::))  // (10)
             val inputA = if (count > 0) A(count - 1) else thisX
@@ -179,7 +131,7 @@ class NeuralNetworkClassifier(
 
         gradientDescent(count + 1)
       }else {
-        val loss = getLoss(X, y)
+        val loss = NeuralNetwork.getLoss(X, y, W, b, activation, regularization)
         lossEvolution += Tuple2(count.toDouble, loss)
         println(s"Training finished after $count epochs with loss " + loss)
       }
@@ -191,7 +143,7 @@ class NeuralNetworkClassifier(
 
   def predict(listX: List[List[Double]]): List[Int] = {
     val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
-    val output = feedForward(X)
+    val output = NeuralNetwork.feedForward(X, W, b, activation)
     val prediction: DenseVector[Int] = argmax(output(*, ::))
     (for (i <- 0 until prediction.size) yield prediction(i)).toList
   }
