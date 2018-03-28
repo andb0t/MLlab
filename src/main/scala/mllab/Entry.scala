@@ -17,17 +17,19 @@ import regressors._
  */
 object Mllab {
 
-  /** Parse the input arguments */
+  /** Parses the input arguments */
   class Conf(arguments: Seq[String]) extends ScallopConf(arguments) {
-    val reg = opt[String](
-      default = Some(""),
-      descr = "specify regression algorithm",
-      validate = (s: String) => List("", "Bayes", "DecisionTree", "Linear", "Random").contains(s)
-    )
     val clf = opt[String](
       default = Some(""),
       descr = "specify classification algorithm",
-      validate = (s: String) => List("", "DecisionTree", "kNN", "LogisticRegression", "NaiveBayes", "NeuralNetwork", "Perceptron", "Random", "SVM").contains(s)
+      validate = (s: String) => List("", "DecisionTree", "kNN", "LogisticRegression",
+        "NaiveBayes", "NeuralNetwork", "Perceptron", "Random", "SVM").contains(s)
+    )
+    val reg = opt[String](
+      default = Some(""),
+      descr = "specify regression algorithm",
+      validate = (s: String) => List("", "Bayes", "DecisionTree", "kNN",
+        "Linear", "Random").contains(s)
     )
     mutuallyExclusive(clf, reg)
     val input = opt[String](
@@ -46,6 +48,10 @@ object Mllab {
       default = Some("pdf"),
       descr = "figure format",
       validate = (s: String) => List("pdf", "png").contains(s)
+    )
+    val hyper = opt[String](
+      default = Some(""),
+      descr = "hyperparameters to pass to the algorithm"
     )
     verify()
   }
@@ -130,6 +136,7 @@ object Mllab {
         else if (conf.reg() == "Linear") new LinearRegressor(maxIter=100, degree=1)
         else if (conf.reg() == "DecisionTree") new DecisionTreeRegressor(depth=6)
         else if (conf.reg() == "Bayes") new BayesRegressor(degree=1, model= "gaussian", savePlots= true)
+        else if (conf.reg() == "kNN") new kNNRegressor(k=10)
         else throw new IllegalArgumentException("algorithm " + conf.reg() + " not implemented.")
       reg.train(X_train, y_train)
 
