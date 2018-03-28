@@ -31,7 +31,7 @@ class kNNClassifier(k: Int = 3) extends Classifier {
     val candidate: Tuple2[Double, Int] = (distance, label)
     val maxIdx: Int = nearest.zipWithIndex.maxBy(_._1._1)._2
     if (nearest(maxIdx)._1 > distance)
-      nearest.zipWithIndex.map(ni => if (ni._2 != maxIdx) ni._1 else candidate )
+      nearest.zipWithIndex.map(ni => if (ni._2 != maxIdx) ni._1 else candidate)
     else
       nearest
   }
@@ -41,17 +41,18 @@ class kNNClassifier(k: Int = 3) extends Classifier {
     if (X_NN == Nil) nearest
     else getNearest(x, X_NN.tail, y_NN.tail, updateNearest(x, X_NN.head, y_NN.head, nearest))
 
-    /** Predicts a label for a single instance */
-  def getPrediction(x: List[Double], classes: List[Int]): Int = {
+  /** Predicts a label for a single instance */
+  def getPrediction(x: List[Double]): Int = {
     val nearest = getNearest(x, X_NN, y_NN, List.fill(k)(Tuple2(Double.MaxValue, -1)))
-    val labels = for (dl <- nearest) yield dl._2
-    val probab: List[Double] = for (l <- classes.sorted) yield 1.0 * labels.count(_==l) / labels.length
-    probab.zipWithIndex.maxBy(_._1)._2
+    val labels: List[Int] = for (dl <- nearest) yield dl._2
+    val occurences: Map[Int, Int] = labels.foldLeft(Map.empty[Int, Int]){(m, c) => m + ((c, m.getOrElse(c, 0) + 1))}
+    val maxClass: Int = occurences.maxBy(_._2)._1
+    val maxClasses: List[Int] = (occurences.filter(_._2 == occurences(maxClass)).map(_._1)).toList
+    val randIdx: Int = scala.util.Random.nextInt(maxClasses.length)
+    maxClasses(randIdx)
   }
 
-  def predict(X: List[List[Double]]): List[Int] = {
-    val classes: List[Int] = y_NN.toSet.toList.sorted
-    for (instance <- X) yield getPrediction(instance, classes)
-  }
+  def predict(X: List[List[Double]]): List[Int] =
+    for (instance <- X) yield getPrediction(instance)
 
 }
