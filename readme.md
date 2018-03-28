@@ -31,6 +31,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] Bayes
 - [x] k-nearest neighbors
 - [ ] neural network regression
+- [ ] SVM
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
