@@ -77,24 +77,25 @@ class NeuralNetworkClassifier(
         // backward propagation
         // output layer
         val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(thisX, W, b, activation)  // (nInstances, 2)
-        val deltaOutput: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, layers.head){
+        // distance to truth at output layer
+        val delta: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, layers.head){
           case (i, j) => if (j == thisy(i)) probs(i, j) - 1 else probs(i, j)
         }
-        val dWoutputLayer: DenseMatrix[Double] = A(b.size - 2).t * deltaOutput + regularization *:* W(b.size - 1)  // (10, 2)
-        val dboutputLayer: DenseVector[Double] = sum(deltaOutput.t(*, ::))  // (2)
-        val dWbOutputLayer = Tuple2(dWoutputLayer, dboutputLayer)
+        val dWoutputLayer: DenseMatrix[Double] = A(b.size - 2).t * delta + regularization *:* W(b.size - 1)  // (10, 2)
+        val dboutputLayer: DenseVector[Double] = sum(delta.t(*, ::))  // (2)
+        val updateOutputLayer = Tuple2(dWoutputLayer, dboutputLayer)
         // other layers
-        val dWb = NeuralNetwork.propagateBack(deltaOutput, A, thisX, W, b, activation, regularization)
+        val updateInnerLayers = NeuralNetwork.propagateBack(delta, A, thisX, W, b, activation, regularization)
 
         def updateWeights(count: Int): Unit = {
           if (count < b.size - 1) {
-            W(count) :+= -decayedAlpha *:* dWb(count)._1
-            b(count) :+= -decayedAlpha *:* dWb(count)._2
+            W(count) :+= -decayedAlpha *:* updateInnerLayers(count)._1
+            b(count) :+= -decayedAlpha *:* updateInnerLayers(count)._2
             updateWeights(count + 1)
           }
           else{
-            W(b.size - 1) :+= -decayedAlpha *:* dWbOutputLayer._1
-            b(b.size - 1) :+= -decayedAlpha *:* dWbOutputLayer._2
+            W(b.size - 1) :+= -decayedAlpha *:* updateOutputLayer._1
+            b(b.size - 1) :+= -decayedAlpha *:* updateOutputLayer._2
           }
         }
         updateWeights(0)

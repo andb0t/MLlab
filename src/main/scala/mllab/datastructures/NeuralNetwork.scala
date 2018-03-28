@@ -8,7 +8,7 @@ import breeze.numerics._
 object NeuralNetwork {
 
   /** Performs neuron transformation in one layer from n inputs to m outputs
-   * @param X iIstance vector with n features
+   * @param X Instance vector with n features
    * @param W Matrix of dimension n x m, n weights for m neurons
    * @param b Vector with m entries, one intercept for each neuron
    * @return Instance vector with m features
@@ -78,7 +78,7 @@ object NeuralNetwork {
     expScores(::, *) / expSums  // softmax
   }
 
-  /** Calculates the loss of the predictions vs the truth
+  /** Calculates the classification loss of the predictions vs the truth
    * @param X List of instance feature vectors
    * @param y List of instance labels
    * @param W Sequence of weight matrices of the layers
@@ -119,7 +119,7 @@ object NeuralNetwork {
   }
 
   /** Propagates the network outputs backward and saves necessary updates for weights and intercepts
-  * @param deltaOutput List of output distances from truth for each output neuron for each instance
+  * @param delta List of output distances from truth for each output neuron for each instance
   * @param A List of layer output vectors for all instances from forward propagation
   * @param X List of input instance feature vectors
   * @param W Sequence of weight matrices of the layers
@@ -129,7 +129,7 @@ object NeuralNetwork {
   * @return List of updates for weight matrix and intercept vector
   */
   def propagateBack(
-    deltaOutput: DenseMatrix[Double],
+    delta: DenseMatrix[Double],
     A: List[DenseMatrix[Double]],
     X: DenseMatrix[Double],
     W: IndexedSeq[DenseMatrix[Double]],
@@ -141,15 +141,15 @@ object NeuralNetwork {
       if (count >= 0) {
         val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count+1).t  // (nInstances, 10)
         val partDerivActiv: DenseMatrix[Double] = NeuralNetwork.derivActivate(A(count), activation)  // (nInstances, 10)
-        val delta: DenseMatrix[Double] = partDerivCost *:* partDerivActiv  // (nInstances, 10)
-        val db: DenseVector[Double] = sum(delta.t(*, ::))  // (10)
+        val instanceDelta: DenseMatrix[Double] = partDerivCost *:* partDerivActiv  // (nInstances, 10)
+        val db: DenseVector[Double] = sum(instanceDelta.t(*, ::))  // (10)
         val inputA = if (count > 0) A(count - 1) else X
-        val dW: DenseMatrix[Double] = inputA.t * delta + regularization *:* W(count)  // (2, 10)
-        walkLayersBack(delta, count - 1, (dW, db)::upd)
+        val dW: DenseMatrix[Double] = inputA.t * instanceDelta + regularization *:* W(count)  // (2, 10)
+        walkLayersBack(instanceDelta, count - 1, (dW, db)::upd)
       }
       else upd
     }
-    walkLayersBack(deltaOutput, b.size - 2, Nil)
+    walkLayersBack(delta, b.size - 2, Nil)
   }
 
 }
