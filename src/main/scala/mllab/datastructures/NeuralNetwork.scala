@@ -64,7 +64,7 @@ object NeuralNetwork {
     applyLayer(X, 0)
   }
 
-  /** Calculates for each instance the probability vector to belong to each class
+  /** Calculates for each instance the probability vector to belong to each class from the relative output neuron values
    * @param X List of instance feature vectors
    * @param W Sequence of weight matrices of the layers
    * @param b Sequence of intercept vectors of the layers
