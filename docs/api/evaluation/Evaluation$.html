@@ -162,6 +162,23 @@
       </a>
     </span>
       <p class="shortcomment cmt">Calculates the log loss</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the log loss</p></div><dl class="paramcmts block"><dt class="param">p_pred</dt><dd class="cmt"><p>List of probabilities for each instance</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd><dt class="param">eps</dt><dd class="cmt"><p>Clip probabilities to avoid undefined logs at p = 0, 1</p></dd></dl></div>
+    </li><li name="evaluation.Evaluation#MAE" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MAE(y_pred:List[Double],y_true:List[Double]):Double"></a>
+      <a id="MAE(List[Double],List[Double]):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MAE</span><span class="params">(<span name="y_pred">y_pred: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y_true">y_true: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#evaluation.Evaluation$@MAE(y_pred:List[Double],y_true:List[Double]):Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Calculates the Mean Absolute Error</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the Mean Absolute Error</p></div><dl class="paramcmts block"><dt class="param">y_pred</dt><dd class="cmt"><p>List of predictions</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd></dl></div>
     </li><li name="evaluation.Evaluation#MSE" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MSE(y_pred:List[Double],y_true:List[Double]):Double"></a>
       <a id="MSE(List[Double],List[Double]):Double"></a>
@@ -179,6 +196,57 @@
       </a>
     </span>
       <p class="shortcomment cmt">Calculates the Mean Squared Error</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the Mean Squared Error</p></div><dl class="paramcmts block"><dt class="param">y_pred</dt><dd class="cmt"><p>List of predictions</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd></dl></div>
+    </li><li name="evaluation.Evaluation#MSLE" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MSLE(y_pred:List[Double],y_true:List[Double]):Double"></a>
+      <a id="MSLE(List[Double],List[Double]):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MSLE</span><span class="params">(<span name="y_pred">y_pred: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y_true">y_true: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#evaluation.Evaluation$@MSLE(y_pred:List[Double],y_true:List[Double]):Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Calculates the Mean Squared Logarithmic Error</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the Mean Squared Logarithmic Error</p></div><dl class="paramcmts block"><dt class="param">y_pred</dt><dd class="cmt"><p>List of predictions</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd></dl></div>
+    </li><li name="evaluation.Evaluation#MedAE" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MedAE(y_pred:List[Double],y_true:List[Double]):Double"></a>
+      <a id="MedAE(List[Double],List[Double]):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MedAE</span><span class="params">(<span name="y_pred">y_pred: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y_true">y_true: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#evaluation.Evaluation$@MedAE(y_pred:List[Double],y_true:List[Double]):Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Calculates the Median Absolute Error</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the Median Absolute Error</p></div><dl class="paramcmts block"><dt class="param">y_pred</dt><dd class="cmt"><p>List of predictions</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd></dl></div>
+    </li><li name="evaluation.Evaluation#RSqared" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="RSqared(y_pred:List[Double],y_true:List[Double]):Double"></a>
+      <a id="RSqared(List[Double],List[Double]):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RSqared</span><span class="params">(<span name="y_pred">y_pred: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y_true">y_true: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#evaluation.Evaluation$@RSqared(y_pred:List[Double],y_true:List[Double]):Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Calculates the R^2 score</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the R^2 score</p></div><dl class="paramcmts block"><dt class="param">y_pred</dt><dd class="cmt"><p>List of predictions</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -253,6 +321,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="evaluation.Evaluation#explainedVariance" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="explainedVariance(y_pred:List[Double],y_true:List[Double]):Double"></a>
+      <a id="explainedVariance(List[Double],List[Double]):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">explainedVariance</span><span class="params">(<span name="y_pred">y_pred: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y_true">y_true: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#evaluation.Evaluation$@explainedVariance(y_pred:List[Double],y_true:List[Double]):Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Calculates the Explained Variance Score</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the Explained Variance Score</p></div><dl class="paramcmts block"><dt class="param">y_pred</dt><dd class="cmt"><p>List of predictions</p></dd><dt class="param">y_true</dt><dd class="cmt"><p>List of labels</p></dd></dl></div>
     </li><li name="evaluation.Evaluation#f1" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="f1(y_pred:List[Int],y_true:List[Int]):Double"></a>
       <a id="f1(List[Int],List[Int]):Double"></a>

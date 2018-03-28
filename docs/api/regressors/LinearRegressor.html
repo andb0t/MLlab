@@ -216,23 +216,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="regressors.LinearRegressor#bias" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bias:Double"></a>
-      <a id="bias:Double"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bias</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#regressors.LinearRegressor@bias:Double" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -347,6 +330,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="regressors.LinearRegressor#getPredictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getPredictions(X:List[List[Double]],weight:List[Double]):List[Double]"></a>
+      <a id="getPredictions(List[List[Double]],List[Double]):List[Double]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPredictions</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="weight">weight: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#regressors.LinearRegressor@getPredictions(X:List[List[Double]],weight:List[Double]):List[Double]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns the predicted values</p>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -399,18 +399,18 @@
     </span>
       
     </li><li name="regressors.LinearRegressor#lossGradient" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lossGradient(X:List[List[Double]],y:List[Double]):List[Double]"></a>
-      <a id="lossGradient(List[List[Double]],List[Double]):List[Double]"></a>
+      <a id="lossGradient(X:List[List[Double]],y:List[Double],weight:List[Double]):List[Double]"></a>
+      <a id="lossGradient(List[List[Double]],List[Double],List[Double]):List[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">lossGradient</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+        <span class="name">lossGradient</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="weight">weight: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#regressors.LinearRegressor@lossGradient(X:List[List[Double]],y:List[Double]):List[Double]" title="Permalink" target="_top">
+      <a href="../index.html#regressors.LinearRegressor@lossGradient(X:List[List[Double]],y:List[Double],weight:List[Double]):List[Double]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -621,22 +621,22 @@
               
         </dd></dl></div>
     </li><li name="regressors.LinearRegressor#weight" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="weight:scala.collection.mutable.ListBuffer[Double]"></a>
-      <a id="weight:ListBuffer[Double]"></a>
+      <a id="weight:List[Double]"></a>
+      <a id="weight:List[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">weight</span><span class="result">: <span class="extype" name="scala.collection.mutable.ListBuffer">ListBuffer</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+        <span class="name">weight</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#regressors.LinearRegressor@weight:scala.collection.mutable.ListBuffer[Double]" title="Permalink" target="_top">
+      <a href="../index.html#regressors.LinearRegressor@weight:List[Double]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Weights for the linear transformation</p>
     </li></ol>
             </div>
 
