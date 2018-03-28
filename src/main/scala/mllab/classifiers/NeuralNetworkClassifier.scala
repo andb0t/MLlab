@@ -33,8 +33,8 @@ class NeuralNetworkClassifier(
 
   val name: String = "NeuralNetworkClassifier"
 
-  val W = for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))
-  val b = for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))
+  val W: List[DenseMatrix[Double]] = (for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))).toList
+  val b: List[DenseVector[Double]] = (for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))).toList
 
   var lossEvolution = new ListBuffer[(Double, Double)]()
   var alphaEvolution = new ListBuffer[(Double, Double)]()
