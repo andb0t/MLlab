@@ -1,7 +1,5 @@
 package classifiers
 
-import scala.collection.mutable.ListBuffer
-
 import utils._
 
 
@@ -12,14 +10,14 @@ class kNNClassifier(k: Int = 3) extends Classifier {
 
   val name: String = "kNNClassifier"
 
-  var X_NN = new ListBuffer[List[Double]]()
-  var y_NN = new ListBuffer[Int]()
+  var X_NN: List[List[Double]] = Nil
+  var y_NN: List[Int] = Nil
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     require(X.length >= k, "need more instances than k hyperparameter")
-    X.copyToBuffer(X_NN)
-    y.copyToBuffer(y_NN)
+    X_NN = X
+    y_NN = y
   }
 
   /** Yield new collection of nearest neighbors
@@ -45,7 +43,7 @@ class kNNClassifier(k: Int = 3) extends Classifier {
 
     /** Predicts a label for a single instance */
   def getPrediction(x: List[Double], classes: List[Int]): Int = {
-    val nearest = getNearest(x, X_NN.toList, y_NN.toList, List.fill(k)(Tuple2(Double.MaxValue, -1)))
+    val nearest = getNearest(x, X_NN, y_NN, List.fill(k)(Tuple2(Double.MaxValue, -1)))
     val labels = for (dl <- nearest) yield dl._2
     val probab: List[Double] = for (l <- classes.sorted) yield 1.0 * labels.count(_==l) / labels.length
     probab.zipWithIndex.maxBy(_._1)._2
