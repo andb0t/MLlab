@@ -130,14 +130,12 @@ object Mllab {
       val X_test = testReader.getX()
       val y_test = testReader.getY()
 
-      println("Test feature vector: " + X_train.head + " with label " + y_train.head)
-
       val reg =
         if (conf.reg().isEmpty || conf.reg() == "Random") new RandomRegressor()
         else if (conf.reg() == "Linear") new LinearRegressor(maxIter=100, degree=1)
         else if (conf.reg() == "DecisionTree") new DecisionTreeRegressor(depth=6)
         else if (conf.reg() == "Bayes") new BayesRegressor(degree=1, model= "gaussian", savePlots= true)
-        else if (conf.reg() == "kNN") new kNNRegressor(k=10)
+        else if (conf.reg() == "kNN") new kNNRegressor(k=40)
         else throw new IllegalArgumentException("algorithm " + conf.reg() + " not implemented.")
       reg.train(X_train, y_train)
 
