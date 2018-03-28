@@ -19,6 +19,7 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
   * [Regression](#regression)
     * [Linear](#linear-regression)
     * [Bayes](#bayes-regression)
+    * [k-Nearest Neighbors](#k-nearest-neighbors-regression)
     * [Decision Tree](#decision-tree-regression)
 * [Algorithm details](#algorithm-details)
 
@@ -228,6 +229,17 @@ val reg = new BayesRegressor(degree=3)
 ```
 
 <img src="bayes_regression_cubic_example.png" width="500">
+
+
+#### k-Nearest Neighbors Regression
+This algorithm determines predicts the label of an instance from the mean of the labels of the k nearest instances in the training set.
+
+```scala
+val clf = new kNNRegressor(k=40)
+```
+Here is its performance on the cubic dataset.
+
+<img src="kNN_regression_cubic_example.png" width="500">
 
 
 #### Decision Tree Regression
