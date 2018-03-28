@@ -23,8 +23,8 @@ parser.add_argument("--reg",
 
 args = parser.parse_args()
 
-TARGET_DIR = os.path.join(os.path.dirname(__file__), '../src/test/resources')
-# TARGET_DIR = os.path.join(os.path.dirname(__file__), '../data')
+# TARGET_DIR = os.path.join(os.path.dirname(__file__), '../src/test/resources')
+TARGET_DIR = os.path.join(os.path.dirname(__file__), '../data')
 
 sign = functools.partial(math.copysign, 1)
 
