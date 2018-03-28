@@ -23,7 +23,8 @@ parser.add_argument("--reg",
 
 args = parser.parse_args()
 
-TARGET_DIR = os.path.join(os.path.dirname(__file__), '../data')
+TARGET_DIR = os.path.join(os.path.dirname(__file__), '../src/test/resources')
+# TARGET_DIR = os.path.join(os.path.dirname(__file__), '../data')
 
 sign = functools.partial(math.copysign, 1)
 
@@ -141,6 +142,7 @@ def generate_reg_point(strategy):
 
 if args.clf is not None:
     random.seed(1337)
+    nInstances = {'train': 1000, 'test': 500}
     for command in ['train', 'test']:
 
         filename = os.path.join(TARGET_DIR, 'clf_' + command + '.csv')
@@ -152,13 +154,13 @@ if args.clf is not None:
 
             print('Index X Y Type', file=myfile)
 
-            nInstances = 1000
-            for i in range(nInstances):
+            for i in range(nInstances[command]):
                 x, label = next(generate_clf_point(args.clf))
                 print('{} {} {}'.format(i, ' '.join(map(str, x)), label), file=myfile)
 
 if args.reg is not None:
     random.seed(1337)
+    nInstances = {'train': 1000, 'test': 100}
     for command in ['train', 'test']:
 
         filename = os.path.join(TARGET_DIR, 'reg_' + command + '.csv')
@@ -170,8 +172,7 @@ if args.reg is not None:
 
             print('Index X Y', file=myfile)
 
-            nInstances = 1000
-            for i in range(nInstances):
+            for i in range(nInstances[command]):
                 x, y = next(generate_reg_point(args.reg))
                 print('{} {} {}'.format(i, ' '.join(map(str, x)), y), file=myfile)
 
