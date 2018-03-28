@@ -53,6 +53,10 @@ object Mllab {
       default = Some(""),
       descr = "hyperparameters to pass to the algorithm"
     )
+    val noplots = opt[Boolean](
+      default = Some(false),
+      descr = "do not produce plots"
+    )
     verify()
   }
 
@@ -108,14 +112,16 @@ object Mllab {
       println("Recall: %.2f".format(Evaluation.recall(y_pred, y_test)))
       println("f1: %.2f".format(Evaluation.f1(y_pred, y_test)))
 
-      println("Visualize the data")
-      Plotting.plotClfData(X_train, y_train, name= conf.output() + "/clf_" + conf.clf() + "_data" + suff + "." + conf.format())
-      Plotting.plotClf(X_train, y_train, clf, name= conf.output() + "/clf_" + conf.clf() + "_clf" + suff + "." + conf.format())
-      Plotting.plotClf(X_test, y_test, clf, name= conf.output() + "/clf_" + conf.clf() + "_clf_test" + suff + "." + conf.format())
-      Plotting.plotClfGrid(X_train, clf, name= conf.output() + "/clf_" + conf.clf() + "_grid" + suff + "." + conf.format())
+      if (!conf.noplots()) {
+        println("Visualize the data")
+        Plotting.plotClfData(X_train, y_train, name= conf.output() + "/clf_" + conf.clf() + "_data" + suff + "." + conf.format())
+        Plotting.plotClf(X_train, y_train, clf, name= conf.output() + "/clf_" + conf.clf() + "_clf" + suff + "." + conf.format())
+        Plotting.plotClf(X_test, y_test, clf, name= conf.output() + "/clf_" + conf.clf() + "_clf_test" + suff + "." + conf.format())
+        Plotting.plotClfGrid(X_train, clf, name= conf.output() + "/clf_" + conf.clf() + "_grid" + suff + "." + conf.format())
 
-      for (diag <- clf.diagnostics)
-        Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/clf_" + conf.clf() + "_" + diag._1 + "" + suff + "." + conf.format())
+        for (diag <- clf.diagnostics)
+          Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/clf_" + conf.clf() + "_" + diag._1 + "" + suff + "." + conf.format())
+      }
     }
     else {
       println{"Train the regressor"}
@@ -150,13 +156,15 @@ object Mllab {
       println("R squared score: %.2f".format(Evaluation.RSqared(y_pred, y_test)))
       println("Mean Squared Log Error (MSLE): %.2f".format(Evaluation.MSLE(y_pred, y_test)))
 
-      println("Visualize the data")
-      Plotting.plotRegData(X_train, y_train, name= conf.output() + "/reg_" + conf.reg() + "_data" + suff + "." + conf.format())
-      Plotting.plotReg(X_train, y_train, reg, name= conf.output() + "/reg_" + conf.reg() + "_reg" + suff + "." + conf.format())
-      Plotting.plotReg(X_test, y_test, reg, name= conf.output() + "/reg_" + conf.reg() + "_reg_test" + suff + "." + conf.format())
+      if (!conf.noplots()) {
+        println("Visualize the data")
+        Plotting.plotRegData(X_train, y_train, name= conf.output() + "/reg_" + conf.reg() + "_data" + suff + "." + conf.format())
+        Plotting.plotReg(X_train, y_train, reg, name= conf.output() + "/reg_" + conf.reg() + "_reg" + suff + "." + conf.format())
+        Plotting.plotReg(X_test, y_test, reg, name= conf.output() + "/reg_" + conf.reg() + "_reg_test" + suff + "." + conf.format())
 
-      for (diag <- reg.diagnostics)
-        Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/reg_" + conf.reg() + "_" + diag._1 + "" + suff + "." + conf.format())
+        for (diag <- reg.diagnostics)
+          Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/reg_" + conf.reg() + "_" + diag._1 + "" + suff + "." + conf.format())
+      }
     }
   }
 }
