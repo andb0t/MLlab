@@ -40,6 +40,24 @@ class NeuralNetworkClassifier(
   var lossEvolution = new ListBuffer[(Double, Double)]()
   var alphaEvolution = new ListBuffer[(Double, Double)]()
 
+  /** Propagates the instances forward and saves the intermediate output
+   * @param X List of instance feature vectors
+   * @param W Sequence of weight matrices of the layers
+   * @param b Sequence of intercept vectors of the layers
+   * @param activation Activation function identifier
+   */
+  def propagateForward(X: DenseMatrix[Double], W: IndexedSeq[DenseMatrix[Double]], b: IndexedSeq[DenseVector[Double]], activation: String): List[DenseMatrix[Double]] = {
+    def walkLayersForward(inputA: DenseMatrix[Double], count: Int, upd: List[DenseMatrix[Double]]): List[DenseMatrix[Double]] = {
+      if (count < b.size - 1) {
+        val Z: DenseMatrix[Double] = NeuralNetwork.neuronTrafo(inputA, W(count), b(count))  // (nInstances, 10)
+        val A: DenseMatrix[Double] = NeuralNetwork.activate(Z, activation)  // (nInstances, 10)
+        walkLayersForward(A, count + 1, A :: upd)
+      }
+      else upd
+    }
+    walkLayersForward(X, 0, Nil).reverse
+  }
+
   def train(listX: List[List[Double]], listy: List[Int]): Unit = {
     require(listX.length == listy.length, "number of training instances and labels is not equal")
     val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
@@ -72,19 +90,7 @@ class NeuralNetworkClassifier(
         val thisy: DenseVector[Int] = y(thisBatch).toDenseVector
 
         // forward propagation
-        def propagateForward(
-          inputA: DenseMatrix[Double],
-          count: Int,
-          upd: List[DenseMatrix[Double]]
-        ): List[DenseMatrix[Double]] = {
-          if (count < layers.length - 2) {
-            val Z: DenseMatrix[Double] = NeuralNetwork.neuronTrafo(inputA, W(count), b(count))  // (nInstances, 10)
-            val A: DenseMatrix[Double] = NeuralNetwork.activate(Z, activation)  // (nInstances, 10)
-            propagateForward(A, count + 1, A :: upd)
-          }
-          else upd
-        }
-        val A = propagateForward(thisX, 0, Nil).reverse
+        val A = propagateForward(thisX, W, b, activation)
 
         // backward propagation
 
@@ -93,15 +99,11 @@ class NeuralNetworkClassifier(
         val deltaOutput: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, layers.head){
           case (i, j) => if (j == thisy(i)) probs(i, j) - 1 else probs(i, j)
         }
-        val dWoutput: DenseMatrix[Double] = A(layers.length - 3).t * deltaOutput + regularization *:* W(layers.length - 2)  // (10, 2)
+        val dWoutput: DenseMatrix[Double] = A(b.size - 2).t * deltaOutput + regularization *:* W(b.size - 1)  // (10, 2)
         val dboutput: DenseVector[Double] = sum(deltaOutput.t(*, ::))  // (2)
 
         // other layers
-        def propagateBack(
-          deltaPlus: DenseMatrix[Double],
-          count: Int,
-          upd: List[Tuple2[DenseMatrix[Double], DenseVector[Double]]]
-        ): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
+        def propagateBack(deltaPlus: DenseMatrix[Double], count: Int, upd: List[Tuple2[DenseMatrix[Double], DenseVector[Double]]]): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
           if (count >= 0) {
             val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count+1).t  // (nInstances, 10)
             val partDerivActiv: DenseMatrix[Double] = NeuralNetwork.derivActivate(A(count), activation)  // (nInstances, 10)
@@ -113,17 +115,17 @@ class NeuralNetworkClassifier(
           }
           else upd
         }
-        val dWdb = propagateBack(deltaOutput, layers.length - 3, Nil)
+        val dWdb = propagateBack(deltaOutput, b.size - 2, Nil)
 
         def updateWeights(count: Int): Unit = {
-          if (count < layers.length - 2) {
+          if (count < b.size - 1) {
             W(count) :+= -decayedAlpha *:* dWdb(count)._1
             b(count) :+= -decayedAlpha *:* dWdb(count)._2
             updateWeights(count + 1)
           }
           else{
-            W(layers.length - 2) :+= -decayedAlpha *:* dWoutput
-            b(layers.length - 2) :+= -decayedAlpha *:* dboutput
+            W(b.size - 1) :+= -decayedAlpha *:* dWoutput
+            b(b.size - 1) :+= -decayedAlpha *:* dboutput
           }
         }
         updateWeights(0)
