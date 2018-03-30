@@ -20,6 +20,12 @@ parser.add_argument("--reg",
                              'quadratic', 'twodimquadratic', 'cubic',
                              'twodimcubic'],
                     help='create regression data with specified shape')
+parser.add_argument("--clu",
+                    default=None,
+                    choices=['circles', 'squares'],
+                    help='create clustering data with specified shape')
+
+
 
 args = parser.parse_args()
 
@@ -140,6 +146,35 @@ def generate_reg_point(strategy):
         yield (x, y)
 
 
+def generate_clu_point(strategy):
+    while True:
+        label = 0
+        x = [0, 0]
+        if strategy == 'squares':
+            label = random.randint(0, 2)  # three circles
+            r = 0.25
+            x0Center = 0 if label == 2 else (label * 2 - 1) * 0.5
+            x1Center = -0.5 if label == 2 else 0.5
+            x0 = x0Center + r * (2 * random.random() - 1)
+            x1 = x1Center + r * (2 * random.random() - 1)
+            x = [x0, x1]
+        elif strategy == 'circles':
+            label = random.randint(0, 2)  # three circles
+            r = 0.25 * random.random()
+            angle = 2 * np.pi * random.random()
+            x0Center = 0 if label == 2 else (label * 2 - 1) * 0.5
+            x1Center = -0.5 if label == 2 else 0.5
+            x0 = x0Center + r * np.cos(angle)
+            x1 = x1Center + r * np.sin(angle)
+            x = [x0, x1]
+        else:
+            raise NotImplementedError('this shape is not implemented for clf')
+
+        x = list(map(lambda xs: round(xs, 2), x))
+
+        yield (x, label)
+
+
 if args.clf is not None:
     random.seed(1337)
     nInstances = {'train': 1000, 'test': 500}
@@ -176,7 +211,25 @@ if args.reg is not None:
                 x, y = next(generate_reg_point(args.reg))
                 print('{} {} {}'.format(i, ' '.join(map(str, x)), y), file=myfile)
 
-if args.clf is None and args.reg is None:
+if args.clu is not None:
+    random.seed(1337)
+    nInstances = {'test': 500}
+    for command in ['test']:
+
+        filename = os.path.join(TARGET_DIR, 'clu_' + command + '.csv')
+        print('Creating data in', filename)
+        print('Shape:', args.clu)
+        print('Example:', next(generate_clu_point(args.clu)))
+
+        with open(filename, 'w') as myfile:
+
+            print('Index X Y Type', file=myfile)
+
+            for i in range(nInstances[command]):
+                x, label = next(generate_clu_point(args.clu))
+                print('{} {} {}'.format(i, ' '.join(map(str, x)), label), file=myfile)
+
+if args.clf is None and args.reg is None and args.clu is None:
     print('Nothing to do.')
 else:
     print('Done.')
