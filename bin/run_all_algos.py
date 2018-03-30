@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 algoDict = {'clf': ['DecisionTree', 'kNN', 'LogisticRegression', 'NaiveBayes',
                     'NeuralNetwork', 'Perceptron', 'Random', 'SVM'],
-            'reg': ['Bayes', 'DecisionTree', 'Linear', 'Random']}
+            'reg': ['Bayes', 'DecisionTree', 'kNN', 'Linear', 'NeuralNetwork', 'Random']}
 
 datasets = {'linear': {'input': 'src/test/resources'},
             'nonlinear': {'input': 'data'}}
