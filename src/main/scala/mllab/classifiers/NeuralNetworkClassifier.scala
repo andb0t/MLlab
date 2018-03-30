@@ -60,25 +60,27 @@ class NeuralNetworkClassifier(
 
       if (count < maxEpoch) {
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5)) {
-          val loss = NeuralNetwork.getLoss(X, y, W, b, activation, regularization)
+          val output = NeuralNetwork.feedForward(X, W, b, activation)
+          val loss = NeuralNetwork.getLossClf(output, y, W, regularization)
           lossEvolution += Tuple2(count.toDouble, loss)
           println("- epoch% 4d: alpha %.2e, loss %.4e".format(count, decayedAlpha, loss))
         }
 
-        val thisBatch: Seq[Int] =
+        val randomIndices: Seq[Int] =
           if (batchSize != -1)  Seq.fill(batchSize)(scala.util.Random.nextInt(X.rows))
           else 0 until X.rows
-        val thisX: DenseMatrix[Double] = X(thisBatch, ::).toDenseMatrix
-        val thisy: DenseVector[Int] = y(thisBatch).toDenseVector
+        val thisX: DenseMatrix[Double] = X(randomIndices, ::).toDenseMatrix
+        val thisy: DenseVector[Int] = y(randomIndices).toDenseVector
 
         // forward propagation
         val A = NeuralNetwork.propagateForward(thisX, W, b, activation)
 
         // backward propagation
         // output layer
-        val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(thisX, W, b, activation)  // (nInstances, 2)
+        val Z = NeuralNetwork.feedForward(thisX, W, b, activation)
+        val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(Z)  // (nInstances, 2)
         // distance to truth at output layer
-        val delta: DenseMatrix[Double] = DenseMatrix.tabulate(thisX.rows, layers.head){
+        val delta: DenseMatrix[Double] = DenseMatrix.tabulate(Z.rows, layers.head){
           case (i, j) => if (j == thisy(i)) probs(i, j) - 1 else probs(i, j)
         }
         val dWoutputLayer: DenseMatrix[Double] = A(b.size - 2).t * delta + regularization *:* W(b.size - 1)  // (10, 2)
@@ -101,8 +103,10 @@ class NeuralNetworkClassifier(
         updateWeights(0)
 
         gradientDescent(count + 1)
-      }else {
-        val loss = NeuralNetwork.getLoss(X, y, W, b, activation, regularization)
+      }
+      else {
+        val output = NeuralNetwork.feedForward(X, W, b, activation)
+        val loss = NeuralNetwork.getLossClf(output, y, W, regularization)
         lossEvolution += Tuple2(count.toDouble, loss)
         println(s"Training finished after $count epochs with loss " + loss)
       }
@@ -120,8 +124,9 @@ class NeuralNetworkClassifier(
   }
 
   override def diagnostics(): Map[String, List[(Double, Double)]] = {
-    Map("loss" -> lossEvolution.toList,
-        "alpha" -> alphaEvolution.toList
+    Map(
+      "loss" -> lossEvolution.toList,
+      "alpha" -> alphaEvolution.toList
       )
   }
 

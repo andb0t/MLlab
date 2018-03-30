@@ -44,6 +44,30 @@ object NeuralNetwork {
     else if (activation == "perceptron") DenseMatrix.zeros[Double](A.rows, A.cols)
     else throw new Exception("activation function not implented")
 
+    /** Transforms the instance vectors in probability vectors
+    * @param Z List of instance network output vectors
+    * @return Vectors of probabilities to belong th each class
+    */
+    def getProbabilities(Z: DenseMatrix[Double]): DenseMatrix[Double] = {
+      val expScores = exp(Z)
+      val expSums = sum(expScores(*, ::))
+      expScores(::, *) / expSums  // softmax
+    }
+
+    /** Calculates the classification loss of the predictions vs the truth
+     * @param Z List of instance network output vectors
+     * @param y List of instance labels
+     * @param W Sequence of weight matrices of the layers
+     * @param regularization Regularization parameter
+     */
+    def getLossClf(Z: DenseMatrix[Double], y: DenseVector[Int], W: IndexedSeq[DenseMatrix[Double]], regularization: Double): Double = {
+      val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(Z)
+      val correctLogProbs: DenseVector[Double] = DenseVector.tabulate(y.size){i => -Math.log(probs(i, y(i)))}
+      val dataLoss: Double = correctLogProbs.sum
+      val dataLossReg: Double = dataLoss + regularization / 2 * W.map(w => pow(w, 2).sum).sum
+      dataLossReg / Z.rows
+    }
+
   /** Creates the neural network output by feeding all instances the network
    * @param X List of input instance feature vectors
    * @param W Sequence of weight matrices of the layers
@@ -62,36 +86,6 @@ object NeuralNetwork {
         NeuralNetwork.neuronTrafo(X, W(count), b(count))
       }
     applyLayer(X, 0)
-  }
-
-  /** Calculates for each instance the probability vector to belong to each class from the relative output neuron values
-   * @param X List of instance feature vectors
-   * @param W Sequence of weight matrices of the layers
-   * @param b Sequence of intercept vectors of the layers
-   * @param activation Activation function identifier
-   * @return Vectors of probabilities to belong th each class
-   */
-  def getProbabilities(X: DenseMatrix[Double], W: IndexedSeq[DenseMatrix[Double]], b: IndexedSeq[DenseVector[Double]], activation: String): DenseMatrix[Double] = {
-    val Z = NeuralNetwork.feedForward(X, W, b, activation)
-    val expScores = exp(Z)
-    val expSums = sum(expScores(*, ::))
-    expScores(::, *) / expSums  // softmax
-  }
-
-  /** Calculates the classification loss of the predictions vs the truth
-   * @param X List of instance feature vectors
-   * @param y List of instance labels
-   * @param W Sequence of weight matrices of the layers
-   * @param b Sequence of intercept vectors of the layers
-   * @param activation Activation function identifier
-   * @param regularization Regularization parameter
-   */
-  def getLoss(X: DenseMatrix[Double], y: DenseVector[Int], W: IndexedSeq[DenseMatrix[Double]], b: IndexedSeq[DenseVector[Double]], activation: String, regularization: Double): Double = {
-    val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(X, W, b, activation)
-    val correctLogProbs: DenseVector[Double] = DenseVector.tabulate(y.size){i => -Math.log(probs(i, y(i)))}
-    val dataLoss: Double = correctLogProbs.sum
-    val dataLossReg: Double = dataLoss + regularization / 2 * W.map(w => pow(w, 2).sum).sum
-    dataLossReg / X.rows
   }
 
   /** Propagates the instances forward and saves the intermediate output
