@@ -1,5 +1,9 @@
 package clustering
 
+import scala.collection.mutable.ListBuffer
+
+import datastructures._
+
 
 /** Random clustering
  *
@@ -9,9 +13,17 @@ class RandomClustering() extends Clustering {
 
   val name: String = "RandomClustering"
 
-  var nFeatures: Int = 3
+  var centroidEvolution = new ListBuffer[List[List[Double]]]()
 
-  def predict(X: List[List[Double]]): List[Int] =
-    for (instance <- X) yield (Math.random * nFeatures).toInt
+  var k: Int = 3
+
+  def clusterMeans(): List[List[List[Double]]] =
+    centroidEvolution.toList.transpose
+
+  def predict(X: List[List[Double]]): List[Int] = {
+    val result = for (instance <- X) yield (Math.random * k).toInt
+    centroidEvolution += kMeans.getCentroids(X, result, k)
+    result
+  }
 
 }

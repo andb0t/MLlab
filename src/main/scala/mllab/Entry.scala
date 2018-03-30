@@ -93,6 +93,9 @@ object Mllab {
         println("Visualize the data")
         Plotting.plotClfData(X_test, y_test, name= conf.output() + "/clu_" + conf.clu() + "_data" + suff + "." + conf.format())
         Plotting.plotClu(X_test, y_pred, clu, name= conf.output() + "/clu_" + conf.clu() + "_clu_test" + suff + "." + conf.format())
+
+        for (diag <- clu.diagnostics)
+          Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/clu_" + conf.clf() + "_" + diag._1 + "" + suff + "." + conf.format())
       }
     }
     else if (!conf.clf().isEmpty) {
