@@ -92,7 +92,7 @@ object Mllab {
       if (!conf.noplots()) {
         println("Visualize the data")
         Plotting.plotClfData(X_test, y_test, name= conf.output() + "/clu_" + conf.clu() + "_data" + suff + "." + conf.format())
-        Plotting.plotClu(X_test, clu, name= conf.output() + "/clu_" + conf.clu() + "_clu_test" + suff + "." + conf.format())
+        Plotting.plotClu(X_test, y_pred, clu, name= conf.output() + "/clu_" + conf.clu() + "_clu_test" + suff + "." + conf.format())
       }
     }
     else if (!conf.clf().isEmpty) {

@@ -69,11 +69,11 @@ object Plotting {
 
   /** Plot labeled data and classifier decision
    *@param data List of features
+   *@param predictions List of predicted classes
    *@param clu Trained classifier
    *@param name Path to save the plot
    */
-  def plotClu(data: List[List[Double]], clu: Clustering, name: String="plots/clu.pdf"): Unit = {
-    val predictions = clu.predict(data)
+  def plotClu(data: List[List[Double]], predictions: List[Int], clu: Clustering, name: String="plots/clu.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
