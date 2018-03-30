@@ -2,7 +2,7 @@ package clustering
 
 import scala.collection.mutable.ListBuffer
 
-import datastructures._
+import algorithms._
 
 
 /** Random clustering

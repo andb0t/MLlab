@@ -2,7 +2,7 @@ package regressors
 
 import breeze.linalg._
 
-import datastructures._
+import algorithms._
 import plotting._
 import utils._
 

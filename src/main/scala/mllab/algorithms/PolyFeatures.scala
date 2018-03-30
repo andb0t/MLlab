@@ -1,4 +1,4 @@
-package datastructures
+package algorithms
 
 /** Provides some internal data preprocessing functions */
 object DataTrafo {

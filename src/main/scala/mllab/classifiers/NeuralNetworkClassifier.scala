@@ -6,7 +6,7 @@ import breeze.linalg._
 import breeze.numerics._
 
 import utils._
-import datastructures._
+import algorithms._
 
 
 /** Neural network classifier

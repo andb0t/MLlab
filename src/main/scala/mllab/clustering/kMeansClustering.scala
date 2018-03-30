@@ -2,7 +2,7 @@ package clustering
 
 import scala.collection.mutable.ListBuffer
 
-import datastructures._
+import algorithms._
 import utils._
 
 
@@ -39,7 +39,7 @@ class kMeansClustering(k: Int = 3) extends Clustering {
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5)) {
           val loss = kMeans.getLoss(X, newy, centroids)
           lossEvolution += Tuple2(count.toDouble, loss)
-          println("Step% 4d with loss %.5e".format(count, loss))
+          println("Step% 5d with loss %.4e".format(count, loss))
         }
         centroidEvolution += centroids
         val newCentroids: List[List[Double]] = kMeans.getCentroids(X, newy, k)

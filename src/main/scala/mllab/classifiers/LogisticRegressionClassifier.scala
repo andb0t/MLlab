@@ -2,7 +2,7 @@ package classifiers
 
 import scala.collection.mutable.ListBuffer
 
-import datastructures._
+import algorithms._
 import evaluation._
 import utils._
 

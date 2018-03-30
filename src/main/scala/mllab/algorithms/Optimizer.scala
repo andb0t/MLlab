@@ -1,4 +1,4 @@
-package datastructures
+package algorithms
 
 import utils._
 

@@ -1,4 +1,4 @@
-package datastructures
+package algorithms
 
 import breeze.linalg._
 import breeze.numerics._

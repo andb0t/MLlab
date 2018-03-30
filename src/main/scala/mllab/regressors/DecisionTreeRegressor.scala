@@ -1,6 +1,6 @@
 package regressors
 
-import datastructures._
+import algorithms._
 
 
 /** Decision tree regressor

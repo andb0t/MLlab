@@ -1,6 +1,6 @@
 package classifiers
 
-import datastructures._
+import algorithms._
 import utils._
 
 

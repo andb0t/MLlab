@@ -5,7 +5,7 @@ import scala.collection.mutable.ListBuffer
 import breeze.linalg._
 
 import utils._
-import datastructures._
+import algorithms._
 
 
 /** Neural network regressor
