@@ -6,6 +6,11 @@ import utils._
 /** Provides functions for the k-means clustering algorithm */
 object kMeans {
 
+  /** Calculates the geometrical centers of the given clusters
+   * @param X list of instances
+   * @param y list of cluster association
+   * @param k the total number of clusters
+   */
   def getCentroids(X: List[List[Double]], y: List[Int], k: Int): List[List[Double]] = {
     (for (c <- 0 until k) yield {
       val cluster = (X zip y).filter(_._2 == c).map(_._1)
@@ -21,6 +26,11 @@ object kMeans {
     }).toList
   }
 
+  /** Calculates the loss of the current clustering
+   * @param X list of instances
+   * @param y list of cluster association
+   * @param centroids coordinates of the centroids
+   */
   def getLoss(X: List[List[Double]], y: List[Int], centroids: List[List[Double]]): Double = {
     (for (c <- 0 until centroids.length) yield {
       val cluster = (X zip y).filter(_._2 == c).map(_._1)
