@@ -70,7 +70,8 @@ class NeuralNetworkRegressor(
           val Z = NeuralNetwork.feedForward(thisX, W, b, activation)
           assert (Z.cols == 1)
           val delta: DenseMatrix[Double] = DenseMatrix.tabulate(Z.rows, layers.last){
-            case (i, j) => thisy(i) - Z(i, j)
+            case (i, j) => Z(i, j) - thisy(i)
+            // case (i, j) => thisy(i) - Z(i, j)
           }
           // determine weight update output layer
           val dWoutputLayer: DenseMatrix[Double] = A(b.size - 2).t * delta + regularization *:* W(b.size - 1)  // (10, 2)
@@ -81,13 +82,13 @@ class NeuralNetworkRegressor(
 
           def updateWeights(count: Int): Unit = {
             if (count < b.size - 1) {
-              W(count) :+= decayedAlpha *:* updateInnerLayers(count)._1
-              b(count) :+= decayedAlpha *:* updateInnerLayers(count)._2
+              W(count) :+= -decayedAlpha *:* updateInnerLayers(count)._1
+              b(count) :+= -decayedAlpha *:* updateInnerLayers(count)._2
               updateWeights(count + 1)
             }
             else{
-              W(b.size - 1) :+= decayedAlpha *:* updateOutputLayer._1
-              b(b.size - 1) :+= decayedAlpha *:* updateOutputLayer._2
+              W(b.size - 1) :+= -decayedAlpha *:* updateOutputLayer._1
+              b(b.size - 1) :+= -decayedAlpha *:* updateOutputLayer._2
             }
           }
           updateWeights(0)
