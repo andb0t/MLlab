@@ -3,6 +3,7 @@ package mllab
 import org.rogach.scallop._
 
 import classifiers._
+import clustering._
 import data._
 import evaluation._
 import plotting._
@@ -29,7 +30,13 @@ object Mllab {
       descr = "specify regression algorithm"
       // validate = (s: String) => List("", "kNN", "Linear", "Random").contains(s)
     )
+    val clu = opt[String](
+      default = Some(""),
+      descr = "specify clustering algorithm"
+    )
     mutuallyExclusive(clf, reg)
+    mutuallyExclusive(clu, reg)
+    mutuallyExclusive(clf, clu)
     val input = opt[String](
       default = Some("src/test/resources"),
       descr = "directory containing the input data"
@@ -66,8 +73,29 @@ object Mllab {
 
     val suff = if (conf.suffix() != "") "_" + conf.suffix() else ""
 
-    if (!conf.clf().isEmpty) {
-      println{"Train the classifier"}
+    if (!conf.clu().isEmpty) {
+      println("Train the clustering")
+
+      val testReader = new Reader(conf.input() + "/clu_test.csv", label= -1, index=0)
+      testReader.loadFile()
+      val X_test = testReader.getX()
+      val y_test = testReader.getY().map(_.toInt)
+
+      val clu =
+        if (conf.clu().isEmpty || conf.clu() == "Random") new RandomClustering()
+        else throw new IllegalArgumentException("algorithm " + conf.clu() + " not implemented.")
+
+      val y_pred = clu.predict(X_test)
+      assert (y_pred.length == y_test.length)
+
+      if (!conf.noplots()) {
+        println("Visualize the data")
+        Plotting.plotClfData(X_test, y_test, name= conf.output() + "/clu_" + conf.clu() + "_data" + suff + "." + conf.format())
+        Plotting.plotClu(X_test, clu, name= conf.output() + "/clu_" + conf.clu() + "_clu_test" + suff + "." + conf.format())
+      }
+    }
+    else if (!conf.clf().isEmpty) {
+      println("Train the classifier")
 
       val trainReader = new Reader(conf.input() + "/clf_train.csv", label= -1, index=0)
       trainReader.loadFile()
@@ -122,7 +150,7 @@ object Mllab {
       }
     }
     else {
-      println{"Train the regressor"}
+      println("Train the regressor")
 
       val trainReader = new Reader(conf.input() + "/reg_train.csv", label= -1, index=0)
       trainReader.loadFile()
