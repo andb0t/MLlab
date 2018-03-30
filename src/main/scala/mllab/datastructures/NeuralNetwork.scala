@@ -83,6 +83,19 @@ object NeuralNetwork {
       dataLossRegularized / Z.rows
     }
 
+  def getDeltaReg(Z: DenseMatrix[Double], y: DenseVector[Double]): DenseMatrix[Double] = {
+    DenseMatrix.tabulate(Z.rows, Z.cols){
+      case (i, j) => Z(i, j) - y(i)
+    }
+  }
+
+  def getDeltaClf(Z: DenseMatrix[Double], y: DenseVector[Int]): DenseMatrix[Double] = {
+    val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(Z)  // (nInstances, 2)
+    DenseMatrix.tabulate(Z.rows, Z.cols){
+      case (i, j) => if (j == y(i)) probs(i, j) - 1 else probs(i, j)
+    }
+  }
+
   /** Creates the neural network output by feeding all instances the network
    * @param X List of input instance feature vectors
    * @param W Sequence of weight matrices of the layers
@@ -146,6 +159,11 @@ object NeuralNetwork {
     activation: String,
     regularization: Double
   ): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
+
+    val dWoutputLayer: DenseMatrix[Double] = A(b.size - 2).t * delta + regularization *:* W(b.size - 1)  // (10, 2)
+    val dboutputLayer: DenseVector[Double] = sum(delta.t(*, ::))  // (2)
+    val updateOutputLayer = Tuple2(dWoutputLayer, dboutputLayer)
+
     def walkLayersBack(deltaPlus: DenseMatrix[Double], count: Int, upd: List[Tuple2[DenseMatrix[Double], DenseVector[Double]]]): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
       if (count >= 0) {
         val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count+1).t  // (nInstances, 10)
@@ -158,7 +176,9 @@ object NeuralNetwork {
       }
       else upd
     }
-    walkLayersBack(delta, b.size - 2, Nil)
+    val updateInnerLayers = walkLayersBack(delta, b.size - 2, Nil)
+
+    updateInnerLayers ::: List(updateOutputLayer)
   }
 
 }

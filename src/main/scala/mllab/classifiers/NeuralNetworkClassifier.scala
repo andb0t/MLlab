@@ -66,38 +66,22 @@ class NeuralNetworkClassifier(
           println("- epoch% 4d: alpha %.2e, loss %.4e".format(count, decayedAlpha, loss))
         }
 
-        val randomIndices: Seq[Int] =
-          if (batchSize != -1)  Seq.fill(batchSize)(scala.util.Random.nextInt(X.rows))
-          else 0 until X.rows
-        val thisX: DenseMatrix[Double] = X(randomIndices, ::).toDenseMatrix
-        val thisy: DenseVector[Int] = y(randomIndices).toDenseVector
-
+        // use random instances for training
+        val (thisX, thisy) = Trafo.randomizeInstancesInt(X, y, batchSize)
         // forward propagation
         val A = NeuralNetwork.propagateForward(thisX, W, b, activation)
-
         // backward propagation
-        val Z = NeuralNetwork.feedForward(thisX, W, b, activation)
-        val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(Z)  // (nInstances, 2)
         // distance to truth at output layer
-        val delta: DenseMatrix[Double] = DenseMatrix.tabulate(Z.rows, layers.last){
-          case (i, j) => if (j == thisy(i)) probs(i, j) - 1 else probs(i, j)
-        }
-        // determine weight update output layer
-        val dWoutputLayer: DenseMatrix[Double] = A(b.size - 2).t * delta + regularization *:* W(b.size - 1)  // (10, 2)
-        val dboutputLayer: DenseVector[Double] = sum(delta.t(*, ::))  // (2)
-        val updateOutputLayer = Tuple2(dWoutputLayer, dboutputLayer)
-        // determine weight updates other layers
-        val updateInnerLayers = NeuralNetwork.propagateBack(delta, A, thisX, W, b, activation, regularization)
+        val Z = NeuralNetwork.feedForward(thisX, W, b, activation)
+        val outputDelta: DenseMatrix[Double] = NeuralNetwork.getDeltaClf(Z, thisy)
+        // determine weight updates for all layers
+        val layerUpdates = NeuralNetwork.propagateBack(outputDelta, A, thisX, W, b, activation, regularization)
 
         def updateWeights(count: Int): Unit = {
-          if (count < b.size - 1) {
-            W(count) :+= -decayedAlpha *:* updateInnerLayers(count)._1
-            b(count) :+= -decayedAlpha *:* updateInnerLayers(count)._2
+          if (count < b.size) {
+            W(count) :+= -decayedAlpha *:* layerUpdates(count)._1
+            b(count) :+= -decayedAlpha *:* layerUpdates(count)._2
             updateWeights(count + 1)
-          }
-          else{
-            W(b.size - 1) :+= -decayedAlpha *:* updateOutputLayer._1
-            b(b.size - 1) :+= -decayedAlpha *:* updateOutputLayer._2
           }
         }
         updateWeights(0)
