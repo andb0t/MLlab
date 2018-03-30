@@ -5,9 +5,9 @@ import subprocess
 parser = argparse.ArgumentParser()
 parser.add_argument('command',
                     nargs='?',
-                    choices=['clf', 'reg'],
-                    default=['clf', 'reg'],
-                    help='create data for classification and/or regression')
+                    choices=['clf', 'reg', 'clu'],
+                    default=['clf', 'reg', 'clu'],
+                    help='create data for classification, regression and/or clustering')
 parser.add_argument("--format",
                     default='pdf',
                     choices=['pdf', 'png'],
@@ -16,7 +16,8 @@ args = parser.parse_args()
 
 algoDict = {'clf': ['DecisionTree', 'kNN', 'LogisticRegression', 'NaiveBayes',
                     'NeuralNetwork', 'Perceptron', 'Random', 'SVM'],
-            'reg': ['Bayes', 'DecisionTree', 'kNN', 'Linear', 'NeuralNetwork', 'Random']}
+            'reg': ['Bayes', 'DecisionTree', 'kNN', 'Linear', 'NeuralNetwork', 'Random'],
+            'clu': ['Random']}
 
 datasets = {'linear': {'input': 'src/test/resources'},
             'nonlinear': {'input': 'data'}}
