@@ -113,7 +113,7 @@ object Mllab {
       if (!conf.noplots()) {
         println("Visualize the data")
         Plotting.plotClfData(X_train, y_train, name= conf.output() + "/clf_" + conf.clf() + "_data" + suff + "." + conf.format())
-        Plotting.plotClf(X_train, y_train, clf, name= conf.output() + "/clf_" + conf.clf() + "_clf" + suff + "." + conf.format())
+        Plotting.plotClf(X_train, y_train, clf, name= conf.output() + "/clf_" + conf.clf() + "_clf_train" + suff + "." + conf.format())
         Plotting.plotClf(X_test, y_test, clf, name= conf.output() + "/clf_" + conf.clf() + "_clf_test" + suff + "." + conf.format())
         Plotting.plotClfGrid(X_train, clf, name= conf.output() + "/clf_" + conf.clf() + "_grid" + suff + "." + conf.format())
 
@@ -158,7 +158,7 @@ object Mllab {
       if (!conf.noplots()) {
         println("Visualize the data")
         Plotting.plotRegData(X_train, y_train, name= conf.output() + "/reg_" + conf.reg() + "_data" + suff + "." + conf.format())
-        Plotting.plotReg(X_train, y_train, reg, name= conf.output() + "/reg_" + conf.reg() + "_reg" + suff + "." + conf.format())
+        Plotting.plotReg(X_train, y_train, reg, name= conf.output() + "/reg_" + conf.reg() + "_reg_train" + suff + "." + conf.format())
         Plotting.plotReg(X_test, y_test, reg, name= conf.output() + "/reg_" + conf.reg() + "_reg_test" + suff + "." + conf.format())
 
         for (diag <- reg.diagnostics)
