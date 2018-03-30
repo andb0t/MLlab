@@ -64,8 +64,23 @@ object NeuralNetwork {
       val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(Z)
       val correctLogProbs: DenseVector[Double] = DenseVector.tabulate(y.size){i => -Math.log(probs(i, y(i)))}
       val dataLoss: Double = correctLogProbs.sum
-      val dataLossReg: Double = dataLoss + regularization / 2 * W.map(w => pow(w, 2).sum).sum
-      dataLossReg / Z.rows
+      val dataLossRegularized: Double = dataLoss + regularization / 2 * W.map(w => pow(w, 2).sum).sum
+      dataLossRegularized / Z.rows
+    }
+
+    /** Calculates the regression loss of the predictions vs the truth
+     * @param Z List of instance network output vectors
+     * @param y List of instance labels
+     * @param W Sequence of weight matrices of the layers
+     * @param regularization Regularization parameter
+     */
+    def getLossReg(Z: DenseMatrix[Double], y: DenseVector[Double], W: IndexedSeq[DenseMatrix[Double]], regularization: Double): Double = {
+      val delta: DenseMatrix[Double] = DenseMatrix.tabulate(Z.rows, 1){
+        case (i, j) => Math.pow(Z(i, j) - y(i), 2)
+      }
+      val dataLoss: Double = delta.sum
+      val dataLossRegularized: Double = dataLoss + regularization / 2 * W.map(w => pow(w, 2).sum).sum
+      dataLossRegularized / Z.rows
     }
 
   /** Creates the neural network output by feeding all instances the network
