@@ -310,40 +310,91 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="datastructures.NeuralNetwork#getLoss" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getLoss(X:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Int],W:IndexedSeq[breeze.linalg.DenseMatrix[Double]],b:IndexedSeq[breeze.linalg.DenseVector[Double]],activation:String,regularization:Double):Double"></a>
-      <a id="getLoss(DenseMatrix[Double],DenseVector[Int],IndexedSeq[DenseMatrix[Double]],IndexedSeq[DenseVector[Double]],String,Double):Double"></a>
+    </li><li name="datastructures.NeuralNetwork#getDeltaClf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDeltaClf(Z:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Int]):breeze.linalg.DenseMatrix[Double]"></a>
+      <a id="getDeltaClf(DenseMatrix[Double],DenseVector[Int]):DenseMatrix[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getLoss</span><span class="params">(<span name="X">X: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y">y: <span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="W">W: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="b">b: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="activation">activation: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="regularization">regularization: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+        <span class="name">getDeltaClf</span><span class="params">(<span name="Z">Z: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y">y: <span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#datastructures.NeuralNetwork$@getLoss(X:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Int],W:IndexedSeq[breeze.linalg.DenseMatrix[Double]],b:IndexedSeq[breeze.linalg.DenseVector[Double]],activation:String,regularization:Double):Double" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.NeuralNetwork$@getDeltaClf(Z:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Int]):breeze.linalg.DenseMatrix[Double]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Calculates the classification loss of the predictions vs the truth</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the classification loss of the predictions vs the truth</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>List of instance feature vectors</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of instance labels</p></dd><dt class="param">W</dt><dd class="cmt"><p>Sequence of weight matrices of the layers</p></dd><dt class="param">b</dt><dd class="cmt"><p>Sequence of intercept vectors of the layers</p></dd><dt class="param">activation</dt><dd class="cmt"><p>Activation function identifier</p></dd><dt class="param">regularization</dt><dd class="cmt"><p>Regularization parameter</p></dd></dl></div>
+      <p class="shortcomment cmt">Calculates the distance of the NN output to the truth for classification</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the distance of the NN output to the truth for classification</p></div><dl class="paramcmts block"><dt class="param">Z</dt><dd class="cmt"><p>List of instance network output vectors</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of instance labels</p></dd></dl></div>
+    </li><li name="datastructures.NeuralNetwork#getDeltaReg" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDeltaReg(Z:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Double]):breeze.linalg.DenseMatrix[Double]"></a>
+      <a id="getDeltaReg(DenseMatrix[Double],DenseVector[Double]):DenseMatrix[Double]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDeltaReg</span><span class="params">(<span name="Z">Z: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y">y: <span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.NeuralNetwork$@getDeltaReg(Z:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Double]):breeze.linalg.DenseMatrix[Double]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Calculates the distance of the NN output to the truth for regression</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the distance of the NN output to the truth for regression</p></div><dl class="paramcmts block"><dt class="param">Z</dt><dd class="cmt"><p>List of instance network output vectors</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of instance labels</p></dd></dl></div>
+    </li><li name="datastructures.NeuralNetwork#getLossClf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getLossClf(Z:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Int],W:IndexedSeq[breeze.linalg.DenseMatrix[Double]],regularization:Double):Double"></a>
+      <a id="getLossClf(DenseMatrix[Double],DenseVector[Int],IndexedSeq[DenseMatrix[Double]],Double):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLossClf</span><span class="params">(<span name="Z">Z: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y">y: <span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="W">W: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="regularization">regularization: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.NeuralNetwork$@getLossClf(Z:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Int],W:IndexedSeq[breeze.linalg.DenseMatrix[Double]],regularization:Double):Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Calculates the classification loss of the predictions vs the truth</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the classification loss of the predictions vs the truth</p></div><dl class="paramcmts block"><dt class="param">Z</dt><dd class="cmt"><p>List of instance network output vectors</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of instance labels</p></dd><dt class="param">W</dt><dd class="cmt"><p>Sequence of weight matrices of the layers</p></dd><dt class="param">regularization</dt><dd class="cmt"><p>Regularization parameter</p></dd></dl></div>
+    </li><li name="datastructures.NeuralNetwork#getLossReg" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getLossReg(Z:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Double],W:IndexedSeq[breeze.linalg.DenseMatrix[Double]],regularization:Double):Double"></a>
+      <a id="getLossReg(DenseMatrix[Double],DenseVector[Double],IndexedSeq[DenseMatrix[Double]],Double):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLossReg</span><span class="params">(<span name="Z">Z: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="y">y: <span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="W">W: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="regularization">regularization: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#datastructures.NeuralNetwork$@getLossReg(Z:breeze.linalg.DenseMatrix[Double],y:breeze.linalg.DenseVector[Double],W:IndexedSeq[breeze.linalg.DenseMatrix[Double]],regularization:Double):Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Calculates the regression loss of the predictions vs the truth</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the regression loss of the predictions vs the truth</p></div><dl class="paramcmts block"><dt class="param">Z</dt><dd class="cmt"><p>List of instance network output vectors</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of instance labels</p></dd><dt class="param">W</dt><dd class="cmt"><p>Sequence of weight matrices of the layers</p></dd><dt class="param">regularization</dt><dd class="cmt"><p>Regularization parameter</p></dd></dl></div>
     </li><li name="datastructures.NeuralNetwork#getProbabilities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getProbabilities(X:breeze.linalg.DenseMatrix[Double],W:IndexedSeq[breeze.linalg.DenseMatrix[Double]],b:IndexedSeq[breeze.linalg.DenseVector[Double]],activation:String):breeze.linalg.DenseMatrix[Double]"></a>
-      <a id="getProbabilities(DenseMatrix[Double],IndexedSeq[DenseMatrix[Double]],IndexedSeq[DenseVector[Double]],String):DenseMatrix[Double]"></a>
+      <a id="getProbabilities(Z:breeze.linalg.DenseMatrix[Double]):breeze.linalg.DenseMatrix[Double]"></a>
+      <a id="getProbabilities(DenseMatrix[Double]):DenseMatrix[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getProbabilities</span><span class="params">(<span name="X">X: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="W">W: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="b">b: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="activation">activation: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+        <span class="name">getProbabilities</span><span class="params">(<span name="Z">Z: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#datastructures.NeuralNetwork$@getProbabilities(X:breeze.linalg.DenseMatrix[Double],W:IndexedSeq[breeze.linalg.DenseMatrix[Double]],b:IndexedSeq[breeze.linalg.DenseVector[Double]],activation:String):breeze.linalg.DenseMatrix[Double]" title="Permalink" target="_top">
+      <a href="../index.html#datastructures.NeuralNetwork$@getProbabilities(Z:breeze.linalg.DenseMatrix[Double]):breeze.linalg.DenseMatrix[Double]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Calculates for each instance the probability vector to belong to each class from the relative output neuron values</p><div class="fullcomment"><div class="comment cmt"><p>Calculates for each instance the probability vector to belong to each class from the relative output neuron values</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>List of instance feature vectors</p></dd><dt class="param">W</dt><dd class="cmt"><p>Sequence of weight matrices of the layers</p></dd><dt class="param">b</dt><dd class="cmt"><p>Sequence of intercept vectors of the layers</p></dd><dt class="param">activation</dt><dd class="cmt"><p>Activation function identifier</p></dd><dt>returns</dt><dd class="cmt"><p>Vectors of probabilities to belong th each class</p></dd></dl></div>
+      <p class="shortcomment cmt">Transforms the instance vectors in probability vectors</p><div class="fullcomment"><div class="comment cmt"><p>Transforms the instance vectors in probability vectors</p></div><dl class="paramcmts block"><dt class="param">Z</dt><dd class="cmt"><p>List of instance network output vectors</p></dd><dt>returns</dt><dd class="cmt"><p>Vectors of probabilities to belong th each class</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
