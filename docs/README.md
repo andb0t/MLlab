@@ -19,6 +19,7 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
     * [Bayes](#bayes-regression)
     * [k-Nearest Neighbors](#k-nearest-neighbors-regression)
     * [Decision Tree](#decision-tree-regression)
+    * [Multilayer Neural Network](#multilayer-neural-network-regression)
 * [Algorithm details](#algorithm-details)
 
 
@@ -260,8 +261,20 @@ val reg = new DecisionTreeRegressor(depth=6)
 <img src="decisiontree_regression_more_example.png" width="500">
 
 
+#### Multilayer Neural Network Regression
+Using an output layer with a single neuron, a neural network can be used for data regression.
 
+```scala
+val reg = new NeuralNetworkRegressor()
+```
 
+This is the application of a neural network regression algorithm to the linear dataset
+
+<img src="neuralnetwork_regression_example.png" width="500">
+
+Without further hyperparameter tuning, the same network can also predict the cubic dataset reasonably well.
+
+<img src="neuralnetwork_regression_cubic_example.png" width="500">
 
 
 ## Algorithm details
