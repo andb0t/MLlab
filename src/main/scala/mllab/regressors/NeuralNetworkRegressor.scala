@@ -9,7 +9,13 @@ import datastructures._
 
 
 /** Neural network regressor
- *
+ * @param alpha Learning rate
+ * @param alphaHalflife Learning rate decay after this number of training steps
+ * @param alphaDecay Type of learning rate decay
+ * @param regularization Regularization parameter
+ * @param activation Activation function
+ * @param batchSize Number of (randomized) training instances to use for each training step
+ * @param layers Structure of the network as a list of number of neurons in each layer
  */
 class NeuralNetworkRegressor(
   alpha: Double = 0.001,
@@ -41,7 +47,6 @@ class NeuralNetworkRegressor(
     val maxEpoch: Int = 1000
 
     def gradientDescent(count: Int): Unit = {
-
       val decayedAlpha: Double =
         if (alphaDecay == "step") alpha / Math.pow(2, Math.floor(count.toFloat / alphaHalflife))
         else if (alphaDecay == "exp") alpha * Math.exp(-1.0 * count / alphaHalflife)
@@ -88,7 +93,6 @@ class NeuralNetworkRegressor(
     }
 
     gradientDescent(0)
-
   }
 
   def predict(listX: List[List[Double]]): List[Double] = {

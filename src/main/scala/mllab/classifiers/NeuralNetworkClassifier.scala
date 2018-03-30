@@ -97,7 +97,6 @@ class NeuralNetworkClassifier(
     }
 
     gradientDescent(0)
-
   }
 
   def predict(listX: List[List[Double]]): List[Int] = {

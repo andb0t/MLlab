@@ -83,12 +83,20 @@ object NeuralNetwork {
       dataLossRegularized / Z.rows
     }
 
+  /** Calculates the distance of the NN output to the truth for regression
+   * @param Z List of instance network output vectors
+   * @param y List of instance labels
+   */
   def getDeltaReg(Z: DenseMatrix[Double], y: DenseVector[Double]): DenseMatrix[Double] = {
     DenseMatrix.tabulate(Z.rows, Z.cols){
       case (i, j) => Z(i, j) - y(i)
     }
   }
 
+  /** Calculates the distance of the NN output to the truth for classification
+   * @param Z List of instance network output vectors
+   * @param y List of instance labels
+   */
   def getDeltaClf(Z: DenseMatrix[Double], y: DenseVector[Int]): DenseMatrix[Double] = {
     val probs: DenseMatrix[Double] = NeuralNetwork.getProbabilities(Z)  // (nInstances, 2)
     DenseMatrix.tabulate(Z.rows, Z.cols){
