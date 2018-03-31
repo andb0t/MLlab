@@ -4,21 +4,26 @@ import play.api.libs.json.JsValue
 
 import json._
 
-/**
- * @todo pick up default arguments from main constructor
- */
-case class Human(color: String, animal: String, count: Int, size: Double, list: List[Int]) {
+
+object Human {
+  val defaultAnimal: String = "object"
+  val defaultColor: String = "invisible"
+  val defaultCount: Int = 0
+  val defaultSize: Double = 0.01
+  val defaultList: List[Int] = List(3, 2, 1, 0)
+}
+
+case class Human(color: String=Human.defaultColor, animal: String=Human.defaultAnimal, count: Int=Human.defaultCount, size: Double=Human.defaultSize, list: List[Int]=Human.defaultList) {
   def this(json: JsValue) = {
-    this(animal=JsonMagic.toString(json, "animal", "object"),
-         color=JsonMagic.toString(json, "color", "invisible"),
-         count=JsonMagic.toInt(json, "count", 0),
-         list=JsonMagic.toListInt(json, "list", List(0, 1, 2)),
-         size=JsonMagic.toDouble(json, "size", 0.0))
+    this(animal=JsonMagic.toString(json, "animal", Human.defaultAnimal),
+         color=JsonMagic.toString(json, "color", Human.defaultColor),
+         count=JsonMagic.toInt(json, "count", Human.defaultCount),
+         list=JsonMagic.toListInt(json, "list", Human.defaultList),
+         size=JsonMagic.toDouble(json, "size", Human.defaultSize))
   }
 
   println(s"Initialize human who saw the same $color $animal $count times'")
-  for (i <- 0 until list.length)
-    println(list(i))
+  println(list)
 
   def ask(): Unit =
     println("'I saw %d different %s %ss!'".format(count, color, animal))
