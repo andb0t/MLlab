@@ -1,9 +1,10 @@
 import org.rogach.scallop._
+import play.api.libs.json.{JsValue, Json}
+
+import human._
 
 
-
-
-object HelloWorld {
+object CatEncounter {
   class Conf(arguments: Seq[String]) extends ScallopConf(arguments) {
     val hyper = opt[String](
       default = Some("animal=cat, color=black"),
@@ -12,13 +13,13 @@ object HelloWorld {
     verify()
   }
 
-
-
   def main(args: Array[String]): Unit = {
-
     val conf = new Conf(args)
     if (!conf.hyper().isEmpty())
       println("Chosen hyperparameters: " + conf.hyper)
 
+    val json = Json.obj("color" -> "black", "animal" -> "cat", "order" -> 2)
+    // val json = Json.obj("color" -> "black", "animal" -> "cat")
+    human2(json)
   }
 }

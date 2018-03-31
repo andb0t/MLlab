@@ -28,6 +28,7 @@ libraryDependencies += "org.rogach" %% "scallop" % "3.1.2"
 
 // json play
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.7"
+libraryDependencies += "org.joda" % "joda-convert" % "1.8.1"
 
 // breeze
 libraryDependencies += "org.scalanlp" %% "breeze" % "0.13.2"
