@@ -15,7 +15,7 @@ object CatEncounter {
     verify()
   }
 
-  def main(args: Array[String]): Unit = {
+  def maini(args: Array[String]): Unit = {
     val conf = new Conf(args)
     println(conf.hyper())
     val json = JsonMagic.jsonify(conf.hyper(), verbose= true)
