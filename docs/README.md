@@ -20,6 +20,8 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
     * [k-Nearest Neighbors](#k-nearest-neighbors-regression)
     * [Decision Tree](#decision-tree-regression)
     * [Multilayer Neural Network](#multilayer-neural-network-regression)
+  * [Clustering](#clustering)
+    * [k-Means](#k-means-clustering)
 * [Algorithm details](#algorithm-details)
 
 
@@ -275,6 +277,22 @@ This is the application of a neural network regression algorithm to the linear d
 Without further hyperparameter tuning, the same network can also predict the cubic dataset reasonably well.
 
 <img src="neuralnetwork_regression_cubic_example.png" width="500">
+
+
+### Clustering
+Clustering or unsupervised classification algorithms are applied to data without or very little or insufficient training data.
+They are meant to find patterns in the data with a minimal amount of domain knowledge required to steer the algorithm.
+
+#### k-Means Clustering
+This clustering algorithm starts with an arbitrary number random positions (centroids) and associates the closest instances with respect to some specified metric to the given cluster. It then reassigns the centroids to the mean positions of their cluster and repeats until no more change in association appears.
+
+```scala
+val clu = new kMeansClustering(k=3)
+```
+
+Below is a dataset with three distinct clusters of data. Using three centroids, the algorithm finds the correct association after some iterations. The evolution of the respective cluster means is shown as well.
+
+<img src="clu_kMeans_clu_test.png" width="500">
 
 
 ## Algorithm details
