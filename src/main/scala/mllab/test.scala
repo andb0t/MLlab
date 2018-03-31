@@ -3,6 +3,7 @@ import play.api.libs.json.{JsValue, Json}
 
 import human._
 import json._
+import utils._
 
 
 object CatEncounter {
@@ -14,11 +15,15 @@ object CatEncounter {
     verify()
   }
 
-  def maini(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit = {
     val conf = new Conf(args)
+    println(conf.hyper())
     val json = JsonMagic.jsonify(conf.hyper(), verbose= true)
     val humjson = new Human(json)
     println(humjson)
     humjson.ask()
+
+    println("my splitter:")
+    println(StringTrafo.splitString(conf.hyper()).mkString("\n"))
   }
 }
