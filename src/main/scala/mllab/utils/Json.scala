@@ -41,7 +41,8 @@ object JsonMagic {
     }
 
   def jsonify(str: String, verbose: Boolean= true): JsValue = {
-    val args = str.split(',').map(text => text.split("=").map(_.trim))
+    val regex = """,(?![^\(\[]*[\]\)])"""
+    val args = str.split(regex).map(text => text.split("=").map(_.trim))
     try {
       val argsMap: Map[String, String] = args.map(a => (a(0) -> a(1))).toMap
       val json = Json.toJson(argsMap)
