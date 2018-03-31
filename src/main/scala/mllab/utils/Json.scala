@@ -2,6 +2,8 @@ package json
 
 import play.api.libs.json.{JsValue, Json, JsNull}
 
+import utils._
+
 
 /** Provides JSON conversion functions */
 object JsonMagic {
@@ -59,17 +61,21 @@ object JsonMagic {
   /** Gets a List[List[Double]] from a JSON object */
   def toListListDouble(json: JsValue, key: String, default: List[List[Double]]): List[List[Double]] =
     try
-      Nil
+    {
+      val str = StringTrafo.between(json(key).toString())
+      val firstSplit = StringTrafo.splitString(str).map(StringTrafo.between(_))
+      val secondSplit = firstSplit.map(StringTrafo.splitString(_))
+      secondSplit.map(_.map(_.replaceAll("""[^0-9\.]""", "").toDouble))
+    }
     catch
     {
       case _: java.util.NoSuchElementException => default
-      case _: java.lang.Exception => default
     }
 
   /** Parses a string into argument value pairs */
   def jsonify(str: String, verbose: Boolean= true): JsValue = {
-    val regex = """,(?![^\(\[]*[\]\)])"""
-    val args = str.split(regex).map(text => text.split("=").map(_.trim))
+    val args = StringTrafo.splitString(str).map(text => text.split("=").map(_.trim))
+    println(args.mkString("\n"))
     try {
       val argsMap: Map[String, String] = args.map(a => (a(0) -> a(1))).toMap
       val json = Json.toJson(argsMap)
