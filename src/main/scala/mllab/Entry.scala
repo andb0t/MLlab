@@ -73,6 +73,9 @@ object Mllab {
 
     val suff = if (conf.suffix() != "") "_" + conf.suffix() else ""
 
+    if (!conf.hyper().isEmpty())
+      println("Chosen hyperparameters: " + conf.hyper)
+
     if (!conf.clu().isEmpty) {
       println("Train the clustering")
 
@@ -83,7 +86,7 @@ object Mllab {
 
       val clu =
         if (conf.clu().isEmpty || conf.clu() == "Random") new RandomClustering()
-        else if (conf.clu() == "kMeans") new kMeansClustering(k=3)
+        else if (conf.clu() == "kMeans") new kMeansClustering(k=5)
         else throw new IllegalArgumentException("algorithm " + conf.clu() + " not implemented.")
 
       val y_pred = clu.predict(X_test)
