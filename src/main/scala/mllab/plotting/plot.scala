@@ -78,20 +78,16 @@ object Plotting {
     f.visible= false
     val p = f.subplot(0)
     // now plot all datapoints
-    for (category: Int <- predictions.toSet.toList.sorted) {
-      val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(category))
-      val filteredData: List[List[Double]] = (data zip predictions).filter(_._2 == category).map(_._1)
-      val x: List[Double] = filteredData.map(e => e.head)
-      val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', colorcode=col, name= "Prediction " + category)
-    }
-
     val centroids = clu.clusterMeans()
     for (i <- 0 until centroids.length) {
       val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i))
-      val x: List[Double] = centroids(i).map(e => e.head)
-      val y: List[Double] = centroids(i).map(e => e(1))
-      p += plot(x, y, '-', colorcode=col, name= "Mean evolution")
+      val xEvol: List[Double] = centroids(i).map(e => e.head)
+      val yEvol: List[Double] = centroids(i).map(e => e(1))
+      p += plot(xEvol, yEvol, '-', colorcode=col, name= " ")
+      val filteredData: List[List[Double]] = (data zip predictions).filter(_._2 == i).map(_._1)
+      val x: List[Double] = filteredData.map(e => e.head)
+      val y: List[Double] = filteredData.map(e => e(1))
+      p += plot(x, y, '.', colorcode=col, name= "Cluster " + i)
     }
 
     val finalCentroids: List[List[Double]] = centroids.map(_.last)
@@ -101,7 +97,7 @@ object Plotting {
 
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
-    p.title = clu.name + " decisions"
+    p.title = clu.name + " results"
     p.legend = true
     f.saveas(name)
 
