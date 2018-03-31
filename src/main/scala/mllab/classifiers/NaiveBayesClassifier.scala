@@ -1,8 +1,19 @@
 package classifiers
 
+import play.api.libs.json.JsValue
+
 import algorithms._
+import json._
 import utils._
 
+
+/** Companion object providing default parameters */
+object NaiveBayesClassifier {
+  val model: String="gaussian"
+  val priors: List[Double]=Nil
+  val alpha: Double = 1.0
+  val degree: Int=2
+}
 
 /** Naive Bayes classifier
  * @param model The distribution function to assume for the feature distributions
@@ -10,7 +21,20 @@ import utils._
  * @param alpha Additive (Laplace/Lidstone) smoothing parameter (0 for no smoothing)
  * @param degree Order of polynomial features to add to the instances (1 for no addition)
  */
-class NaiveBayesClassifier(model: String="gaussian", priors: List[Double]=Nil, alpha: Double = 1.0, degree: Int=2) extends Classifier {
+class NaiveBayesClassifier(
+  model: String = NaiveBayesClassifier.model,
+  priors: List[Double] = NaiveBayesClassifier.priors,
+  alpha: Double  = NaiveBayesClassifier.alpha,
+  degree: Int = NaiveBayesClassifier.degree
+) extends Classifier {
+  def this(json: JsValue) = {
+    this(
+      model = JsonMagic.toString(json, "model", NaiveBayesClassifier.model),
+      priors = JsonMagic.toListDouble(json, "priors", NaiveBayesClassifier.priors),
+      alpha = JsonMagic.toDouble(json, "alpha", NaiveBayesClassifier.alpha),
+      degree = JsonMagic.toInt(json, "degree", NaiveBayesClassifier.degree)
+      )
+  }
 
   val name: String = "NaiveBayesClassifier"
 

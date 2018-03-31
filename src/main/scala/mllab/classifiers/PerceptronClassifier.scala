@@ -1,14 +1,32 @@
 package classifiers
 
+import play.api.libs.json.JsValue
+
 import algorithms._
+import json._
 import utils._
 
+
+/** Companion object providing default parameters */
+object PerceptronClassifier {
+  val alpha: Double = 1
+  val degree: Int = 1
+}
 
 /** Perceptron classifier
  * @param alpha Learning rate
  * @param degree Order of polynomial features to add to the instances (1 for no addition)
  */
-class PerceptronClassifier(alpha: Double = 1.0, degree: Int=1) extends Classifier {
+class PerceptronClassifier(
+  alpha: Double = PerceptronClassifier.alpha,
+  degree: Int = PerceptronClassifier.degree
+) extends Classifier {
+  def this(json: JsValue) = {
+    this(
+      alpha = JsonMagic.toDouble(json, "alpha", PerceptronClassifier.alpha),
+      degree = JsonMagic.toInt(json, "degree", PerceptronClassifier.degree)
+      )
+  }
 
   val name: String = "PerceptronClassifier"
 

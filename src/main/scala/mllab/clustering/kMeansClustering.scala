@@ -1,16 +1,30 @@
 package clustering
 
+import play.api.libs.json.JsValue
 import scala.collection.mutable.ListBuffer
 
 import algorithms._
+import json._
 import utils._
 
+
+/** Companion object providing default parameters */
+object kMeansClustering {
+  val k: Int = 3
+}
 
 /** k-Means clustering
  * @param k Number of clusters to search for
  * @todo improve centroid initialization
  */
-class kMeansClustering(k: Int = 3) extends Clustering {
+class kMeansClustering(
+  k: Int = kMeansClustering.k
+) extends Clustering {
+  def this(json: JsValue) = {
+    this(
+      k = JsonMagic.toInt(json, "k", kMeansClustering.k)
+      )
+  }
 
   val name: String = "kMeansClustering"
 

@@ -1,13 +1,27 @@
 package regressors
 
+import play.api.libs.json.JsValue
+
+import json._
 import utils._
 
 
+/** Companion object providing default parameters */
+object kNNRegressor {
+  val k: Int = 20
+}
 
 /** k-nearest neighbors regressor
  * @param k Number of closest neighbors to consider
  */
-class kNNRegressor(k: Int = 5) extends Regressor {
+class kNNRegressor(
+  k: Int = kNNRegressor.k
+) extends Regressor {
+  def this(json: JsValue) = {
+    this(
+      k = JsonMagic.toInt(json, "k", kNNRegressor.k)
+      )
+  }
 
   val name: String = "kNNRegressor"
 

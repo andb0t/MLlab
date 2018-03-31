@@ -1,11 +1,22 @@
 package regressors
 
 import breeze.linalg._
+import play.api.libs.json.JsValue
 
 import algorithms._
+import json._
 import plotting._
 import utils._
 
+
+/** Companion object providing default parameters */
+object BayesRegressor {
+  val degree: Int = 1
+  val model: String = "gaussian"
+  val priorPars: List[List[Double]] = Nil
+  val randInit: Boolean = false
+  val savePlots: Boolean = true
+}
 
 /** Bayes regressor
  *
@@ -22,12 +33,21 @@ import utils._
  * @param savePlots If set to true, save plots of algorithm performance
  */
 class BayesRegressor(
-  degree: Int=1,
-  model: String= "gaussian",
-  priorPars: List[List[Double]]= Nil,
-  randInit: Boolean= false,
-  savePlots: Boolean=false
+  degree: Int = BayesRegressor.degree,
+  model: String = BayesRegressor.model,
+  priorPars: List[List[Double]] = BayesRegressor.priorPars,
+  randInit: Boolean = BayesRegressor.randInit,
+  savePlots: Boolean = BayesRegressor.savePlots
 ) extends Regressor {
+  def this(json: JsValue) = {
+    this(
+      degree = JsonMagic.toInt(json, "degree", BayesRegressor.degree),
+      model = JsonMagic.toString(json, "model", BayesRegressor.model),
+      priorPars = JsonMagic.toListListDouble(json, "priorPars", BayesRegressor.priorPars),
+      randInit = JsonMagic.toBoolean(json, "randInit", BayesRegressor.randInit),
+      savePlots = JsonMagic.toBoolean(json, "savePlots", BayesRegressor.savePlots)
+      )
+  }
 
   val name: String = "BayesRegressor"
 
