@@ -8,7 +8,7 @@ import json._
 object CatEncounter {
   class Conf(arguments: Seq[String]) extends ScallopConf(arguments) {
     val hyper = opt[String](
-      default = Some("animal=cat, color=black, count=2"),
+      default = Some(""),
       descr = "hyperparameters to pass to the algorithm"
     )
     verify()
