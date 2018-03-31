@@ -1,6 +1,6 @@
 package json
 
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsValue, Json, JsNull}
 
 
 object JsonMagic {
@@ -9,13 +9,20 @@ object JsonMagic {
       json(key).toString().replaceAll("^\"|\"$", "")
     catch
     {
-      case foo: java.util.NoSuchElementException => default
+      case _: java.util.NoSuchElementException => default
+      case _: java.lang.Exception => default
     }
 
-    def jsonify(hyper: String): JsValue = {
-      val args = hyper.split(',').map(text => text.split("=").map(_.trim))
+  def jsonify(str: String, verbose: Boolean= true): JsValue = {
+    val args = str.split(',').map(text => text.split("=").map(_.trim))
+    if (args.length <= 1)
+      JsNull
+    else{
       val argsMap: Map[String, String] = args.map(a => (a(0) -> a(1))).toMap
-      Json.toJson(argsMap)
+      val json = Json.toJson(argsMap)
+      if (!str.isEmpty() && verbose)
+        println(Json.prettyPrint(json))
+      json
     }
-
+  }
 }

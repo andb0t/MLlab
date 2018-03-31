@@ -6,6 +6,7 @@ import classifiers._
 import clustering._
 import data._
 import evaluation._
+import json._
 import plotting._
 import regressors._
 
@@ -70,11 +71,8 @@ object Mllab {
     val conf = new Conf(args)
 
     println("Execute MLlab!")
-
+    val json = JsonMagic.jsonify(conf.hyper())
     val suff = if (conf.suffix() != "") "_" + conf.suffix() else ""
-
-    if (!conf.hyper().isEmpty())
-      println("Chosen hyperparameters: " + conf.hyper)
 
     if (!conf.clu().isEmpty) {
       println("Train the clustering")
