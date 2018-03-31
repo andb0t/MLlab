@@ -18,8 +18,10 @@ object CatEncounter {
     if (!conf.hyper().isEmpty())
       println("Chosen hyperparameters: " + conf.hyper)
 
-    val json = Json.obj("color" -> "black", "animal" -> "cat", "order" -> 2)
+    val json = Json.obj("color" -> "black", "animal" -> "cat", "count" -> 2)
     // val json = Json.obj("color" -> "black", "animal" -> "cat")
-    human2(json)
+    val hum = Human.human2(json)
+    println(hum)
+    hum.ask()
   }
 }
