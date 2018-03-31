@@ -26,6 +26,9 @@ libraryDependencies += scalaTest % Test
 // scallop
 libraryDependencies += "org.rogach" %% "scallop" % "3.1.2"
 
+// json play
+libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.7"
+
 // breeze
 libraryDependencies += "org.scalanlp" %% "breeze" % "0.13.2"
 libraryDependencies += "org.scalanlp" %% "breeze-natives" % "0.13.2"
