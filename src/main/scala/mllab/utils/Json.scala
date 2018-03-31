@@ -8,61 +8,60 @@ import utils._
 /** Provides JSON conversion functions */
 object JsonMagic {
 
+/** Retrieves a string from a JSON object and formats it to be usable */
+  def getValue(json: JsValue, key: String): String =
+    json(key).toString().replaceAll("^\"|\"$", "")
+
   /** Gets a String from a JSON object */
   def toString(json: JsValue, key: String, default: String): String =
     try
-      json(key).toString().replaceAll("^\"|\"$", "")
+      getValue(json, key)
     catch
     {
       case _: java.util.NoSuchElementException => default
-      case _: java.lang.Exception => default
     }
 
   /** Gets an Int from a JSON object */
   def toInt(json: JsValue, key: String, default: Int): Int =
     try
-      json(key).toString().toInt
+      getValue(json, key).toInt
     catch
     {
       case _: java.util.NoSuchElementException => default
-      case _: java.lang.Exception => default
     }
 
   /** Gets an Boolean from a JSON object */
   def toBoolean(json: JsValue, key: String, default: Boolean): Boolean =
     try
-      json(key).toString().toBoolean
+      getValue(json, key).toBoolean
     catch
     {
       case _: java.util.NoSuchElementException => default
-      case _: java.lang.Exception => default
     }
 
   /** Gets a Double from a JSON object */
   def toDouble(json: JsValue, key: String, default: Double): Double =
     try
-      json(key).toString().toDouble
+      getValue(json, key).toDouble
     catch
     {
       case _: java.util.NoSuchElementException => default
-      case _: java.lang.Exception => default
     }
 
   /** Gets a List[Int] from a JSON object */
   def toListInt(json: JsValue, key: String, default: List[Int]): List[Int] =
     try
-      json(key).toString().split(',').map(_.replaceAll("[^0-9]", "").toInt).toList
+      getValue(json, key).split(',').map(_.replaceAll("[^0-9]", "").toInt).toList
     catch
     {
       case _: java.util.NoSuchElementException => default
-      case _: java.lang.Exception => default
     }
 
   /** Gets a List[List[Double]] from a JSON object */
   def toListListDouble(json: JsValue, key: String, default: List[List[Double]]): List[List[Double]] =
     try
     {
-      val str = StringTrafo.between(json(key).toString())
+      val str = StringTrafo.between(getValue(json, key))
       val firstSplit = StringTrafo.splitString(str).map(StringTrafo.between(_))
       val secondSplit = firstSplit.map(StringTrafo.splitString(_))
       secondSplit.map(_.map(_.replaceAll("""[^0-9\.]""", "").toDouble))
