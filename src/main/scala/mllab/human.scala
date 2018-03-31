@@ -1,17 +1,17 @@
 package human
 
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.JsValue
 
-object Human {
-  case class FuncArguments(animal: String, color: String, count: String)
-  implicit val funcArgumentsFormat = Json.format[FuncArguments]
-  implicit def jsValueToFuncArguments(json: JsValue): FuncArguments = json.as[FuncArguments]
-  def human2(json: JsValue): Human = {
-    (Human.apply _).tupled(FuncArguments.unapply(json).get)
+import json._
+
+
+case class Human(animal: String, color: String, count: String="1000") {
+  def this(json: JsValue) = {
+    this(JsonMagic.stringify(json, "animal", "object"),
+         JsonMagic.stringify(json, "color", "unvisible"),
+         JsonMagic.stringify(json, "count", "1000"))
   }
-}
 
-case class Human(animal: String, color: String, count: String) {
   println(s"Initialize human who saw the same $color $animal $count times'")
 
   def ask(): Unit =

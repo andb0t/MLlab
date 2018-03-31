@@ -2,6 +2,7 @@ import org.rogach.scallop._
 import play.api.libs.json.{JsValue, Json}
 
 import human._
+import json._
 
 
 object CatEncounter {
@@ -13,27 +14,11 @@ object CatEncounter {
     verify()
   }
 
-  def jsonify(hyper: String): JsValue = {
-    val args = hyper.split(',').map(text => text.split("=").map(_.trim))
-    val argsMap: Map[String, String] = args.map(a => (a(0) -> a(1))).toMap
-    Json.toJson(argsMap)
-  }
-
-  def simpleJson(): JsValue = {
-    // val json = Json.obj("color" -> "black", "animal" -> "cat")
-    val json = Json.obj("color" -> "black", "animal" -> "cat", "count" -> "2")
-    json
-  }
-
   def main(args: Array[String]): Unit = {
     val conf = new Conf(args)
-    if (!conf.hyper().isEmpty())
-      println("Chosen hyperparameters: " + conf.hyper)
-
-    // val json = simpleJson()
-    val json = jsonify(conf.hyper())
-    val hum = Human.human2(json)
-    println(hum)
-    hum.ask()
+    val json = JsonMagic.jsonify(conf.hyper())
+    val humjson = new Human(json)
+    println(humjson)
+    humjson.ask()
   }
 }
