@@ -1,14 +1,32 @@
 package regressors
 
-import algorithms._
+import play.api.libs.json.JsValue
 
+import algorithms._
+import json._
+
+
+/** Companion object providing default parameters */
+object DecisionTreeRegressor {
+  val depth: Int = 6
+  val minSamplesSplit: Int = 2
+}
 
 /** Decision tree regressor
  *
  * @param depth Depth of the tree
  * @param minSamplesSplit Minimum number of samples required to split an internal node
  */
-class DecisionTreeRegressor(depth: Int = 6, minSamplesSplit: Int=2) extends Regressor {
+class DecisionTreeRegressor(
+  depth: Int = DecisionTreeRegressor.depth,
+  minSamplesSplit: Int=DecisionTreeRegressor.minSamplesSplit
+) extends Regressor {
+  def this(json: JsValue) = {
+    this(
+      depth = JsonMagic.toInt(json, "depth", DecisionTreeRegressor.depth),
+      minSamplesSplit = JsonMagic.toInt(json, "minSamplesSplit", DecisionTreeRegressor.minSamplesSplit)
+      )
+  }
 
   val name: String = "DecisionTreeRegressor"
 

@@ -3,10 +3,23 @@ package regressors
 import scala.collection.mutable.ListBuffer
 
 import breeze.linalg._
+import play.api.libs.json.JsValue
 
-import utils._
 import algorithms._
+import json._
+import utils._
 
+
+/** Companion object providing default parameters */
+object NeuralNetworkRegressor {
+  val alpha: Double = 0.001
+  val alphaHalflife: Int = 100
+  val alphaDecay: String = "exp"
+  val regularization: Double = 0.01
+  val activation: String = "tanh"
+  val batchSize: Int = -1
+  val layers: List[Int] = List(1, 5, 1)
+}
 
 /** Neural network regressor
  * @param alpha Learning rate
@@ -18,14 +31,24 @@ import algorithms._
  * @param layers Structure of the network as a list of number of neurons in each layer
  */
 class NeuralNetworkRegressor(
-  alpha: Double = 0.001,
-  alphaHalflife: Int = 100,
-  alphaDecay: String = "exp",
-  regularization: Double = 0.01,
-  activation: String = "tanh",
-  batchSize: Int = -1,
-  layers: List[Int] = List(1, 5, 1)
+  alpha: Double = NeuralNetworkRegressor.alpha,
+  alphaHalflife: Int = NeuralNetworkRegressor.alphaHalflife,
+  alphaDecay: String = NeuralNetworkRegressor.alphaDecay,
+  regularization: Double = NeuralNetworkRegressor.regularization,
+  activation: String = NeuralNetworkRegressor.activation,
+  batchSize: Int = NeuralNetworkRegressor.batchSize,
+  layers: List[Int] = NeuralNetworkRegressor.layers
 ) extends Regressor {
+  def this(json: JsValue) = {
+    this(
+      alpha = JsonMagic.toDouble(json, "alpha", NeuralNetworkRegressor.alpha),
+      alphaHalflife = JsonMagic.toInt(json, "alphaHalflife", NeuralNetworkRegressor.alphaHalflife),
+      alphaDecay = JsonMagic.toString(json, "alphaDecay", NeuralNetworkRegressor.alphaDecay),
+      regularization = JsonMagic.toDouble(json, "regularization", NeuralNetworkRegressor.regularization),
+      activation = JsonMagic.toString(json, "activation", NeuralNetworkRegressor.activation),
+      batchSize = JsonMagic.toInt(json, "batchSize", NeuralNetworkRegressor.batchSize),
+      layers = JsonMagic.toListInt(json, "layers", NeuralNetworkRegressor.layers))
+  }
 
   require(layers.length > 2, "too few layers: need at least an input, a middle and an output layer")
 

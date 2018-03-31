@@ -169,11 +169,11 @@ object Mllab {
 
       val reg =
         if (conf.reg().isEmpty || conf.reg() == "Random") new RandomRegressor()
-        else if (conf.reg() == "Linear") new LinearRegressor(maxIter=100, degree=1)
-        else if (conf.reg() == "DecisionTree") new DecisionTreeRegressor(depth=6)
-        else if (conf.reg() == "Bayes") new BayesRegressor(degree=1, model= "gaussian", savePlots= true)
-        else if (conf.reg() == "kNN") new kNNRegressor(k=40)
-        else if (conf.reg() == "NeuralNetwork") new NeuralNetworkRegressor()
+        else if (conf.reg() == "Linear") new LinearRegressor(json)
+        else if (conf.reg() == "DecisionTree") new DecisionTreeRegressor(json)
+        else if (conf.reg() == "Bayes") new BayesRegressor(json)
+        else if (conf.reg() == "kNN") new kNNRegressor(json)
+        else if (conf.reg() == "NeuralNetwork") new NeuralNetworkRegressor(json)
         else throw new IllegalArgumentException("algorithm " + conf.reg() + " not implemented.")
       reg.train(X_train, y_train)
 

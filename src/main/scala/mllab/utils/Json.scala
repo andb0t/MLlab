@@ -26,6 +26,16 @@ object JsonMagic {
       case _: java.lang.Exception => default
     }
 
+  /** Gets an Boolean from a JSON object */
+  def toBoolean(json: JsValue, key: String, default: Boolean): Boolean =
+    try
+      json(key).toString().toBoolean
+    catch
+    {
+      case _: java.util.NoSuchElementException => default
+      case _: java.lang.Exception => default
+    }
+
   /** Gets a Double from a JSON object */
   def toDouble(json: JsValue, key: String, default: Double): Double =
     try
@@ -40,6 +50,16 @@ object JsonMagic {
   def toListInt(json: JsValue, key: String, default: List[Int]): List[Int] =
     try
       json(key).toString().split(',').map(_.replaceAll("[^0-9]", "").toInt).toList
+    catch
+    {
+      case _: java.util.NoSuchElementException => default
+      case _: java.lang.Exception => default
+    }
+
+  /** Gets a List[List[Double]] from a JSON object */
+  def toListListDouble(json: JsValue, key: String, default: List[List[Double]]): List[List[Double]] =
+    try
+      Nil
     catch
     {
       case _: java.util.NoSuchElementException => default
