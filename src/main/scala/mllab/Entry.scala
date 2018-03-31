@@ -83,7 +83,7 @@ object Mllab {
 
       val clu =
         if (conf.clu().isEmpty || conf.clu() == "Random") new RandomClustering()
-        else if (conf.clu() == "kMeans") new kMeansClustering()
+        else if (conf.clu() == "kMeans") new kMeansClustering(k=3)
         else throw new IllegalArgumentException("algorithm " + conf.clu() + " not implemented.")
 
       val y_pred = clu.predict(X_test)
