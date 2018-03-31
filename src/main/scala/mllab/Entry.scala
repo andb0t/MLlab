@@ -114,12 +114,12 @@ object Mllab {
 
       val clf =
         if (conf.clf().isEmpty || conf.clf() == "Random") new RandomClassifier()
-        else if (conf.clf() == "kNN") new kNNClassifier(k=3)
-        else if (conf.clf() == "DecisionTree") new DecisionTreeClassifier(depth=3, criterion= "gini")
-        else if (conf.clf() == "Perceptron") new PerceptronClassifier(alpha=1, degree=1)
-        else if (conf.clf() == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
-        else if (conf.clf() == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=1000, degree=1)
-        else if (conf.clf() == "NaiveBayes") new NaiveBayesClassifier(model= "gaussian")
+        else if (conf.clf() == "kNN") new kNNClassifier(json)
+        else if (conf.clf() == "DecisionTree") new DecisionTreeClassifier(json)
+        else if (conf.clf() == "Perceptron") new PerceptronClassifier(json)
+        else if (conf.clf() == "NeuralNetwork") new NeuralNetworkClassifier(json)
+        else if (conf.clf() == "LogisticRegression") new LogisticRegressionClassifier(json)
+        else if (conf.clf() == "NaiveBayes") new NaiveBayesClassifier(json)
         else if (conf.clf() == "SVM") new SVMClassifier()
         else throw new IllegalArgumentException("algorithm " + conf.clf() + " not implemented.")
       clf.train(X_train, y_train)

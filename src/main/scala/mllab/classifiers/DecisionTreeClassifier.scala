@@ -1,15 +1,36 @@
 package classifiers
 
+import play.api.libs.json.JsValue
+
 import algorithms._
+import json._
 import utils._
 
+
+/** Companion object providing default parameters */
+object DecisionTreeClassifier {
+  val depth: Int = 3
+  val criterion: String="gini"
+  val minSamplesSplit: Int = 2
+}
 
 /** Decision tree classifier
  * @param depth Depth of the tree
  * @param criterion Function to measure the quality of a split
  * @param minSamplesSplit Minimum number of samples required to split an internal node
  */
-class DecisionTreeClassifier(depth: Int = 3, criterion: String="gini", minSamplesSplit: Int=2) extends Classifier {
+class DecisionTreeClassifier(
+  depth: Int = DecisionTreeClassifier.depth,
+  criterion: String = DecisionTreeClassifier.criterion,
+  minSamplesSplit: Int =  DecisionTreeClassifier.minSamplesSplit
+) extends Classifier {
+  def this(json: JsValue) = {
+    this(
+      depth = JsonMagic.toInt(json, "depth", DecisionTreeClassifier.depth),
+      criterion = JsonMagic.toString(json, "criterion", DecisionTreeClassifier.criterion),
+      minSamplesSplit = JsonMagic.toInt(json, "minSamplesSplit", DecisionTreeClassifier.minSamplesSplit)
+      )
+  }
 
   val name: String = "DecisionTreeClassifier"
 

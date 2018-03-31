@@ -2,10 +2,20 @@ package classifiers
 
 import scala.collection.mutable.ListBuffer
 
+import play.api.libs.json.JsValue
+
 import algorithms._
 import evaluation._
+import json._
 import utils._
 
+/** Companion object providing default parameters */
+object LogisticRegressionClassifier {
+  val alpha: Double = 1
+  val tol: Double = 0.01
+  val maxIter: Int = 1000
+  val degree: Int = 1
+}
 
 /** Logistic regression classifier
  * @param alpha Learning rate
@@ -13,7 +23,20 @@ import utils._
  * @param maxIter Maximum number of training iterations
  * @param degree Order of polynomial features to add to the instances (1 for no addition)
  */
-class LogisticRegressionClassifier(alpha: Double = 1, tol: Double = 0.01, maxIter: Int = 1000, degree: Int=1) extends Classifier {
+class LogisticRegressionClassifier(
+  alpha: Double = LogisticRegressionClassifier.alpha,
+  tol: Double = LogisticRegressionClassifier.tol,
+  maxIter: Int = LogisticRegressionClassifier.maxIter,
+  degree: Int = LogisticRegressionClassifier.degree
+) extends Classifier {
+  def this(json: JsValue) = {
+    this(
+      alpha = JsonMagic.toDouble(json, "alpha", LogisticRegressionClassifier.alpha),
+      tol = JsonMagic.toDouble(json, "tol", LogisticRegressionClassifier.tol),
+      maxIter = JsonMagic.toInt(json, "maxIter", LogisticRegressionClassifier.maxIter),
+      degree = JsonMagic.toInt(json, "degree", LogisticRegressionClassifier.degree)
+      )
+  }
 
   val name: String = "LogisticRegressionClassifier"
 

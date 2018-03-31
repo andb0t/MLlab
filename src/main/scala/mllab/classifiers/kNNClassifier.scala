@@ -1,12 +1,27 @@
 package classifiers
 
+import play.api.libs.json.JsValue
+
+import json._
 import utils._
 
+
+/** Companion object providing default parameters */
+object kNNClassifier {
+  val k: Int = 5
+}
 
 /** k-nearest neighbors classifier
  * @param k Number of closest neighbors to consider
  */
-class kNNClassifier(k: Int = 3) extends Classifier {
+class kNNClassifier(
+  k: Int = kNNClassifier.k
+) extends Classifier {
+  def this(json: JsValue) = {
+    this(
+      k = JsonMagic.toInt(json, "k", kNNClassifier.k)
+      )
+  }
 
   val name: String = "kNNClassifier"
 

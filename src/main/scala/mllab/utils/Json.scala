@@ -57,6 +57,15 @@ object JsonMagic {
       case _: java.util.NoSuchElementException => default
     }
 
+  /** Gets a List[Double] from a JSON object */
+  def toListDouble(json: JsValue, key: String, default: List[Double]): List[Double] =
+    try
+      getValue(json, key).split(',').map(_.replaceAll("""[^0-9\.]""", "").toDouble).toList
+    catch
+    {
+      case _: java.util.NoSuchElementException => default
+    }
+
   /** Gets a List[List[Double]] from a JSON object */
   def toListListDouble(json: JsValue, key: String, default: List[List[Double]]): List[List[Double]] =
     try
