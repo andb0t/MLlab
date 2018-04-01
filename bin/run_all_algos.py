@@ -13,6 +13,9 @@ parser.add_argument("--format",
                     default='pdf',
                     choices=['pdf', 'png'],
                     help='output format for figures')
+parser.add_argument("--output",
+                    default='plots',
+                    help='output directory for figures')
 args = parser.parse_args()
 
 algoDict = {'clf': {'DecisionTree': [{'dataType': 'nonlinear', 'hyper': '', 'suffix': 'nonlinear_bad'},
@@ -73,7 +76,7 @@ for task, algorithms in algoDict.items():
                        '--' + task, algo,
                        '--input', dataDict[runSettings['dataType']]['input'],
                        '--suffix', runSettings['suffix'],
-                       '--output', 'plots',  # replace by docs once its ready
+                       '--output', args.output,
                        '--format', args.format]
             if runSettings['hyper']:
                 command.extend(['--hyper', '"' + runSettings['hyper'] + '"'])
