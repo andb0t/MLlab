@@ -79,6 +79,6 @@ for task, algorithms in algoDict.items():
                        '--output', args.output,
                        '--format', args.format]
             if runSettings['hyper']:
-                command.extend(['--hyper', '"' + runSettings['hyper'] + '"'])
+                command.extend(['--hyper', runSettings['hyper']])
             print(functools.reduce(lambda s, t: ' '.join([s, t]), command))
             subprocess.call(command)
