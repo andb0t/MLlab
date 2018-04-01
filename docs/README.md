@@ -60,7 +60,7 @@ Classification via logistic regression is a standard algorithm for binary linear
 val clf = new LogisticRegressionClassifier()
 ```
 
-The application of the standard settings to a test dataset of a shifted diagonal as class separator is shown below.
+The output of the algorithm using the standard settings trained on a training set and applied to a test set both with a shifted diagonal as class separator is shown below.
 
 <img src="clf_LogisticRegression_clf_test_linear.png" width="500">
 
@@ -195,7 +195,7 @@ MLlab provides several algorithms for regression tasks. The most basic is the li
 val reg = new LinearRegressor()
 ```
 
-This is a basic example for the case of a 1D feature vector and a 1D label. The training and testing data have been drawn from a linear function with Gaussian noise.
+This is a basic example for the case of a 1D feature vector and a 1D label. The training and testing data have been drawn from a linear function with Gaussian noise. The figures show the performance on the test set.
 
 <img src="reg_Linear_reg_test_linear.png" width="500">
 
