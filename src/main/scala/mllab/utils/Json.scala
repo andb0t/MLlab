@@ -83,7 +83,6 @@ object JsonMagic {
   /** Parses a string into argument value pairs */
   def jsonify(str: String, verbose: Boolean= true): JsValue = {
     val args = StringTrafo.splitString(str).map(text => text.split("=").map(_.trim))
-    println(args.mkString("\n"))
     try {
       val argsMap: Map[String, String] = args.map(a => (a(0) -> a(1))).toMap
       val json = Json.toJson(argsMap)
