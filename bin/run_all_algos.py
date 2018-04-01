@@ -1,4 +1,5 @@
 import argparse
+import functools
 import subprocess
 
 
@@ -14,25 +15,67 @@ parser.add_argument("--format",
                     help='output format for figures')
 args = parser.parse_args()
 
-algoDict = {'clf': ['DecisionTree', 'kNN', 'LogisticRegression', 'NaiveBayes',
-                    'NeuralNetwork', 'Perceptron', 'Random', 'SVM'],
-            'reg': ['Bayes', 'DecisionTree', 'kNN', 'Linear', 'NeuralNetwork', 'Random'],
-            'clu': ['kMeans', 'Random']}
+algoDict = {'clf': {'DecisionTree': [{'dataType': 'nonlinear', 'hyper': '', 'suffix': 'nonlinear_bad'},
+                                     {'dataType': 'nonlinear', 'hyper': 'depth=4', 'suffix': 'nonlinear'},
+                                    ],
+                    'kNN': [{'dataType': 'nonlinear', 'hyper': '', 'suffix': 'nonlinear'},
+                           ],
+                    'LogisticRegression': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                                           {'dataType': 'nonlinear', 'hyper': 'degree=2', 'suffix': 'nonlinear'},
+                                          ],
+                    'NaiveBayes': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                                   {'dataType': 'nonlinear', 'hyper': 'degree=2', 'suffix': 'nonlinear'},
+                                  ],
+                    'NeuralNetwork': [{'dataType': 'nonlinear', 'hyper': '', 'suffix': 'nonlinear_fail'},
+                                      {'dataType': 'nonlinear', 'hyper': 'layers=List(2, 16, 2)', 'suffix': 'nonlinear'},
+                                     ],
+                    'Perceptron': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                                   {'dataType': 'nonlinear', 'hyper': 'degree=2', 'suffix': 'nonlinear'},
+                                  ],
+                    'Random': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                              ],
+                    'SVM': [],
+                   },
+            'reg': {'Bayes': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                              {'dataType': 'nonlinear', 'hyper': 'degree=3', 'suffix': 'nonlinear'},
+                             ],
+                    'DecisionTree': [{'dataType': 'nonlinear', 'hyper': 'depth=3', 'suffix': 'nonlinear_bad'},
+                                     {'dataType': 'nonlinear', 'hyper': 'depth=6', 'suffix': 'nonlinear'},
+                                    ],
+                    'kNN': [{'dataType': 'nonlinear', 'hyper': 'k=40', 'suffix': 'nonlinear'},
+                           ],
+                    'Linear': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                               {'dataType': 'nonlinear', 'hyper': 'degree=3', 'suffix': 'nonlinear'},
+                              ],
+                    'NeuralNetwork': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                                      {'dataType': 'nonlinear', 'hyper': '', 'suffix': 'nonlinear'},
+                                     ],
+                    'Random': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                              ],
+                   },
+            'clu': {'kMeans': [{'dataType': 'linear', 'hyper': 'k=3', 'suffix': 'three'},
+                               {'dataType': 'nonlinear', 'hyper': 'k=5', 'suffix': 'five'},
+                              ],
+                    'Random': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
+                              ],
+                   }
+           }
 
-datasets = {'linear': {'input': 'src/test/resources'},
+dataDict = {'linear': {'input': 'src/test/resources'},
             'nonlinear': {'input': 'data'}}
 
 for task, algorithms in algoDict.items():
     if task not in args.command:
         continue
-    for algo in algorithms:
-        for suffix, setting in datasets.items():
-            print('Now running', task, algo, setting)
-            subprocess.call(['java',
-                             '-jar',
-                             'target/scala-2.11/mllab-assembly-0.1.0-SNAPSHOT.jar',
-                             '--' + task, algo,
-                             '--input', setting['input'],
-                             '--suffix', suffix,
-                             '--output', 'plots',  # replace by docs once its ready
-                             '--format', args.format])
+    for algo, runList in algorithms.items():
+        for runSettings in runList:
+            command = ['java', '-jar', 'target/scala-2.11/mllab-assembly-0.1.0-SNAPSHOT.jar',
+                       '--' + task, algo,
+                       '--input', dataDict[runSettings['dataType']]['input'],
+                       '--suffix', runSettings['suffix'],
+                       '--output', 'plots',  # replace by docs once its ready
+                       '--format', args.format]
+            if runSettings['hyper']:
+                command.extend(['--hyper', '"' + runSettings['hyper'] + '"'])
+            print(functools.reduce(lambda s, t: ' '.join([s, t]), command))
+            subprocess.call(command)
