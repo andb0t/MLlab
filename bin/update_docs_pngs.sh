@@ -22,8 +22,8 @@ COMMAND="cp"
 # "$COMMAND" "$SOURCE/reg_Linear_reg_test_linear.png" "$TARGET"
 # "$COMMAND" "$SOURCE/reg_Linear_reg_test_nonlinear.png" "$TARGET"
 # "$COMMAND" "$SOURCE/reg_Bayes_reg_test_linear.png" "$TARGET"
-# "$COMMAND" "$SOURCE/reg_Bayes_priors.png" "$TARGET"
-# "$COMMAND" "$SOURCE/reg_Bayes_posteriors.png" "$TARGET"
+# "$COMMAND" "$SOURCE/reg_Bayes_priors.png" "$TARGET"  #TODO: only exist as pdf and dont accept args since plotting inside regressor
+# "$COMMAND" "$SOURCE/reg_Bayes_posteriors.png" "$TARGET"  #TODO: only exist as pdf and dont accept args since plotting inside regressor
 # "$COMMAND" "$SOURCE/reg_Bayes_reg_test_nonlinear.png" "$TARGET"
 # "$COMMAND" "$SOURCE/reg_kNN_reg_test_nonlinear.png" "$TARGET"
 # "$COMMAND" "$SOURCE/reg_DecisionTree_reg_test_nonlinear_bad.png" "$TARGET"
