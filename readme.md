@@ -38,7 +38,8 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
-
+- [ ] exploit parallelism
+- [ ] benchmark performance using ScalaMeter
 
 
 
