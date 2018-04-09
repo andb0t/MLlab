@@ -38,7 +38,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
-- [ ] exploit parallelism (e.g. for [k-means](https://www.coursera.org/learn/parprog1/programming/Olt0g/k-means)
+- [ ] exploit parallelism (e.g. for [k-means](https://www.coursera.org/learn/parprog1/programming/Olt0g/k-means))
 - [ ] benchmark performance using ScalaMeter
 
 
