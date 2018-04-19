@@ -23,6 +23,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [ ] random forest
 - [ ] convolutional neural network
 - [ ] recurrent neural network
+- [ ] tangent distance classifier (see [here](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf))
 
 ### Regression
 - [x] random
