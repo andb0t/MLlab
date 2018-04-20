@@ -24,7 +24,6 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [ ] convolutional neural network
 - [ ] recurrent neural network
 - [ ] tangent distance classifier (see [here](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf))
-- [ ] self-organizing map
 - [ ] deep-believe net from RBMs
 
 ### Regression
@@ -37,7 +36,8 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [ ] SVM
 
 ### Clustering
- - [ ] k-means
+ - [x] k-means
+ - [ ] self-organizing map
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
