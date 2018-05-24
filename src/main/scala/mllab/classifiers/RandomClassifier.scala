@@ -11,7 +11,7 @@ class RandomClassifier() extends Classifier {
 
   var nFeatures: Int = 0
 
-  def train(X: List[List[Double]], y: List[Int]): Unit = {
+  def train(X: List[List[Double]], y: List[Int], sample_weight: List[Double] = Nil): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     nFeatures = y.toSet.size
   }

@@ -44,11 +44,12 @@ class BoostedDecisionTreeClassifier(
     )
   )
 
-  def train(X: List[List[Double]], y: List[Int]): Unit = {
+  def train(X: List[List[Double]], y: List[Int], sample_weight: List[Double] = Nil): Unit = {
     var i = 0
     for (tree <- trees) {
       println(s"Training tree $i ...")
-      tree.train(X, y)
+      val w = for (x <- X) yield 1.0
+      tree.train(X, y, w)
       i = i + 1
     }
   }
