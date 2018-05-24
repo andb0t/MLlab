@@ -62,7 +62,7 @@ class NeuralNetworkClassifier(
   var lossEvolution = new ListBuffer[(Double, Double)]()
   var alphaEvolution = new ListBuffer[(Double, Double)]()
 
-  def train(listX: List[List[Double]], listy: List[Int], sample_weight: List[Double] = Nil): Unit = {
+  def train(listX: List[List[Double]], listy: List[Int], sampleWeight: List[Double] = Nil): Unit = {
     require(listX.length == listy.length, "number of training instances and labels is not equal")
     val X: DenseMatrix[Double] = Trafo.toMatrix(listX)
     val y: DenseVector[Int] = Trafo.toVectorInt(listy)

@@ -15,7 +15,7 @@ abstract class Classifier() {
    * @param y List of training labels
    * @param w Optional list of instance weights (not implemented in all classifiers)
    */
-  def train(X: List[List[Double]], y: List[Int], sample_weight: List[Double] = Nil): Unit
+  def train(X: List[List[Double]], y: List[Int], sampleWeight: List[Double] = Nil): Unit
 
   /** Applies the trained classifier to a dataset
    * @param X List of data instances

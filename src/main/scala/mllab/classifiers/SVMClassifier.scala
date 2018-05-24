@@ -8,7 +8,7 @@ class SVMClassifier() extends Classifier {
 
   val name: String = "SVMClassifier"
 
-  def train(X: List[List[Double]], y: List[Int], sample_weight: List[Double] = Nil): Unit = {
+  def train(X: List[List[Double]], y: List[Int], sampleWeight: List[Double] = Nil): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     throw new NotImplementedError("SVMClassifier not implemented yet")
   }

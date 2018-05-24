@@ -125,7 +125,7 @@ class DecisionTreeClassifier(
     }
   }
 
-  def train(X: List[List[Double]], y: List[Int], sample_weight: List[Double] = Nil): Unit = {
+  def train(X: List[List[Double]], y: List[Int], sampleWeight: List[Double] = Nil): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     for (nodeIndex <- 0 until decisionTree.nNodes) {
       val (thisNodeX, yThisNode) = decisionTree.atNode(nodeIndex, X, y)

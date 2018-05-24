@@ -28,7 +28,7 @@ class kNNClassifier(
   var X_NN: List[List[Double]] = Nil
   var y_NN: List[Int] = Nil
 
-  def train(X: List[List[Double]], y: List[Int], sample_weight: List[Double] = Nil): Unit = {
+  def train(X: List[List[Double]], y: List[Int], sampleWeight: List[Double] = Nil): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     require(X.length >= k, "need more instances than k hyperparameter")
     X_NN = X
