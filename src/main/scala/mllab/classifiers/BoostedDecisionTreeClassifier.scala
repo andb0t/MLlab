@@ -35,12 +35,19 @@ class BoostedDecisionTreeClassifier(
 
   val name: String = "BoostedDecisionTreeClassifier"
 
+  println(s"Initializing $n_estimators decision trees ...")
+  val clf = new DecisionTreeClassifier(
+    depth = depth,
+    criterion = criterion,
+    minSamplesSplit = minSamplesSplit
+  )
+
   def train(X: List[List[Double]], y: List[Int]): Unit = {
-    require(X.length == y.length, "number of training instances and labels is not equal")
-    throw new NotImplementedError("BoostedDecisionTreeClassifier not implemented yet")
+    println("Training tree ...")
+    clf.train(X, y)
   }
 
   def predict(X: List[List[Double]]): List[Int] =
-    for (instance <- X) yield 0
+    clf.predict(X)
 
 }
