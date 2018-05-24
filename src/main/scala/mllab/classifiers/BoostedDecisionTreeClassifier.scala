@@ -44,14 +44,24 @@ class BoostedDecisionTreeClassifier(
     )
   )
 
-  def train(X: List[List[Double]], y: List[Int], sample_weight: List[Double] = Nil): Unit = {
-    var i = 0
-    for (tree <- trees) {
-      println(s"Training tree $i ...")
-      val w = for (x <- X) yield 1.0
-      tree.train(X, y, w)
-      i = i + 1
+  def train(X: List[List[Double]], y: List[Int], sampleWeight: List[Double] = Nil): Unit = {
+
+    def boost(trees: List[DecisionTreeClassifier], currentSampleWeight: List[Double], step: Int = 0): List[Double] = {
+      if (trees.isEmpty) currentSampleWeight
+      else {
+        println(s"Train tree $step")
+        trees.head.train(X, y, currentSampleWeight)
+        val updatedSampleWeights = Nil
+        boost(trees.tail, updatedSampleWeights, step + 1)
+      }
     }
+
+    val startSampleWeight =
+      if (sampleWeight.isEmpty) List.fill(y.length)(1.0)
+      else sampleWeight
+
+    boost(trees, startSampleWeight)
+
   }
 
   def predict(X: List[List[Double]]): List[Int] =
