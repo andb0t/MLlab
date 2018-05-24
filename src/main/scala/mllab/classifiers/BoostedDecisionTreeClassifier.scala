@@ -36,18 +36,24 @@ class BoostedDecisionTreeClassifier(
   val name: String = "BoostedDecisionTreeClassifier"
 
   println(s"Initializing $n_estimators decision trees ...")
-  val clf = new DecisionTreeClassifier(
-    depth = depth,
-    criterion = criterion,
-    minSamplesSplit = minSamplesSplit
+  val trees = List.fill(n_estimators)(
+    new DecisionTreeClassifier(
+      depth = depth,
+      criterion = criterion,
+      minSamplesSplit = minSamplesSplit
+    )
   )
 
   def train(X: List[List[Double]], y: List[Int]): Unit = {
-    println("Training tree ...")
-    clf.train(X, y)
+    var i = 0
+    for (tree <- trees) {
+      println(s"Training tree $i ...")
+      tree.train(X, y)
+      i = i + 1
+    }
   }
 
   def predict(X: List[List[Double]]): List[Int] =
-    clf.predict(X)
+    trees.last.predict(X)
 
 }
