@@ -3,6 +3,7 @@ package classifiers
 import play.api.libs.json.JsValue
 
 import json._
+import utils._
 
 
 /** Companion object providing default parameters */
@@ -10,6 +11,7 @@ object BoostedDecisionTreeClassifier {
   val depth: Int = 3
   val criterion: String="gini"
   val minSamplesSplit: Int = 2
+  val verbose: Int = 1
   val n_estimators: Int = 3
 }
 
@@ -17,19 +19,22 @@ object BoostedDecisionTreeClassifier {
  * @param depth Depth of the tree
  * @param criterion Function to measure the quality of a split
  * @param minSamplesSplit Minimum number of samples required to split an internal node
+ * @param verbose Verbosity of output
  */
 class BoostedDecisionTreeClassifier(
   depth: Int = BoostedDecisionTreeClassifier.depth,
   criterion: String = BoostedDecisionTreeClassifier.criterion,
   minSamplesSplit: Int =  BoostedDecisionTreeClassifier.minSamplesSplit,
-  n_estimators: Int =  BoostedDecisionTreeClassifier.n_estimators
+  n_estimators: Int =  BoostedDecisionTreeClassifier.n_estimators,
+  verbose: Int =  BoostedDecisionTreeClassifier.verbose
 ) extends Classifier {
   def this(json: JsValue) = {
     this(
       depth = JsonMagic.toInt(json, "depth", BoostedDecisionTreeClassifier.depth),
       criterion = JsonMagic.toString(json, "criterion", BoostedDecisionTreeClassifier.criterion),
       minSamplesSplit = JsonMagic.toInt(json, "minSamplesSplit", BoostedDecisionTreeClassifier.minSamplesSplit),
-      n_estimators = JsonMagic.toInt(json, "n_estimators", BoostedDecisionTreeClassifier.n_estimators)
+      n_estimators = JsonMagic.toInt(json, "n_estimators", BoostedDecisionTreeClassifier.n_estimators),
+      verbose = JsonMagic.toInt(json, "verbose", BoostedDecisionTreeClassifier.verbose)
       )
   }
 
@@ -40,7 +45,8 @@ class BoostedDecisionTreeClassifier(
     new DecisionTreeClassifier(
       depth = depth,
       criterion = criterion,
-      minSamplesSplit = minSamplesSplit
+      minSamplesSplit = minSamplesSplit,
+      verbose = math.max(0, verbose - 1)
     )
   )
 
@@ -51,8 +57,29 @@ class BoostedDecisionTreeClassifier(
       else {
         println(s"Train tree $step")
         trees.head.train(X, y, currentSampleWeight)
-        val updatedSampleWeights = Nil
-        boost(trees.tail, updatedSampleWeights, step + 1)
+        val y_pred = trees.head.predict(X)
+        val isCorrect: List[Boolean] = (y_pred zip y).map{case (p, t) => p == t}
+        val newSampleWeights = (isCorrect zip currentSampleWeight).map{case (c, w) => if (c) w else w * 2}
+        val oldWeightSum = currentSampleWeight.sum
+        val newWeightSum = newSampleWeights.sum
+        val newNormSampleWeight = newSampleWeights map (_ * oldWeightSum / newWeightSum)
+
+        val nHit: Int = isCorrect count (_ == true)
+        val nMiss: Int = isCorrect count (_ == false)
+        val wHit: Double = (isCorrect zip currentSampleWeight).filter(_._1).map(_._2).sum
+        val wMiss: Double = (isCorrect zip currentSampleWeight).filter(!_._1).map(_._2).sum
+        val wNewHit: Double = (isCorrect zip newNormSampleWeight).filter(_._1).map(_._2).sum
+        val wNewMiss: Double = (isCorrect zip newNormSampleWeight).filter(!_._1).map(_._2).sum
+        println("Hits: %d (weighted: %.2f)".format(nHit, wHit))
+        println("Misses: %d (weighted: %.2f)".format(nMiss, wMiss))
+
+        val missFactor = wNewMiss / wMiss
+        val hitFactor = wNewHit / wHit
+        println("Weight update of hits: %.2f".format(hitFactor))
+        println("Weight update of misses: %.2f".format(missFactor))
+
+        require(Maths.round(newNormSampleWeight.sum, 6) == Maths.round(currentSampleWeight.sum, 6), "weight conservation violated")
+        boost(trees.tail, newNormSampleWeight, step + 1)
       }
     }
 

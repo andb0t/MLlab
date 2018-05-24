@@ -12,23 +12,27 @@ object DecisionTreeClassifier {
   val depth: Int = 3
   val criterion: String="gini"
   val minSamplesSplit: Int = 2
+  val verbose: Int = 1
 }
 
 /** Decision tree classifier
  * @param depth Depth of the tree
  * @param criterion Function to measure the quality of a split
  * @param minSamplesSplit Minimum number of samples required to split an internal node
+ * @param verbose Verbosity of output
  */
 class DecisionTreeClassifier(
   depth: Int = DecisionTreeClassifier.depth,
   criterion: String = DecisionTreeClassifier.criterion,
-  minSamplesSplit: Int =  DecisionTreeClassifier.minSamplesSplit
+  minSamplesSplit: Int =  DecisionTreeClassifier.minSamplesSplit,
+  verbose: Int =  DecisionTreeClassifier.verbose
 ) extends Classifier {
   def this(json: JsValue) = {
     this(
       depth = JsonMagic.toInt(json, "depth", DecisionTreeClassifier.depth),
       criterion = JsonMagic.toString(json, "criterion", DecisionTreeClassifier.criterion),
-      minSamplesSplit = JsonMagic.toInt(json, "minSamplesSplit", DecisionTreeClassifier.minSamplesSplit)
+      minSamplesSplit = JsonMagic.toInt(json, "minSamplesSplit", DecisionTreeClassifier.minSamplesSplit),
+      verbose = JsonMagic.toInt(json, "verbose", DecisionTreeClassifier.verbose)
       )
   }
 
@@ -131,7 +135,7 @@ class DecisionTreeClassifier(
       val (thisNodeX, yThisNode) = decisionTree.atNode(nodeIndex, X, y)
       setOptimalCut(thisNodeX, yThisNode, decisionTree, nodeIndex)
     }
-    println(decisionTree)
+    if (verbose > 0) println(decisionTree)
   }
 
   def predict(X: List[List[Double]]): List[Int] =
