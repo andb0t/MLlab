@@ -16,9 +16,10 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] perceptron
 - [x] k-nearest neighbors
 - [x] decision tree
-- [x] boosted decision tree
 - [x] multilayer neural network
 - [x] naive Bayes
+- [x] boosted decision tree
+  - [ ] AdaBoost
 - [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
 - [ ] random forest
 - [ ] convolutional neural network
@@ -86,7 +87,7 @@ This will package everything in a fat jar, using [sbt-assembly](https://github.c
 sbt assembly
 ```
 
-Run the compiled jar from python with python `examples/run_jar.py`
+Run the compiled jar e.g. with python like in `examples/run_jar.py`
 
 ### Create API documentation
 ```shell
