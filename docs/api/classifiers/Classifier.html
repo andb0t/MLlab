@@ -55,7 +55,7 @@
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="DecisionTreeClassifier.html" class="extype" name="classifiers.DecisionTreeClassifier">DecisionTreeClassifier</a>, <a href="LogisticRegressionClassifier.html" class="extype" name="classifiers.LogisticRegressionClassifier">LogisticRegressionClassifier</a>, <a href="NaiveBayesClassifier.html" class="extype" name="classifiers.NaiveBayesClassifier">NaiveBayesClassifier</a>, <a href="NeuralNetworkClassifier.html" class="extype" name="classifiers.NeuralNetworkClassifier">NeuralNetworkClassifier</a>, <a href="PerceptronClassifier.html" class="extype" name="classifiers.PerceptronClassifier">PerceptronClassifier</a>, <a href="RandomClassifier.html" class="extype" name="classifiers.RandomClassifier">RandomClassifier</a>, <a href="SVMClassifier.html" class="extype" name="classifiers.SVMClassifier">SVMClassifier</a>, <a href="kNNClassifier.html" class="extype" name="classifiers.kNNClassifier">kNNClassifier</a></div>
+            <div class="subClasses hiddenContent"><a href="BoostedDecisionTreeClassifier.html" class="extype" name="classifiers.BoostedDecisionTreeClassifier">BoostedDecisionTreeClassifier</a>, <a href="DecisionTreeClassifier.html" class="extype" name="classifiers.DecisionTreeClassifier">DecisionTreeClassifier</a>, <a href="LogisticRegressionClassifier.html" class="extype" name="classifiers.LogisticRegressionClassifier">LogisticRegressionClassifier</a>, <a href="NaiveBayesClassifier.html" class="extype" name="classifiers.NaiveBayesClassifier">NaiveBayesClassifier</a>, <a href="NeuralNetworkClassifier.html" class="extype" name="classifiers.NeuralNetworkClassifier">NeuralNetworkClassifier</a>, <a href="PerceptronClassifier.html" class="extype" name="classifiers.PerceptronClassifier">PerceptronClassifier</a>, <a href="RandomClassifier.html" class="extype" name="classifiers.RandomClassifier">RandomClassifier</a>, <a href="SVMClassifier.html" class="extype" name="classifiers.SVMClassifier">SVMClassifier</a>, <a href="kNNClassifier.html" class="extype" name="classifiers.kNNClassifier">kNNClassifier</a></div>
           </div></div>
         
 
@@ -151,18 +151,18 @@
     </span>
       <p class="shortcomment cmt">Applies the trained classifier to a dataset</p><div class="fullcomment"><div class="comment cmt"><p>Applies the trained classifier to a dataset</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>List of data instances</p></dd><dt>returns</dt><dd class="cmt"><p>List of predictions</p></dd></dl></div>
     </li><li name="classifiers.Classifier#train" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="train(X:List[List[Double]],y:List[Int]):Unit"></a>
-      <a id="train(List[List[Double]],List[Int]):Unit"></a>
+      <a id="train(X:List[List[Double]],y:List[Int],sampleWeight:List[Double]):Unit"></a>
+      <a id="train(List[List[Double]],List[Int],List[Double]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">train</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">train</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="sampleWeight">sampleWeight: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>] = <span class="symbol">Nil</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.Classifier@train(X:List[List[Double]],y:List[Int]):Unit" title="Permalink" target="_top">
+      <a href="../index.html#classifiers.Classifier@train(X:List[List[Double]],y:List[Int],sampleWeight:List[Double]):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
