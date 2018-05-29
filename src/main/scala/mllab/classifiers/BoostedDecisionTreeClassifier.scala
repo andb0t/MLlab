@@ -98,7 +98,10 @@ class BoostedDecisionTreeClassifier(
 
   }
 
-  def predict(X: List[List[Double]]): List[Int] =
-    trees.last.predict(X)
+  def predict(X: List[List[Double]]): List[Int] = {
+    val predictions = (for (tree <- trees) yield tree.predict(X)).transpose
+    val averages: List[Double] = predictions.map(p => 1.0 * p.sum / p.length)
+    averages.map(a => if (a < 0.5) 0 else 1)
+  }
 
 }
