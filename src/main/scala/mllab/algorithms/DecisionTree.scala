@@ -198,11 +198,14 @@ class DecisionTree(depth: Int){
    * @param nodeIndex The node index
    * @param X List of instances
    * @param y List of labels
-   * @return List of instances and list of labels, both being a subset of the input X and y
+   * @param sampleWeight Optional list of sample weights
+   * @return List of instances, list of labels and list of sample weights, being a subset of the input X, y and sampleWeight
    */
-  def atNode[T](nodeIndex: Int, X: List[List[Double]], y: List[T]): (List[List[Double]], List[T]) = {
+  def atNode[T](nodeIndex: Int, X: List[List[Double]], y: List[T], sampleWeight: List[Double]=Nil): (List[List[Double]], List[T], List[Double]) = {
 
     require(X.length == y.length, "both arguments must have the same length")
+    if (!sampleWeight.isEmpty)
+      require(X.length == sampleWeight.length, "both arguments must have the same length")
 
     // determine ancestors of this node
     def walkTree(currentNode: Int, ancestors: List[Tuple2[Int, Boolean]]): List[Tuple2[Int, Boolean]] =
@@ -220,12 +223,13 @@ class DecisionTree(depth: Int){
     def applyCuts[T](
       X: List[List[Double]],
       y: List[T],
-      ancestors: List[Tuple2[Int, Boolean]]): Tuple2[List[List[Double]], List[T]] = ancestors match {
-      case Nil => Tuple2(X, y)
+      sampleWeight: List[Double],
+      ancestors: List[Tuple2[Int, Boolean]]): Tuple3[List[List[Double]], List[T], List[Double]] = ancestors match {
+      case Nil => Tuple3(X, y, sampleWeight)
       case ancestor::rest => {
         val thisNode = tree(ancestor._1)
-        if (X.isEmpty) Tuple2(Nil, Nil)
-        else if (!thisNode.filled) Tuple2(X, y)
+        if (X.isEmpty) Tuple3(Nil, Nil, Nil)
+        else if (!thisNode.filled) Tuple3(X, y, sampleWeight)
         else {
           val iFeature = thisNode.featureIndex
           val thresh = thisNode.threshold
@@ -233,12 +237,15 @@ class DecisionTree(depth: Int){
           val featureX: List[Double] = X.transpose.apply(iFeature)
           val goodIndices = featureX.zipWithIndex.filter(xi => (goRight && xi._1 > thresh) || (!goRight && xi._1 <= thresh)).map(_._2)
           val newXy = Trafo.iloc(X zip y, goodIndices)
-          applyCuts(newXy.map(_._1), newXy.map(_._2), rest)
+          val newWeights =
+            if (sampleWeight.isEmpty) Nil
+            else Trafo.iloc(sampleWeight, goodIndices)
+          applyCuts(newXy.map(_._1), newXy.map(_._2), newWeights, rest)
         }
       }
     }
 
-    val survivors = applyCuts(X, y, ancestors)
+    val survivors = applyCuts(X, y, sampleWeight, ancestors)
     // println("Node " + nodeIndex + " has " + survivors._1.length + " entries")
     survivors
   }

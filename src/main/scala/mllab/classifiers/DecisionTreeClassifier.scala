@@ -88,8 +88,9 @@ class DecisionTreeClassifier(
    * @param y List of labels of instances at this node
    * @param decTree Decision tree to update
    * @param nodeIndex Index of the node to tune
+   * @param sampleWeight Optional sample weights
    */
-  def setOptimalCut(X: List[List[Double]], y: List[Int], decTree: DecisionTree, nodeIndex: Int): Unit = {
+  def setOptimalCut(X: List[List[Double]], y: List[Int], sampleWeight: List[Double], decTree: DecisionTree, nodeIndex: Int): Unit = {
    // println("Tuning node " + nodeIndex)
    val nSteps: Int = 10
    val nZooms: Int = 3
@@ -132,8 +133,8 @@ class DecisionTreeClassifier(
   def train(X: List[List[Double]], y: List[Int], sampleWeight: List[Double] = Nil): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     for (nodeIndex <- 0 until decisionTree.nNodes) {
-      val (thisNodeX, yThisNode) = decisionTree.atNode(nodeIndex, X, y)
-      setOptimalCut(thisNodeX, yThisNode, decisionTree, nodeIndex)
+      val (thisNodeX, yThisNode, wThisNode) = decisionTree.atNode(nodeIndex, X, y, sampleWeight)
+      setOptimalCut(thisNodeX, yThisNode, wThisNode, decisionTree, nodeIndex)
     }
     if (verbose > 0) println(decisionTree)
   }
