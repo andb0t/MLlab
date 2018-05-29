@@ -43,17 +43,20 @@ class DecisionTreeClassifier(
   /** Calculates the purity for a cut at threshold at this node
    * @param featureX List of this feature for all instances at this node
    * @param yThisNode List of the corresponding labels
+   * @param sampleWeight List of sample weights at this node
    * @param threshold The cut-off threshold to be applied
    * @param crit Function to measure the quality of a split
    * @return The purity of this split and a boolean flag indicating if signal region is greater than the threshold
    */
-  def getPurity(featureX: List[Double], yThisNode: List[Int], threshold: Double, crit: String): (Double, Boolean) = {
-    val rightIdx = featureX.zip(yThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
-    val leftIdx = featureX.zip(yThisNode).filter(tup => tup._1 <= threshold).map(tup => tup._2)
-    val rightSig: Int = rightIdx.count(_ == 1)
-    val rightBkg: Int = rightIdx.count(_ == 0)
-    val leftSig: Int = leftIdx.count(_ == 1)
-    val leftBkg: Int = leftIdx.count(_ == 0)
+  def getPurity(featureX: List[Double], yThisNode: List[Int], wThisNode: List[Double], threshold: Double, crit: String): (Double, Boolean) = {
+    val rightClasses: List[Tuple2[Int, Double]] =
+      featureX.zip(yThisNode zip wThisNode).filter(tup => tup._1 > threshold).map(tup => tup._2)
+    val leftClasses: List[Tuple2[Int, Double]] =
+      featureX.zip(yThisNode zip wThisNode).filter(tup => tup._1 <= threshold).map(tup => tup._2)
+    val rightSig: Double = rightClasses.filter(_._1 == 1).map(_._2).sum
+    val rightBkg: Double = rightClasses.filter(_._1 == 0).map(_._2).sum
+    val leftSig: Double = leftClasses.filter(_._1 == 1).map(_._2).sum
+    val leftBkg: Double = leftClasses.filter(_._1 == 0).map(_._2).sum
     val greater: Boolean = (rightSig > leftSig)
     val purity =
       if (crit == "maxcorrect"){
@@ -67,9 +70,9 @@ class DecisionTreeClassifier(
           else throw new NotImplementedError("criterion " + crit + " not implemented")
 
         // CART cost function
-        val m: Int = featureX.length
-        val mLeft: Int = leftIdx.length
-        val mRight: Int = rightIdx.length
+        val m: Double = wThisNode.sum
+        val mLeft: Double = leftClasses.map(_._2).sum
+        val mRight: Double = rightClasses.map(_._2).sum
         val GLeft: Double =
           if (mLeft != 0) impFunc(List(1.0 * leftSig/mLeft, 1.0 * leftBkg/mLeft))
           else 0
@@ -92,6 +95,11 @@ class DecisionTreeClassifier(
    */
   def setOptimalCut(X: List[List[Double]], y: List[Int], sampleWeight: List[Double], decTree: DecisionTree, nodeIndex: Int): Unit = {
    // println("Tuning node " + nodeIndex)
+
+   val thisSampleWeight =
+     if (sampleWeight.isEmpty) List.fill(y.length)(1.0)
+     else sampleWeight
+
    val nSteps: Int = 10
    val nZooms: Int = 3
    val mean: Double = 1.0 * y.sum / y.length
@@ -103,7 +111,7 @@ class DecisionTreeClassifier(
        def scanSteps(count: Int, purestSplit: Double, maxPurity: Double): Unit =
          if (count < nSteps) {
            val currThresh: Double = min + count * stepSize
-           val (currPurity, currGreater) = getPurity(featureX, y, currThresh, criterion)
+           val (currPurity, currGreater) = getPurity(featureX, y, thisSampleWeight, currThresh, criterion)
            decTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, mean, nSamples, currPurity)
            if (maxPurity < currPurity) scanSteps(count+1, currThresh, currPurity)
            else scanSteps(count+1, purestSplit, maxPurity)

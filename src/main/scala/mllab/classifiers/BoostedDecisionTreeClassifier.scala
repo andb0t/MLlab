@@ -20,6 +20,7 @@ object BoostedDecisionTreeClassifier {
  * @param depth Depth of the tree
  * @param criterion Function to measure the quality of a split
  * @param minSamplesSplit Minimum number of samples required to split an internal node
+ * @param n_estimators Number of boosting steps
  * @param verbose Verbosity of output
  */
 class BoostedDecisionTreeClassifier(
@@ -80,7 +81,7 @@ class BoostedDecisionTreeClassifier(
         println(" - weight update of misses: %.2f".format(missFactor))
 
         println(" - confusion matrix")
-        Evaluation.matrix(y_pred, y, percentage = true)
+        Evaluation.matrix(y_pred, y, percentage = false)
 
         require(Maths.round(newNormSampleWeight.sum, 6) == Maths.round(currentSampleWeight.sum, 6), "weight conservation violated")
         boost(trees.tail, newNormSampleWeight, step + 1)
