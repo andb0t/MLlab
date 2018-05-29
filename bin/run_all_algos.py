@@ -10,7 +10,7 @@ parser.add_argument('command',
                     default=['clf', 'reg', 'clu'],
                     help='create data for classification, regression and/or clustering')
 parser.add_argument("--format",
-                    default='pdf',
+                    default='png',
                     choices=['pdf', 'png'],
                     help='output format for figures')
 parser.add_argument("--output",
@@ -21,6 +21,8 @@ args = parser.parse_args()
 algoDict = {'clf': {'DecisionTree': [{'dataType': 'nonlinear', 'hyper': '', 'suffix': 'nonlinear_bad'},
                                      {'dataType': 'nonlinear', 'hyper': 'depth=4', 'suffix': 'nonlinear'},
                                     ],
+                    'BoostedDecisionTree': [{'dataType': 'nonlinear', 'hyper': 'depth=4, n_estimators=100', 'suffix': 'nonlinear'},
+                                           ],
                     'kNN': [{'dataType': 'nonlinear', 'hyper': '', 'suffix': 'nonlinear'},
                            ],
                     'LogisticRegression': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
