@@ -2,6 +2,7 @@ package classifiers
 
 import play.api.libs.json.JsValue
 
+import evaluation._
 import json._
 import utils._
 
@@ -70,13 +71,16 @@ class BoostedDecisionTreeClassifier(
         val wMiss: Double = (isCorrect zip currentSampleWeight).filter(!_._1).map(_._2).sum
         val wNewHit: Double = (isCorrect zip newNormSampleWeight).filter(_._1).map(_._2).sum
         val wNewMiss: Double = (isCorrect zip newNormSampleWeight).filter(!_._1).map(_._2).sum
-        println("Hits: %d (weighted: %.2f)".format(nHit, wHit))
-        println("Misses: %d (weighted: %.2f)".format(nMiss, wMiss))
+        println(" - hits: %d (weighted: %.2f)".format(nHit, wHit))
+        println(" - misses: %d (weighted: %.2f)".format(nMiss, wMiss))
 
         val missFactor = wNewMiss / wMiss
         val hitFactor = wNewHit / wHit
-        println("Weight update of hits: %.2f".format(hitFactor))
-        println("Weight update of misses: %.2f".format(missFactor))
+        println(" - weight update of hits: %.2f".format(hitFactor))
+        println(" - weight update of misses: %.2f".format(missFactor))
+
+        println(" - confusion matrix")
+        Evaluation.matrix(y_pred, y, percentage = true)
 
         require(Maths.round(newNormSampleWeight.sum, 6) == Maths.round(currentSampleWeight.sum, 6), "weight conservation violated")
         boost(trees.tail, newNormSampleWeight, step + 1)
@@ -88,6 +92,8 @@ class BoostedDecisionTreeClassifier(
       else sampleWeight
 
     boost(trees, startSampleWeight)
+
+    println("Finished boosting!")
 
   }
 
