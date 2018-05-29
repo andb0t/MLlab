@@ -49,6 +49,9 @@ class DecisionTree(depth: Int){
   /** Number of nodes in this tree */
   val nNodes: Int = Math.pow(2, depth).toInt - 1
 
+  /** Weight of the tree (for boosting) */
+  var weight: Double = 1.0
+
   /** Initializes a list of nodes
   * @param nNodes number of nodes to initialize
   * @param tree start/intermediate tree object

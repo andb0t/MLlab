@@ -83,6 +83,9 @@ class BoostedDecisionTreeClassifier(
         println(" - confusion matrix")
         Evaluation.matrix(y_pred, y, percentage = false)
 
+        trees.head.decisionTree.weight = Evaluation.f1(y_pred, y)
+        println(" - setting learner weight: %.3f".format(trees.head.decisionTree.weight))
+
         require(Maths.round(newNormSampleWeight.sum, 6) == Maths.round(currentSampleWeight.sum, 6), "weight conservation violated")
         boost(trees.tail, newNormSampleWeight, step + 1)
       }
@@ -99,8 +102,10 @@ class BoostedDecisionTreeClassifier(
   }
 
   def predict(X: List[List[Double]]): List[Int] = {
-    val predictions = (for (tree <- trees) yield tree.predict(X)).transpose
-    val averages: List[Double] = predictions.map(p => 1.0 * p.sum / p.length)
+    val treeWeights = trees.map(_.decisionTree.weight)
+    val relWeights = treeWeights.map(_ / treeWeights.sum)
+    val predictions = (for ((tree, weight) <- (trees zip relWeights)) yield tree.predict(X).map(_ * weight)).transpose
+    val averages: List[Double] = predictions.map(_.sum)
     averages.map(a => if (a < 0.5) 0 else 1)
   }
 
