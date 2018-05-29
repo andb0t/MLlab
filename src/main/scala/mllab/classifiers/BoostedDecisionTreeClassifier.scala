@@ -61,6 +61,7 @@ class BoostedDecisionTreeClassifier(
         trees.head.train(X, y, currentSampleWeight)
         val y_pred = trees.head.predict(X)
         val isCorrect: List[Boolean] = (y_pred zip y).map{case (p, t) => p == t}
+        // for now, simply double correct instances' weights
         val newSampleWeights = (isCorrect zip currentSampleWeight).map{case (c, w) => if (c) w else w * 2}
         val oldWeightSum = currentSampleWeight.sum
         val newWeightSum = newSampleWeights.sum
@@ -83,6 +84,7 @@ class BoostedDecisionTreeClassifier(
         println(" - confusion matrix")
         Evaluation.matrix(y_pred, y, percentage = false)
 
+        // for now, take each learners f1 score as its weight
         trees.head.decisionTree.weight = Evaluation.f1(y_pred, y)
         println(" - setting learner weight: %.3f".format(trees.head.decisionTree.weight))
 
