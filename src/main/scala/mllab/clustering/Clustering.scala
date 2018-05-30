@@ -14,7 +14,7 @@ abstract class Clustering() {
    * @param X List of training instances
    * @param y List of training labels
    */
-  def train(X: List[List[Double]], y: List[Int]): Unit
+  def train(X: List[List[Double]]): Unit
 
   /** Applies the trained algorithm to a dataset
    * @param X List of data instances

@@ -34,8 +34,8 @@ object SelfOrganizingMapClustering {
   def clusterMeans(): List[List[List[Double]]] =
     centroidEvolution.toList.transpose
 
-  def train(X: List[List[Double]], y: List[Int]): Unit =
-    require(X.length == y.length, "both arguments must have the same length")
+  def train(X: List[List[Double]]): Unit =
+    println("This is a dummy implementation")
 
   def predict(X: List[List[Double]]): List[Int] = {
     val result = for (instance <- X) yield (Math.random * width * height).toInt
