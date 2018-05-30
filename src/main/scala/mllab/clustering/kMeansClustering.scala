@@ -46,6 +46,8 @@ class kMeansClustering(
         lossEvolution += Tuple2(count.toDouble, loss)
         centroidEvolution += centroids
         println("Final% 4d with loss %.4e".format(count, loss))
+        if (stop) println("Stable means reached!")
+        else if (count >= maxIter) println(s"Maximum number of iterations ($maxIter) reached!")
         Tuple2(y, centroids)
       }
       else {
