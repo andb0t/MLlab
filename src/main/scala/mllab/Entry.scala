@@ -84,7 +84,6 @@ object Mllab {
       val testReader = new Reader(conf.input() + "/clu_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
-      val y_test = testReader.getY().map(_.toInt)
 
       val clu =
         if (conf.clu().isEmpty || conf.clu() == "Random") new RandomClustering()
@@ -94,12 +93,11 @@ object Mllab {
       clu.train(X_train)
 
       val y_pred = clu.predict(X_test)
-      assert (y_pred.length == y_test.length)
 
       if (!conf.noplots()) {
         println("Visualize the data")
-        Plotting.plotClfData(X_test, y_test, name= conf.output() + "/clu_" + conf.clu() + "_data" + suff + "." + conf.format())
         Plotting.plotClu(X_test, y_pred, clu, name= conf.output() + "/clu_" + conf.clu() + "_clu_test" + suff + "." + conf.format())
+        Plotting.plotClu(X_test, y_pred, clu, drawCentroids = true, name= conf.output() + "/clu_" + conf.clu() + "_centroids" + suff + "." + conf.format())
 
         for (diag <- clu.diagnostics)
           Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/clu_" + conf.clf() + "_" + diag._1 + "" + suff + "." + conf.format())

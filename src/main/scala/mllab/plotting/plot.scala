@@ -25,7 +25,7 @@ object Plotting {
       val filteredData: List[List[Double]] = (data zip labels).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', name= "Feature " + category)
+      p += plot(x, y, '.', name= "Class " + category)
     }
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
@@ -73,23 +73,27 @@ object Plotting {
    *@param clu Trained classifier
    *@param name Path to save the plot
    */
-  def plotClu(data: List[List[Double]], predictions: List[Int], clu: Clustering, name: String="plots/clu.pdf"): Unit = {
+  def plotClu(data: List[List[Double]], predictions: List[Int], clu: Clustering, drawCentroids: Boolean=false, name: String="plots/clu.pdf"): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
     // now plot all datapoints
     val centroids = clu.clusterMeans()
 
-    val finalCentroids: List[List[Double]] = centroids.map(_.last)
-    val x: List[Double] = finalCentroids.map(e => e.head)
-    val y: List[Double] = finalCentroids.map(e => e(1))
-    p += plot(x, y, '+', colorcode= "r", name= "Cluster means")
+    if (drawCentroids) {
+      val finalCentroids: List[List[Double]] = centroids.map(_.last)
+      val x: List[Double] = finalCentroids.map(e => e.head)
+      val y: List[Double] = finalCentroids.map(e => e(1))
+      p += plot(x, y, '+', colorcode= "r", name= "Cluster means")
+    }
 
     for (i <- 0 until centroids.length) {
       val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i % 10))
-      val xEvol: List[Double] = centroids(i).map(e => e.head)
-      val yEvol: List[Double] = centroids(i).map(e => e(1))
-      p += plot(xEvol, yEvol, '-', colorcode=col, name= " ")
+      if (drawCentroids) {
+        val xEvol: List[Double] = centroids(i).map(e => e.head)
+        val yEvol: List[Double] = centroids(i).map(e => e(1))
+        p += plot(xEvol, yEvol, '-', colorcode=col, name= " ")
+      }
       val filteredData: List[List[Double]] = (data zip predictions).filter(_._2 == i).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
@@ -137,7 +141,7 @@ object Plotting {
       val filteredData: List[List[Double]] = (gridData zip predictions).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', name= "Feature " + category)
+      p += plot(x, y, '.', name= "Prediction " + category)
     }
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
@@ -182,7 +186,7 @@ object Plotting {
     for (i <- 0 until dataPerFeature.length){
       val x = dataPerFeature(i)
       if (data.head.length == 1) p += plot(x, labels, '.')
-      else p += plot(x, labels, '.', name= "Feature " + i)
+      else p += plot(x, labels, '.', name= "Regression " + i)
     }
 
     p.ylabel = "Label"
