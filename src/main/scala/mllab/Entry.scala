@@ -85,6 +85,7 @@ object Mllab {
       val clu =
         if (conf.clu().isEmpty || conf.clu() == "Random") new RandomClustering()
         else if (conf.clu() == "kMeans") new kMeansClustering(json)
+        else if (conf.clu() == "SelfOrganizingMap") new SelfOrganizingMapClustering(json)
         else throw new IllegalArgumentException("algorithm " + conf.clu() + " not implemented.")
 
       val y_pred = clu.predict(X_test)
