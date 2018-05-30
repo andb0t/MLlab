@@ -86,7 +86,7 @@ object Plotting {
     p += plot(x, y, '+', colorcode= "r", name= "Cluster means")
 
     for (i <- 0 until centroids.length) {
-      val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i))
+      val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i % 10))
       val xEvol: List[Double] = centroids(i).map(e => e.head)
       val yEvol: List[Double] = centroids(i).map(e => e(1))
       p += plot(xEvol, yEvol, '-', colorcode=col, name= " ")
@@ -99,7 +99,7 @@ object Plotting {
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"
     p.title = clu.name + " results"
-    p.legend = true
+    if (centroids.length < 10) p.legend = true
     f.saveas(name)
 
   }
