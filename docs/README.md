@@ -158,7 +158,7 @@ val clf = new BoostedDecisionTreeClassifier(depth=4, n_estimators=100)
 
 This is the application of the BDT algorithm to the circular dataset. The majority vote allows for deviations from the rectangular patterns, observed above.
 
-<img src="clf_BOostedDecisionTree_clf_test_nonlinear.png" width="500">
+<img src="clf_BoostedDecisionTree_clf_test_nonlinear.png" width="500">
 
 
 
