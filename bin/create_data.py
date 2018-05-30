@@ -221,8 +221,8 @@ if args.reg is not None:
 
 if args.clu is not None:
     random.seed(1337)
-    nInstances = {'test': 500}
-    for command in ['test']:
+    nInstances = {'train': 1000, 'test': 500}
+    for command in ['train', 'test']:
 
         filename = os.path.join(TARGET_DIR, 'clu_' + command + '.csv')
         print('Creating data in', filename)

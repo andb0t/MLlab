@@ -77,6 +77,11 @@ object Mllab {
     if (!conf.clu().isEmpty) {
       println("Train the clustering")
 
+      val trainReader = new Reader(conf.input() + "/clu_train.csv", label= -1, index=0)
+      trainReader.loadFile()
+      val X_train = trainReader.getX()
+      val y_train = trainReader.getY().map(_.toInt)
+
       val testReader = new Reader(conf.input() + "/clu_test.csv", label= -1, index=0)
       testReader.loadFile()
       val X_test = testReader.getX()
@@ -87,6 +92,7 @@ object Mllab {
         else if (conf.clu() == "kMeans") new kMeansClustering(json)
         else if (conf.clu() == "SelfOrganizingMap") new SelfOrganizingMapClustering(json)
         else throw new IllegalArgumentException("algorithm " + conf.clu() + " not implemented.")
+      clu.train(X_train, y_train)
 
       val y_pred = clu.predict(X_test)
       assert (y_pred.length == y_test.length)

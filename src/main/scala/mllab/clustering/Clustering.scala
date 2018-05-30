@@ -10,6 +10,12 @@ abstract class Clustering() {
   /** The name of the clustering algorithm */
   val name: String
 
+  /** Performs the training of the classifier
+   * @param X List of training instances
+   * @param y List of training labels
+   */
+  def train(X: List[List[Double]], y: List[Int]): Unit
+
   /** Applies the trained algorithm to a dataset
    * @param X List of data instances
    * @return List of predictions
