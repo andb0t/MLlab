@@ -184,22 +184,22 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="algorithms.DecisionTree#atNode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="atNode[T](nodeIndex:Int,X:List[List[Double]],y:List[T]):(List[List[Double]],List[T])"></a>
-      <a id="atNode[T](Int,List[List[Double]],List[T]):(List[List[Double]],List[T])"></a>
+      <a id="atNode[T](nodeIndex:Int,X:List[List[Double]],y:List[T],sampleWeight:List[Double]):(List[List[Double]],List[T],List[Double])"></a>
+      <a id="atNode[T](Int,List[List[Double]],List[T],List[Double]):(List[List[Double]],List[T],List[Double])"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">atNode</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="algorithms.DecisionTree.atNode.T">T</span>]</span>)</span><span class="result">: (<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]], <span class="extype" name="scala.List">List</span>[<span class="extype" name="algorithms.DecisionTree.atNode.T">T</span>])</span>
+        <span class="name">atNode</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>, <span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="algorithms.DecisionTree.atNode.T">T</span>]</span>, <span name="sampleWeight">sampleWeight: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>] = <span class="symbol">Nil</span></span>)</span><span class="result">: (<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]], <span class="extype" name="scala.List">List</span>[<span class="extype" name="algorithms.DecisionTree.atNode.T">T</span>], <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>])</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#algorithms.DecisionTree@atNode[T](nodeIndex:Int,X:List[List[Double]],y:List[T]):(List[List[Double]],List[T])" title="Permalink" target="_top">
+      <a href="../index.html#algorithms.DecisionTree@atNode[T](nodeIndex:Int,X:List[List[Double]],y:List[T],sampleWeight:List[Double]):(List[List[Double]],List[T],List[Double])" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns the data (instances and labels) present at this node</p><div class="fullcomment"><div class="comment cmt"><p>Returns the data (instances and labels) present at this node</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The node index</p></dd><dt class="param">X</dt><dd class="cmt"><p>List of instances</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of labels</p></dd><dt>returns</dt><dd class="cmt"><p>List of instances and list of labels, both being a subset of the input X and y</p></dd></dl></div>
+      <p class="shortcomment cmt">Returns the data (instances and labels) present at this node</p><div class="fullcomment"><div class="comment cmt"><p>Returns the data (instances and labels) present at this node</p></div><dl class="paramcmts block"><dt class="param">nodeIndex</dt><dd class="cmt"><p>The node index</p></dd><dt class="param">X</dt><dd class="cmt"><p>List of instances</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of labels</p></dd><dt class="param">sampleWeight</dt><dd class="cmt"><p>Optional list of sample weights</p></dd><dt>returns</dt><dd class="cmt"><p>List of instances, list of labels and list of sample weights, being a subset of the input X, y and sampleWeight</p></dd></dl></div>
     </li><li name="algorithms.DecisionTree#classify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="classify(instance:List[Double]):Int"></a>
       <a id="classify(List[Double]):Int"></a>
@@ -621,6 +621,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="algorithms.DecisionTree#weight" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="weight:Double"></a>
+      <a id="weight:Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">weight</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#algorithms.DecisionTree@weight:Double" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Weight of the tree (for boosting)</p>
     </li></ol>
             </div>
 

@@ -13,6 +13,7 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
     * [Naive Bayes](#naive-bayes-classification)
     * [k-Nearest Neighbors](#k-nearest-neighbors-classification)
     * [Decision Tree](#decision-tree-classification)
+    * [Boosted Decision Tree](#boosted-decision-tree-classification)
     * [Multilayer Neural Network](#multilayer-neural-network-classification)
   * [Regression](#regression)
     * [Linear](#linear-regression)
@@ -135,7 +136,7 @@ A decision tree is based on a binary tree datastructure and applies a one dimens
 val clf = new DecisionTreeClassifier()
 ```
 
-This is the application of a decision tree algorithm to the circular dataset. In the default configuration the number of decisions is not sufficient to appropriately detecting the circle:
+This is the application of a decision tree algorithm to the circular dataset. In the default configuration the number of decisions is not sufficient to appropriately detect the circle:
 
 <img src="clf_DecisionTree_clf_test_nonlinear_bad.png" width="500">
 
@@ -146,6 +147,19 @@ val clf = new DecisionTreeClassifier(depth=4)
 ```
 
 <img src="clf_DecisionTree_clf_test_nonlinear.png" width="500">
+
+
+#### Boosted Decision Tree Classification
+A boosted decision tree (BDT) classifier consists of a series of decision trees (weak learners), which are trained in sequence on weighted instances. The instance weights depend on the correct or wrong classification of the previous learner. Each learner is then assigned a weight, based on its own relative classification performance, and the weighted majority vote of all learners is taken as prediction.
+
+```scala
+val clf = new BoostedDecisionTreeClassifier(depth=4, n_estimators=100)
+```
+
+This is the application of the BDT algorithm to the circular dataset. The majority vote allows for deviations from the rectangular patterns, observed above.
+
+<img src="clf_BOostedDecisionTree_clf_test_nonlinear.png" width="500">
+
 
 
 #### Multilayer Neural Network Classification

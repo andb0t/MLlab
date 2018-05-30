@@ -93,7 +93,7 @@ class LogisticRegressionClassifier(
   def predict(X: List[List[Double]]): List[Int] =
     _predict(DataTrafo.addPolyFeatures(X, degree))
 
-  def train(X: List[List[Double]], y: List[Int]): Unit =
+  def train(X: List[List[Double]], y: List[Int], sampleWeight: List[Double] = Nil): Unit =
     _train(DataTrafo.addPolyFeatures(X, degree), y)
 
   override def diagnostics(): Map[String, List[(Double, Double)]] = {

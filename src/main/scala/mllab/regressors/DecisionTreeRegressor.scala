@@ -97,7 +97,7 @@ class DecisionTreeRegressor(
   def train(X: List[List[Double]], y: List[Double]): Unit = {
     require(X.length == y.length, "number of training instances and labels is not equal")
     for (nodeIndex <- 0 until decisionTree.nNodes){
-      val (thisNodeX, yThisNode) = decisionTree.atNode(nodeIndex, X, y)
+      val (thisNodeX, yThisNode, _) = decisionTree.atNode(nodeIndex, X, y)
       setOptimalCut(thisNodeX, yThisNode, decisionTree, nodeIndex)
     }
     println(decisionTree)

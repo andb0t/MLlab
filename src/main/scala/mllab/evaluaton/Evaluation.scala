@@ -53,16 +53,23 @@ object Evaluation{
   /** Prints the confusion matrix
    *@param y_pred List of predictions
    *@param y_true List of labels
+   *@param percentage Display as percentage values
    */
-  def matrix(y_pred: List[Int], y_true: List[Int]): Unit = {
+  def matrix(y_pred: List[Int], y_true: List[Int], percentage: Boolean = false): Unit = {
     require(y_pred.length == y_true.length, "both arguments must have the same length")
     val truePositives = (y_pred zip y_true) count (_ == (1, 1))
     val falsePositives = (y_pred zip y_true) count (_ == (1, 0))
     val trueNegatives = (y_pred zip y_true) count (_ == (0, 0))
     val falseNegatives = (y_pred zip y_true) count (_ == (0, 1))
-    println("  P    N")
-    println("T " + truePositives + " " + trueNegatives)
-    println("F " + falsePositives + " " + falseNegatives)
+    if (percentage) {
+      println("      P      N")
+      println("T %4.1f%%  %4.1f%%".format(100.0 * truePositives/y_pred.length, 100.0 * trueNegatives/y_pred.length))
+      println("F %4.1f%%  %4.1f%%".format(100.0 * falsePositives/y_pred.length, 100.0 * falseNegatives/y_pred.length))
+    } else {
+      println("      P      N")
+      println("T %5d  %5d".format(truePositives,trueNegatives))
+      println("F %5d  %5d".format(falsePositives,falseNegatives))
+    }
   }
 
   /** Calculates the Mean Squared Error

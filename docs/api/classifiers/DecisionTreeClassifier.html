@@ -28,10 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Class" src="../lib/class_big.png" />
+        <a href="DecisionTreeClassifier$.html" title="See companion object"><img alt="Class/Object" src="../lib/class_to_object_big.png" /></a>
         <p id="owner"><a href="package.html" class="extype" name="classifiers">classifiers</a></p>
-        <h1>DecisionTreeClassifier</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="classifiers">package classifiers</a>
+        <h1><a href="DecisionTreeClassifier$.html" title="See companion object">DecisionTreeClassifier</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="DecisionTreeClassifier$.html" title="See companion object">object DecisionTreeClassifier</a>
+            | <a href="package.html" class="extype" name="classifiers">package classifiers</a>
           </div></span></h3><span class="permalink">
       <a href="../index.html#classifiers.DecisionTreeClassifier" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
@@ -88,8 +90,8 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="classifiers.DecisionTreeClassifier#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(depth:Int,criterion:String,minSamplesSplit:Int):classifiers.DecisionTreeClassifier"></a>
+              <ol><li name="classifiers.DecisionTreeClassifier#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(json:play.api.libs.json.JsValue):classifiers.DecisionTreeClassifier"></a>
       <a id="&lt;init&gt;:DecisionTreeClassifier"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,14 +99,31 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DecisionTreeClassifier</span><span class="params">(<span name="depth">depth: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="criterion">criterion: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;gini&quot;</span></span>, <span name="minSamplesSplit">minSamplesSplit: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">2</span></span>)</span>
+        <span class="name">DecisionTreeClassifier</span><span class="params">(<span name="json">json: <span class="extype" name="play.api.libs.json.JsValue">JsValue</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionTreeClassifier@&lt;init&gt;(depth:Int,criterion:String,minSamplesSplit:Int):classifiers.DecisionTreeClassifier" title="Permalink" target="_top">
+      <a href="../index.html#classifiers.DecisionTreeClassifier@&lt;init&gt;(json:play.api.libs.json.JsValue):classifiers.DecisionTreeClassifier" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">depth</dt><dd class="cmt"><p>Depth of the tree</p></dd><dt class="param">criterion</dt><dd class="cmt"><p>Function to measure the quality of a split</p></dd><dt class="param">minSamplesSplit</dt><dd class="cmt"><p>Minimum number of samples required to split an internal node</p></dd></dl></div>
+      
+    </li><li name="classifiers.DecisionTreeClassifier#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(depth:Int,criterion:String,minSamplesSplit:Int,verbose:Int):classifiers.DecisionTreeClassifier"></a>
+      <a id="&lt;init&gt;:DecisionTreeClassifier"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DecisionTreeClassifier</span><span class="params">(<span name="depth">depth: <span class="extype" name="scala.Int">Int</span> = <span class="symbol"><span class="name"><a href="DecisionTreeClassifier$.html">DecisionTreeClassifier.depth</a></span></span></span>, <span name="criterion">criterion: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol"><span class="name"><a href="DecisionTreeClassifier$.html">DecisionTreeClassifier.criterion</a></span></span></span>, <span name="minSamplesSplit">minSamplesSplit: <span class="extype" name="scala.Int">Int</span> = <span class="defval" name='<span class="name"><a href="DecisionTreeClassifier$.html">DecisionTreeClassifier.minSamplesSplit</a></span>'>...</span></span>, <span name="verbose">verbose: <span class="extype" name="scala.Int">Int</span> = <span class="symbol"><span class="name"><a href="DecisionTreeClassifier$.html">DecisionTreeClassifier.verbose</a></span></span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#classifiers.DecisionTreeClassifier@&lt;init&gt;(depth:Int,criterion:String,minSamplesSplit:Int,verbose:Int):classifiers.DecisionTreeClassifier" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">depth</dt><dd class="cmt"><p>Depth of the tree</p></dd><dt class="param">criterion</dt><dd class="cmt"><p>Function to measure the quality of a split</p></dd><dt class="param">minSamplesSplit</dt><dd class="cmt"><p>Minimum number of samples required to split an internal node</p></dd><dt class="param">verbose</dt><dd class="cmt"><p>Verbosity of output</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -314,18 +333,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="classifiers.DecisionTreeClassifier#getPurity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getPurity(featureX:List[Double],yThisNode:List[Int],threshold:Double,crit:String):(Double,Boolean)"></a>
-      <a id="getPurity(List[Double],List[Int],Double,String):(Double,Boolean)"></a>
+      <a id="getPurity(featureX:List[Double],yThisNode:List[Int],wThisNode:List[Double],threshold:Double,crit:String):(Double,Boolean)"></a>
+      <a id="getPurity(List[Double],List[Int],List[Double],Double,String):(Double,Boolean)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getPurity</span><span class="params">(<span name="featureX">featureX: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="yThisNode">yThisNode: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>, <span name="crit">crit: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: (<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.Boolean">Boolean</span>)</span>
+        <span class="name">getPurity</span><span class="params">(<span name="featureX">featureX: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="yThisNode">yThisNode: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="wThisNode">wThisNode: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="threshold">threshold: <span class="extype" name="scala.Double">Double</span></span>, <span name="crit">crit: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: (<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.Boolean">Boolean</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionTreeClassifier@getPurity(featureX:List[Double],yThisNode:List[Int],threshold:Double,crit:String):(Double,Boolean)" title="Permalink" target="_top">
+      <a href="../index.html#classifiers.DecisionTreeClassifier@getPurity(featureX:List[Double],yThisNode:List[Int],wThisNode:List[Double],threshold:Double,crit:String):(Double,Boolean)" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -450,22 +469,22 @@
     </span>
       <p class="shortcomment cmt">Applies the trained classifier to a dataset</p><div class="fullcomment"><div class="comment cmt"><p>Applies the trained classifier to a dataset</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>List of data instances</p></dd><dt>returns</dt><dd class="cmt"><p>List of predictions</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="classifiers.DecisionTreeClassifier">DecisionTreeClassifier</a> → <a href="Classifier.html" class="extype" name="classifiers.Classifier">Classifier</a></dd></dl></div>
     </li><li name="classifiers.DecisionTreeClassifier#setOptimalCut" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setOptimalCut(X:List[List[Double]],y:List[Int],decTree:algorithms.DecisionTree,nodeIndex:Int):Unit"></a>
-      <a id="setOptimalCut(List[List[Double]],List[Int],DecisionTree,Int):Unit"></a>
+      <a id="setOptimalCut(X:List[List[Double]],y:List[Int],sampleWeight:List[Double],decTree:algorithms.DecisionTree,nodeIndex:Int):Unit"></a>
+      <a id="setOptimalCut(List[List[Double]],List[Int],List[Double],DecisionTree,Int):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setOptimalCut</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="decTree">decTree: <a href="../algorithms/DecisionTree.html" class="extype" name="algorithms.DecisionTree">DecisionTree</a></span>, <span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">setOptimalCut</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="sampleWeight">sampleWeight: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="decTree">decTree: <a href="../algorithms/DecisionTree.html" class="extype" name="algorithms.DecisionTree">DecisionTree</a></span>, <span name="nodeIndex">nodeIndex: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionTreeClassifier@setOptimalCut(X:List[List[Double]],y:List[Int],decTree:algorithms.DecisionTree,nodeIndex:Int):Unit" title="Permalink" target="_top">
+      <a href="../index.html#classifiers.DecisionTreeClassifier@setOptimalCut(X:List[List[Double]],y:List[Int],sampleWeight:List[Double],decTree:algorithms.DecisionTree,nodeIndex:Int):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Sets optimal feature and cut-off value for this node</p><div class="fullcomment"><div class="comment cmt"><p>Sets optimal feature and cut-off value for this node</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>Feature vectors of instances at this node</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of labels of instances at this node</p></dd><dt class="param">decTree</dt><dd class="cmt"><p>Decision tree to update</p></dd><dt class="param">nodeIndex</dt><dd class="cmt"><p>Index of the node to tune</p></dd></dl></div>
+      <p class="shortcomment cmt">Sets optimal feature and cut-off value for this node</p><div class="fullcomment"><div class="comment cmt"><p>Sets optimal feature and cut-off value for this node</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>Feature vectors of instances at this node</p></dd><dt class="param">y</dt><dd class="cmt"><p>List of labels of instances at this node</p></dd><dt class="param">sampleWeight</dt><dd class="cmt"><p>Optional sample weights</p></dd><dt class="param">decTree</dt><dd class="cmt"><p>Decision tree to update</p></dd><dt class="param">nodeIndex</dt><dd class="cmt"><p>Index of the node to tune</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -501,18 +520,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="classifiers.DecisionTreeClassifier#train" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="train(X:List[List[Double]],y:List[Int]):Unit"></a>
-      <a id="train(List[List[Double]],List[Int]):Unit"></a>
+      <a id="train(X:List[List[Double]],y:List[Int],sampleWeight:List[Double]):Unit"></a>
+      <a id="train(List[List[Double]],List[Int],List[Double]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">train</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">train</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="y">y: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="sampleWeight">sampleWeight: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>] = <span class="symbol">Nil</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#classifiers.DecisionTreeClassifier@train(X:List[List[Double]],y:List[Int]):Unit" title="Permalink" target="_top">
+      <a href="../index.html#classifiers.DecisionTreeClassifier@train(X:List[List[Double]],y:List[Int],sampleWeight:List[Double]):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
