@@ -306,7 +306,7 @@ val clu = new kMeansClustering(k=3)
 
 Below is a dataset with three distinct clusters of data. Using three centroids, the algorithm finds the correct association after some iterations. The evolution of the respective cluster means is shown as well.
 
-<img src="clu_kMeans_clu_test_three.png" width="500">
+<img src="clu_kMeans_centroids_three.png" width="500">
 
 
 ## Algorithm details
