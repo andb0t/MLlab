@@ -79,6 +79,12 @@ object Plotting {
     val p = f.subplot(0)
     // now plot all datapoints
     val centroids = clu.clusterMeans()
+
+    val finalCentroids: List[List[Double]] = centroids.map(_.last)
+    val x: List[Double] = finalCentroids.map(e => e.head)
+    val y: List[Double] = finalCentroids.map(e => e(1))
+    p += plot(x, y, '+', colorcode= "r", name= "Cluster means")
+
     for (i <- 0 until centroids.length) {
       val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i))
       val xEvol: List[Double] = centroids(i).map(e => e.head)
@@ -89,11 +95,6 @@ object Plotting {
       val y: List[Double] = filteredData.map(e => e(1))
       p += plot(x, y, '.', colorcode=col, name= "Cluster " + i)
     }
-
-    val finalCentroids: List[List[Double]] = centroids.map(_.last)
-    val x: List[Double] = finalCentroids.map(e => e.head)
-    val y: List[Double] = finalCentroids.map(e => e(1))
-    p += plot(x, y, '+', colorcode= "r", name= "Cluster means")
 
     p.xlabel = "Feature 0"
     p.ylabel = "Feature 1"

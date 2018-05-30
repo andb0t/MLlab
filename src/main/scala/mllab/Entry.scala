@@ -6,6 +6,7 @@ import classifiers._
 import clustering._
 import data._
 import evaluation._
+import json._
 import plotting._
 import regressors._
 
@@ -70,7 +71,7 @@ object Mllab {
     val conf = new Conf(args)
 
     println("Execute MLlab!")
-
+    val json = JsonMagic.jsonify(conf.hyper())
     val suff = if (conf.suffix() != "") "_" + conf.suffix() else ""
 
     if (!conf.clu().isEmpty) {
@@ -83,7 +84,7 @@ object Mllab {
 
       val clu =
         if (conf.clu().isEmpty || conf.clu() == "Random") new RandomClustering()
-        else if (conf.clu() == "kMeans") new kMeansClustering()
+        else if (conf.clu() == "kMeans") new kMeansClustering(json)
         else throw new IllegalArgumentException("algorithm " + conf.clu() + " not implemented.")
 
       val y_pred = clu.predict(X_test)
@@ -113,12 +114,12 @@ object Mllab {
 
       val clf =
         if (conf.clf().isEmpty || conf.clf() == "Random") new RandomClassifier()
-        else if (conf.clf() == "kNN") new kNNClassifier(k=3)
-        else if (conf.clf() == "DecisionTree") new DecisionTreeClassifier(depth=3, criterion= "gini")
-        else if (conf.clf() == "Perceptron") new PerceptronClassifier(alpha=1, degree=1)
-        else if (conf.clf() == "NeuralNetwork") new NeuralNetworkClassifier(alpha=0.01, activation= "tanh", layers=List(2, 10, 10, 2), regularization=0.05)
-        else if (conf.clf() == "LogisticRegression") new LogisticRegressionClassifier(alpha=1, maxIter=1000, degree=1)
-        else if (conf.clf() == "NaiveBayes") new NaiveBayesClassifier(model= "gaussian")
+        else if (conf.clf() == "kNN") new kNNClassifier(json)
+        else if (conf.clf() == "DecisionTree") new DecisionTreeClassifier(json)
+        else if (conf.clf() == "Perceptron") new PerceptronClassifier(json)
+        else if (conf.clf() == "NeuralNetwork") new NeuralNetworkClassifier(json)
+        else if (conf.clf() == "LogisticRegression") new LogisticRegressionClassifier(json)
+        else if (conf.clf() == "NaiveBayes") new NaiveBayesClassifier(json)
         else if (conf.clf() == "SVM") new SVMClassifier()
         else throw new IllegalArgumentException("algorithm " + conf.clf() + " not implemented.")
       clf.train(X_train, y_train)
@@ -168,11 +169,11 @@ object Mllab {
 
       val reg =
         if (conf.reg().isEmpty || conf.reg() == "Random") new RandomRegressor()
-        else if (conf.reg() == "Linear") new LinearRegressor(maxIter=100, degree=1)
-        else if (conf.reg() == "DecisionTree") new DecisionTreeRegressor(depth=6)
-        else if (conf.reg() == "Bayes") new BayesRegressor(degree=1, model= "gaussian", savePlots= true)
-        else if (conf.reg() == "kNN") new kNNRegressor(k=40)
-        else if (conf.reg() == "NeuralNetwork") new NeuralNetworkRegressor()
+        else if (conf.reg() == "Linear") new LinearRegressor(json)
+        else if (conf.reg() == "DecisionTree") new DecisionTreeRegressor(json)
+        else if (conf.reg() == "Bayes") new BayesRegressor(json)
+        else if (conf.reg() == "kNN") new kNNRegressor(json)
+        else if (conf.reg() == "NeuralNetwork") new NeuralNetworkRegressor(json)
         else throw new IllegalArgumentException("algorithm " + conf.reg() + " not implemented.")
       reg.train(X_train, y_train)
 

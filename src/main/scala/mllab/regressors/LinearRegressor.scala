@@ -2,10 +2,20 @@ package regressors
 
 import scala.collection.mutable.ListBuffer
 
+import play.api.libs.json.JsValue
+
 import algorithms._
 import evaluation._
+import json._
 import utils._
 
+/** Companion object providing default parameters */
+object LinearRegressor {
+  val alpha: Double = 1
+  val tol: Double = 0.001
+  val maxIter: Int = 100
+  val degree: Int = 1
+}
 
 /** Linear regressor
  * @param alpha Learning rate
@@ -13,7 +23,20 @@ import utils._
  * @param maxIter Maximum number of training iterations
  * @param degree Order of polynomial features to add to the instances (1 for no addition)
  */
-class LinearRegressor(alpha: Double = 1, tol: Double = 0.001, maxIter: Int = 1000, degree: Int=1) extends Regressor {
+class LinearRegressor(
+  alpha: Double = LinearRegressor.alpha,
+  tol: Double = LinearRegressor.tol,
+  maxIter: Int = LinearRegressor.maxIter,
+  degree: Int = LinearRegressor.degree
+) extends Regressor {
+  def this(json: JsValue) = {
+    this(
+      alpha = JsonMagic.toDouble(json, "alpha", LinearRegressor.alpha),
+      tol = JsonMagic.toDouble(json, "tol", LinearRegressor.tol),
+      maxIter = JsonMagic.toInt(json, "maxIter", LinearRegressor.maxIter),
+      degree = JsonMagic.toInt(json, "degree", LinearRegressor.degree)
+      )
+  }
 
   val name: String = "LinearRegressor"
 

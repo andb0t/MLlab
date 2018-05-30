@@ -3,11 +3,23 @@ package classifiers
 import scala.collection.mutable.ListBuffer
 
 import breeze.linalg._
-import breeze.numerics._
+import play.api.libs.json.JsValue
 
-import utils._
 import algorithms._
+import json._
+import utils._
 
+
+/** Companion object providing default parameters */
+object NeuralNetworkClassifier {
+  val alpha: Double = 0.01
+  val alphaHalflife: Int = 100
+  val alphaDecay: String = "exp"
+  val regularization: Double = 0.01
+  val activation: String = "tanh"
+  val batchSize: Int = -1
+  val layers: List[Int] = List(2, 4, 2)
+}
 
 /** Neural network classifier
  * @param alpha Learning rate
@@ -19,16 +31,26 @@ import algorithms._
  * @param layers Structure of the network as a list of number of neurons in each layer
  */
 class NeuralNetworkClassifier(
-  alpha: Double = 0.01,
-  alphaHalflife: Int = 100,
-  alphaDecay: String = "exp",
-  regularization: Double = 0.01,
-  activation: String = "tanh",
-  batchSize: Int = -1,
-  layers: List[Int] = List(2, 4, 2)
+  alpha: Double = NeuralNetworkClassifier.alpha,
+  alphaHalflife: Int = NeuralNetworkClassifier.alphaHalflife,
+  alphaDecay: String = NeuralNetworkClassifier.alphaDecay,
+  regularization: Double = NeuralNetworkClassifier.regularization,
+  activation: String = NeuralNetworkClassifier.activation,
+  batchSize: Int = NeuralNetworkClassifier.batchSize,
+  layers: List[Int] = NeuralNetworkClassifier.layers
   // seed: Int = 1337,
   //loss: String = "cross-entropy / quadratic / log cross-entropy"
 ) extends Classifier {
+  def this(json: JsValue) = {
+    this(
+      alpha = JsonMagic.toDouble(json, "alpha", NeuralNetworkClassifier.alpha),
+      alphaHalflife = JsonMagic.toInt(json, "alphaHalflife", NeuralNetworkClassifier.alphaHalflife),
+      alphaDecay = JsonMagic.toString(json, "alphaDecay", NeuralNetworkClassifier.alphaDecay),
+      regularization = JsonMagic.toDouble(json, "regularization", NeuralNetworkClassifier.regularization),
+      activation = JsonMagic.toString(json, "activation", NeuralNetworkClassifier.activation),
+      batchSize = JsonMagic.toInt(json, "batchSize", NeuralNetworkClassifier.batchSize),
+      layers = JsonMagic.toListInt(json, "layers", NeuralNetworkClassifier.layers))
+  }
 
   require(layers.length > 2, "too few layers: need at least an input, a middle and an output layer")
 

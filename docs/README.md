@@ -60,9 +60,9 @@ Classification via logistic regression is a standard algorithm for binary linear
 val clf = new LogisticRegressionClassifier()
 ```
 
-The application of the standard settings to a test dataset of a shifted diagonal as class separator is shown below.
+The output of the algorithm using the standard settings trained on a training set and applied to a test set both with a shifted diagonal as class separator is shown below.
 
-<img src="logisticregression_classification_example.png" width="500">
+<img src="clf_LogisticRegression_clf_test_linear.png" width="500">
 
 Using a trick, the internal addition of higher orders of the features, linear algorithms can be applied to non-linear datasets.
 
@@ -71,7 +71,7 @@ val clf = new LogisticRegressionClassifier(degree=2)
 ```
 This adds powers up until quadratic powers of the feature to the feature vector. Here is an example of the same algorithm applied to circular data. The classifier can now solve the corresponding classification task.
 
-<img src="logisticregression_classification_quadratic_example.png" width="500">
+<img src="clf_LogisticRegression_clf_test_nonlinear.png" width="500">
 
 
 
@@ -82,7 +82,7 @@ The perceptron algorithm tries to find any linear boundary to perfectly separate
 val clf = new PerceptronClassifier()
 ```
 
-<img src="perceptron_classification_example.png" width="500">
+<img src="clf_Perceptron_clf_test_linear.png" width="500">
 
 Applying the same feature transformation as above, also this linear algorithm can solve the circular data task.
 
@@ -90,7 +90,7 @@ Applying the same feature transformation as above, also this linear algorithm ca
 val clf = new PerceptronClassifier(degree=2)
 ```
 
-<img src="perceptron_classification_quadratic_example.png" width="500">
+<img src="clf_Perceptron_clf_test_nonlinear.png" width="500">
 
 
 
@@ -103,7 +103,7 @@ val clf = new NaiveBayesClassifier()
 
 The application of the algorithm to the diagonal dataset shows a bias. This is due to the fact, that the assumption of Gaussian distributed features for each class does not hold here.
 
-<img src="naivebayes_classification_example.png" width="500">
+<img src="clf_NaiveBayes_clf_test_linear.png" width="500">
 
 
 Here is the example using the circular dataset, analyzed under addition of the quadratic feature terms. The algorithm performs very well.
@@ -112,7 +112,7 @@ Here is the example using the circular dataset, analyzed under addition of the q
 val clf = new NaiveBayesClassifier(degree=2)
 ```
 
-<img src="naivebayes_classification_quadratic_example.png" width="500">
+<img src="clf_NaiveBayes_clf_test_nonlinear.png" width="500">
 
 This shows that the naive Bayes' algorithm provides good results in many cases, despite the limits of the naive assumption. It is especially efficient for highly dimensional datasets with little training data, since it treats all feature instances separately.
 
@@ -125,7 +125,7 @@ val clf = new kNNClassifier()
 ```
 Here is its performance on the circular dataset.
 
-<img src="kNN_classification_circle_example.png" width="500">
+<img src="clf_kNN_clf_test_nonlinear.png" width="500">
 
 
 #### Decision Tree Classification
@@ -137,7 +137,7 @@ val clf = new DecisionTreeClassifier()
 
 This is the application of a decision tree algorithm to the circular dataset. In the default configuration the number of decisions is not sufficient to appropriately detecting the circle:
 
-<img src="decisiontree_classification_example.png" width="500">
+<img src="clf_DecisionTree_clf_test_nonlinear_bad.png" width="500">
 
 Increasing the tree depth roughly doubles the number of nodes. With this setting, the decision tree is able to classify the test data reasonably well.
 
@@ -145,7 +145,7 @@ Increasing the tree depth roughly doubles the number of nodes. With this setting
 val clf = new DecisionTreeClassifier(depth=4)
 ```
 
-<img src="decisiontree_classification_deep_example.png" width="500">
+<img src="clf_DecisionTree_clf_test_nonlinear.png" width="500">
 
 
 #### Multilayer Neural Network Classification
@@ -157,7 +157,7 @@ val clf = new NeuralNetworkClassifier()
 
 A naive application of the NN with the default settings to the circular dataset fails:
 
-<img src="neuralnetwork_classification_default_example.png" width="500">
+<img src="clf_NeuralNetwork_clf_test_nonlinear_fail.png" width="500">
 
 After increasing the number of neurons on the second layer to 16, the NN performs very well.
 
@@ -165,7 +165,7 @@ After increasing the number of neurons on the second layer to 16, the NN perform
 val clf = new NeuralNetworkClassifier(layers=List(2, 16, 2))
 ```
 
-<img src="neuralnetwork_classification_example.png" width="500">
+<img src="clf_NeuralNetwork_clf_test_nonlinear.png" width="500">
 
 
 
@@ -195,9 +195,9 @@ MLlab provides several algorithms for regression tasks. The most basic is the li
 val reg = new LinearRegressor()
 ```
 
-This is a basic example for the case of a 1D feature vector and a 1D label. The training and testing data have been drawn from a linear function with Gaussian noise.
+This is a basic example for the case of a 1D feature vector and a 1D label. The training and testing data have been drawn from a linear function with Gaussian noise. The figures show the performance on the test set.
 
-<img src="linear_regression_example.png" width="500">
+<img src="reg_Linear_reg_test_linear.png" width="500">
 
 Using a trick, the internal addition of higher orders of the features, linear algorithms can be applied to non-linear datasets.
 
@@ -207,7 +207,7 @@ val reg = new LinearRegressor(degree=3)
 
 This is an example of the same algorithm applied to data with a cubic dependence, where powers up until cubic powers of the feature have been added to the feature vector.
 
-<img src="linear_regression_cubic_example.png" width="500">
+<img src="reg_Linear_reg_test_nonlinear.png" width="500">
 
 
 #### Bayes Regression
@@ -219,9 +219,9 @@ val reg = new BayesRegressor()
 
 This is an application to the linear dataset. The assumed prior and posterior probabilities for the posterior width and the linear parameters are shown as well. Given the training data, the probabilities collapse to the expected values.
 
-<img src="bayes_regression_example.png" width="500">
+<img src="reg_Bayes_reg_test_linear.png" width="500">
 
-<img src="bayes_regression_priors.png" width="250"> <img src="bayes_regression_posteriors.png" width="250">
+<img src="reg_Bayes_priors.png" width="250"> <img src="reg_Bayes_posteriors.png" width="250">
 
 With the same trick of adding higher feature orders, linear Bayesian regression can be applied to datasets with polynomial truth.
 
@@ -229,7 +229,7 @@ With the same trick of adding higher feature orders, linear Bayesian regression 
 val reg = new BayesRegressor(degree=3)
 ```
 
-<img src="bayes_regression_cubic_example.png" width="500">
+<img src="reg_Bayes_reg_test_nonlinear.png" width="500">
 
 
 #### k-Nearest Neighbors Regression
@@ -240,7 +240,7 @@ val clf = new kNNRegressor(k=40)
 ```
 Here is its performance on the cubic dataset.
 
-<img src="kNN_regression_cubic_example.png" width="500">
+<img src="reg_kNN_reg_test_nonlinear.png" width="500">
 
 
 #### Decision Tree Regression
@@ -252,7 +252,7 @@ val reg = new DecisionTreeRegressor(depth=3)
 
 This is the application of a decision tree regression algorithm to the cubic dataset. The prediction is quite crude.
 
-<img src="decisiontree_regression_example.png" width="500">
+<img src="reg_DecisionTree_reg_test_nonlinear_bad.png" width="500">
 
 Increasing the tree depth increases the number of nodes by about factors of two. With this setting, the decision tree is able to fit the test data reasonably well.
 
@@ -260,7 +260,7 @@ Increasing the tree depth increases the number of nodes by about factors of two.
 val reg = new DecisionTreeRegressor(depth=6)
 ```
 
-<img src="decisiontree_regression_more_example.png" width="500">
+<img src="reg_DecisionTree_reg_test_nonlinear.png" width="500">
 
 
 #### Multilayer Neural Network Regression
@@ -272,11 +272,11 @@ val reg = new NeuralNetworkRegressor()
 
 This is the application of a neural network regression algorithm to the linear dataset
 
-<img src="neuralnetwork_regression_example.png" width="500">
+<img src="reg_NeuralNetwork_reg_test_linear.png" width="500">
 
 Without further hyperparameter tuning, the same network can also predict the cubic dataset reasonably well.
 
-<img src="neuralnetwork_regression_cubic_example.png" width="500">
+<img src="reg_NeuralNetwork_reg_test_nonlinear.png" width="500">
 
 
 ### Clustering
@@ -292,7 +292,7 @@ val clu = new kMeansClustering(k=3)
 
 Below is a dataset with three distinct clusters of data. Using three centroids, the algorithm finds the correct association after some iterations. The evolution of the respective cluster means is shown as well.
 
-<img src="clu_kMeans_clu_test.png" width="500">
+<img src="clu_kMeans_clu_test_three.png" width="500">
 
 
 ## Algorithm details
