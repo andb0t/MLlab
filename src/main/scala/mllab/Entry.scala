@@ -1,4 +1,4 @@
-package mllab
+train_package mllab
 
 import org.rogach.scallop._
 
@@ -93,14 +93,20 @@ object Mllab {
       clu.train(X_train)
 
       val y_pred = clu.predict(X_test)
+      val y_pred_train = clu.predict(X_train)
 
       if (!conf.noplots()) {
         println("Visualize the data")
-        Plotting.plotClu(X_test, y_pred, clu, name= conf.output() + "/clu_" + conf.clu() + "_clu_test" + suff + "." + conf.format())
-        Plotting.plotClu(X_test, y_pred, clu, drawCentroids = true, name= conf.output() + "/clu_" + conf.clu() + "_centroids" + suff + "." + conf.format())
+        Plotting.plotClu(X_test, y_pred, clu,
+          name= conf.output() + "/clu_" + conf.clu() + "_clu_test" + suff + "." + conf.format())
+        Plotting.plotClu(X_train, y_pred_train, clu,
+          name= conf.output() + "/clu_" + conf.clu() + "_train" + suff + "." + conf.format())
+        Plotting.plotClu(X_train, y_pred_train, clu, drawCentroids = true,
+          name= conf.output() + "/clu_" + conf.clu() + "_train_centroids" + suff + "." + conf.format())
 
         for (diag <- clu.diagnostics)
-          Plotting.plotCurves(List(diag._2), List(diag._1), name= conf.output() + "/clu_" + conf.clf() + "_" + diag._1 + "" + suff + "." + conf.format())
+          Plotting.plotCurves(List(diag._2), List(diag._1),
+            name= conf.output() + "/clu_" + conf.clf() + "_" + diag._1 + "" + suff + "." + conf.format())
       }
     }
     else if (!conf.clf().isEmpty) {

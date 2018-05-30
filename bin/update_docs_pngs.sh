@@ -33,4 +33,4 @@ COMMAND="cp"
 # "$COMMAND" "$SOURCE/reg_NeuralNetwork_reg_test_nonlinear.png" "$TARGET"
 
 
-# "$COMMAND" "$SOURCE/clu_kMeans_clu_test_three.png" "$TARGET"
+# "$COMMAND" "$SOURCE/clu_kMeans_train_centroids_three.png" "$TARGET"
