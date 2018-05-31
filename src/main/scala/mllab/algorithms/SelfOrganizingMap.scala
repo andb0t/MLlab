@@ -5,9 +5,15 @@ import breeze.linalg._
 import utils._
 
 
-class SelfOrganizingMap(height: Int, width: Int) {
+class SelfOrganizingMap(height: Int, width: Int, alpha: Double) {
 
   var nodes: List[DenseVector[Double]] = Nil
+
+  def getNeighbors(index: Int, height: Int, width: Int): List[Int] = {
+    val vertical = List(index - width, index + width).filter(_ >= 0).filter(_ < height * width)
+    val horizontal = Nil
+    vertical ::: horizontal
+  }
 
   def initialize(X: List[List[Double]]): Unit = {
     val nFeatures = X.head.length
@@ -21,13 +27,23 @@ class SelfOrganizingMap(height: Int, width: Int) {
       DenseVector.tabulate(nFeatures){i => mins(i) + scala.util.Random.nextDouble * (maxs(i) - mins(i))}
     ).toList
     println("Initial nodes:")
-    println(nodes.mkString("\n"))
+    for (i <- 0 until nodes.length) println(s"$i : " + nodes(i))
     println("Initialized SOM: " + this)
   }
 
   def update(x: List[Double]): Unit = {
+    val index = classifiy(x)
+    nodes(index) += Trafo.toVector(x)
+    nodes(index) *= alpha
+    val neighbors = getNeighbors(index, height, width)
+    for (index <- neighbors) {
+      nodes(index) += Trafo.toVector(x)
+      nodes(index) *= alpha * 0.5
+
+    }
     println("Updated nodes:")
-    println(nodes.mkString("\n"))
+    for (i <- List(index) ::: neighbors) println(s"$i : " + nodes(i))
+    println()
   }
 
   def classifiy(x: List[Double]): Int = {

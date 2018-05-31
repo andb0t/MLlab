@@ -13,24 +13,27 @@ import json._
 object SelfOrganizingMapClustering {
   val width: Int = 3
   val height: Int = 5
+  val alpha: Double = 0.5
 }
 
 /** Self-organizing map clustering
  */
  class SelfOrganizingMapClustering(
    width: Int = SelfOrganizingMapClustering.width,
-   height: Int = SelfOrganizingMapClustering.height
+   height: Int = SelfOrganizingMapClustering.height,
+   alpha: Double = SelfOrganizingMapClustering.alpha
  ) extends Clustering {
    def this(json: JsValue) = {
      this(
        width = JsonMagic.toInt(json, "width", SelfOrganizingMapClustering.width),
-       height = JsonMagic.toInt(json, "height", SelfOrganizingMapClustering.height)
+       height = JsonMagic.toInt(json, "height", SelfOrganizingMapClustering.height),
+       alpha = JsonMagic.toDouble(json, "alpha", SelfOrganizingMapClustering.alpha)
        )
    }
 
    val name: String = "SelfOrganizingMapClustering"
 
-   val SOM = new SelfOrganizingMap(height, width)
+   val SOM = new SelfOrganizingMap(height, width, alpha)
 
    def clusterMeans(): List[List[List[Double]]] =
      List(SOM.getMap()).transpose
