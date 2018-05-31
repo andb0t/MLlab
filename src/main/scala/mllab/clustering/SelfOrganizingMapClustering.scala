@@ -13,7 +13,7 @@ import json._
 object SelfOrganizingMapClustering {
   val width: Int = 3
   val height: Int = 5
-  val alpha: Double = 0.5
+  val alpha: Double = 0.2
 }
 
 /** Self-organizing map clustering

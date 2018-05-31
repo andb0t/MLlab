@@ -9,9 +9,16 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double) {
 
   var nodes: List[DenseVector[Double]] = Nil
 
+  def rowNeighbors(index: Int, width: Int): List[Int] = {
+    val idx = index % width
+    if (idx == 0 && idx != width - 1) List(index + 1)
+    else if (idx != 0 && idx == width - 1) List(index - 1)
+    else List(index - 1, index + 1)
+  }
+
   def getNeighbors(index: Int, height: Int, width: Int): List[Int] = {
     val vertical = List(index - width, index + width).filter(_ >= 0).filter(_ < height * width)
-    val horizontal = Nil
+    val horizontal = rowNeighbors(index, width)
     vertical ::: horizontal
   }
 
@@ -33,17 +40,16 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double) {
 
   def update(x: List[Double]): Unit = {
     val index = classifiy(x)
-    nodes(index) += Trafo.toVector(x)
-    nodes(index) *= alpha
+    nodes(index) *= (1 - alpha)
+    nodes(index) += Trafo.toVector(x) * alpha
     val neighbors = getNeighbors(index, height, width)
     for (index <- neighbors) {
-      nodes(index) += Trafo.toVector(x)
-      nodes(index) *= alpha * 0.5
-
+      nodes(index) *= (1 - alpha * 0.5)
+      nodes(index) += Trafo.toVector(x) * alpha * 0.5
     }
-    println("Updated nodes:")
-    for (i <- List(index) ::: neighbors) println(s"$i : " + nodes(i))
-    println()
+    val updatedNodes = List(index) ::: neighbors
+    println("Update nodes with " + x + ":")
+    for (i <- updatedNodes) println(s"$i : " + nodes(i))
   }
 
   def classifiy(x: List[Double]): Int = {
