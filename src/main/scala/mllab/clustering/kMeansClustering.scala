@@ -1,7 +1,8 @@
 package clustering
 
-import play.api.libs.json.JsValue
 import scala.collection.mutable.ListBuffer
+
+import play.api.libs.json.JsValue
 
 import algorithms._
 import json._
