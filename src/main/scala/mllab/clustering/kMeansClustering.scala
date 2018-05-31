@@ -45,7 +45,7 @@ class kMeansClustering(
       Tuple2(y, centroids)
     }
     else {
-      val newy: List[Int] = X.map(x => (for (centroid <- centroids) yield Maths.distance(centroid, x)).zipWithIndex.min._2)
+      val newy: List[Int] = kMeans.cluster(X, centroids)
       if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5)) {
         val loss = kMeans.getLoss(X, newy, centroids)
         lossEvolution += Tuple2(count.toDouble, loss)
@@ -60,16 +60,16 @@ class kMeansClustering(
     }
   }
 
-  def train(X: List[List[Double]]): Unit =
-    println(s"No training necessary for $name")
-
-  def predict(X: List[List[Double]]): List[Int] = {
+  def train(X: List[List[Double]]): Unit = {
     val nFeatures = X.head.length
     val range = 2
     val centroids: List[List[Double]] = List.fill(k)(List.fill(nFeatures)((scala.util.Random.nextDouble - 0.5) * range))
     val maxIter = 100
-    clusterToCentroid(0, X, Nil, centroids, false, maxIter)._1
+    clusterToCentroid(0, X, Nil, centroids, false, maxIter)
   }
+
+  def predict(X: List[List[Double]]): List[Int] =
+    kMeans.cluster(X, centroidEvolution.last)
 
   override def diagnostics(): Map[String, List[(Double, Double)]] = {
     Map("loss" -> lossEvolution.toList)

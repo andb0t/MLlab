@@ -26,6 +26,13 @@ object kMeans {
     }).toList
   }
 
+  /** Clusters the input data according to given centroids
+   * @param X list of instances
+   * @param centroids coordinates of the centroids
+   */
+  def cluster(X: List[List[Double]], centroids: List[List[Double]]): List[Int] =
+    X.map(x => (for (centroid <- centroids) yield Maths.distance(centroid, x)).zipWithIndex.min._2)
+
   /** Calculates the loss of the current clustering
    * @param X list of instances
    * @param y list of cluster association
