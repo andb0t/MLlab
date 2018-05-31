@@ -13,20 +13,19 @@ class RandomClustering() extends Clustering {
 
   val name: String = "RandomClustering"
 
-  var centroidEvolution = new ListBuffer[List[List[Double]]]()
+  var centroidEvolution: List[List[List[Double]]] = Nil
 
   var k: Int = 3
 
   def clusterMeans(): List[List[List[Double]]] =
-    centroidEvolution.toList.transpose
+    centroidEvolution.transpose
 
-  def train(X: List[List[Double]]): Unit =
-    println(s"No training necessary for $name")
-
-  def predict(X: List[List[Double]]): List[Int] = {
-    val result = for (instance <- X) yield (Math.random * k).toInt
-    centroidEvolution += kMeans.getCentroids(X, result, k)
-    result
+  def train(X: List[List[Double]]): Unit = {
+    val clustering = for (instance <- X) yield (Math.random * k).toInt
+    centroidEvolution = List(kMeans.getCentroids(X, clustering, k))
   }
+
+  def predict(X: List[List[Double]]): List[Int] =
+    for (instance <- X) yield (Math.random * k).toInt
 
 }

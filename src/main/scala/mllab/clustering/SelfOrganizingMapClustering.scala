@@ -29,18 +29,18 @@ object SelfOrganizingMapClustering {
 
    val name: String = "SelfOrganizingMapClustering"
 
-  var centroidEvolution = new ListBuffer[List[List[Double]]]()
+   var centroidEvolution: List[List[List[Double]]] = Nil
 
-  def clusterMeans(): List[List[List[Double]]] =
-    centroidEvolution.toList.transpose
+   def clusterMeans(): List[List[List[Double]]] =
+     centroidEvolution.transpose
 
-  def train(X: List[List[Double]]): Unit =
-    println("This is a dummy implementation")
+   def train(X: List[List[Double]]): Unit = {
+     val clustering = for (instance <- X) yield (Math.random * width * height).toInt
+     centroidEvolution = List(kMeans.getCentroids(X, clustering, width * height))
+   }
 
-  def predict(X: List[List[Double]]): List[Int] = {
-    val result = for (instance <- X) yield (Math.random * width * height).toInt
-    centroidEvolution += kMeans.getCentroids(X, result, width * height)
-    result
-  }
+   def predict(X: List[List[Double]]): List[Int] =
+     for (instance <- X) yield (Math.random * width * height).toInt
+
 
 }
