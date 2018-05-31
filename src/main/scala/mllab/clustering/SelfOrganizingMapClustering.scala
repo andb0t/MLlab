@@ -35,10 +35,12 @@ object SelfOrganizingMapClustering {
    def clusterMeans(): List[List[List[Double]]] =
      List(SOM.getMap()).transpose
 
-   def train(X: List[List[Double]]): Unit =
+   def train(X: List[List[Double]]): Unit = {
+     SOM.initialize(X)
      for (instance <- X) SOM.update(instance)
+   }
 
    def predict(X: List[List[Double]]): List[Int] =
-     for (instance <- X) yield SOM.classifiy(instance)._2
+     for (instance <- X) yield SOM.classifiy(instance)
 
 }

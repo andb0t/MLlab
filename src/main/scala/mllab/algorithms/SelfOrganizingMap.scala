@@ -11,16 +11,16 @@ class SelfOrganizingMap(height: Int, width: Int) {
 
   println("Initializing SOM: " + this)
 
-  def update(x: List[Double]): Unit = {
-    val nFeatures = x.length
+  def initialize(X: List[List[Double]]): Unit = {
+    val nFeatures = X.head.length
     nodes = List.fill(height * width)(DenseVector.fill(nFeatures){scala.util.Random.nextDouble - 0.5})
   }
 
-  def classifiy(x: List[Double]): Tuple2[List[Double], Int] = {
-    val node = List(0.3, 0.3)
-    val index = 0
-    Tuple2(node, index)
+  def update(x: List[Double]): Unit = {
   }
+
+  def classifiy(x: List[Double]): Int =
+    0
 
   def getMap(): List[List[Double]] =
     nodes.map(Trafo.toList(_))
