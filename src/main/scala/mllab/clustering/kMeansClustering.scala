@@ -34,7 +34,7 @@ class kMeansClustering(
   def clusterMeans(): List[List[List[Double]]] =
     centroidEvolution.transpose
 
-  def clusterToCentroid(count: Int, X: List[List[Double]], y: List[Int], centroids: List[List[List[Double]]], stop: Boolean, maxIter: Int): List[List[List[Double]]] = {
+  def refineCentroids(count: Int, X: List[List[Double]], y: List[Int], centroids: List[List[List[Double]]], stop: Boolean, maxIter: Int): List[List[List[Double]]] = {
     if (count >= maxIter || stop) {
       val loss = kMeans.getLoss(X, y, centroids.head)
       lossEvolution += Tuple2(count.toDouble, loss)
@@ -52,9 +52,9 @@ class kMeansClustering(
       }
       val newCentroids: List[List[Double]] = kMeans.getCentroids(X, newy, k)
       if (newCentroids.toSet != centroids.head.toSet)
-        clusterToCentroid(count+1, X, newy, newCentroids :: centroids, stop, maxIter)
+        refineCentroids(count+1, X, newy, newCentroids :: centroids, stop, maxIter)
       else
-        clusterToCentroid(count+1, X, newy, centroids, true, maxIter)
+        refineCentroids(count+1, X, newy, centroids, true, maxIter)
     }
   }
 
@@ -63,7 +63,7 @@ class kMeansClustering(
     val range = 2
     val centroids: List[List[Double]] = List.fill(k)(List.fill(nFeatures)((scala.util.Random.nextDouble - 0.5) * range))
     val maxIter = 100
-    centroidEvolution = clusterToCentroid(0, X, Nil, List(centroids), false, maxIter)
+    centroidEvolution = refineCentroids(0, X, Nil, List(centroids), false, maxIter)
   }
 
   def predict(X: List[List[Double]]): List[Int] =
