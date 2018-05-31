@@ -102,7 +102,7 @@ object Mllab {
         Plotting.plotClu(X_train, y_pred_train, clu,
           name= conf.output() + "/clu_" + conf.clu() + "_train" + suff + "." + conf.format())
         Plotting.plotClu(X_train, y_pred_train, clu, drawCentroids = true,
-          name= conf.output() + "/clu_" + conf.clu() + "centroids" + suff + "." + conf.format())
+          name= conf.output() + "/clu_" + conf.clu() + "_train_centroids" + suff + "." + conf.format())
 
         for (diag <- clu.diagnostics)
           Plotting.plotCurves(List(diag._2), List(diag._1),
