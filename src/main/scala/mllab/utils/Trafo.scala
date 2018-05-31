@@ -6,6 +6,9 @@ import breeze.linalg._
 /** Provides auxiliary functions for list to tensor transformation */
 object Trafo {
 
+  def toList(v: DenseVector[Double]): List[Double] =
+    (for (i <- 0 until v.size) yield v(i)).toList
+
   /** Transform 2D list to 2D matrix */
   def toMatrix(X: List[List[Double]]): DenseMatrix[Double] =
     DenseMatrix(X.flatten).reshape(X.head.length, X.length).t

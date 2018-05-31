@@ -1,7 +1,8 @@
 package clustering
 
-import play.api.libs.json.JsValue
 import scala.collection.mutable.ListBuffer
+
+import play.api.libs.json.JsValue
 
 import algorithms._
 import json._
@@ -10,8 +11,8 @@ import json._
 
 /** Companion object providing default parameters */
 object SelfOrganizingMapClustering {
-  val width: Int = 10
-  val height: Int = 10
+  val width: Int = 3
+  val height: Int = 5
 }
 
 /** Self-organizing map clustering
@@ -29,18 +30,15 @@ object SelfOrganizingMapClustering {
 
    val name: String = "SelfOrganizingMapClustering"
 
-   var centroidEvolution: List[List[List[Double]]] = Nil
+   val SOM = new SelfOrganizingMap(height, width)
 
    def clusterMeans(): List[List[List[Double]]] =
-     centroidEvolution.transpose
+     List(SOM.getMap()).transpose
 
-   def train(X: List[List[Double]]): Unit = {
-     val clustering = for (instance <- X) yield (Math.random * width * height).toInt
-     centroidEvolution = List(kMeans.getCentroids(X, clustering, width * height))
-   }
+   def train(X: List[List[Double]]): Unit =
+     for (instance <- X) SOM.update(instance)
 
    def predict(X: List[List[Double]]): List[Int] =
-     for (instance <- X) yield (Math.random * width * height).toInt
-
+     for (instance <- X) yield SOM.classifiy(instance)._2
 
 }
