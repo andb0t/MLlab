@@ -114,24 +114,11 @@ object Plotting {
    *@param name Path to save the plot
    */
   def plotClfGrid(data: List[List[Double]], clf: Classifier, name: String="plots/grid.pdf"): Unit = {
-
-    def createGrid(xMin: Double, xMax: Double, yMin: Double, yMax: Double): List[List[Double]] = {
-      val granularity: Int = 100
-      val xVec: DenseVector[Double] = tile(linspace(xMin, xMax, granularity), granularity)
-      val yLinSpace = linspace(yMin, yMax, granularity)
-      val yVec: DenseVector[Double] =
-        DenseVector.tabulate(Math.pow(granularity, 2).toInt){
-          i => yLinSpace(i / granularity)
-        }
-      val xList = (for (i <- 0 until xVec.size) yield xVec(i)).toList
-      val yList = (for (i <- 0 until yVec.size) yield yVec(i)).toList
-      (xList zip yList).map(x => List(x._1, x._2))
-    }
     val xMin = data.map(_.head).min
     val xMax = data.map(_.head).max
     val yMin = data.map(_(1)).min
     val yMax = data.map(_(1)).max
-    val gridData = createGrid(xMin, xMax, yMin, yMax)
+    val gridData = Trafo.createGrid(xMin, xMax, yMin, yMax)
     val predictions = clf.predict(gridData)
 
     val f = Figure()

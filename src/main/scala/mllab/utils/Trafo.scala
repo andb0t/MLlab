@@ -48,4 +48,17 @@ object Trafo {
     val randomy: DenseVector[Double] = y(randomIndices).toDenseVector
     Tuple2(randomX, randomy)
   }
+
+  def createGrid(xMin: Double, xMax: Double, yMin: Double, yMax: Double, xSteps: Int = 100, ySteps: Int = 100): List[List[Double]] = {
+    val xVec: DenseVector[Double] = tile(linspace(xMin, xMax, xSteps), ySteps)
+    val yLinSpace = linspace(yMin, yMax, ySteps)
+    val yVec: DenseVector[Double] =
+      DenseVector.tabulate(xSteps * ySteps){
+        i => yLinSpace(i / xSteps)
+      }
+    val xList = (for (i <- 0 until xVec.size) yield xVec(i)).toList
+    val yList = (for (i <- 0 until yVec.size) yield yVec(i)).toList
+    (xList zip yList).map(x => List(x._1, x._2))
+  }
+
 }
