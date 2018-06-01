@@ -10,7 +10,7 @@ import utils._
   * @constructor Create a new SOM
   * @param parameters See clustering implementation
   */
-class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: Int, alphaDecay: String) {
+class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: Int, alphaDecay: String, initStrat: String = "random") {
 
   var nodes: List[DenseVector[Double]] = Nil
   var nodesHistory: List[List[List[Double]]] = Nil
@@ -41,14 +41,26 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
   def initialize(X: List[List[Double]]): Unit = {
     val nFeatures = X.head.length
     val features = X.transpose
-    val mins = features.map(_.min)
-    val maxs = features.map(_.max)
-    println("Initializing SOM:")
-    for (i <- 0 until nFeatures)
+
+    if (initStrat == "random") {
+      val mins = features.map(_.min)
+      val maxs = features.map(_.max)
+      println("Initializing SOM:")
+      for (i <- 0 until nFeatures)
       println("Feature %d range: %.3f - %.3f".format(i, mins(i), maxs(i)))
-    nodes = (for (i <- 0 until height * width) yield
-      DenseVector.tabulate(nFeatures){i => mins(i) + scala.util.Random.nextDouble * (maxs(i) - mins(i))}
-    ).toList
+      nodes = (for (i <- 0 until height * width) yield
+        DenseVector.tabulate(nFeatures){i => mins(i) + scala.util.Random.nextDouble * (maxs(i) - mins(i))}
+      ).toList
+    }
+    else if (initStrat == "PCA") {
+      val featureMatrix = Trafo.toMatrix(features.transpose)
+      def eigen = (p: PCA) => (p.loadings, p.eigenvalues)
+      val (eigenvectors, eigenvalues) = eigen(princomp(featureMatrix))
+      println("eigenvalues " + eigenvalues)
+      println("eigenvectors " + eigenvectors)
+    }
+    else throw new NotImplementedError(s"Initialization strategy $initStrat not implemented!")
+
     println("Initial nodes:")
     for (i <- 0 until nodes.length) println(s"$i : " + nodes(i))
     println("Initialized SOM: " + this)
