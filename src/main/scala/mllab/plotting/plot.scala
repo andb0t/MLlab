@@ -143,27 +143,29 @@ object Plotting {
    *@param name Path to save the plot
    */
   def plotCluGrid(data: List[List[Double]], clu: Clustering, name: String="plots/grid.pdf"): Unit = {
-    val xMin = data.map(_.head).min
-    val xMax = data.map(_.head).max
-    val yMin = data.map(_(1)).min
-    val yMax = data.map(_(1)).max
-    val gridData = Trafo.createGrid(xMin, xMax, yMin, yMax)
-    val predictions = clu.predict(gridData)
+    if (data.head.length == 2) {
+      val xMin = data.map(_.head).min
+      val xMax = data.map(_.head).max
+      val yMin = data.map(_(1)).min
+      val yMax = data.map(_(1)).max
+      val gridData = Trafo.createGrid(xMin, xMax, yMin, yMax)
+      val predictions = clu.predict(gridData)
 
-    val f = Figure()
-    f.visible= false
-    val p = f.subplot(0)
-    for (category: Int <- predictions.toSet.toList.sorted) {
-      val filteredData: List[List[Double]] = (gridData zip predictions).filter(_._2 == category).map(_._1)
-      val x: List[Double] = filteredData.map(e => e.head)
-      val y: List[Double] = filteredData.map(e => e(1))
-      p += plot(x, y, '.', name= "Cluster " + category)
+      val f = Figure()
+      f.visible= false
+      val p = f.subplot(0)
+      for (category: Int <- predictions.toSet.toList.sorted) {
+        val filteredData: List[List[Double]] = (gridData zip predictions).filter(_._2 == category).map(_._1)
+        val x: List[Double] = filteredData.map(e => e.head)
+        val y: List[Double] = filteredData.map(e => e(1))
+        p += plot(x, y, '.', name= "Cluster " + category)
+      }
+      p.xlabel = "Feature 0"
+      p.ylabel = "Feature 1"
+      p.title = clu.name + " cluster map"
+      if (clu.clusterMeans.length < 10) p.legend = true
+      f.saveas(name)
     }
-    p.xlabel = "Feature 0"
-    p.ylabel = "Feature 1"
-    p.title = clu.name + " cluster map"
-    if (clu.clusterMeans.length < 10) p.legend = true
-    f.saveas(name)
   }
 
   /** Plot a set of curves
