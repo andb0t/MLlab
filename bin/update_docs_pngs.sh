@@ -34,3 +34,4 @@ COMMAND="cp"
 
 
 # "$COMMAND" "$SOURCE/clu_kMeans_train_centroids_three.png" "$TARGET"
+# "$COMMAND" "$SOURCE/clu_SelfOrganizingMap_train_centroids.png" "$TARGET"
