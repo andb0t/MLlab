@@ -5,12 +5,22 @@ import breeze.linalg._
 import utils._
 
 
+/** A class representing a self-organizing map (SOM)
+  *
+  * @constructor Create a new SOM
+  * @param parameters See clustering implementation
+  */
 class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: Int, alphaDecay: String) {
 
   var nodes: List[DenseVector[Double]] = Nil
   var nodesHistory: List[List[List[Double]]] = Nil
   var count: Int = 0
 
+  /** Determines neighboring nodes
+   * @param index Index of the node
+   * @param height Height of the node mesh
+   * @param width Width of the node mesh
+   */
   def getNeighbors(index: Int, height: Int, width: Int): List[Int] = {
     def rowNeighbors(index: Int, width: Int): List[Int] = {
       val idx = index % width
@@ -24,6 +34,10 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
     vertical ::: horizontal ::: diagonal
   }
 
+
+  /** Initializes the SOM
+   * @param X List of training instances
+   */
   def initialize(X: List[List[Double]]): Unit = {
     val nFeatures = X.head.length
     val features = X.transpose
@@ -41,6 +55,9 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
     nodesHistory = getCurrentMap :: nodesHistory
   }
 
+  /** Performs one training step of the SOM
+   * @param x Current training instance
+   */
   def update(x: List[Double]): Unit = {
     val decayedAlpha: Double =
       if (alphaDecay == "step") alpha / Math.pow(2, Math.floor(count.toFloat / alphaHalflife))
@@ -63,11 +80,15 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
       nodesHistory = getCurrentMap :: nodesHistory
   }
 
+  /** Determines the best matcvhing unit (BMU) for an instance
+   * @param x Current training instance
+   */
   def classifiy(x: List[Double]): Int = {
     val distances: List[Double] = nodes.map{n => norm(n - Trafo.toVector(x))}
     distances.zipWithIndex.minBy(_._1)._2
   }
 
+  /** Returns the current SOM */
   def getCurrentMap(): List[List[Double]] =
     nodes.map(Trafo.toList(_))
 
