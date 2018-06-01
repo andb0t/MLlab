@@ -21,6 +21,12 @@ object Trafo {
   def toVectorInt(y: List[Int]): DenseVector[Int] =
     convert(toVector(y.map(_.toDouble)), Int)
 
+  /** Returns a list of column vectors */
+  def columnVectors = (m: DenseMatrix[Double]) => for (i <- 0 until m.cols) yield m(::, i)
+
+  /** Returns a list of row vectors */
+  def rowVectors = (m: DenseMatrix[Double]) => for (i <- 0 until m.rows) yield m(i, ::)
+
   /** Picks elements from a list according to a list of indices */
   def iloc[T](list: List[T], indices: List[Int], result: List[T]=Nil): List[T] = indices match {
     case Nil => result
