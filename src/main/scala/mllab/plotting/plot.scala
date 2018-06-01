@@ -79,24 +79,25 @@ object Plotting {
     val p = f.subplot(0)
     // now plot all datapoints
     val centroids = clu.clusterMeans()
+    val axes = List(0, 1)
 
     if (drawCentroids) {
       val finalCentroids: List[List[Double]] = centroids.map(_.last)
-      val x: List[Double] = finalCentroids.map(e => e.head)
-      val y: List[Double] = finalCentroids.map(e => e(1))
+      val x: List[Double] = finalCentroids.map(e => e(axes.head))
+      val y: List[Double] = finalCentroids.map(e => e(axes.last))
       p += plot(x, y, '+', colorcode= "r", name= "Cluster means")
     }
 
     for (i <- 0 until centroids.length) {
       val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i % 10))
       if (drawCentroids) {
-        val xEvol: List[Double] = centroids(i).map(e => e.head)
-        val yEvol: List[Double] = centroids(i).map(e => e(1))
+        val xEvol: List[Double] = centroids(i).map(e => e(axes.head))
+        val yEvol: List[Double] = centroids(i).map(e => e(axes.last))
         p += plot(xEvol, yEvol, '-', colorcode=col, name= " ")
       }
       val filteredData: List[List[Double]] = (data zip predictions).filter(_._2 == i).map(_._1)
-      val x: List[Double] = filteredData.map(e => e.head)
-      val y: List[Double] = filteredData.map(e => e(1))
+      val x: List[Double] = filteredData.map(e => e(axes.head))
+      val y: List[Double] = filteredData.map(e => e(axes.last))
       p += plot(x, y, '.', colorcode=col, name= "Cluster " + i)
     }
 
