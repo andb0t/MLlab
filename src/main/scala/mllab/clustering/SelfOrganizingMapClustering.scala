@@ -14,19 +14,25 @@ object SelfOrganizingMapClustering {
   val width: Int = 3
   val height: Int = 5
   val alpha: Double = 0.2
+  val alphaHalflife: Int = 100
+  val alphaDecay: String = "exp"
   val lambda: Int = -1
 }
 
 /** Self-organizing map clustering
- @param width width (in number of nodes) of the SOM
- @param height height (in number of nodes) of the SOM
- @param alpha size of the update step. Ranges from 0 (no update) to 1 (set equal to training instance)
- @param lambda number of iterations for random training. Default -1: run once and in order through training data
+ * @param width Width (in number of nodes) of the SOM
+ * @param height Height (in number of nodes) of the SOM
+ * @param alpha Learning rate = size of the update step. Ranges from 0 (no update) to 1 (set equal to training instance)
+ * @param alphaHalflife Learning rate decay after this number of training steps
+ * @param alphaDecay Type of learning rate decay
+ * @param lambda Number of iterations for random training. Default -1: run once and in order through training data
  */
  class SelfOrganizingMapClustering(
    width: Int = SelfOrganizingMapClustering.width,
    height: Int = SelfOrganizingMapClustering.height,
    alpha: Double = SelfOrganizingMapClustering.alpha,
+   alphaHalflife: Int = SelfOrganizingMapClustering.alphaHalflife,
+   alphaDecay: String = SelfOrganizingMapClustering.alphaDecay,
    lambda: Int = SelfOrganizingMapClustering.lambda
  ) extends Clustering {
    def this(json: JsValue) = {
@@ -34,6 +40,8 @@ object SelfOrganizingMapClustering {
        width = JsonMagic.toInt(json, "width", SelfOrganizingMapClustering.width),
        height = JsonMagic.toInt(json, "height", SelfOrganizingMapClustering.height),
        alpha = JsonMagic.toDouble(json, "alpha", SelfOrganizingMapClustering.alpha),
+       alphaHalflife = JsonMagic.toInt(json, "alphaHalflife", SelfOrganizingMapClustering.alphaHalflife),
+       alphaDecay = JsonMagic.toString(json, "alphaDecay", SelfOrganizingMapClustering.alphaDecay),
        lambda = JsonMagic.toInt(json, "lambda", SelfOrganizingMapClustering.lambda)
        )
    }
@@ -42,7 +50,7 @@ object SelfOrganizingMapClustering {
 
    require(alpha >= 0 && alpha <= 1, "hyper parameter alpha has to be in interval [0, 1]")
 
-   val SOM = new SelfOrganizingMap(height, width, alpha)
+   val SOM = new SelfOrganizingMap(height, width, alpha, alphaHalflife, alphaDecay)
 
    def clusterMeans(): List[List[List[Double]]] =
      List(SOM.getMap()).transpose

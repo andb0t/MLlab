@@ -5,9 +5,10 @@ import breeze.linalg._
 import utils._
 
 
-class SelfOrganizingMap(height: Int, width: Int, alpha: Double) {
+class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: Int, alphaDecay: String) {
 
   var nodes: List[DenseVector[Double]] = Nil
+  var count: Int = 0
 
   def rowNeighbors(index: Int, width: Int): List[Int] = {
     val idx = index % width
@@ -39,17 +40,24 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double) {
   }
 
   def update(x: List[Double]): Unit = {
+    val decayedAlpha: Double =
+      if (alphaDecay == "step") alpha / Math.pow(2, Math.floor(count.toFloat / alphaHalflife))
+      else if (alphaDecay == "exp") alpha * Math.exp(-1.0 * count / alphaHalflife)
+      else alpha
+
     val index = classifiy(x)
-    nodes(index) *= (1 - alpha)
-    nodes(index) += Trafo.toVector(x) * alpha
+    nodes(index) *= (1 - decayedAlpha)
+    nodes(index) += Trafo.toVector(x) * decayedAlpha
     val neighbors = getNeighbors(index, height, width)
     for (index <- neighbors) {
-      nodes(index) *= (1 - alpha * 0.5)
-      nodes(index) += Trafo.toVector(x) * alpha * 0.5
+      nodes(index) *= (1 - decayedAlpha * 0.5)
+      nodes(index) += Trafo.toVector(x) * decayedAlpha * 0.5
     }
     val updatedNodes = List(index) ::: neighbors
-    println("Update nodes with " + x + ":")
-    for (i <- updatedNodes) println(s"$i : " + nodes(i))
+    println("%d. nodes update with alpha %.3f and instance ".format(count, decayedAlpha) + x + ":")
+    for (i <- updatedNodes) println(s"  $i : " + nodes(i))
+
+    count += 1
   }
 
   def classifiy(x: List[Double]): Int = {
