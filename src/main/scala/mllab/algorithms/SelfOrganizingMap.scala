@@ -10,17 +10,17 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
   var nodes: List[DenseVector[Double]] = Nil
   var count: Int = 0
 
-  def rowNeighbors(index: Int, width: Int): List[Int] = {
-    val idx = index % width
-    if (idx == 0 && idx != width - 1) List(index + 1)
-    else if (idx != 0 && idx == width - 1) List(index - 1)
-    else List(index - 1, index + 1)
-  }
-
   def getNeighbors(index: Int, height: Int, width: Int): List[Int] = {
+    def rowNeighbors(index: Int, width: Int): List[Int] = {
+      val idx = index % width
+      if (idx == 0 && idx != width - 1) List(index + 1)
+      else if (idx != 0 && idx == width - 1) List(index - 1)
+      else List(index - 1, index + 1)
+    }
     val vertical = List(index - width, index + width).filter(_ >= 0).filter(_ < height * width)
     val horizontal = rowNeighbors(index, width)
-    vertical ::: horizontal
+    val diagonal = vertical.flatMap(rowNeighbors(_, width))
+    vertical ::: horizontal ::: diagonal
   }
 
   def initialize(X: List[List[Double]]): Unit = {
