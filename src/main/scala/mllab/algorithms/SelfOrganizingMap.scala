@@ -8,6 +8,7 @@ import utils._
 class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: Int, alphaDecay: String) {
 
   var nodes: List[DenseVector[Double]] = Nil
+  var nodesHistory: List[List[List[Double]]] = Nil
   var count: Int = 0
 
   def getNeighbors(index: Int, height: Int, width: Int): List[Int] = {
@@ -37,6 +38,7 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
     println("Initial nodes:")
     for (i <- 0 until nodes.length) println(s"$i : " + nodes(i))
     println("Initialized SOM: " + this)
+    nodesHistory = getCurrentMap :: nodesHistory
   }
 
   def update(x: List[Double]): Unit = {
@@ -54,10 +56,11 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
       nodes(index) += Trafo.toVector(x) * decayedAlpha * 0.5
     }
     val updatedNodes = List(index) ::: neighbors
-    println("%d. nodes update with alpha %.3f and instance ".format(count, decayedAlpha) + x + ":")
-    for (i <- updatedNodes) println(s"  $i : " + nodes(i))
-
+    // println("%d. nodes update with alpha %.3f and instance ".format(count, decayedAlpha) + x + ":")
+    // for (i <- updatedNodes) println(s"  $i : " + nodes(i))
     count += 1
+    if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
+      nodesHistory = getCurrentMap :: nodesHistory
   }
 
   def classifiy(x: List[Double]): Int = {
@@ -65,7 +68,7 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
     distances.zipWithIndex.minBy(_._1)._2
   }
 
-  def getMap(): List[List[Double]] =
+  def getCurrentMap(): List[List[Double]] =
     nodes.map(Trafo.toList(_))
 
   override def toString(): String = {

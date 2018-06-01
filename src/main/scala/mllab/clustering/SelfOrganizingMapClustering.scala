@@ -11,10 +11,10 @@ import json._
 
 /** Companion object providing default parameters */
 object SelfOrganizingMapClustering {
-  val width: Int = 3
-  val height: Int = 5
+  val width: Int = 2
+  val height: Int = 2
   val alpha: Double = 0.2
-  val alphaHalflife: Int = 100
+  val alphaHalflife: Int = 1000
   val alphaDecay: String = "exp"
   val lambda: Int = -1
 }
@@ -53,7 +53,8 @@ object SelfOrganizingMapClustering {
    val SOM = new SelfOrganizingMap(height, width, alpha, alphaHalflife, alphaDecay)
 
    def clusterMeans(): List[List[List[Double]]] =
-     List(SOM.getMap()).transpose
+     // List(SOM.getCurrentMap()).transpose
+     SOM.nodesHistory.reverse.transpose
 
    def train(X: List[List[Double]]): Unit = {
      SOM.initialize(X)
