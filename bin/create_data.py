@@ -22,7 +22,7 @@ parser.add_argument("--reg",
                     help='create regression data with specified shape')
 parser.add_argument("--clu",
                     default=None,
-                    choices=['circles', 'squares', 'densecircles'],
+                    choices=['circles', 'squares', 'densecircles', 'stackedspheres'],
                     help='create clustering data with specified shape')
 
 
@@ -175,6 +175,16 @@ def generate_clu_point(strategy):
             x0 = centers[label][0] + r * np.cos(angle)
             x1 = centers[label][1] + r * np.sin(angle)
             x = [x0, x1]
+        elif strategy == 'stackedspheres':
+            centers = {0: [0.0, 0.0, 1.0], 1: [0.0, 0.0, 0.0], 2: [0.0, 0.0, -0.5]}
+            label = random.randint(0, len(centers)-1)
+            r = 0.15 * random.random()
+            angle0 = 2 * np.pi * random.random()
+            angle1 = np.pi * random.random() - np.pi * 0.5
+            x0 = centers[label][0] + r * np.cos(angle0) * np.cos(angle1)
+            x1 = centers[label][1] + r * np.sin(angle0) * np.cos(angle1)
+            x2 = centers[label][2] + r * np.sin(angle1)
+            x = [x0, x1, x2]
         else:
             raise NotImplementedError('this shape is not implemented for clf')
 
