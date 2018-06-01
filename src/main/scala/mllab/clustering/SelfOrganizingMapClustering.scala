@@ -17,6 +17,7 @@ object SelfOrganizingMapClustering {
   val alphaHalflife: Int = 1000
   val alphaDecay: String = "exp"
   val lambda: Int = -1
+  val initStrat: String = "random"
 }
 
 /** Self-organizing map clustering
@@ -33,7 +34,8 @@ object SelfOrganizingMapClustering {
    alpha: Double = SelfOrganizingMapClustering.alpha,
    alphaHalflife: Int = SelfOrganizingMapClustering.alphaHalflife,
    alphaDecay: String = SelfOrganizingMapClustering.alphaDecay,
-   lambda: Int = SelfOrganizingMapClustering.lambda
+   lambda: Int = SelfOrganizingMapClustering.lambda,
+   initStrat: String = SelfOrganizingMapClustering.initStrat
  ) extends Clustering {
    def this(json: JsValue) = {
      this(
@@ -42,7 +44,8 @@ object SelfOrganizingMapClustering {
        alpha = JsonMagic.toDouble(json, "alpha", SelfOrganizingMapClustering.alpha),
        alphaHalflife = JsonMagic.toInt(json, "alphaHalflife", SelfOrganizingMapClustering.alphaHalflife),
        alphaDecay = JsonMagic.toString(json, "alphaDecay", SelfOrganizingMapClustering.alphaDecay),
-       lambda = JsonMagic.toInt(json, "lambda", SelfOrganizingMapClustering.lambda)
+       lambda = JsonMagic.toInt(json, "lambda", SelfOrganizingMapClustering.lambda),
+       initStrat = JsonMagic.toString(json, "initStrat", SelfOrganizingMapClustering.initStrat)
        )
    }
 
@@ -50,7 +53,7 @@ object SelfOrganizingMapClustering {
 
    require(alpha >= 0 && alpha <= 1, "hyper parameter alpha has to be in interval [0, 1]")
 
-   val SOM = new SelfOrganizingMap(height, width, alpha, alphaHalflife, alphaDecay)
+   val SOM = new SelfOrganizingMap(height, width, alpha, alphaHalflife, alphaDecay, initStrat)
 
    def clusterMeans(): List[List[List[Double]]] =
      // List(SOM.getCurrentMap()).transpose

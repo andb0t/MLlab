@@ -10,7 +10,7 @@ import utils._
   * @constructor Create a new SOM
   * @param parameters See clustering implementation
   */
-class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: Int, alphaDecay: String, initStrat: String = "random") {
+class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: Int, alphaDecay: String, initStrat: String) {
 
   var nodes: List[DenseVector[Double]] = Nil
   var nodesHistory: List[List[List[Double]]] = Nil
@@ -54,10 +54,15 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
     }
     else if (initStrat == "PCA") {
       val featureMatrix = Trafo.toMatrix(features.transpose)
-      def eigen = (p: PCA) => (p.loadings, p.eigenvalues)
-      val (eigenvectors, eigenvalues) = eigen(princomp(featureMatrix))
+      def eigen = (p: PCA) => (p.loadings, p.eigenvalues, p.center)
+      val (eigenvectors, eigenvalues, centers) = eigen(princomp(featureMatrix))
       println("eigenvalues " + eigenvalues)
       println("eigenvectors " + eigenvectors)
+      println("centers " + centers)
+      println("Dummy initialization for now ...")
+      nodes = (for (i <- 0 until height * width) yield
+        DenseVector.tabulate(nFeatures){i => scala.util.Random.nextDouble - 0.5}
+      ).toList
     }
     else throw new NotImplementedError(s"Initialization strategy $initStrat not implemented!")
 
