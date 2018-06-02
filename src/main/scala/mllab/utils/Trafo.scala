@@ -67,23 +67,29 @@ object Trafo {
     (xList zip yList).map(x => List(x._1, x._2))
   }
 
-  def getPrincipalComponents(X: List[List[Double]], dim: Int=2): List[DenseVector[Double]] = {
-    def covarianceEigen = (p: PCA) => (toList(p.eigenvalues), rowVectors(p.loadings), p.center)
-    val (eigenvalues, eigenvectors, centers) = covarianceEigen(princomp(toMatrix(X)))
-    println("eigenvalues and eigenvectors:")
-    for (i <- 0 until eigenvalues.length)
-      println("%d. eigenvalue %.4f with vector ".format(i, eigenvalues(i)) + eigenvectors(i))
-    println("centers " + centers)
-    eigenvectors.take(dim)
-  }
-
+  /** Performs PCA and return PCA object
+   * @param X list of instances to perform PCA on
+   */
   def getPCA(X: List[List[Double]]): PCA =
      princomp(Trafo.toMatrix(X))
 
+   /** Determines eigenvalues, eigenvectors and feature centers */
+   def covarianceEigen = (pca: PCA) => (toList(pca.eigenvalues), rowVectors(pca.loadings), pca.center)
+
+   /** Transforms a list of instances into the reference frame of the PCA
+    * @param X list of instances
+    * @param pca PCA object
+    * @param dim optional cut-off to drop dimensions with less variance
+    */
   def transformMatrix(X: List[List[Double]], pca: PCA, dim: Int= -1): List[List[Double]] =
     if (dim == -1) columnVectors((pca.loadings * (toMatrix(X)(*, ::) - pca.center).t).t).map(toList(_)).transpose
     else  columnVectors((pca.loadings * (toMatrix(X)(*, ::) - pca.center).t).t).take(dim).map(toList(_)).transpose
 
+  /** Transforms an instance into the reference frame of the PCA
+    * @param x instance
+    * @param pca PCA object
+    * @param dim optional cut-off to drop dimensions with less variance
+   */
   def transformVector(x: List[Double], pca: PCA, dim: Int= -1): List[Double] =
     if (dim == -1) columnVectors((pca.loadings * (toMatrix(List(x))(*, ::) - pca.center).t).t).flatMap(toList(_))
     else  columnVectors((pca.loadings * (toMatrix(List(x))(*, ::) - pca.center).t).t).flatMap(toList(_)).take(dim)
