@@ -24,7 +24,8 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
   def getNeighbors(index: Int, height: Int, width: Int): List[Int] = {
     def rowNeighbors(index: Int, width: Int): List[Int] = {
       val idx = index % width
-      if (idx == 0 && idx != width - 1) List(index + 1)
+      if (width == 1) Nil
+      else if (idx == 0 && idx != width - 1) List(index + 1)
       else if (idx != 0 && idx == width - 1) List(index - 1)
       else List(index - 1, index + 1)
     }
