@@ -53,13 +53,6 @@ class SelfOrganizingMap(height: Int, width: Int, alpha: Double,  alphaHalflife: 
       ).toList
     }
     else if (initStrat == "PCA") {
-      val featureMatrix = Trafo.toMatrix(features.transpose)
-      def eigen = (p: PCA) => (Trafo.columnVectors(p.loadings), Trafo.toList(p.eigenvalues), p.center)
-      val (eigenvectors, eigenvalues, centers) = eigen(princomp(featureMatrix))
-      println("eigenvalues and eigenvectors:")
-      for (i <- 0 until eigenvalues.length)
-        println("%d. eigenvalue %.4f with vector ".format(i, eigenvalues(i)) + eigenvectors(i))
-      println("centers " + centers)
       println("Dummy initialization for now ...")
       nodes = (for (i <- 0 until height * width) yield
         DenseVector.tabulate(nFeatures){i => scala.util.Random.nextDouble - 0.5}
