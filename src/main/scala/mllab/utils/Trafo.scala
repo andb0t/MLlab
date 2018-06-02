@@ -68,6 +68,7 @@ object Trafo {
   }
 
   /** Performs PCA and return PCA object
+   * good introduction: http://www.cs.otago.ac.nz/cosc453/student_tutorials/principal_components.pdf
    * @param X list of instances to perform PCA on
    */
   def getPCA(X: List[List[Double]]): PCA =
