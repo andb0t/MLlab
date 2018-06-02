@@ -22,10 +22,10 @@ object Trafo {
     convert(toVector(y.map(_.toDouble)), Int)
 
   /** Returns a list of column vectors */
-  def columnVectors = (m: DenseMatrix[Double]) => for (i <- 0 until m.cols) yield m(::, i)
+  def columnVectors = (m: DenseMatrix[Double]) => (for (i <- 0 until m.cols) yield m(::, i)).toList
 
   /** Returns a list of row vectors */
-  def rowVectors = (m: DenseMatrix[Double]) => for (i <- 0 until m.rows) yield m(i, ::)
+  def rowVectors = (m: DenseMatrix[Double]) => (for (i <- 0 until m.rows) yield m(i, ::).t).toList
 
   /** Picks elements from a list according to a list of indices */
   def iloc[T](list: List[T], indices: List[Int], result: List[T]=Nil): List[T] = indices match {
@@ -66,5 +66,27 @@ object Trafo {
     val yList = (for (i <- 0 until yVec.size) yield yVec(i)).toList
     (xList zip yList).map(x => List(x._1, x._2))
   }
+
+  def getPrincipalComponents(X: List[List[Double]], dim: Int=2): List[DenseVector[Double]] = {
+    def covarianceEigen = (p: PCA) => (toList(p.eigenvalues), rowVectors(p.loadings), p.center)
+    val (eigenvalues, eigenvectors, centers) = covarianceEigen(princomp(toMatrix(X)))
+    println("eigenvalues and eigenvectors:")
+    for (i <- 0 until eigenvalues.length)
+      println("%d. eigenvalue %.4f with vector ".format(i, eigenvalues(i)) + eigenvectors(i))
+    println("centers " + centers)
+    eigenvectors.take(dim)
+  }
+
+  def getPCA(X: List[List[Double]]): PCA =
+     princomp(Trafo.toMatrix(X))
+
+  def transformMatrix(X: List[List[Double]], pca: PCA, dim: Int= -1): List[List[Double]] =
+    if (dim == -1) columnVectors((pca.loadings * (toMatrix(X)(*, ::) - pca.center).t).t).map(toList(_)).transpose
+    else  columnVectors((pca.loadings * (toMatrix(X)(*, ::) - pca.center).t).t).take(dim).map(toList(_)).transpose
+
+  def transformVector(x: List[Double], pca: PCA, dim: Int= -1): List[Double] =
+    if (dim == -1) columnVectors((pca.loadings * (toMatrix(List(x))(*, ::) - pca.center).t).t).flatMap(toList(_))
+    else  columnVectors((pca.loadings * (toMatrix(List(x))(*, ::) - pca.center).t).t).flatMap(toList(_)).take(dim)
+
 
 }

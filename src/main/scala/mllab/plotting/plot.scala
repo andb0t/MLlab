@@ -67,7 +67,7 @@ object Plotting {
 
   }
 
-  /** Plot labeled data and classifier decision
+  /** Plot data and cluster association. If dimensionality of data > 2, use first principal components as axes.
    *@param data List of features
    *@param predictions List of predicted classes
    *@param clu Trained classifier
@@ -77,32 +77,38 @@ object Plotting {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
-    // now plot all datapoints
-    val centroids = clu.clusterMeans()
-    val axes = List(0, 1)
+
+    val dim = data.head.length
+    lazy val pca = Trafo.getPCA(data)
+    val centroids =
+      if (dim <= 2) clu.clusterMeans()
+      else clu.clusterMeans().map(Trafo.transformMatrix(_, pca, 2))
+    val plotData =
+      if (dim <= 2) data
+      else Trafo.transformMatrix(data, pca, 2)
 
     if (drawCentroids) {
       val finalCentroids: List[List[Double]] = centroids.map(_.last)
-      val x: List[Double] = finalCentroids.map(e => e(axes.head))
-      val y: List[Double] = finalCentroids.map(e => e(axes.last))
+      val x: List[Double] = finalCentroids.map(e => e.head)
+      val y: List[Double] = finalCentroids.map(e => e(1))
       p += plot(x, y, '+', colorcode= "r", name= "Cluster means")
     }
 
     for (i <- 0 until centroids.length) {
       val col: String = StringTrafo.convertToColorCode(PaintScale.Category10(i % 10))
       if (drawCentroids) {
-        val xEvol: List[Double] = centroids(i).map(e => e(axes.head))
-        val yEvol: List[Double] = centroids(i).map(e => e(axes.last))
+        val xEvol: List[Double] = centroids(i).map(e => e.head)
+        val yEvol: List[Double] = centroids(i).map(e => e(1))
         p += plot(xEvol, yEvol, '-', colorcode=col, name= " ")
       }
-      val filteredData: List[List[Double]] = (data zip predictions).filter(_._2 == i).map(_._1)
-      val x: List[Double] = filteredData.map(e => e(axes.head))
-      val y: List[Double] = filteredData.map(e => e(axes.last))
+      val filteredData: List[List[Double]] = (plotData zip predictions).filter(_._2 == i).map(_._1)
+      val x: List[Double] = filteredData.map(e => e.head)
+      val y: List[Double] = filteredData.map(e => e(1))
       p += plot(x, y, '.', colorcode=col, name= "Cluster " + i)
     }
 
-    p.xlabel = "Feature 0"
-    p.ylabel = "Feature 1"
+    p.xlabel = if (dim <= 2) "Feature 0" else "Principal component 0"
+    p.ylabel = if (dim <= 2) "Feature 1" else "Principal component 1"
     p.title = clu.name + " results"
     if (centroids.length < 10) p.legend = true
     f.saveas(name)
