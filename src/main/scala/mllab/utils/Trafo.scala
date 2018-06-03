@@ -27,7 +27,11 @@ object Trafo {
   /** Returns a list of row vectors */
   def rowVectors = (m: DenseMatrix[Double]) => (for (i <- 0 until m.rows) yield m(i, ::).t).toList
 
-  /** Picks elements from a list according to a list of indices */
+  /** Picks elements from a list according to a list of indices
+   * @param list Source list
+   * @param indices Desired indices
+   * @param result Optional start parameter, also needed for recursion
+   */
   def iloc[T](list: List[T], indices: List[Int], result: List[T]=Nil): List[T] = indices match {
     case Nil => result
     case index::rest => {
