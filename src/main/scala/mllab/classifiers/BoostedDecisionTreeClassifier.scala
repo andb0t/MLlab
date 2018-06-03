@@ -106,9 +106,16 @@ class BoostedDecisionTreeClassifier(
   def predict(X: List[List[Double]]): List[Int] = {
     val treeWeights = trees.map(_.decisionTree.weight)
     val relWeights = treeWeights.map(_ / treeWeights.sum)
-    val predictions = (for ((tree, weight) <- (trees zip relWeights)) yield tree.predict(X).map(_ * weight)).transpose
-    val averages: List[Double] = predictions.map(_.sum)
-    averages.map(a => if (a < 0.5) 0 else 1)
+
+    def maxVote(x: List[Double]): Int = {
+      val grouped =
+        (for ((tree, weight) <- (trees zip relWeights)) yield (tree.predict(List(x)), weight))
+        .groupBy(_._1)
+        .mapValues(_.map(_._2).sum)
+      grouped.maxBy(_._2)._1.head
+    }
+
+    X.map(maxVote(_))
   }
 
 }
