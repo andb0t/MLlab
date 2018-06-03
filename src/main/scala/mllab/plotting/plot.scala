@@ -21,14 +21,23 @@ object Plotting {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
+
+    val dim = data.head.length
+    lazy val pca = Trafo.getPCA(data)
+    val plotData =
+      if (dim == 1) data.map(_ ::: List(0.0))
+      else if (dim == 2) data
+      else Trafo.transformMatrix(data, pca, 2)
+
     for (category: Int <- labels.toSet.toList.sorted) {
-      val filteredData: List[List[Double]] = (data zip labels).filter(_._2 == category).map(_._1)
+      val filteredData: List[List[Double]] = (plotData zip labels).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
       p += plot(x, y, '.', name= "Class " + category)
     }
-    p.xlabel = "Feature 0"
-    p.ylabel = "Feature 1"
+
+    p.xlabel = if (dim <= 2) "Feature 0" else "Principal component 0"
+    p.ylabel = if (dim == 1) "" else if (dim == 2) "Feature 1" else "Principal component 1"
     p.legend = true
     p.title = "Data"
     f.saveas(name)
@@ -45,22 +54,29 @@ object Plotting {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)
-    // now plot all datapoints
+
+    val dim = data.head.length
+    lazy val pca = Trafo.getPCA(data)
+    val plotData =
+      if (dim == 1) data.map(_ ::: List(0.0))
+      else if (dim == 2) data
+      else Trafo.transformMatrix(data, pca, 2)
+
     for (category: Int <- predictions.toSet.toList.sorted) {
-      val filteredData: List[List[Double]] = (data zip predictions).filter(_._2 == category).map(_._1)
+      val filteredData: List[List[Double]] = (plotData zip predictions).filter(_._2 == category).map(_._1)
       val x: List[Double] = filteredData.map(e => e.head)
       val y: List[Double] = filteredData.map(e => e(1))
       p += plot(x, y, '.', name= "Prediction " + category)
     }
 
     val wrong: List[Boolean] = (predictions zip labels).map{case (x, y) => x != y}
-    val filteredData: List[List[Double]] = (data zip wrong).filter(_._2).map(_._1)
+    val filteredData: List[List[Double]] = (plotData zip wrong).filter(_._2).map(_._1)
     val x: List[Double] = filteredData.map(e => e.head)
     val y: List[Double] = filteredData.map(e => e(1))
     p += plot(x, y, '+', colorcode= "r", name= "False prediction")
 
-    p.xlabel = "Feature 0"
-    p.ylabel = "Feature 1"
+    p.xlabel = if (dim <= 2) "Feature 0" else "Principal component 0"
+    p.ylabel = if (dim == 1) "" else if (dim == 2) "Feature 1" else "Principal component 1"
     p.title = clf.name + " decisions"
     p.legend = true
     f.saveas(name)
@@ -110,7 +126,7 @@ object Plotting {
     }
 
     p.xlabel = if (dim <= 2) "Feature 0" else "Principal component 0"
-    p.ylabel = if (dim <= 2) "Feature 1" else "Principal component 1"
+    p.ylabel = if (dim == 1) "" else if (dim == 2) "Feature 1" else "Principal component 1"
     p.title = clu.name + " results"
     if (centroids.length < 10) p.legend = true
     f.saveas(name)
@@ -123,12 +139,29 @@ object Plotting {
    *@param name Path to save the plot
    */
   def plotClfGrid(data: List[List[Double]], clf: Classifier, name: String="plots/grid.pdf"): Unit = {
-    val xMin = data.map(_.head).min
-    val xMax = data.map(_.head).max
-    val yMin = data.map(_(1)).min
-    val yMax = data.map(_(1)).max
+    val dim = data.head.length
+    lazy val pca = Trafo.getPCA(data)
+    val plotData =
+      if (dim == 1) data.map(_ ::: List(0.0))
+      else if (dim == 2) data
+      else Trafo.transformMatrix(data, pca)
+
+    val xMin = plotData.map(_.head).min
+    val xMax = plotData.map(_.head).max
+    val yMin = plotData.map(_(1)).min
+    val yMax = plotData.map(_(1)).max
+    // val gridData = Trafo.createGrid(xMin, xMax, yMin, yMax)
+    // val predictions = clf.predict(gridData)
     val gridData = Trafo.createGrid(xMin, xMax, yMin, yMax)
-    val predictions = clf.predict(gridData)
+    val gridDataForPrediction =
+      if (dim == 1) gridData.map(_.take(1))
+      else if (dim == 2) gridData
+      else {
+        val lowPCAMeans = Trafo.transformVector(Trafo.toList(pca.center), pca).drop(2)
+        val extendedGridData = gridData.map(_ ::: lowPCAMeans)
+        Trafo.backTransformMatrix(extendedGridData, pca)
+      }
+    val predictions = clf.predict(gridDataForPrediction)
 
     val f = Figure()
     f.visible= false
@@ -139,8 +172,8 @@ object Plotting {
       val y: List[Double] = filteredData.map(e => e(1))
       p += plot(x, y, '.', name= "Prediction " + category)
     }
-    p.xlabel = "Feature 0"
-    p.ylabel = "Feature 1"
+    p.xlabel = if (dim <= 2) "Feature 0" else "Principal component 0"
+    p.ylabel = if (dim == 1) "" else if (dim == 2) "Feature 1" else "Principal component 1"
     p.title = clf.name + " decision map"
     p.legend = true
     f.saveas(name)
@@ -152,10 +185,8 @@ object Plotting {
    *@param name Path to save the plot
    */
   def plotCluGrid(data: List[List[Double]], clu: Clustering, name: String="plots/grid.pdf"): Unit = {
-
     val dim = data.head.length
     lazy val pca = Trafo.getPCA(data)
-
     val plotData =
       if (dim == 1) data.map(_ ::: List(0.0))
       else if (dim == 2) data
@@ -187,7 +218,7 @@ object Plotting {
     }
 
     p.xlabel = if (dim <= 2) "Feature 0" else "Principal component 0"
-    p.ylabel = if (dim <= 2) "Feature 1" else "Principal component 1"
+    p.ylabel = if (dim == 1) "" else if (dim == 2) "Feature 1" else "Principal component 1"
     p.title = clu.name + " cluster map"
     if (clu.clusterMeans.length < 10) p.legend = true
     f.saveas(name)
