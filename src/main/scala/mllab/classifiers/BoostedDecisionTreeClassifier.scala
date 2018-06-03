@@ -12,22 +12,28 @@ object BoostedDecisionTreeClassifier {
   val depth: Int = 3
   val criterion: String="gini"
   val minSamplesSplit: Int = 2
+  val nEstimators: Int = 3
+  val boosting: String = "AdaBoost"
+  val eta: Double = 1.0
   val verbose: Int = 1
-  val n_estimators: Int = 3
 }
 
 /** Decision tree classifier
  * @param depth Depth of the tree
  * @param criterion Function to measure the quality of a split
  * @param minSamplesSplit Minimum number of samples required to split an internal node
- * @param n_estimators Number of boosting steps
+ * @param nEstimators Number of boosting steps
+ * @param boosting Boosting algorithm to use
+ * @param eta Learning rate for boosting
  * @param verbose Verbosity of output
  */
 class BoostedDecisionTreeClassifier(
   depth: Int = BoostedDecisionTreeClassifier.depth,
   criterion: String = BoostedDecisionTreeClassifier.criterion,
   minSamplesSplit: Int =  BoostedDecisionTreeClassifier.minSamplesSplit,
-  n_estimators: Int =  BoostedDecisionTreeClassifier.n_estimators,
+  nEstimators: Int =  BoostedDecisionTreeClassifier.nEstimators,
+  boosting: String =  BoostedDecisionTreeClassifier.boosting,
+  eta: Double =  BoostedDecisionTreeClassifier.eta,
   verbose: Int =  BoostedDecisionTreeClassifier.verbose
 ) extends Classifier {
   def this(json: JsValue) = {
@@ -35,15 +41,17 @@ class BoostedDecisionTreeClassifier(
       depth = JsonMagic.toInt(json, "depth", BoostedDecisionTreeClassifier.depth),
       criterion = JsonMagic.toString(json, "criterion", BoostedDecisionTreeClassifier.criterion),
       minSamplesSplit = JsonMagic.toInt(json, "minSamplesSplit", BoostedDecisionTreeClassifier.minSamplesSplit),
-      n_estimators = JsonMagic.toInt(json, "n_estimators", BoostedDecisionTreeClassifier.n_estimators),
+      nEstimators = JsonMagic.toInt(json, "nEstimators", BoostedDecisionTreeClassifier.nEstimators),
+      boosting = JsonMagic.toString(json, "boosting", BoostedDecisionTreeClassifier.boosting),
+      eta = JsonMagic.toDouble(json, "eta", BoostedDecisionTreeClassifier.eta),
       verbose = JsonMagic.toInt(json, "verbose", BoostedDecisionTreeClassifier.verbose)
       )
   }
 
   val name: String = "BoostedDecisionTreeClassifier"
 
-  println(s"Initializing $n_estimators decision trees ...")
-  val trees = List.fill(n_estimators)(
+  println(s"Initializing $nEstimators decision trees ...")
+  val trees = List.fill(nEstimators)(
     new DecisionTreeClassifier(
       depth = depth,
       criterion = criterion,
@@ -61,40 +69,43 @@ class BoostedDecisionTreeClassifier(
         trees.head.train(X, y, currentSampleWeight)
         val y_pred = trees.head.predict(X)
         val isCorrect: List[Boolean] = (y_pred zip y).map{case (p, t) => p == t}
-        // for now, simply double correct instances' weights
-        val newSampleWeights = (isCorrect zip currentSampleWeight).map{case (c, w) => if (c) w else w * 2}
-        val oldWeightSum = currentSampleWeight.sum
-        val newWeightSum = newSampleWeights.sum
-        val newNormSampleWeight = newSampleWeights map (_ * oldWeightSum / newWeightSum)
+        val weightSum = currentSampleWeight.sum
 
-        val nHit: Int = isCorrect count (_ == true)
-        val nMiss: Int = isCorrect count (_ == false)
-        val wHit: Double = (isCorrect zip currentSampleWeight).filter(_._1).map(_._2).sum
-        val wMiss: Double = (isCorrect zip currentSampleWeight).filter(!_._1).map(_._2).sum
-        val wNewHit: Double = (isCorrect zip newNormSampleWeight).filter(_._1).map(_._2).sum
-        val wNewMiss: Double = (isCorrect zip newNormSampleWeight).filter(!_._1).map(_._2).sum
-        println(" - hits: %d (weighted: %.2f)".format(nHit, wHit))
-        println(" - misses: %d (weighted: %.2f)".format(nMiss, wMiss))
-
-        val missFactor = wNewMiss / wMiss
-        val hitFactor = wNewHit / wHit
-        println(" - weight update of hits: %.2f".format(hitFactor))
-        println(" - weight update of misses: %.2f".format(missFactor))
-
+        val nTrue: Int = isCorrect count (_ == true)
+        val nFalse: Int = isCorrect count (_ == false)
+        val wTrue: Double = (isCorrect zip currentSampleWeight).filter(_._1).map(_._2).sum
+        val wFalse: Double = (isCorrect zip currentSampleWeight).filter(!_._1).map(_._2).sum
+        println(" - hits: %d (weighted: %.2f)".format(nTrue, wTrue))
+        println(" - misses: %d (weighted: %.2f)".format(nFalse, wFalse))
         println(" - confusion matrix")
         Evaluation.matrix(y_pred, y, percentage = false)
 
-        // for now, take each learners f1 score as its weight
-        trees.head.decisionTree.weight = Evaluation.f1(y_pred, y)
-        println(" - setting learner weight: %.3f".format(trees.head.decisionTree.weight))
+        val wErrorRate = wFalse / weightSum
+        println(" - weighted error rate: %.3f".format(wErrorRate))
 
-        require(Maths.round(newNormSampleWeight.sum, 6) == Maths.round(currentSampleWeight.sum, 6), "weight conservation violated")
+        val learnerWeight =
+          if (boosting == "AdaBoost") eta * Math.log((1.0 - wErrorRate) / wErrorRate)
+          else if (boosting == "double") eta * Evaluation.f1(y_pred, y)
+          else throw new NotImplementedError(s"boosting keyword $boosting not implemented")
+        trees.head.decisionTree.weight =learnerWeight
+        println(" - learner weight: %.3f".format(learnerWeight))
+
+        val weightUpdate: Double =
+          if (boosting == "AdaBoost") Math.exp(learnerWeight)
+          else if (boosting == "double") 2.0
+          else throw new NotImplementedError(s"boosting keyword $boosting not implemented")
+        println(" - instance weight update: %.3f".format(weightUpdate))
+        val newSampleWeights = (isCorrect zip currentSampleWeight).map{case (c, w) => if (c) w else w * weightUpdate}
+        val newWeightSum = newSampleWeights.sum
+        val newNormSampleWeight = newSampleWeights map (_ * weightSum / newWeightSum)
+        require(Maths.round(newNormSampleWeight.sum, 6) == Maths.round(weightSum, 6), "weight conservation violated")
+
         boost(trees.tail, newNormSampleWeight, step + 1)
       }
     }
 
     val startSampleWeight =
-      if (sampleWeight.isEmpty) List.fill(y.length)(1.0)
+      if (sampleWeight.isEmpty) List.fill(y.length)(1.0 / y.length)
       else sampleWeight
 
     boost(trees, startSampleWeight)
