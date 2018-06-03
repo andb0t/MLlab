@@ -81,10 +81,12 @@ object Plotting {
     val dim = data.head.length
     lazy val pca = Trafo.getPCA(data)
     val centroids =
-      if (dim <= 2) clu.clusterMeans()
+      if (dim == 1) clu.clusterMeans().map(_.map(_ ::: List(0.0)))
+      else if (dim == 2) clu.clusterMeans()
       else clu.clusterMeans().map(Trafo.transformMatrix(_, pca, 2))
     val plotData =
-      if (dim <= 2) data
+      if (dim == 1) data.map(_ ::: List(0.0))
+      else if (dim == 2) data
       else Trafo.transformMatrix(data, pca, 2)
 
     if (drawCentroids) {
@@ -155,7 +157,8 @@ object Plotting {
     lazy val pca = Trafo.getPCA(data)
 
     val plotData =
-      if (dim <= 2) data
+      if (dim == 1) data.map(_ ::: List(0.0))
+      else if (dim == 2) data
       else Trafo.transformMatrix(data, pca)
 
     val xMin = plotData.map(_.head).min
@@ -164,10 +167,11 @@ object Plotting {
     val yMax = plotData.map(_(1)).max
     val gridData = Trafo.createGrid(xMin, xMax, yMin, yMax)
     val gridDataForPrediction =
-      if (dim <= 2) gridData
+      if (dim == 1) gridData.map(_.take(1))
+      else if (dim == 2) gridData
       else {
         val lowPCAMeans = Trafo.transformVector(Trafo.toList(pca.center), pca).drop(2)
-        val extendedGridData = Trafo.createGrid(xMin, xMax, yMin, yMax).map(_ ::: lowPCAMeans)
+        val extendedGridData = gridData.map(_ ::: lowPCAMeans)
         Trafo.backTransformMatrix(extendedGridData, pca)
       }
     val predictions = clu.predict(gridDataForPrediction)
