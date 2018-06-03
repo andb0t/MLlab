@@ -129,6 +129,7 @@ object Mllab {
         else if (conf.clf() == "kNN") new kNNClassifier(json)
         else if (conf.clf() == "DecisionTree") new DecisionTreeClassifier(json)
         else if (conf.clf() == "BoostedDecisionTree") new BoostedDecisionTreeClassifier(json)
+        else if (conf.clf() == "RandomForest") new RandomForestClassifier(json)
         else if (conf.clf() == "Perceptron") new PerceptronClassifier(json)
         else if (conf.clf() == "NeuralNetwork") new NeuralNetworkClassifier(json)
         else if (conf.clf() == "LogisticRegression") new LogisticRegressionClassifier(json)
