@@ -77,14 +77,27 @@ object Trafo {
    /** Determines eigenvalues, eigenvectors and feature centers */
    def covarianceEigen = (pca: PCA) => (toList(pca.eigenvalues), rowVectors(pca.loadings), pca.center)
 
-   /** Transforms a list of instances into the reference frame of the PCA
-    * @param X list of instances
-    * @param pca PCA object
-    * @param dim optional cut-off to drop dimensions with less variance
-    */
+  /** Transforms a list of instances into the reference frame of the PCA
+   * @param X list of instances
+   * @param pca PCA object
+   * @param dim optional cut-off to drop dimensions with less variance
+   */
   def transformMatrix(X: List[List[Double]], pca: PCA, dim: Int= -1): List[List[Double]] =
     if (dim == -1) columnVectors((pca.loadings * (toMatrix(X)(*, ::) - pca.center).t).t).map(toList(_)).transpose
     else  columnVectors((pca.loadings * (toMatrix(X)(*, ::) - pca.center).t).t).take(dim).map(toList(_)).transpose
+
+   /** Transforms a list of instances from PCA to original space
+    * @param X list of instances in PCA space
+    * @param pca PCA object
+    * @param dim optional cut-off to drop dimensions with less variance
+    */
+   def backTransformMatrix(X: List[List[Double]], pca: PCA, dim: Int= -1): List[List[Double]] =
+     if (dim == -1 || dim >= pca.loadings.rows)
+      columnVectors((pca.loadings.t * (toMatrix(X)(*, ::) - pca.center).t).t).map(toList(_)).transpose
+     else {
+       val reducedEig = pca.loadings(0 to dim, ::)
+       columnVectors((inv(reducedEig) * (toMatrix(X)(*, ::) - pca.center).t).t).take(dim).map(toList(_)).transpose
+     }
 
   /** Transforms an instance into the reference frame of the PCA
     * @param x instance
@@ -92,8 +105,14 @@ object Trafo {
     * @param dim optional cut-off to drop dimensions with less variance
    */
   def transformVector(x: List[Double], pca: PCA, dim: Int= -1): List[Double] =
-    if (dim == -1) columnVectors((pca.loadings * (toMatrix(List(x))(*, ::) - pca.center).t).t).flatMap(toList(_))
-    else  columnVectors((pca.loadings * (toMatrix(List(x))(*, ::) - pca.center).t).t).flatMap(toList(_)).take(dim)
+    transformMatrix(List(x), pca, dim).head
 
+  /** Transforms an instance from PCA to original space
+   * @param X instance in PCA space
+   * @param pca PCA object
+   * @param dim optional cut-off to drop dimensions with less variance
+   */
+  def backTransformVector(x: List[Double], pca: PCA, dim: Int= -1): List[Double] =
+    backTransformMatrix(List(x), pca, dim).head
 
 }
