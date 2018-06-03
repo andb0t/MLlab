@@ -77,8 +77,8 @@ class BoostedDecisionTreeClassifier(
         val wFalse: Double = (isCorrect zip currentSampleWeight).filter(!_._1).map(_._2).sum
         println(" - hits: %d (weighted: %.2f)".format(nTrue, wTrue))
         println(" - misses: %d (weighted: %.2f)".format(nFalse, wFalse))
-        println(" - confusion matrix")
-        Evaluation.matrix(y_pred, y, percentage = false)
+        // println(" - confusion matrix")
+        // Evaluation.matrix(y_pred, y, percentage = false)
 
         val wErrorRate = wFalse / weightSum
         println(" - weighted error rate: %.3f".format(wErrorRate))
