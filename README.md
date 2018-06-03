@@ -19,7 +19,6 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] multilayer neural network
 - [x] naive Bayes
 - [x] boosted decision tree
-  - [ ] AdaBoost
 - [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
 - [ ] random forest
 - [ ] convolutional neural network

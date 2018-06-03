@@ -151,7 +151,10 @@ val clf = new DecisionTreeClassifier(depth=4)
 
 
 #### Boosted Decision Tree Classification
-A boosted decision tree (BDT) classifier consists of a series of decision trees (weak learners), which are trained in sequence on weighted instances. The instance weights depend on the correct or wrong classification of the previous learner. Each learner is then assigned a weight, based on its own relative classification performance, and the weighted majority vote of all learners is taken as prediction.
+A boosted decision tree (BDT) classifier consists of a series of decision trees (weak learners), which are trained in sequence. The default settings use the AdaBoost algorithm:
+each learner is assigned a weight, based on its classification performance.
+The instances are then assigned weights, which are updated depending on the correct or wrong classification and the corresponding learner weight.
+The weighted majority vote of all learners is taken as prediction.
 
 ```scala
 val clf = new BoostedDecisionTreeClassifier(depth=4, n_estimators=100)
