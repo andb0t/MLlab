@@ -8,8 +8,8 @@ import utils._
 
 
 
-class predictor(clf: Classifier) {
-  val pred = clf
+class ClassifierWrapper (cl: Classifier) {
+  val clf = cl
   var weight = 1.0
   var featureIndices: List[Int] = Nil
 }
@@ -49,9 +49,9 @@ class RandomForestClassifier(
 
   val name: String = "RandomForestClassifier"
 
-  println(s"Initializing $nEstimators decision trees ...")
-  val trees = List.fill(nEstimators)(
-    new predictor(
+  println(s"Initializing $nEstimators classifiers ...")
+  val classifiers = List.fill(nEstimators)(
+    new ClassifierWrapper(
       new DecisionTreeClassifier(
         depth = depth,
         criterion = criterion,
@@ -63,27 +63,28 @@ class RandomForestClassifier(
 
   def train(X: List[List[Double]], y: List[Int], sampleWeight: List[Double] = Nil): Unit = {
 
-    def trainRandom(X: List[List[Double]], y: List[Int], sampleWeight: List[Double], pred: predictor): Unit = {
+    def trainRandom(X: List[List[Double]], y: List[Int], sampleWeight: List[Double], clf: ClassifierWrapper): Unit = {
       val nFeatures = X.head.length
       val featureIndices = scala.util.Random.shuffle((0 until nFeatures).toList)
       val maxFeatures = scala.util.Random.nextInt(2) + 1
       val thisFeatures = featureIndices.take(maxFeatures)
       val subX = X.map(Trafo.iloc(_, thisFeatures))
       println(s"Training classifier on $maxFeatures / $nFeatures features: " + thisFeatures)
-      pred.pred.train(subX, y, sampleWeight)
-      pred.featureIndices = thisFeatures
+      clf.clf.train(subX, y, sampleWeight)
+      clf.featureIndices = thisFeatures
     }
 
-    trees.map(trainRandom(X, y, sampleWeight, _))
+    classifiers.map(trainRandom(X, y, sampleWeight, _))
   }
 
   def predict(X: List[List[Double]]): List[Int] = {
-    val treeWeights = trees.map(_.weight)
-    val relWeights = treeWeights.map(_ / treeWeights.sum)
+    val classifierWeights = classifiers.map(_.weight)
+    val relWeights = classifierWeights.map(_ / classifierWeights.sum)
 
     def maxVote(x: List[Double]): Int = {
       val grouped =
-        (for ((tree, weight) <- (trees zip relWeights)) yield (tree.pred.predict(List(Trafo.iloc(x, tree.featureIndices))), weight))
+        (for ((classifier, weight) <- (classifiers zip relWeights))
+          yield (classifier.clf.predict(List(Trafo.iloc(x, classifier.featureIndices))), weight))
         .groupBy(_._1)
         .mapValues(_.map(_._2).sum)
       grouped.maxBy(_._2)._1.head
