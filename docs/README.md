@@ -14,6 +14,7 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
     * [k-Nearest Neighbors](#k-nearest-neighbors-classification)
     * [Decision Tree](#decision-tree-classification)
     * [Boosted Decision Tree](#boosted-decision-tree-classification)
+    * [Random Forest](#random-forest)
     * [Multilayer Neural Network](#multilayer-neural-network-classification)
   * [Regression](#regression)
     * [Linear](#linear-regression)
@@ -151,10 +152,7 @@ val clf = new DecisionTreeClassifier(depth=4)
 
 
 #### Boosted Decision Tree Classification
-A boosted decision tree (BDT) classifier consists of a series of decision trees (weak learners), which are trained in sequence. The default settings use the AdaBoost algorithm:
-each learner is assigned a weight, based on its classification performance.
-The instances are then assigned weights, which are updated depending on the correct or wrong classification and the corresponding learner weight.
-The weighted majority vote of all learners is taken as prediction.
+A boosted decision tree (BDT) classifier consists of a series of decision trees (weak learners), which are trained in sequence. The default settings use the AdaBoost algorithm: each learner is assigned a weight, based on its classification performance. The instances are then assigned weights, which are updated depending on the correct or wrong classification and the corresponding learner weight. The weighted majority vote of all learners is taken as prediction.
 
 ```scala
 val clf = new BoostedDecisionTreeClassifier(depth=4, n_estimators=100)
@@ -164,6 +162,18 @@ This is the application of the BDT algorithm to the circular dataset. The majori
 
 <img src="clf_BoostedDecisionTree_clf_test_nonlinear.png" width="500">
 
+
+#### Random Forest Classification
+A random forest classifier uses a set of weak learners (in this case, classifiers), and trains them on a random subset of features (and, if desired, instances with replacement). The prediction is done by majority vote of the learners. The training and prediction are implemented in parallel, making full use of the available cores of the machine.
+
+
+```scala
+val clf = new RandomForestClassifier(depth=3, n_estimators=100, subSampleSize=0.2)
+```
+
+This is the application of the random forest algorithm to the circular dataset. Even with very weak individual learners (trees of depth 3), the circle can be identified reasonably well.
+
+<img src="clf_RandomForest_clf_test_nonlinear.png" width="500">
 
 
 #### Multilayer Neural Network Classification
