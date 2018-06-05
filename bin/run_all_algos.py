@@ -23,6 +23,8 @@ algoDict = {'clf': {'DecisionTree': [{'dataType': 'nonlinear', 'hyper': '', 'suf
                                     ],
                     'BoostedDecisionTree': [{'dataType': 'nonlinear', 'hyper': 'depth=4, n_estimators=100', 'suffix': 'nonlinear'},
                                            ],
+                    'RandomForest': [{'dataType': 'nonlinear', 'hyper': 'depth=3, n_estimators=100, depth=3', 'suffix': 'nonlinear'},
+                                    ],
                     'kNN': [{'dataType': 'nonlinear', 'hyper': '', 'suffix': 'nonlinear'},
                            ],
                     'LogisticRegression': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},

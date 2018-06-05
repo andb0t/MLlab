@@ -16,6 +16,7 @@ COMMAND="cp"
 # "$COMMAND" "$SOURCE/clf_DecisionTree_clf_test_nonlinear_bad.png" "$TARGET"
 # "$COMMAND" "$SOURCE/clf_DecisionTree_clf_test_nonlinear.png" "$TARGET"
 # "$COMMAND" "$SOURCE/clf_BoostedDecisionTree_clf_test_nonlinear.png" "$TARGET"
+# "$COMMAND" "$SOURCE/clf_RandomForest_clf_test_nonlinear.png" "$TARGET"
 # "$COMMAND" "$SOURCE/clf_NeuralNetwork_clf_test_nonlinear_fail.png" "$TARGET"
 # "$COMMAND" "$SOURCE/clf_NeuralNetwork_clf_test_nonlinear.png" "$TARGET"
 #
