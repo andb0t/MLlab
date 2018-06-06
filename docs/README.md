@@ -14,7 +14,7 @@ The library is written in [Scala](https://www.scala-lang.org/) and can therefore
     * [k-Nearest Neighbors](#k-nearest-neighbors-classification)
     * [Decision Tree](#decision-tree-classification)
     * [Boosted Decision Tree](#boosted-decision-tree-classification)
-    * [Random Forest](#random-forest)
+    * [Random Forest](#random-forest-classification)
     * [Multilayer Neural Network](#multilayer-neural-network-classification)
   * [Regression](#regression)
     * [Linear](#linear-regression)
