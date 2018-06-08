@@ -17,6 +17,7 @@ description: An experimental platform-independent machine learning library
 
 # List of links in the navigation bar
 navbar-links:
+  Overview: "overview"
   Classification:
     - Logistic Regression: "classification/log_regression"
     - Perceptron: "classification/perceptron"
@@ -35,7 +36,6 @@ navbar-links:
   Clustering:
     - k-Means: "clustering/kmeans"
     - Self-organizing map: "clustering/selforg_map"
-  Algorithm details: "algorithm_details"
   API: "api/index.html"
 
 # --- Background colour/image options --- #
