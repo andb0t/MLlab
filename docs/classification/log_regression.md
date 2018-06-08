@@ -11,7 +11,7 @@ val clf = new LogisticRegressionClassifier()
 
 The output of the algorithm using the standard settings trained on a training set and applied to a test set both with a shifted diagonal as class separator is shown below.
 
-<img src="clf_LogisticRegression_clf_test_linear.png" width="500">
+<img src="img/clf_LogisticRegression_clf_test_linear.png" width="500">
 
 Using a trick, the internal addition of higher orders of the features, linear algorithms can be applied to non-linear datasets.
 
@@ -20,4 +20,4 @@ val clf = new LogisticRegressionClassifier(degree=2)
 ```
 This adds powers up until quadratic powers of the feature to the feature vector. Here is an example of the same algorithm applied to circular data. The classifier can now solve the corresponding classification task.
 
-<img src="clf_LogisticRegression_clf_test_nonlinear.png" width="500">
+<img src="img/clf_LogisticRegression_clf_test_nonlinear.png" width="500">
