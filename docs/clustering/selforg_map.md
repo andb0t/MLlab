@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Self-organizing map
+title: Clustering
+subtitle: Self-organizing map
 ---
 
 A self-organizing map (SOM) consists of a mesh of connected nodes. In this case a planar layout has been chosen. An SOM can be used for classification, dimensionality reduction and, as shown here, for clustering. Every node is initialized with a random weight vector of the same dimensionality as the training instances. For every training instance, the best matching unit (BMU) is determined as the node with the smallest Euclidian distance to the training instance. Its and its neighbors' weights are shifted closer to the training instance. This process leads to a self-organized distribution of weights, where similar instances are assigned to neighboring BOMs.

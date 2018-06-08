@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Perceptron Classification
+title: Classification
+subtitle: Perceptron
 ---
 
 The perceptron algorithm tries to find any linear boundary to perfectly separate the classes. It updates the weights of the linear model sequentially for each training instance in each training step in the direction of correct classification. This is repeated until a chosen precision or maximum of iterations is reached.

@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Linear Regression
+title: Regression
+subtitle: Linear Regression
 ---
 
 MLlab provides several algorithms for regression tasks. The most basic is the linear regression. It is designed to fit data with an underlying linear dependencies on an arbitrary dimensional set of features.

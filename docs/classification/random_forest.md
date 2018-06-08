@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Random Forest Classification
+title: Classification
+subtitle: Random Forest
 ---
 
 A random forest classifier uses a set of weak learners (in this case, classifiers), and trains them on a random subset of features (and, if desired, instances with replacement). The prediction is done by majority vote of the learners. The training and prediction are implemented in parallel, making full use of the available cores of the machine.

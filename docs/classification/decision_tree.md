@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Decision Tree Classification
+title: Classification
+subtitle: Decision Tree
 ---
 
 A decision tree is based on a binary tree datastructure and applies a one dimensional cut-off based on one feature at each node. The cut-off threshold and the feature it is applied to are chosen to maximize a purity metric for the resulting split in the training data. The depth of the tree sets the number of binary decisions to be taken.

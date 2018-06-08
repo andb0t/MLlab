@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Multilayer Neural Network Classification
+title: Classification
+subtitle: Multilayer Neural Network
 ---
 
 The implemented neural networks (NN) are feedforward NNs trained using the backpropagation algorithm. They are very versatile but require extensive tuning and experience for successful application.

@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Multilayer Neural Network Regression
+title: Regression
+subtitle: Multilayer Neural Network
 ---
 
 Using an output layer with a single neuron, a neural network can be used for data regression.

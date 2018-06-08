@@ -1,6 +1,7 @@
 ---
 layout: page
-title: k-Nearest Neighbors Regression
+title: Regression
+subtitle: k-Nearest Neighbors
 ---
 
 This algorithm determines predicts the label of an instance from the mean of the labels of the k nearest instances in the training set.

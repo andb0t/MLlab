@@ -1,6 +1,7 @@
 ---
 layout: page
-title: k-Means Clustering
+title: Clustering
+subtitle: k-Means
 ---
 
 This clustering algorithm starts with an arbitrary number random positions (centroids) and associates the closest instances with respect to some specified metric to the given cluster. It then reassigns the centroids to the mean positions of their cluster and repeats until no more change in association appears.

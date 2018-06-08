@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Decision Tree Regression
+title: Regression
+subtitle: Decision Tree
 ---
 
 The decision tree regression determines the predicted value associated to a given test instance from the average of the training labels at the corresponding decision node. The decision threshold is determined from the minimum quadratic sum of the label distance. Let's try a decision tree depth of 3 again.

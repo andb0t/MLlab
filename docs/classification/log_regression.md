@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Logistic Regression Classification
+title: Classification
+subtitle: Logistic Regression
 ---
 
 Classification via logistic regression is a standard algorithm for binary linear classification. It optimizes the parameters of a linear hyperplane in the feature space to separate regions of different label classes. For this, the linear transformation of the instance vectors is further transformed with the logistic sigmoid function to obtain probabilities of belonging to a specific class. It can be instantiated as follows:

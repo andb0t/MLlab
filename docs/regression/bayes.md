@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Bayes Regression
+title: Regression
+subtitle: Bayes Regression
 ---
 
 Linear Bayesian regression is the Bayesian counterpart to the linear regression of the frequentist approach. It assumes prior probability density functions for the linear parameters and the posterior width and determines them from the maximum likelihood parameters using the posterior function, given the training data.
