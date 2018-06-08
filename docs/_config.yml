@@ -18,24 +18,24 @@ description: An experimental platform-independent machine learning library
 # List of links in the navigation bar
 navbar-links:
   Classification:
-    - Logistic Regression: "_pages/classification/log_regression"
-    - Perceptron: "_pages/classification/perceptron"
-    - Naive Bayes: "_pages/classification/naive_bayes"
-    - k-Nearest Neighbors: "_pages/classification/knearest_neighbor"
-    - Decision Tree: "_pages/classification/decision_tree"
-    - Boosted Decision Tree: "_pages/classification/boosted_decision_tree"
-    - Random Forest: "_pages/classification/random_forest"
-    - Multilayer Neural Network: "_pages/classification/ml_neural_network"
+    - Logistic Regression: "classification/log_regression"
+    - Perceptron: "classification/perceptron"
+    - Naive Bayes: "classification/naive_bayes"
+    - k-Nearest Neighbors: "classification/knearest_neighbor"
+    - Decision Tree: "classification/decision_tree"
+    - Boosted Decision Tree: "classification/boosted_decision_tree"
+    - Random Forest: "classification/random_forest"
+    - Multilayer Neural Network: "classification/ml_neural_network"
   Regression:
-    - Linear: "_pages/regression/linear"
-    - Bayes: "_pages/regression/bayes"
-    - k-Nearest Neighbors: "_pages/regression/knearest_neighbor"
-    - Decision Tree: "_pages/regression/decision_tree"
-    - Multilayer Neural Network:  "_pages/regression/ml_neural_network"
+    - Linear: "regression/linear"
+    - Bayes: "regression/bayes"
+    - k-Nearest Neighbors: "regression/knearest_neighbor"
+    - Decision Tree: "regression/decision_tree"
+    - Multilayer Neural Network:  "regression/ml_neural_network"
   Clustering:
-    - k-Means: "_pages/clustering/kmeans"
-    - Self-organizing map: "_pages/clustering/selforg_map"
-  Algorithm details: "_pages/algorithm_details"
+    - k-Means: "clustering/kmeans"
+    - Self-organizing map: "clustering/selforg_map"
+  Algorithm details: "algorithm_details"
   API: "api/index.html"
 
 # --- Background colour/image options --- #
