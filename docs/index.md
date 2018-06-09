@@ -9,6 +9,6 @@ use-site-title: true
 
 This is an experimental platform-independent machine learning library. Born from the desire to implement modern machine learning algorithms by hand, this project has grown considerably and provides now basic algorithms for various classification and regression tasks.
 
-An overview of the different algorithm classes and their basic usage is provided on the [overview page]({{"overview" | relative_url }})
+An overview of the different algorithm classes and their basic usage is provided on the [overview page]({{"overview" | relative_url }}).
 
 The library is written in [Scala](https://www.scala-lang.org/) and can therefore make use of the [JVM](https://java.com/), making it platform-independent. It also makes use of the native support for parallel execution in Scala. The library is documented in the [Scaladoc API]({{ "/api/index.html" | relative_url }}).
