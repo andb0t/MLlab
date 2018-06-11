@@ -47,7 +47,7 @@ val diag = reg.diagnostics  // obtain a map of metrics for algorithm training
 Clustering or unsupervised classification algorithms are applied to data without or very little or insufficient training data.
 They are meant to find patterns in the data with a minimal amount of domain knowledge required to steer the algorithm.
 
-The basic usage of classifiers is as follows:
+The basic usage of clustering algorithms is as follows:
 
 ```scala
 /**
