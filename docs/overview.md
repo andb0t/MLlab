@@ -46,3 +46,16 @@ val diag = reg.diagnostics  // obtain a map of metrics for algorithm training
 ### Clustering
 Clustering or unsupervised classification algorithms are applied to data without or very little or insufficient training data.
 They are meant to find patterns in the data with a minimal amount of domain knowledge required to steer the algorithm.
+
+The basic usage of classifiers is as follows:
+
+```scala
+/**
+ * @param X_train List of feature vectors for training
+ * @param X_test List of feature vectors for prediction
+ */
+val clu = new Clustering()  // optional hyperparameters as arguments
+clu.train(X_train)  // perform the training
+val y_pred = clu.predict(X_test)  // make a prediction
+
+```
