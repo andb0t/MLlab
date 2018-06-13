@@ -30,13 +30,14 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] decision tree
 - [x] Bayes
 - [x] k-nearest neighbors
-- [X] neural network regression
+- [x] neural network regression
 - [ ] SVM
 
 ### Clustering
 - [x] k-means
 - [x] self-organizing map
 - [ ] expectation-maximization
+- [ ] hierarchical clustering
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
@@ -107,8 +108,7 @@ scalastyle  # style check
 
 ## Contribution
 Everyone is welcome to contribute! I would especially appreciate support in
-* a static webpage for the project
-* a GUI to select datasets, algorithms and hyper parameters, run the analysis
+* a web interface to try the library out: select datasets, algorithms and hyper parameters, run the analysis
   and do grid hyper parameter optimization
 
 PRs and issues are always welcome.
@@ -119,7 +119,7 @@ Please write unit tests for your methods.
 
 ### Contributors
 This code is developed and maintained by me. List of contributors in alphabetical order:
-* no one yet :grin:
+* Simon Spannagel
 * maybe you? :satisfied:
 
 
