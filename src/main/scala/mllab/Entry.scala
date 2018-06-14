@@ -89,6 +89,7 @@ object Mllab {
         if (conf.clu().isEmpty || conf.clu() == "Random") new RandomClustering()
         else if (conf.clu() == "kMeans") new kMeansClustering(json)
         else if (conf.clu() == "SelfOrganizingMap") new SelfOrganizingMapClustering(json)
+        else if (conf.clu() == "Hierarchical") new HierarchicalClustering(json)
         else throw new IllegalArgumentException("algorithm " + conf.clu() + " not implemented.")
       clu.train(X_train)
 
