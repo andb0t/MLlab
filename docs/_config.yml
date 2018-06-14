@@ -37,6 +37,7 @@ navbar-links:
     - k-Means: "clustering/kmeans"
     - Self-organizing map: "clustering/selforg_map"
   API: "api/index.html"
+  Download: "download/download"
 
 # --- Background colour/image options --- #
 
