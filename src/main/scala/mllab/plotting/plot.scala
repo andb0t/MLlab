@@ -229,7 +229,13 @@ object Plotting {
    *@param names List of the curves' names
    *@param name Path to save the plot
    */
-  def plotCurves(curves: List[List[(Double, Double)]], names: List[String]=Nil, name: String = "plots/curves.pdf", xlabel: String="Training epoch", ylabel: String=""): Unit = {
+  def plotCurves(
+    curves: List[List[(Double, Double)]],
+    names: List[String]=Nil,
+    name: String = "plots/curves.pdf",
+    xlabel: String="Training epoch",
+    ylabel: String=""
+  ): Unit = {
     val f = Figure()
     f.visible= false
     val p = f.subplot(0)

@@ -51,7 +51,7 @@ class LogisticRegressionClassifier(
 
   /** Calculates the gradient of the loss function for the given training data */
   def lossGradient(X: List[List[Double]], y: List[Int], weight: List[Double]): List[Double] = {
-    // dLoss = d(LogLoss) = Sum ((p - y) * x) / nInstances
+    // dLoss = d(logLoss) = Sum ((p - y) * x) / nInstances
     val weightGradient: List[Double] =
       for (feature <- X.transpose) yield (
         for (pyx <- (getProbabilities(X, weight), y.map(_.toDouble), feature).zipped.toList)
@@ -61,12 +61,12 @@ class LogisticRegressionClassifier(
     biasGradient::weightGradient
   }
 
-  def _train(X: List[List[Double]], y: List[Int]): Unit = {
+  def _train(X: List[List[Double]], y: List[Int]): Unit = {  // scalastyle:ignore
     require(X.length == y.length, "number of training instances and labels is not equal")
     val nFeatures = X.head.length
 
     def findWeights(count: Int, weight: List[Double]): List[Double] = {
-      val loss: Double = Evaluation.LogLoss(getProbabilities(X, weight), y)
+      val loss: Double = Evaluation.logLoss(getProbabilities(X, weight), y)
       lossEvolution += Tuple2(count.toDouble, loss)
       if (loss > tol && count < maxIter) {
         if (count % 100 == 0 || (count < 50 && count % 10 == 0) || (count < 5))
@@ -87,7 +87,7 @@ class LogisticRegressionClassifier(
     weight = findWeights(0, List.fill(nFeatures + 1)(0))
   }
 
-  def _predict(X: List[List[Double]]): List[Int] =
+  def _predict(X: List[List[Double]]): List[Int] =  // scalastyle:ignore
     for (p <- getProbabilities(X, weight)) yield if (p > 0.5) 1 else 0
 
   def predict(X: List[List[Double]]): List[Int] =

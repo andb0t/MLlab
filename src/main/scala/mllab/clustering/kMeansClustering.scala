@@ -35,7 +35,14 @@ class kMeansClustering(
   def clusterMeans(): List[List[List[Double]]] =
     centroidEvolution.transpose
 
-  def refineCentroids(count: Int, X: List[List[Double]], y: List[Int], centroids: List[List[List[Double]]], stop: Boolean, maxIter: Int): List[List[List[Double]]] = {
+  def refineCentroids(
+    count: Int,
+    X: List[List[Double]],
+    y: List[Int],
+    centroids: List[List[List[Double]]],
+    stop: Boolean,
+    maxIter: Int
+  ): List[List[List[Double]]] = {
     if (count >= maxIter || stop) {
       val loss = kMeans.getLoss(X, y, centroids.head)
       lossEvolution += Tuple2(count.toDouble, loss)

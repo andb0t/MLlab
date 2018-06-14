@@ -71,7 +71,7 @@ class NaiveBayesClassifier(
     else
       for (pl <- prior zip getLikeli(x)) yield pl._1 * pl._2.product
 
-  def _train(X: List[List[Double]], y: List[Int]): Unit = {
+  def _train(X: List[List[Double]], y: List[Int]): Unit = {  // scalastyle:ignore
     require(X.length == y.length, "number of training instances and labels is not equal")
     val classes: List[Int] = y.toSet.toList.sorted
     if (priors != Nil) {
@@ -111,7 +111,7 @@ class NaiveBayesClassifier(
     }
   }
 
-  def _predict(X: List[List[Double]]): List[Int] =
+  def _predict(X: List[List[Double]]): List[Int] =  // scalastyle:ignore
     for (instance <- X) yield getProbabs(instance).zipWithIndex.maxBy(_._1)._2
 
     def predict(X: List[List[Double]]): List[Int] =

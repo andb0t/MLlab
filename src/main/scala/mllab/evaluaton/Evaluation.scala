@@ -44,7 +44,7 @@ object Evaluation{
    *@param y_true List of labels
    *@param eps Clip probabilities to avoid undefined logs at p = 0, 1
    */
-  def LogLoss(p_pred: List[Double], y_true: List[Int], eps: Double=1e-15): Double = {
+  def logLoss(p_pred: List[Double], y_true: List[Int], eps: Double=1e-15): Double = {
     def clipped(p: Double): Double =
       Math.max(eps, Math.min(1 - eps, p))
     - (p_pred.map(clipped) zip y_true).map{case (p, y) => y * Math.log(p) + (1 - y) * Math.log(1 - p)}.sum / y_true.length
@@ -76,28 +76,28 @@ object Evaluation{
    *@param y_pred List of predictions
    *@param y_true List of labels
    */
-  def MSE(y_pred: List[Double], y_true: List[Double]): Double =
+  def MSE(y_pred: List[Double], y_true: List[Double]): Double =  // scalastyle:ignore
     (y_pred zip y_true).map{case (x, y) => Math.pow(x - y, 2)}.sum / y_true.length
 
   /** Calculates the Mean Absolute Error
    *@param y_pred List of predictions
    *@param y_true List of labels
    */
-  def MAE(y_pred: List[Double], y_true: List[Double]): Double =
+  def MAE(y_pred: List[Double], y_true: List[Double]): Double =  // scalastyle:ignore
     (y_pred zip y_true).map{case (x, y) => Math.abs(x - y)}.sum / y_true.length
 
   /** Calculates the Median Absolute Error
    *@param y_pred List of predictions
    *@param y_true List of labels
    */
-  def MedAE(y_pred: List[Double], y_true: List[Double]): Double =
+  def MedAE(y_pred: List[Double], y_true: List[Double]): Double =  // scalastyle:ignore
     Maths.median((y_pred zip y_true).map{case (x, y) => Math.abs(x - y)})
 
   /** Calculates the R^2 score
    *@param y_pred List of predictions
    *@param y_true List of labels
    */
-  def RSqared(y_pred: List[Double], y_true: List[Double]): Double = {
+  def RSqared(y_pred: List[Double], y_true: List[Double]): Double = {  // scalastyle:ignore
     val trueMean = Maths.mean(y_true)
     1.0 - (y_pred zip y_true).map{case (x, y) => Math.pow(x - y, 2)}.sum / y_true.map(t => Math.pow(t - trueMean, 2)).sum
   }
@@ -115,7 +115,7 @@ object Evaluation{
    *@param y_pred List of predictions
    *@param y_true List of labels
    */
-  def MSLE(y_pred: List[Double], y_true: List[Double]): Double =
+  def MSLE(y_pred: List[Double], y_true: List[Double]): Double =  // scalastyle:ignore
     (y_pred zip y_true).map{case (x, y) => Math.pow(Maths.finiteLog(1 + x) - Maths.finiteLog(1 + y), 2)}.sum / y_true.length
 
 }

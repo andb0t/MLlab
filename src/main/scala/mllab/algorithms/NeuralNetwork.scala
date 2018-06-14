@@ -172,7 +172,12 @@ object NeuralNetwork {
     val dboutputLayer: DenseVector[Double] = sum(delta.t(*, ::))  // (2)
     val updateOutputLayer = Tuple2(dWoutputLayer, dboutputLayer)
 
-    def walkLayersBack(deltaPlus: DenseMatrix[Double], count: Int, upd: List[Tuple2[DenseMatrix[Double], DenseVector[Double]]]): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
+    def walkLayersBack(
+      deltaPlus: DenseMatrix[Double],
+      count: Int,
+      upd: List[Tuple2[DenseMatrix[Double],
+      DenseVector[Double]]]
+    ): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
       if (count >= 0) {
         val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count + 1).t  // (nInstances, 10)
         val partDerivActiv: DenseMatrix[Double] = NeuralNetwork.derivActivate(A(count), activation)  // (nInstances, 10)

@@ -58,7 +58,7 @@ class LinearRegressor(
     biasGradient::weightGradient
   }
 
-  def _train(X: List[List[Double]], y: List[Double]): Unit = {
+  def _train(X: List[List[Double]], y: List[Double]): Unit = {  // scalastyle:ignore
     require(X.length == y.length, "both arguments must have the same length")
     val nFeatures = X.head.length
 
@@ -84,7 +84,7 @@ class LinearRegressor(
     weight = findWeights(0, List.fill(nFeatures + 1)(0))
   }
 
-  def _predict(X: List[List[Double]]): List[Double] =
+  def _predict(X: List[List[Double]]): List[Double] =  // scalastyle:ignore
     getPredictions(X, weight)
 
   def predict(X: List[List[Double]]): List[Double] =

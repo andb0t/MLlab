@@ -22,8 +22,8 @@ class EvaluationSuite extends FunSuite {
   }
 
   test("log loss"){
-    assert (Evaluation.LogLoss(List(0.8, 0.4, 0.5), List(1, 0, 1)) === 0.47570545188004854)
-    assert (Evaluation.LogLoss(List(0.01, 0, 1), List(1, 0, 1)) === 1.5350567286626975)
+    assert (Evaluation.logLoss(List(0.8, 0.4, 0.5), List(1, 0, 1)) === 0.47570545188004854)
+    assert (Evaluation.logLoss(List(0.01, 0, 1), List(1, 0, 1)) === 1.5350567286626975)
   }
 
   test("mean squared error"){

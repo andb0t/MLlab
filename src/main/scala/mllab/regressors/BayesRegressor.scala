@@ -75,7 +75,7 @@ class BayesRegressor(
     probabs
   }
 
-  def _train(X: List[List[Double]], y: List[Double]): Unit = {
+  def _train(X: List[List[Double]], y: List[Double]): Unit = {  // scalastyle:ignore
     require(X.length == y.length, "both arguments must have the same length")
     val nFeatures = X.head.length
 
@@ -134,7 +134,7 @@ class BayesRegressor(
       val xAxis: List[Double] = (for (i <- 0 until equiVec.size) yield equiVec(i)).toList
 
       // plot priors
-      val xAxisPerWeight = List.fill(nFeatures+1)(xAxis)
+      val xAxisPerWeight = List.fill(nFeatures + 1)(xAxis)
       val valsWeight = xAxisPerWeight.transpose.map(evalWeightPrior(_)).transpose.map(xAxis zip _)
       val valsWidth = xAxis zip (xAxis.map(evalWidthPrior(_)))
       val vals = valsWidth :: valsWeight
@@ -171,7 +171,7 @@ class BayesRegressor(
     }
   }
 
-  def _predict(X: List[List[Double]]): List[Double] =
+  def _predict(X: List[List[Double]]): List[Double] =  // scalastyle:ignore
     for (instance <- X) yield Maths.dot(weight, 1 :: instance)
 
   def predict(X: List[List[Double]]): List[Double] =

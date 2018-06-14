@@ -50,7 +50,7 @@ class PerceptronClassifier(
   def isCorrect(instance: List[Double], label: Int, weight: List[Double]): Boolean =
     getPrediction(instance, weight) == label
 
-  def _train(X: List[List[Double]], y: List[Int]): Unit = {
+  def _train(X: List[List[Double]], y: List[Int]): Unit = {  // scalastyle:ignore
     require(X.length == y.length, "number of training instances and labels is not equal")
     val nFeatures = X.head.length
 
@@ -93,7 +93,7 @@ class PerceptronClassifier(
     weight = trainedVals
   }
 
-  def _predict(X: List[List[Double]]): List[Int] =
+  def _predict(X: List[List[Double]]): List[Int] =  // scalastyle:ignore
     for (instance <- X) yield getPrediction(instance, weight)
 
   def predict(X: List[List[Double]]): List[Int] =
