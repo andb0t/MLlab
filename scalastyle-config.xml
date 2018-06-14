@@ -83,11 +83,11 @@
    <parameter name="maxTypes"><![CDATA[30]]></parameter>
   </parameters>
  </check>
- <check level="warning" class="org.scalastyle.scalariform.CyclomaticComplexityChecker" enabled="true">
+ <!-- <check level="warning" class="org.scalastyle.scalariform.CyclomaticComplexityChecker" enabled="true">
   <parameters>
    <parameter name="maximum"><![CDATA[10]]></parameter>
   </parameters>
- </check>
+ </check> -->
  <check level="warning" class="org.scalastyle.scalariform.UppercaseLChecker" enabled="true"></check>
  <check level="warning" class="org.scalastyle.scalariform.SimplifyBooleanExpressionChecker" enabled="true"></check>
  <!-- <check level="warning" class="org.scalastyle.scalariform.IfBraceChecker" enabled="true">
@@ -96,11 +96,11 @@
    <parameter name="doubleLineAllowed"><![CDATA[false]]></parameter>
   </parameters>
  </check> -->
- <check level="warning" class="org.scalastyle.scalariform.MethodLengthChecker" enabled="true">
+ <!-- <check level="warning" class="org.scalastyle.scalariform.MethodLengthChecker" enabled="true">
   <parameters>
    <parameter name="maxLength"><![CDATA[50]]></parameter>
   </parameters>
- </check>
+ </check> -->
  <check level="warning" class="org.scalastyle.scalariform.MethodNamesChecker" enabled="true">
   <parameters>
    <parameter name="regex"><![CDATA[^[a-z][A-Za-z0-9]*$]]></parameter>

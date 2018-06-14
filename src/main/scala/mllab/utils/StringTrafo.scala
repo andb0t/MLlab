@@ -1,6 +1,6 @@
 package utils
 
-import java.awt.Color
+import java.awt.Color  // scalastyle:ignore
 
 
 /** Provides auxiliary functions for string transformations */

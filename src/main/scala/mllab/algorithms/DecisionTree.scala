@@ -119,7 +119,8 @@ class DecisionTree(depth: Int){
   override def toString(): String = {
 
     def printNodes(): String =
-      (for { node <- tree if (node.filled || true) } yield
+      // (for { node <- tree if (node.filled || true) } yield
+      (for { node <- tree } yield
         "Node " + node.nodeIndex +
         (if (node.filled) {
           ": decisive feature " + node.featureIndex +
