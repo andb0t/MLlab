@@ -22,10 +22,12 @@ object Trafo {
     convert(toVector(y.map(_.toDouble)), Int)
 
   /** Returns a list of column vectors */
-  def columnVectors = (m: DenseMatrix[Double]) => (for (i <- 0 until m.cols) yield m(::, i)).toList
+  def columnVectors(m: DenseMatrix[Double]): List[DenseVector[Double]] =
+     (for (i <- 0 until m.cols) yield m(::, i)).toList
 
   /** Returns a list of row vectors */
-  def rowVectors = (m: DenseMatrix[Double]) => (for (i <- 0 until m.rows) yield m(i, ::).t).toList
+  def rowVectors(m: DenseMatrix[Double]): List[DenseVector[Double]] =
+    (for (i <- 0 until m.rows) yield m(i, ::).t).toList
 
   /** Picks elements from a list according to a list of indices
    * @param list Source list
@@ -79,7 +81,8 @@ object Trafo {
      princomp(Trafo.toMatrix(X))
 
    /** Determines eigenvalues, eigenvectors and feature centers */
-   def covarianceEigen = (pca: PCA) => (toList(pca.eigenvalues), rowVectors(pca.loadings), pca.center)
+   def covarianceEigen(pca: PCA): Tuple3[List[Double], List[DenseVector[Double]], DenseVector[Double]] =
+     (toList(pca.eigenvalues), rowVectors(pca.loadings), pca.center)
 
   /** Transforms a list of instances into the reference frame of the PCA
    * @param X list of instances

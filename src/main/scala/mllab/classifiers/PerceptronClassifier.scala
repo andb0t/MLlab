@@ -78,13 +78,13 @@ class PerceptronClassifier(
               Tuple2(newWeight, false)
             }
             else
-              trainSteps(step+1, damp, weight)
+              trainSteps(step + 1, damp, weight)
           }
         }
 
-        val (newWeight: List[Double], newIsDone: Boolean) = trainSteps(0, epoch+1, weight)
+        val (newWeight: List[Double], newIsDone: Boolean) = trainSteps(0, epoch + 1, weight)
 
-        trainEpochs(epoch+1, newIsDone, newWeight)
+        trainEpochs(epoch + 1, newIsDone, newWeight)
       }
     }
 

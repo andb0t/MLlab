@@ -113,14 +113,14 @@ class DecisionTreeClassifier(
            val currThresh: Double = min + count * stepSize
            val (currPurity, currGreater) = getPurity(featureX, y, thisSampleWeight, currThresh, criterion)
            decTree.updateNode(nodeIndex, iFeature, currThresh, currGreater, mean, nSamples, currPurity)
-           if (maxPurity < currPurity) scanSteps(count+1, currThresh, currPurity)
-           else scanSteps(count+1, purestSplit, maxPurity)
+           if (maxPurity < currPurity) scanSteps(count + 1, currThresh, currPurity)
+           else scanSteps(count + 1, purestSplit, maxPurity)
          }
 
        scanSteps(0, 0, Double.MinValue)
        val newMin: Double = -stepSize
        val newStepSize: Double = 2.0 * stepSize / (nSteps - 1)
-       zoom(count+1, newMin, newStepSize, featureX, iFeature)
+       zoom(count + 1, newMin, newStepSize, featureX, iFeature)
      }
 
     if (X.length >= minSamplesSplit) {

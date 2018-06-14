@@ -41,8 +41,8 @@ object Optimizer {
         val newParams: List[Double] = params.zipWithIndex.map{case (p, i) => if (i == dimension) p + step else p}
         val newMaximum: Double = func(newParams)
         // if (newMaximum > maximum) println("New maximum " + maximum + " at " + params)
-        if (newMaximum > maximum) maximize(count+1, zooms, newMaximum, newParams, ranges)
-        else maximize(count+1, zooms, maximum, params, ranges)
+        if (newMaximum > maximum) maximize(count + 1, zooms, newMaximum, newParams, ranges)
+        else maximize(count + 1, zooms, maximum, params, ranges)
       }
     }
 

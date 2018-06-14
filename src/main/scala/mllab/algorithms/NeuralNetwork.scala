@@ -116,7 +116,7 @@ object NeuralNetwork {
       if (count < b.length - 1) {
         val inputZ = NeuralNetwork.neuronTrafo(X, W(count), b(count))
         val inputZactive = NeuralNetwork.activate(inputZ, activation)
-        applyLayer(inputZactive, count+1)
+        applyLayer(inputZactive, count + 1)
       }
       else {
         NeuralNetwork.neuronTrafo(X, W(count), b(count))
@@ -174,7 +174,7 @@ object NeuralNetwork {
 
     def walkLayersBack(deltaPlus: DenseMatrix[Double], count: Int, upd: List[Tuple2[DenseMatrix[Double], DenseVector[Double]]]): List[Tuple2[DenseMatrix[Double], DenseVector[Double]]] = {
       if (count >= 0) {
-        val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count+1).t  // (nInstances, 10)
+        val partDerivCost: DenseMatrix[Double] = deltaPlus * W(count + 1).t  // (nInstances, 10)
         val partDerivActiv: DenseMatrix[Double] = NeuralNetwork.derivActivate(A(count), activation)  // (nInstances, 10)
         val instanceDelta: DenseMatrix[Double] = partDerivCost *:* partDerivActiv  // (nInstances, 10)
         val db: DenseVector[Double] = sum(instanceDelta.t(*, ::))  // (10)

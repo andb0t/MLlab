@@ -54,8 +54,10 @@ class NeuralNetworkRegressor(
 
   val name: String = "NeuralNetworkRegressor"
 
-  val W: IndexedSeq[DenseMatrix[Double]] = for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i+1))
-  val b: IndexedSeq[DenseVector[Double]] = for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i+1))
+  val W: IndexedSeq[DenseMatrix[Double]] =
+    for (i <- 0 until layers.length - 1) yield DenseMatrix.rand[Double](layers(i),layers(i + 1))
+  val b: IndexedSeq[DenseVector[Double]] =
+    for (i <- 0 until layers.length - 1) yield DenseVector.zeros[Double](layers(i + 1))
 
   var lossEvolution = new ListBuffer[(Double, Double)]()
   var alphaEvolution = new ListBuffer[(Double, Double)]()

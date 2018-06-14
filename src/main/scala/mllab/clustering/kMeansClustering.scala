@@ -53,9 +53,9 @@ class kMeansClustering(
       }
       val newCentroids: List[List[Double]] = kMeans.getCentroids(X, newy, k)
       if (newCentroids.toSet != centroids.head.toSet)
-        refineCentroids(count+1, X, newy, newCentroids :: centroids, stop, maxIter)
+        refineCentroids(count + 1, X, newy, newCentroids :: centroids, stop, maxIter)
       else
-        refineCentroids(count+1, X, newy, centroids, true, maxIter)
+        refineCentroids(count + 1, X, newy, centroids, true, maxIter)
     }
   }
 

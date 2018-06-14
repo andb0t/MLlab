@@ -22,18 +22,18 @@ object StringTrafo {
     else {
       def topSep(index: Int, brackets: Int, str: String): Int =
         if (str.isEmpty()) index
-        else if (str.startsWith("(")) topSep(index+1, brackets+1, str.tail)
-        else if (str.startsWith(")")) topSep(index+1, brackets-1, str.tail)
+        else if (str.startsWith("(")) topSep(index + 1, brackets + 1, str.tail)
+        else if (str.startsWith(")")) topSep(index + 1, brackets - 1, str.tail)
         else if (str.startsWith(",") && brackets == 0) index
-        else topSep(index+1, brackets, str.tail)
+        else topSep(index + 1, brackets, str.tail)
       val index = topSep(0, 0, str)
       val front = str.slice(0, index)
-      val rest = str.slice(index+1, str.length)
+      val rest = str.slice(index + 1, str.length)
       front :: splitString(rest, sep)
     }
 
     /** Retrieves string between two delimiters */
     def between(str: String, start: String = "(", end: String = ")"): String =
-      str.slice(str.indexOf(start)+1, str.lastIndexOf(end))
+      str.slice(str.indexOf(start) + 1, str.lastIndexOf(end))
 
 }

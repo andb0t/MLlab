@@ -84,7 +84,7 @@ class LogisticRegressionClassifier(
       }
     }
 
-    weight = findWeights(0, List.fill(nFeatures+1)(0))
+    weight = findWeights(0, List.fill(nFeatures + 1)(0))
   }
 
   def _predict(X: List[List[Double]]): List[Int] =
