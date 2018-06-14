@@ -12,7 +12,7 @@ object NaiveBayesClassifier {
   val model: String="gaussian"
   val priors: List[Double]=Nil
   val alpha: Double = 1.0
-  val degree: Int=2+0
+  val degree: Int=2
 }
 
 /** Naive Bayes classifier
