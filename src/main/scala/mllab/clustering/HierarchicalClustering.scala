@@ -26,12 +26,10 @@ class HierarchicalClustering(
 
   val name: String = "HierarchicalClustering"
 
-  var centroidEvolution: List[List[List[Double]]] = Nil
+  val hier = new Hierarchical(k)
 
   def clusterMeans(): List[List[List[Double]]] =
-    centroidEvolution.transpose
-
-  val hier = new Hierarchical(k)
+    List(hier.getClusterMeans).transpose
 
   def train(X: List[List[Double]]): Unit = {
     println("No training necessary")
