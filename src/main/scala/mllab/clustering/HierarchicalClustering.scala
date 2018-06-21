@@ -31,12 +31,16 @@ class HierarchicalClustering(
   def clusterMeans(): List[List[List[Double]]] =
     centroidEvolution.transpose
 
+  val hier = new Hierarchical(k)
+
   def train(X: List[List[Double]]): Unit = {
-    val clustering = for (instance <- X) yield (Math.random * k).toInt
-    centroidEvolution = List(kMeans.getCentroids(X, clustering, k))
+    println("No training necessary")
   }
 
-  def predict(X: List[List[Double]]): List[Int] =
-    for (instance <- X) yield (Math.random * k).toInt
+  def predict(X: List[List[Double]]): List[Int] = {
+    val result = hier.classifiy(X)
+    println(hier)
+    result
+  }
 
 }
