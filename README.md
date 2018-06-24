@@ -36,8 +36,8 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 ### Clustering
 - [x] k-means
 - [x] self-organizing map
+- [x] hierarchical clustering
 - [ ] expectation-maximization
-- [ ] hierarchical clustering
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
