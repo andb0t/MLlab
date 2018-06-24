@@ -16,6 +16,7 @@ class Hierarchical(k: Int, metric: String) {
 
   def distance(a: List[Double], b: List[Double]): Double =
     if (metric == "euclidian") Maths.distance(a, b)
+    else if (metric == "L1") Maths.distanceL1(a, b)
     else throw new NotImplementedError("metric " + metric + " not implemented")
 
   /** Determines the cluster association
