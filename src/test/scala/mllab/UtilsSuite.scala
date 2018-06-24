@@ -26,11 +26,28 @@ class UtilsSuite extends FunSuite {
   }
 
   test ("L1 norm") {
-    assert (Maths.L1(List(1, 2, -1)) === 4)
-    assert (Maths.L1(List(0, 0)) === 0)
-    assert (Maths.L1(List(1)) === 1)
-    assert (Maths.L1(List(1, 2)) === 3)
-    assert (Maths.L1(List(1, -2)) === 3)
+    assert (Maths.normL1(List(1, 2, -1)) === 4)
+    assert (Maths.normL1(List(0, 0)) === 0)
+    assert (Maths.normL1(List(1)) === 1)
+    assert (Maths.normL1(List(1, 2)) === 3)
+    assert (Maths.normL1(List(1, -2)) === 3)
+  }
+
+  test ("L3 norm") {
+    assert (Maths.normL3(List(1, 2, -1)) === 10)
+    assert (Maths.normL3(List(0, 0)) === 0)
+    assert (Maths.normL3(List(1)) === 1)
+    assert (Maths.normL3(List(1, 2)) === 9)
+    assert (Maths.normL3(List(1, -2)) === 9)
+  }
+
+
+  test ("Max norm") {
+    assert (Maths.maxNorm(List(1, 2, -1)) === 2)
+    assert (Maths.maxNorm(List(0, 0)) === 0)
+    assert (Maths.maxNorm(List(1)) === 1)
+    assert (Maths.maxNorm(List(1, 2)) === 2)
+    assert (Maths.maxNorm(List(1, -2)) === 2)
   }
 
   test ("distance") {

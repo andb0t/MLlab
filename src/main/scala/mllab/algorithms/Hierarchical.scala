@@ -15,8 +15,10 @@ class Hierarchical(k: Int, metric: String) {
   var clusterMeans: List[List[Double]] = Nil
 
   def distance(a: List[Double], b: List[Double]): Double =
-    if (metric == "euclidian") Maths.distance(a, b)
+    if (metric == "euclidian" || metric == "L2") Maths.distance(a, b)
     else if (metric == "L1") Maths.distanceL1(a, b)
+    else if (metric == "L3") Maths.distanceL3(a, b)
+    else if (metric == "max") Maths.distanceMaxNorm(a, b)
     else throw new NotImplementedError("metric " + metric + " not implemented")
 
   /** Determines the cluster association
