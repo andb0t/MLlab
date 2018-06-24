@@ -18,11 +18,11 @@ class Hierarchical(k: Int) {
    * @param X List of instances to cluster
    */
   def classifiy(X: List[List[Double]]): List[Int] = {
-    val shuffledX: List[(List[Double], Int)] = scala.util.Random.shuffle(X.take(7).zipWithIndex)
+    val shuffledX: List[(List[Double], Int)] = scala.util.Random.shuffle(X.zipWithIndex)
 
     def clusterBatch(clusterX: List[(List[Double], Int)], clustering: List[Tuple2[Int, Int]], step: Int): List[Tuple2[Int, Int]] = {
-      val nBatch = min(clusterX.length, 6)
-      if (nBatch > k && step < 5) {
+      val nBatch = min(clusterX.length, 100)
+      if (nBatch > k) {
         val distMatrix: DenseMatrix[Double] = DenseMatrix.tabulate(nBatch, nBatch){
           case (i, j) =>
           if (i > j) Maths.distance(clusterX(i)._1, clusterX(j)._1)
@@ -34,24 +34,35 @@ class Hierarchical(k: Int) {
         val newElement: Tuple2[List[Double], Int] = (newFeatureVals, iInst._2)
         val newClusterX = newElement :: Trafo.dropElement(clusterX, List(iMin, jMin))
         val newClustering = (jInst._2, iInst._2) :: clustering
-        println(s"Step $step:")
-        println("Merge instance " + iInst)
-        println("and instance   " + jInst)
-        println("into           " + newElement)
-        println("clusterX       " + clusterX.take(7))
-        println("newClusterX    " + newClusterX.take(7))
-        println("newClustering  " + newClustering)
+        // println(s"Step $step:")
+        // println("Merge instance " + iInst)
+        // println("and instance   " + jInst)
+        // println("into           " + newElement)
+        // println("clusterX       " + clusterX.take(7))
+        // println("newClusterX    " + newClusterX.take(7))
+        // println("newClustering  " + newClustering)
         clusterBatch(newClusterX, newClustering, step + 1)
       }
       else clustering
     }
 
-    val newClustering = clusterBatch(shuffledX, Nil, 0)
-    println(newClustering.take(7))
+    val merges = clusterBatch(shuffledX, Nil, 0)
+    println("Determined merges: " + merges.length)
 
-    val clustering = List.fill(X.length)(scala.util.Random.nextInt(3))
+    def applyMerges(merges: List[Tuple2[Int, Int]], clustering: List[Int]): List[Int] = merges match {
+      case Nil => clustering
+      case merge::rest => applyMerges(rest, clustering.map{case x => if (x == merge._1) merge._2 else x})
+    }
+
+    val originalClustering = applyMerges(merges.reverse, List.range(0, X.length))
+    val clusterIndices = originalClustering.toSet.toList.zipWithIndex
+    val clustering = applyMerges(clusterIndices, originalClustering)
     clusterMeans = kMeans.getCentroids(X, clustering, k)
+
+    println("Clustered instances: " + clustering.length)
+    println("Unique labels: " + clustering.toSet.size)
     clustering
+
   }
 
   /** Get cluster means */

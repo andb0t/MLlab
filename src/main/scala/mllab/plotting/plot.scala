@@ -96,7 +96,7 @@ object Plotting {
 
     val dim = data.head.length
     lazy val pca = Trafo.getPCA(data)
-    lazy val centroids =
+    val centroids =
       if (dim == 1) clu.clusterMeans().map(_.map(_ ::: List(0.0)))
       else if (dim == 2) clu.clusterMeans()
       else clu.clusterMeans().map(Trafo.transformMatrix(_, pca, 2))
