@@ -9,24 +9,27 @@ import json._
 /** Companion object providing default parameters */
 object HierarchicalClustering {
   val k: Int = 3
+  val metric: String = "euclidian"
 }
 
 /** Hierarchical clustering
- * @param k Number of clusters to stop clustering
- * @todo improve centroid initialization
+ * @param k Desired number of clusters
+ * @param metric Desired distance metric for clustering
  */
 class HierarchicalClustering(
-  k: Int = HierarchicalClustering.k
+  k: Int = HierarchicalClustering.k,
+  metric: String = HierarchicalClustering.metric
 ) extends Clustering {
   def this(json: JsValue) = {
     this(
-      k = JsonMagic.toInt(json, "k", HierarchicalClustering.k)
+      k = JsonMagic.toInt(json, "k", HierarchicalClustering.k),
+      metric = JsonMagic.toString(json, "metric", HierarchicalClustering.metric)
       )
   }
 
   val name: String = "HierarchicalClustering"
 
-  val hier = new Hierarchical(k)
+  val hier = new Hierarchical(k, metric)
 
   def clusterMeans(): List[List[List[Double]]] =
     List(hier.getClusterMeans).transpose

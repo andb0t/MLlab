@@ -10,9 +10,13 @@ import utils._
   * @constructor Create a new hierarchical clustering object
   * @param parameters See clustering implementation
   */
-class Hierarchical(k: Int) {
+class Hierarchical(k: Int, metric: String) {
 
   var clusterMeans: List[List[Double]] = Nil
+
+  def distance(a: List[Double], b: List[Double]): Double =
+    if (metric == "euclidian") Maths.distance(a, b)
+    else throw new NotImplementedError("metric " + metric + " not implemented")
 
   /** Determines the cluster association
    * @param X List of instances to cluster
@@ -25,7 +29,7 @@ class Hierarchical(k: Int) {
       if (nBatch > k) {
         val distMatrix: DenseMatrix[Double] = DenseMatrix.tabulate(nBatch, nBatch){
           case (i, j) =>
-          if (i > j) Maths.distance(clusterX(i)._1, clusterX(j)._1)
+          if (i > j) distance(clusterX(i)._1, clusterX(j)._1)
           else Double.MaxValue
         }
         val (iMin, jMin) = argmin(distMatrix)
@@ -71,7 +75,7 @@ class Hierarchical(k: Int) {
   }
 
   override def toString(): String = {
-    "Hierarchical k=%d".format(k)
+    "Hierarchical clustering: k=%d, %s metric".format(k, metric)
   }
 
 }
