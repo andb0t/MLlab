@@ -35,4 +35,5 @@ COMMAND="cp"
 
 
 # "$COMMAND" "$SOURCE/clu_kMeans_train_centroids_three.png" "$TARGET/clustering"
+# "$COMMAND" "$SOURCE/clu_Hierarchical_train_centroids_three.png" "$TARGET/clustering"
 # "$COMMAND" "$SOURCE/clu_SelfOrganizingMap_train_centroids.png" "$TARGET/clustering"

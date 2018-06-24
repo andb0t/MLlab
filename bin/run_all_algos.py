@@ -65,6 +65,10 @@ algoDict = {'clf': {'DecisionTree': [{'dataType': 'nonlinear', 'hyper': '', 'suf
                               ],
                     'Random': [{'dataType': 'linear', 'hyper': '', 'suffix': 'linear'},
                               ],
+                    'Hierarchical': [{'dataType': 'linear', 'hyper': 'k=3', 'suffix': 'three'},
+                                    ],
+                    'SelfOrganizingMap': [{'dataType': 'linear', 'hyper': 'width=2, height=2', 'suffix': ''},
+                                         ],
                    }
            }
 
