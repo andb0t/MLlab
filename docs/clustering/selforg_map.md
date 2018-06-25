@@ -10,6 +10,6 @@ A self-organizing map (SOM) consists of a mesh of connected nodes. In this case 
 val clu = new SelfOrganizingMapClustering(width=2, height=2)
 ```
 
-Below is a dataset with three distinct clusters of data. Using the 2x2 node map initialized with random weight vectors, the algorithm finds the correct cluster association. The evolution of the nodes during training is shown as well.
+Using the 2x2 node map initialized with random weight vectors, the algorithm finds the correct cluster association. The evolution of the nodes during training is shown as well.
 
 ![Centroids]({{ "/img/clu_SelfOrganizingMap_train_centroids.png" | relative_url }})

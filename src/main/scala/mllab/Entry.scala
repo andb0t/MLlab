@@ -89,6 +89,7 @@ object Mllab {
         if (conf.clu().isEmpty || conf.clu() == "Random") new RandomClustering()
         else if (conf.clu() == "kMeans") new kMeansClustering(json)
         else if (conf.clu() == "SelfOrganizingMap") new SelfOrganizingMapClustering(json)
+        else if (conf.clu() == "Hierarchical") new HierarchicalClustering(json)
         else throw new IllegalArgumentException("algorithm " + conf.clu() + " not implemented.")
       clu.train(X_train)
 
@@ -98,7 +99,7 @@ object Mllab {
       if (!conf.noplots()) {
         println("Visualize the data")
         Plotting.plotClu(X_test, y_pred, clu,
-          name= conf.output() + "/clu_" + conf.clu() + "_clu_test" + suff + "." + conf.format())
+          name= conf.output() + "/clu_" + conf.clu() + "_test" + suff + "." + conf.format())
         Plotting.plotClu(X_train, y_pred_train, clu,
           name= conf.output() + "/clu_" + conf.clu() + "_train" + suff + "." + conf.format())
         Plotting.plotClu(X_train, y_pred_train, clu, drawCentroids = true,

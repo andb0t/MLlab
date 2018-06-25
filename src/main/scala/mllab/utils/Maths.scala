@@ -24,9 +24,33 @@ object Maths{
   def abs(a: List[Double]): Double =
     Math.sqrt(dot(a, a))
 
+  /** Vector L1 norm using list as vector */
+  def normL1(a: List[Double]): Double =
+    a.map(Math.abs(_)).sum
+
+  /** Vector L3 norm using list as vector */
+  def normL3(a: List[Double]): Double =
+    a.map{case x => Math.abs(x*x*x)}.sum
+
+  /** Vector max norm norm using list as vector */
+  def maxNorm(a: List[Double]): Double =
+    a.map(Math.abs(_)).max
+
   /** Euclidian distance between two vectors */
   def distance(a: List[Double], b: List[Double]): Double =
     abs(minus(a, b))
+
+  /** L1 distance between two vectors */
+  def distanceL1(a: List[Double], b: List[Double]): Double =
+    normL1(minus(a, b))
+
+  /** L3 distance between two vectors */
+  def distanceL3(a: List[Double], b: List[Double]): Double =
+    normL3(minus(a, b))
+
+  /** MaxNorm distance between two vectors */
+  def distanceMaxNorm(a: List[Double], b: List[Double]): Double =
+    maxNorm(minus(a, b))
 
   /** Rounds to specified amount of digits */
   def round(a: Double, digits: Int): Double =

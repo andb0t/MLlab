@@ -41,6 +41,20 @@ object Trafo {
     }
   }
 
+  /** Drops elements from list by index
+   * @param list Source list
+   * @param indices Indices to drop
+   */
+  def dropElement[T](list: List[T], indices: List[Int]): List[T] = indices match {
+    case Nil => list
+    case _ => {
+      val sortIndices = indices.sorted.reverse
+      val index = sortIndices.head
+      val result = list.take(index) ++ list.drop(index + 1)
+      dropElement(result, sortIndices.tail)
+    }
+  }
+
   /** Samples random instances from the given data */
   def randomizeInstancesInt(X: DenseMatrix[Double], y: DenseVector[Int], nInst: Int): Tuple2[DenseMatrix[Double], DenseVector[Int]] = {
     val randomIndices: Seq[Int] =

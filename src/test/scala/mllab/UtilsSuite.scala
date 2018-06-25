@@ -25,9 +25,40 @@ class UtilsSuite extends FunSuite {
     assert (Maths.abs(List(0, 0)) === 0)
   }
 
+  test ("L1 norm") {
+    assert (Maths.normL1(List(1, 2, -1)) === 4)
+    assert (Maths.normL1(List(0, 0)) === 0)
+    assert (Maths.normL1(List(1)) === 1)
+    assert (Maths.normL1(List(1, 2)) === 3)
+    assert (Maths.normL1(List(1, -2)) === 3)
+  }
+
+  test ("L3 norm") {
+    assert (Maths.normL3(List(1, 2, -1)) === 10)
+    assert (Maths.normL3(List(0, 0)) === 0)
+    assert (Maths.normL3(List(1)) === 1)
+    assert (Maths.normL3(List(1, 2)) === 9)
+    assert (Maths.normL3(List(1, -2)) === 9)
+  }
+
+
+  test ("Max norm") {
+    assert (Maths.maxNorm(List(1, 2, -1)) === 2)
+    assert (Maths.maxNorm(List(0, 0)) === 0)
+    assert (Maths.maxNorm(List(1)) === 1)
+    assert (Maths.maxNorm(List(1, 2)) === 2)
+    assert (Maths.maxNorm(List(1, -2)) === 2)
+  }
+
   test ("distance") {
     assert (Maths.distance(List(1, 2, -1), List(0, -1, -1)) === Math.sqrt(10))
     assert (Maths.distance(List(0, 3), List(1, -1)) === Math.sqrt(17))
+  }
+
+  test ("L1 distance") {
+    assert (Maths.distanceL1(List(1, 2, -1), List(0, -1, -1)) === 4)
+    assert (Maths.distanceL1(List(0, 3), List(1, -1)) === 5)
+    assert (Maths.distanceL1(List(1), List(-1)) === 2)
   }
 
   test ("factorial") {

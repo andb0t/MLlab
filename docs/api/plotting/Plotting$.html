@@ -396,22 +396,39 @@
     </span>
       <p class="shortcomment cmt">Plot classifier decision areas on an envelope plane of the data</p><div class="fullcomment"><div class="comment cmt"><p>Plot classifier decision areas on an envelope plane of the data</p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>List of features</p></dd><dt class="param">clf</dt><dd class="cmt"><p>Trained classifier</p></dd><dt class="param">name</dt><dd class="cmt"><p>Path to save the plot</p></dd></dl></div>
     </li><li name="plotting.Plotting#plotClu" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="plotClu(data:List[List[Double]],predictions:List[Int],clu:clustering.Clustering,name:String):Unit"></a>
-      <a id="plotClu(List[List[Double]],List[Int],Clustering,String):Unit"></a>
+      <a id="plotClu(data:List[List[Double]],predictions:List[Int],clu:clustering.Clustering,drawCentroids:Boolean,name:String):Unit"></a>
+      <a id="plotClu(List[List[Double]],List[Int],Clustering,Boolean,String):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">plotClu</span><span class="params">(<span name="data">data: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="predictions">predictions: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="clu">clu: <a href="../clustering/Clustering.html" class="extype" name="clustering.Clustering">Clustering</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;plots/clu.pdf&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">plotClu</span><span class="params">(<span name="data">data: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="predictions">predictions: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="clu">clu: <a href="../clustering/Clustering.html" class="extype" name="clustering.Clustering">Clustering</a></span>, <span name="drawCentroids">drawCentroids: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;plots/clu.pdf&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#plotting.Plotting$@plotClu(data:List[List[Double]],predictions:List[Int],clu:clustering.Clustering,name:String):Unit" title="Permalink" target="_top">
+      <a href="../index.html#plotting.Plotting$@plotClu(data:List[List[Double]],predictions:List[Int],clu:clustering.Clustering,drawCentroids:Boolean,name:String):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Plot labeled data and classifier decision</p><div class="fullcomment"><div class="comment cmt"><p>Plot labeled data and classifier decision</p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>List of features</p></dd><dt class="param">predictions</dt><dd class="cmt"><p>List of predicted classes</p></dd><dt class="param">clu</dt><dd class="cmt"><p>Trained classifier</p></dd><dt class="param">name</dt><dd class="cmt"><p>Path to save the plot</p></dd></dl></div>
+      <p class="shortcomment cmt">Plot data and cluster association.</p><div class="fullcomment"><div class="comment cmt"><p>Plot data and cluster association. If dimensionality of data &gt; 2, use first principal components as axes.</p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>List of features</p></dd><dt class="param">predictions</dt><dd class="cmt"><p>List of predicted classes</p></dd><dt class="param">clu</dt><dd class="cmt"><p>Trained classifier</p></dd><dt class="param">name</dt><dd class="cmt"><p>Path to save the plot</p></dd></dl></div>
+    </li><li name="plotting.Plotting#plotCluGrid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="plotCluGrid(data:List[List[Double]],clu:clustering.Clustering,name:String):Unit"></a>
+      <a id="plotCluGrid(List[List[Double]],Clustering,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">plotCluGrid</span><span class="params">(<span name="data">data: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="clu">clu: <a href="../clustering/Clustering.html" class="extype" name="clustering.Clustering">Clustering</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;plots/grid.pdf&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#plotting.Plotting$@plotCluGrid(data:List[List[Double]],clu:clustering.Clustering,name:String):Unit" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Plot clustering decision areas on an envelope plane of the data</p><div class="fullcomment"><div class="comment cmt"><p>Plot clustering decision areas on an envelope plane of the data</p></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>List of features</p></dd><dt class="param">clu</dt><dd class="cmt"><p>Trained clusterer</p></dd><dt class="param">name</dt><dd class="cmt"><p>Path to save the plot</p></dd></dl></div>
     </li><li name="plotting.Plotting#plotCurves" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="plotCurves(curves:List[List[(Double,Double)]],names:List[String],name:String,xlabel:String,ylabel:String):Unit"></a>
       <a id="plotCurves(List[List[(Double,Double)]],List[String],String,String,String):Unit"></a>

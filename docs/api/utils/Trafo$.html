@@ -162,6 +162,40 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="utils.Trafo#backTransformMatrix" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="backTransformMatrix(X:List[List[Double]],pca:breeze.linalg.PCA,dim:Int):List[List[Double]]"></a>
+      <a id="backTransformMatrix(List[List[Double]],PCA,Int):List[List[Double]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">backTransformMatrix</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="pca">pca: <span class="extype" name="breeze.linalg.PCA">PCA</span></span>, <span name="dim">dim: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@backTransformMatrix(X:List[List[Double]],pca:breeze.linalg.PCA,dim:Int):List[List[Double]]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Transforms a list of instances from PCA to original space</p><div class="fullcomment"><div class="comment cmt"><p>Transforms a list of instances from PCA to original space</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>list of instances in PCA space</p></dd><dt class="param">pca</dt><dd class="cmt"><p>PCA object</p></dd><dt class="param">dim</dt><dd class="cmt"><p>optional cut-off to drop dimensions with less variance</p></dd></dl></div>
+    </li><li name="utils.Trafo#backTransformVector" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="backTransformVector(x:List[Double],pca:breeze.linalg.PCA,dim:Int):List[Double]"></a>
+      <a id="backTransformVector(List[Double],PCA,Int):List[Double]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">backTransformVector</span><span class="params">(<span name="x">x: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="pca">pca: <span class="extype" name="breeze.linalg.PCA">PCA</span></span>, <span name="dim">dim: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@backTransformVector(x:List[Double],pca:breeze.linalg.PCA,dim:Int):List[Double]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Transforms an instance from PCA to original space</p><div class="fullcomment"><div class="comment cmt"><p>Transforms an instance from PCA to original space</p></div><dl class="paramcmts block"><dt class="param">pca</dt><dd class="cmt"><p>PCA object</p></dd><dt class="param">dim</dt><dd class="cmt"><p>optional cut-off to drop dimensions with less variance</p></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -185,6 +219,74 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="utils.Trafo#columnVectors" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="columnVectors(m:breeze.linalg.DenseMatrix[Double]):List[breeze.linalg.DenseVector[Double]]"></a>
+      <a id="columnVectors(DenseMatrix[Double]):List[DenseVector[Double]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">columnVectors</span><span class="params">(<span name="m">m: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@columnVectors(m:breeze.linalg.DenseMatrix[Double]):List[breeze.linalg.DenseVector[Double]]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a list of column vectors</p>
+    </li><li name="utils.Trafo#covarianceEigen" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="covarianceEigen(pca:breeze.linalg.PCA):(List[Double],List[breeze.linalg.DenseVector[Double]],breeze.linalg.DenseVector[Double])"></a>
+      <a id="covarianceEigen(PCA):(List[Double],List[DenseVector[Double]],DenseVector[Double])"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">covarianceEigen</span><span class="params">(<span name="pca">pca: <span class="extype" name="breeze.linalg.PCA">PCA</span></span>)</span><span class="result">: (<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>], <span class="extype" name="scala.List">List</span>[<span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>]], <span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>])</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@covarianceEigen(pca:breeze.linalg.PCA):(List[Double],List[breeze.linalg.DenseVector[Double]],breeze.linalg.DenseVector[Double])" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Determines eigenvalues, eigenvectors and feature centers</p>
+    </li><li name="utils.Trafo#createGrid" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="createGrid(xMin:Double,xMax:Double,yMin:Double,yMax:Double,xSteps:Int,ySteps:Int):List[List[Double]]"></a>
+      <a id="createGrid(Double,Double,Double,Double,Int,Int):List[List[Double]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">createGrid</span><span class="params">(<span name="xMin">xMin: <span class="extype" name="scala.Double">Double</span></span>, <span name="xMax">xMax: <span class="extype" name="scala.Double">Double</span></span>, <span name="yMin">yMin: <span class="extype" name="scala.Double">Double</span></span>, <span name="yMax">yMax: <span class="extype" name="scala.Double">Double</span></span>, <span name="xSteps">xSteps: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">100</span></span>, <span name="ySteps">ySteps: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">100</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@createGrid(xMin:Double,xMax:Double,yMin:Double,yMax:Double,xSteps:Int,ySteps:Int):List[List[Double]]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="utils.Trafo#dropElement" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dropElement[T](list:List[T],indices:List[Int]):List[T]"></a>
+      <a id="dropElement[T](List[T],List[Int]):List[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropElement</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="list">list: <span class="extype" name="scala.List">List</span>[<span class="extype" name="utils.Trafo.dropElement.T">T</span>]</span>, <span name="indices">indices: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="utils.Trafo.dropElement.T">T</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@dropElement[T](list:List[T],indices:List[Int]):List[T]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Drops elements from list by index</p><div class="fullcomment"><div class="comment cmt"><p>Drops elements from list by index</p></div><dl class="paramcmts block"><dt class="param">list</dt><dd class="cmt"><p>Source list</p></dd><dt class="param">indices</dt><dd class="cmt"><p>Indices to drop</p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -259,6 +361,25 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="utils.Trafo#getPCA" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getPCA(X:List[List[Double]]):breeze.linalg.PCA"></a>
+      <a id="getPCA(List[List[Double]]):PCA"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPCA</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>)</span><span class="result">: <span class="extype" name="breeze.linalg.PCA">PCA</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@getPCA(X:List[List[Double]]):breeze.linalg.PCA" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Performs PCA and return PCA object
+good introduction: http://www.cs.otago.ac.nz/cosc453/student_tutorials/principal_components.pdf</p><div class="fullcomment"><div class="comment cmt"><p>Performs PCA and return PCA object
+good introduction: http://www.cs.otago.ac.nz/cosc453/student_tutorials/principal_components.pdf</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>list of instances to perform PCA on</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -276,7 +397,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="utils.Trafo#iloc" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="utils.Trafo#iloc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="iloc[T](list:List[T],indices:List[Int],result:List[T]):List[T]"></a>
       <a id="iloc[T](List[T],List[Int],List[T]):List[T]"></a>
       <h4 class="signature">
@@ -292,7 +413,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Picks elements from a list according to a list of indices</p>
+      <p class="shortcomment cmt">Picks elements from a list according to a list of indices</p><div class="fullcomment"><div class="comment cmt"><p>Picks elements from a list according to a list of indices</p></div><dl class="paramcmts block"><dt class="param">list</dt><dd class="cmt"><p>Source list</p></dd><dt class="param">indices</dt><dd class="cmt"><p>Desired indices</p></dd><dt class="param">result</dt><dd class="cmt"><p>Optional start parameter, also needed for recursion</p></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -395,6 +516,23 @@
       </a>
     </span>
       <p class="shortcomment cmt">Samples random instances from the given data</p>
+    </li><li name="utils.Trafo#rowVectors" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rowVectors(m:breeze.linalg.DenseMatrix[Double]):List[breeze.linalg.DenseVector[Double]]"></a>
+      <a id="rowVectors(DenseMatrix[Double]):List[DenseVector[Double]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rowVectors</span><span class="params">(<span name="m">m: <span class="extype" name="breeze.linalg.DenseMatrix">DenseMatrix</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@rowVectors(m:breeze.linalg.DenseMatrix[Double]):List[breeze.linalg.DenseVector[Double]]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a list of row vectors</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -412,6 +550,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="utils.Trafo#toList" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toList(v:breeze.linalg.DenseVector[Double]):List[Double]"></a>
+      <a id="toList(DenseVector[Double]):List[Double]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toList</span><span class="params">(<span name="v">v: <span class="extype" name="breeze.linalg.DenseVector">DenseVector</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@toList(v:breeze.linalg.DenseVector[Double]):List[Double]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="utils.Trafo#toMatrix" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="toMatrix(X:List[List[Double]]):breeze.linalg.DenseMatrix[Double]"></a>
       <a id="toMatrix(List[List[Double]]):DenseMatrix[Double]"></a>
@@ -480,6 +635,40 @@
       </a>
     </span>
       <p class="shortcomment cmt">Transform 1D list to 1D vector of integers (breeze doesn't allow polymorphism?)</p>
+    </li><li name="utils.Trafo#transformMatrix" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transformMatrix(X:List[List[Double]],pca:breeze.linalg.PCA,dim:Int):List[List[Double]]"></a>
+      <a id="transformMatrix(List[List[Double]],PCA,Int):List[List[Double]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">transformMatrix</span><span class="params">(<span name="X">X: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>, <span name="pca">pca: <span class="extype" name="breeze.linalg.PCA">PCA</span></span>, <span name="dim">dim: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@transformMatrix(X:List[List[Double]],pca:breeze.linalg.PCA,dim:Int):List[List[Double]]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Transforms a list of instances into the reference frame of the PCA</p><div class="fullcomment"><div class="comment cmt"><p>Transforms a list of instances into the reference frame of the PCA</p></div><dl class="paramcmts block"><dt class="param">X</dt><dd class="cmt"><p>list of instances</p></dd><dt class="param">pca</dt><dd class="cmt"><p>PCA object</p></dd><dt class="param">dim</dt><dd class="cmt"><p>optional cut-off to drop dimensions with less variance</p></dd></dl></div>
+    </li><li name="utils.Trafo#transformVector" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transformVector(x:List[Double],pca:breeze.linalg.PCA,dim:Int):List[Double]"></a>
+      <a id="transformVector(List[Double],PCA,Int):List[Double]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">transformVector</span><span class="params">(<span name="x">x: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="pca">pca: <span class="extype" name="breeze.linalg.PCA">PCA</span></span>, <span name="dim">dim: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.Trafo$@transformVector(x:List[Double],pca:breeze.linalg.PCA,dim:Int):List[Double]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Transforms an instance into the reference frame of the PCA</p><div class="fullcomment"><div class="comment cmt"><p>Transforms an instance into the reference frame of the PCA</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>instance</p></dd><dt class="param">pca</dt><dd class="cmt"><p>PCA object</p></dd><dt class="param">dim</dt><dd class="cmt"><p>optional cut-off to drop dimensions with less variance</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
