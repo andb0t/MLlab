@@ -13,8 +13,8 @@ object HierarchicalClustering {
 }
 
 /** Hierarchical clustering
- * @param k Desired number of clusters
- * @param metric Desired distance metric for clustering
+ * @param k Number of clusters
+ * @param metric Distance metric for clustering
  */
 class HierarchicalClustering(
   k: Int = HierarchicalClustering.k,
