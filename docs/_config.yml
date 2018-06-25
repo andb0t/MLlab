@@ -36,6 +36,7 @@ navbar-links:
   Clustering:
     - k-Means: "clustering/kmeans"
     - Self-organizing map: "clustering/selforg_map"
+    - Hierarchical: "clustering/hierarchical"
   API: "api/index.html"
   Download: "download/download"
 
