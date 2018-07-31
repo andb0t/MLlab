@@ -28,7 +28,8 @@ class Hierarchical(k: Int, metric: String) {
     val shuffledX: List[(List[Double], Int)] = scala.util.Random.shuffle(X.zipWithIndex)
 
     def clusterBatch(clusterX: List[(List[Double], Int)], clustering: List[Tuple2[Int, Int]], step: Int): List[Tuple2[Int, Int]] = {
-      val nBatch = min(clusterX.length, 100)
+      val maxBatchSize = 100
+      val nBatch = min(clusterX.length, maxBatchSize)
       if (nBatch > k) {
         val distMatrix: DenseMatrix[Double] = DenseMatrix.tabulate(nBatch, nBatch){
           case (i, j) =>
