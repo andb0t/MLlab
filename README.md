@@ -82,6 +82,25 @@ Then run MLlab on it, e.g. with `sbt run --clf DecisionTree --data data`
 
 ## Development
 
+### Docker
+
+Create the image yourself and publish it
+
+```shell
+docker build -t mllab .  # build the image
+docker run -it mllab bash  # run it interactively
+docker login
+docker tag mllab andbot/mllab  # add optional tag with `:tag`
+docker push andbot/mllab
+```
+
+or download the latest version from [docker hub](https://hub.docker.com/r/andbot/mllab/):
+
+```shell
+docker pull andbot/mllab  # pull it
+docker run andbot/mllab  # pull & run it
+```
+
 ### Create executable jar
 This will package everything in a fat jar, using [sbt-assembly](https://github.com/sbt/sbt-assembly).
 
