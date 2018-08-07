@@ -8,6 +8,7 @@ WORKDIR /app
 ADD . /app
 
 ENV SBT_VERSION 1.0.2
+ENV DISPLAY :99
 
 # Install any needed packages
 RUN \
@@ -18,6 +19,11 @@ RUN \
   apt-get install sbt && \
   sbt sbtVersion
 
+RUN sbt compile
+
+RUN apt-get install -y xvfb
+RUN chmod +x init.sh
+
 # Make port 80 available to the world outside this container
 # EXPOSE 80
 
@@ -25,4 +31,4 @@ RUN \
 # ENV NAME World
 
 # Run app.py when the container launches
-CMD ["pwd"]
+CMD ./init.sh && sbt "run --help"

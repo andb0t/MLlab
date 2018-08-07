@@ -99,6 +99,7 @@ or download the latest version from [docker hub](https://hub.docker.com/r/andbot
 ```shell
 docker pull andbot/mllab  # pull it
 docker run andbot/mllab  # pull & run it
+docker run -it mllab bash  # open interactive shell - don't forget to run `./init.sh` by hand!
 ```
 
 ### Create executable jar
