@@ -46,8 +46,10 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 
 
 ## Installation
-This app uses [sbt](https://www.scala-sbt.org/index.html) as build tool. Installation for Ubuntu:
+This app uses [sbt](https://www.scala-sbt.org/index.html) as build tool.
 
+### Linux
+Download Java JDK and then sbt:
 ```shell
 echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
@@ -55,6 +57,9 @@ sudo apt-get update
 sudo apt-get install sbt
 # sbt new sbt/scala-seed.g8  # set up a dummy project
 ```
+
+### Windows
+Download [Java JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and [sbt](https://www.scala-sbt.org/download.html).
 
 
 ## Execution
