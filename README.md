@@ -38,6 +38,7 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] self-organizing map
 - [x] hierarchical clustering
 - [ ] expectation-maximization
+- [ ] mean-shift
 
 ### Misc
 - [x] extension of linear models to polynomial dependencies via feature transformation
