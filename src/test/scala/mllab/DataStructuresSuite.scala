@@ -3,7 +3,7 @@ import org.scalatest._
 import algorithms._
 
 
-class algorithmsSuite extends FunSuite {
+class DataStructuresSuite extends FunSuite {
 
   test ("polynomial components") {
     val twoTwo = List(List(2, 0), List(1, 1), List(0, 2))
