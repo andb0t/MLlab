@@ -26,7 +26,7 @@ object SelfOrganizingMapClustering {
  * @param alpha Learning rate = size of the update step. Ranges from 0 (no update) to 1 (set equal to training instance)
  * @param alphaHalflife Learning rate decay after this number of training steps
  * @param alphaDecay Type of learning rate decay
- * @param lambda Number of iterations for random training. Default -1: run once and in order through training data
+ * @param lambda Number of iterations for random training. Default: run once and in order through training data
  */
  class SelfOrganizingMapClustering(
    width: Int = SelfOrganizingMapClustering.width,
