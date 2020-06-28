@@ -20,7 +20,8 @@ Please consult the [API](https://andb0t.github.io/MLlab/api/index.html) for deta
 - [x] naive Bayes
 - [x] boosted decision tree
 - [x] random forest
-- [ ] SVM with linear and non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
+- [x] SVM with linear kernel
+- [ ] SVM with non-linear kernel (see [here](http://alex.smola.org/teaching/pune2007/pune_3.pdf) or [here](https://oceandatamining.sciencesconf.org/conference/oceandatamining/program/OBIDAM14_Canu.pdf))
 - [ ] convolutional neural network
 - [ ] recurrent neural network
 
