@@ -27,6 +27,7 @@ navbar-links:
     - Decision Tree: "classification/decision_tree"
     - Boosted Decision Tree: "classification/boosted_decision_tree"
     - Random Forest: "classification/random_forest"
+    - Support Vector Machine: "classification/support_vector_machine"
     - Multilayer Neural Network: "classification/ml_neural_network"
   Regression:
     - Linear: "regression/linear"
