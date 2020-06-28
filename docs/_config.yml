@@ -18,6 +18,7 @@ description: An experimental platform-independent machine learning library
 # List of links in the navigation bar
 navbar-links:
   Overview: "overview"
+  Comparison: "comparison"
   Classification:
     - Logistic Regression: "classification/log_regression"
     - Perceptron: "classification/perceptron"
