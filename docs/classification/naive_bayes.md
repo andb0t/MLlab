@@ -4,7 +4,7 @@ title: Classification
 subtitle: Naive Bayes
 ---
 
-This algorithm bases on the assumption of mutually uncorrelated features. It uses Bayes' theorem to infer probabilities for each instance to belong to each class. The model parameters for the feature likelihoods are inferred from the training feature vectors.
+This algorithm bases on the assumption of mutually uncorrelated features. It uses Bayes' theorem to infer probabilities for each instance to belong to a specific class. The model parameters for the class-specific feature likelihoods are inferred from the training feature vectors.
 
 ```scala
 val clf = new NaiveBayesClassifier()

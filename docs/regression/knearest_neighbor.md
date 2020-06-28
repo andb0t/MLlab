@@ -4,7 +4,7 @@ title: Regression
 subtitle: k-Nearest Neighbors
 ---
 
-This algorithm determines the label of an instance from the mean of the labels of the k nearest instances in the training set.
+This algorithm predicts the true value of an instance from the mean of the values of the k nearest instances in the training set.
 
 ```scala
 val clf = new kNNRegressor(k=40)
